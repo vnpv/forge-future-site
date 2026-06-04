@@ -36,6 +36,12 @@ yarn-error.log*
 # vercel
 .vercel
 
+# local sqlite
+/data/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# raw Drive downloads (keep optimized WebP only)
+/public/images/ff-source/
