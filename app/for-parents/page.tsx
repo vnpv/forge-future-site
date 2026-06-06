@@ -108,6 +108,44 @@ export default function ForParentsPage() {
 
       <Section spacing="block">
         <Container>
+          <h2 className="mb-4 text-2xl font-bold">
+            Чому не школа — і чому зараз
+          </h2>
+          <p className="mb-8 max-w-2xl text-[#9CA3AF]">
+            Forge Future — альтернатива школі для підлітка 14–18 у Києві. Не
+            замінює шкільну програму, а дає те, чого школа не дає за своєю
+            природою.
+          </p>
+          <div className="grid gap-6 sm:grid-cols-2 max-w-3xl">
+            <Card bordered>
+              <h3 className="mb-3 font-semibold text-white">Класична школа</h3>
+              <ul className="space-y-2 text-sm text-[#9CA3AF]">
+                <li>→ Програма для всіх без огляду на інтерес</li>
+                <li>→ Оцінки за відтворення, не за мислення</li>
+                <li>→ «Тебе навчать» — ти об&apos;єкт, не суб&apos;єкт</li>
+                <li>→ Результат відкладений на «після»</li>
+              </ul>
+            </Card>
+            <Card bordered className="border-[#e8951a]/30">
+              <h3 className="mb-3 font-semibold text-[#e8951a]">Forge Future</h3>
+              <ul className="space-y-2 text-sm text-[#9CA3AF]">
+                <li>→ Від твого інтересу — до реального проєкту</li>
+                <li>→ Мислення формується через дію</li>
+                <li>→ «Мені цікаво зрозуміти, що тебе драйвить»</li>
+                <li>→ Перший результат за 6 тижнів</li>
+              </ul>
+            </Card>
+          </div>
+          <p className="mt-8 max-w-2xl text-sm text-[#9CA3AF]">
+            <strong className="text-white">Втрачений час підлітка дорожчий.</strong>{" "}
+            14–18 — вік, коли закладається напрямок. Якщо ці роки пройдуть в
+            очікуванні чужих сценаріїв — після переключитись складніше.
+          </p>
+        </Container>
+      </Section>
+
+      <Section spacing="block">
+        <Container>
           <h2 className="mb-6 text-2xl font-bold">Що отримує ваша дитина</h2>
           <ul className="max-w-2xl space-y-3 text-[#9CA3AF]">
             <li>

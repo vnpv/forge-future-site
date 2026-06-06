@@ -79,6 +79,39 @@ export default function ProgramPage() {
 
       <Section spacing="block">
         <Container>
+          <h2 className="mb-6 text-2xl font-bold">Результати учасників</h2>
+          <p className="mb-8 max-w-2xl text-[#9CA3AF]">
+            Перший потік: 10 підлітків 14–18, 6 тижнів. 70% дійшли до демо-дня
+            з реальним проєктом.
+          </p>
+          <div className="grid gap-6 sm:grid-cols-2 max-w-2xl mb-8">
+            <Card bordered>
+              <p className="text-xs font-semibold uppercase tracking-widest text-[#e8951a] mb-2">
+                Кейс учасниці
+              </p>
+              <p className="text-white font-medium mb-1">Ліза, 16 років</p>
+              <p className="text-sm text-[#9CA3AF]">
+                Прийшла без ідеї. За 6 тижнів сформувала концепцію сервісу для
+                однолітків і презентувала на демо-дні — перший публічний захист
+                власного проєкту.
+              </p>
+            </Card>
+            <Card bordered>
+              <p className="text-xs font-semibold uppercase tracking-widest text-[#e8951a] mb-2">
+                Кейс учасника
+              </p>
+              <p className="text-white font-medium mb-1">Учасник, 12 років</p>
+              <p className="text-sm text-[#9CA3AF]">
+                Наймолодший у потоці. Результат: власна ідея, яку сам обрав, і
+                перший прототип — без примусу.
+              </p>
+            </Card>
+          </div>
+        </Container>
+      </Section>
+
+      <Section spacing="block">
+        <Container>
           <h2 className="mb-6 text-2xl font-bold">Формат потоку</h2>
           <p className="mb-4 max-w-xl text-sm leading-relaxed text-[#9CA3AF]">
             Програма — тактична частина: ти вже маєш або формуєш{" "}
