@@ -10,11 +10,22 @@ import SchoolConceptStrip from "../components/SchoolConceptStrip";
 import { generalFaqs, pageContext, schoolOfFutureDiamonds } from "@/lib/content";
 import { pageSeo } from "@/lib/page-seo";
 import { pageAlternates } from "@/lib/seo";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: pageSeo.faq.title,
   description: pageSeo.faq.description,
   alternates: pageAlternates("/faq"),
+  openGraph: {
+    title: pageSeo.faq.title,
+    description: pageSeo.faq.description,
+    url: `${SITE_URL}/faq`,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: pageSeo.faq.title,
+    description: pageSeo.faq.description,
+  },
 };
 
 const faqSchema = {

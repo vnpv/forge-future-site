@@ -25,6 +25,16 @@ export const metadata: Metadata = {
   title: pageSeo.events.title,
   description: pageSeo.events.description,
   alternates: pageAlternates("/events"),
+  openGraph: {
+    title: pageSeo.events.title,
+    description: pageSeo.events.description,
+    url: `${SITE_URL}/events`,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: pageSeo.events.title,
+    description: pageSeo.events.description,
+  },
 };
 
 const eventSchema = {
