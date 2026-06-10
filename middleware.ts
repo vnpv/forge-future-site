@@ -6,6 +6,10 @@ export function middleware(request: NextRequest) {
   const proto = request.headers.get('x-forwarded-proto');
   const host = request.headers.get('host') ?? '';
 
+  if (host.startsWith('localhost') || host.startsWith('127.0.0.1')) {
+    return NextResponse.next();
+  }
+
   if (proto === 'http') {
     const url = request.nextUrl.clone();
     url.protocol = 'https:';
