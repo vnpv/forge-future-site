@@ -8,6 +8,14 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "pidlitok-ne-znaye-choho-khoche",
+    title: "Підліток не знає, чого хоче: що робити батькам",
+    description:
+      "Чому «не знаю, чого хочу» — нормальний стан у 13–17, чому тиск не працює і як мотивувати підлітка до дії без конфлікту. 5 кроків від практика.",
+    publishedAt: "2026-06-10",
+    readMinutes: 7,
+  },
+  {
     slug: "yak-zarobyty-pidlitku-v-ukraini",
     title: "Як заробити підлітку в Україні у 2026",
     description:
