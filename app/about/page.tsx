@@ -31,6 +31,16 @@ export const metadata: Metadata = {
   description: pageSeo.about.description,
   alternates: pageAlternates("/about"),
   authors: [{ name: founder.fullName, url: founder.personalSite }],
+  openGraph: {
+    title: pageSeo.about.title,
+    description: pageSeo.about.description,
+    url: `${SITE_URL}/about`,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: pageSeo.about.title,
+    description: pageSeo.about.description,
+  },
 };
 
 const personSchema = {

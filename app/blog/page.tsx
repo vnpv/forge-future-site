@@ -9,11 +9,22 @@ import { blogPosts } from "@/lib/blog";
 import { pageContext, schoolOfFutureDiamonds } from "@/lib/content";
 import { pageSeo } from "@/lib/page-seo";
 import { pageAlternates } from "@/lib/seo";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: pageSeo.blog.title,
   description: pageSeo.blog.description,
   alternates: pageAlternates("/blog"),
+  openGraph: {
+    title: pageSeo.blog.title,
+    description: pageSeo.blog.description,
+    url: `${SITE_URL}/blog`,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: pageSeo.blog.title,
+    description: pageSeo.blog.description,
+  },
 };
 
 export default function BlogPage() {

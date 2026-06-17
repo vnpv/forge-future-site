@@ -24,7 +24,13 @@ export const metadata: Metadata = {
   alternates: pageAlternates("/for-parents"),
   openGraph: {
     title: "Forge Future для батьків",
+    description: pageSeo.forParents.description,
     url: `${SITE_URL}/for-parents`,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Forge Future для батьків",
+    description: pageSeo.forParents.description,
   },
 };
 
