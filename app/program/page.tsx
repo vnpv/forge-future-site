@@ -18,11 +18,22 @@ import {
 import { programCourseSchema } from "@/lib/course-schema";
 import { pageSeo } from "@/lib/page-seo";
 import { pageAlternates } from "@/lib/seo";
+import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: pageSeo.program.title,
   description: pageSeo.program.description,
   alternates: pageAlternates("/program"),
+  openGraph: {
+    title: pageSeo.program.title,
+    description: pageSeo.program.description,
+    url: `${SITE_URL}/program`,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: pageSeo.program.title,
+    description: pageSeo.program.description,
+  },
 };
 
 export default function ProgramPage() {
