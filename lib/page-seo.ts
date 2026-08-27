@@ -13,7 +13,7 @@ import {
 export const pageSeo = {
   home: {
     title: `${NEOSCHOOL} для підлітків — Forge Future`,
-    description: `Школа майбутніх Діамантів · ${NEOSCHOOL} 10–19. «${LIFE_STRATEGY_NAME}» і власний проєкт. Відкритий вечір 6.06, ${venue.city}.`,
+    description: `Школа майбутніх Діамантів · ${NEOSCHOOL} 10–19. «${LIFE_STRATEGY_NAME}» і власний проєкт. Відкритий вечір 7.09, ${venue.city}.`,
     ogTitle: "Forge Future | Школа майбутніх Діамантів",
     h1: `${NEOSCHOOL} для підлітків: власний проєкт замість шаблонів`,
     teaser:
