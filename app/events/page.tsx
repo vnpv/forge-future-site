@@ -38,10 +38,10 @@ const eventSchema = {
   eventStatus: "https://schema.org/EventScheduled",
   location: {
     "@type": "Place",
-    name: nextOpenEvening.location,
+    name: "Київ",
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Біла Церква",
+      addressLocality: "Київ",
       addressCountry: "UA",
     },
   },

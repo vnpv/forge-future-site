@@ -5,7 +5,7 @@ import { blogPosts } from "@/lib/blog";
 // Стабільна дата останнього змістового оновлення статичних сторінок.
 // Бампати вручну лише коли реально змінюється контент сторінки —
 // інакше lastmod = час білда, і Google перестає довіряти сигналу свіжості.
-const STATIC_LAST_MODIFIED = new Date("2026-06-10");
+const STATIC_LAST_MODIFIED = new Date("2026-09-08");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [

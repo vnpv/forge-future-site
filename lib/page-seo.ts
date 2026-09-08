@@ -13,7 +13,7 @@ import {
 export const pageSeo = {
   home: {
     title: `${NEOSCHOOL} для підлітків — Forge Future`,
-    description: `Школа майбутніх Діамантів · ${NEOSCHOOL} 10–19. «${LIFE_STRATEGY_NAME}» і власний проєкт. Відкритий вечір 7.09, ${venue.city}.`,
+    description: `Школа майбутніх Діамантів · ${NEOSCHOOL} 10–19. «${LIFE_STRATEGY_NAME}» і власний проєкт. Відкритий вечір 14.09, ${venue.city}.`,
     ogTitle: "Forge Future | Школа майбутніх Діамантів",
     h1: `${NEOSCHOOL} для підлітків: власний проєкт замість шаблонів`,
     teaser:
@@ -21,10 +21,10 @@ export const pageSeo = {
     metaLine: `Відкритий вечір: ${nextOpenEvening.scheduleLine}, ${venue.city}`,
   },
   events: {
-    title: "Відкритий вечір для підлітків — Біла Церква",
-    description: `Безкоштовний відкритий вечір Forge Future: ${nextOpenEvening.scheduleLine}, ${venue.label}. Запис у Telegram, ${NEOSCHOOL}.`,
+    title: "Відкритий вечір для підлітків — Київ",
+    description: `Безкоштовний відкритий вечір Forge Future: ${nextOpenEvening.scheduleLine}, ${venue.city}. Запис у Telegram, ${NEOSCHOOL}.`,
     h1: "Відкритий вечір для підлітків",
-    subtitle: `Безкоштовна зустріч ${nextOpenEvening.scheduleLine}. ${venue.label}. Перший крок у ${NEOSCHOOL} — без формату уроку.`,
+    subtitle: `Безкоштовна зустріч ${nextOpenEvening.scheduleLine}, ${venue.city} (${venue.place}). Перший крок у ${NEOSCHOOL} — без формату уроку.`,
   },
   program: {
     title: "Програма для підлітків — 6 тижнів до демо-дня",
@@ -94,7 +94,7 @@ export const homeSections = {
   },
   evening: {
     h2: "Відкритий вечір — запис",
-    lead: "Найближча зустріч у Білій Церкві. Запис у Telegram-боті на сайті.",
+    lead: "Найближча зустріч у Києві. Запис у Telegram-боті на сайті.",
   },
   teenCard: {
     label: "Для підлітків",

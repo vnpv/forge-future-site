@@ -8,7 +8,7 @@ import {
 import { pageSeo } from "@/lib/page-seo";
 
 const pills = [
-  { label: "Наступний", value: "7.09, 18:00" },
+  { label: "Наступний", value: "14.09, 18:00" },
   { label: "Місто", value: venue.city },
   { label: "Для кого", value: AUDIENCE.label },
 ] as const;
