@@ -1,5 +1,4 @@
-import Link from "next/link";
-import { forgePhilosophy, pathLevels, pathPillars } from "@/lib/content";
+import { forgePhilosophy, pathPillars } from "@/lib/content";
 import { homeSections } from "@/lib/page-seo";
 
 export default function HomePathLevels() {
@@ -33,33 +32,6 @@ export default function HomePathLevels() {
           </div>
         ))}
       </div>
-
-      <ol className="grid gap-4 md:grid-cols-3">
-        {pathLevels.map((level) => (
-          <li key={level.stage}>
-            <Link
-              href={level.href}
-              className="ff-explore-card group flex h-full flex-col rounded-xl border border-white/[0.06] bg-[#141414] p-5"
-            >
-              <span className="mb-3 font-mono text-2xl font-black text-[#e8951a]/80">
-                {level.stage}
-              </span>
-              <h3 className="text-lg font-bold text-white group-hover:text-[#e8951a] transition-colors">
-                {level.title}
-              </h3>
-              <p className="mb-1 text-xs font-medium uppercase tracking-wide text-[#6b7280]">
-                {level.subtitle}
-              </p>
-              <p className="mb-4 flex-1 text-sm leading-relaxed text-[#8b9199]">
-                {level.desc}
-              </p>
-              <span className="text-sm font-medium text-[#e8951a]">
-                {level.cta} →
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ol>
 
       <blockquote className="rounded-xl border border-white/[0.06] bg-[#141414] px-5 py-4 text-sm italic leading-relaxed text-[#9ca3af] sm:px-6 sm:py-5">
         «{forgePhilosophy.founderLine}»

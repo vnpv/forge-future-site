@@ -17,13 +17,11 @@ import TelegramCta, {
   TelegramIvanChannelLink,
 } from "./components/TelegramCta";
 import {
-  ambitiousAudience,
   closedCommunity,
   eventGallery,
   founder,
   nextOpenEvening,
   openEveningsNote,
-  schoolOfFutureDiamonds,
   stats,
 } from "@/lib/content";
 import { pageSeo, homeSections } from "@/lib/page-seo";
@@ -105,80 +103,20 @@ export default function Home() {
           <p className="mb-6 max-w-xl text-sm text-[#8b9199]">
             {homeSections.audience.lead} {nextOpenEvening.scheduleLine}.
           </p>
-          <div className="mb-8">
-            <AmbitiousAudienceBlock />
-          </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            <Card bordered className="flex flex-col gap-4">
-              <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#e8951a]">
-                {homeSections.teenCard.label}
-              </p>
-              <h3 className="text-xl font-semibold text-white">
-                {homeSections.teenCard.h3}
-              </h3>
-              <p className="text-sm leading-relaxed text-[#8b9199]">
-                {schoolOfFutureDiamonds.forTeen}
-              </p>
-              <div className="mt-auto flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-                <Link
-                  href="/events"
-                  className="text-sm font-medium text-[#e8951a] hover:underline"
-                >
-                  Відкриті вечори →
-                </Link>
-                <Link
-                  href="/program"
-                  className="text-sm font-medium text-[#8b9199] hover:text-[#e8951a] hover:underline"
-                >
-                  Програма →
-                </Link>
-              </div>
-            </Card>
-            <Card bordered className="flex flex-col gap-4">
-              <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#e8951a]">
-                {homeSections.parentCard.label}
-              </p>
-              <h3 className="text-xl font-semibold text-white">
-                {homeSections.parentCard.h3}
-              </h3>
-              <p className="text-sm leading-relaxed text-[#8b9199]">
-                Запис через бота. На вечір приходять підлітки самі.
-              </p>
-              <div className="mt-auto flex flex-col gap-2">
-                <Link
-                  href="/for-parents"
-                  className="text-sm font-medium text-[#e8951a] hover:underline"
-                >
-                  Для батьків →
-                </Link>
-                <Link
-                  href="/faq"
-                  className="text-sm text-[#8b9199] hover:text-[#e8951a] hover:underline"
-                >
-                  FAQ →
-                </Link>
-              </div>
-            </Card>
-            <Card
-              bordered
-              className="flex flex-col gap-4 border-[#e8951a]/20 bg-[#1a160f] sm:col-span-2 lg:col-span-1"
+          <AmbitiousAudienceBlock />
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link
+              href="/events"
+              className="inline-flex items-center justify-center rounded-lg bg-[#e8951a]/15 px-4 py-2.5 text-sm font-semibold text-[#e8951a] transition-colors hover:bg-[#e8951a]/25"
             >
-              <p className="text-xs font-medium uppercase tracking-[0.15em] text-[#e8951a]">
-                {homeSections.programCard.label}
-              </p>
-              <h3 className="text-xl font-semibold text-white">
-                {homeSections.programCard.h3}
-              </h3>
-              <p className="text-sm leading-relaxed text-[#8b9199]">
-                До 10 місць у потоці. Від Discovery до демо-дня.
-              </p>
-              <Link
-                href="/program"
-                className="mt-auto inline-flex items-center justify-center rounded-lg bg-[#e8951a]/15 px-4 py-2.5 text-sm font-semibold text-[#e8951a] transition-colors hover:bg-[#e8951a]/25"
-              >
-                Дивитись програму →
-              </Link>
-            </Card>
+              {homeSections.teenCard.label}: відкриті вечори →
+            </Link>
+            <Link
+              href="/for-parents"
+              className="inline-flex items-center justify-center rounded-lg border border-white/[0.1] px-4 py-2.5 text-sm font-medium hover:bg-white/[0.03]"
+            >
+              {homeSections.parentCard.label} →
+            </Link>
           </div>
         </Container>
       </Section>
@@ -207,12 +145,6 @@ export default function Home() {
                   className="font-medium text-[#e8951a] hover:underline"
                 >
                   Про засновника →
-                </Link>
-                <Link
-                  href="/blog"
-                  className="text-[#8b9199] hover:text-[#e8951a] hover:underline"
-                >
-                  Блог →
                 </Link>
               </div>
             </div>
@@ -358,14 +290,6 @@ export default function Home() {
                       className="text-[#e8951a] hover:underline"
                     >
                       Питання та відповіді →
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/blog"
-                      className="text-[#8b9199] hover:text-[#e8951a] hover:underline"
-                    >
-                      Блог Forge Future →
                     </Link>
                   </li>
                   <li>
