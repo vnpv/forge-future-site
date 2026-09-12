@@ -12,6 +12,7 @@ import {
   forgePhilosophy,
   lifeStrategyArtifact,
   pageContext,
+  programOutcomes,
   programWeeks,
   schoolOfFutureDiamonds,
 } from "@/lib/content";
@@ -47,18 +48,51 @@ export default function ProgramPage() {
 
       <Section spacing="content" className="bg-[#111111]">
         <Container className="space-y-8">
-          <h2 className="text-2xl font-bold">Програма для підлітків: 6 тижнів</h2>
-          <div className="space-y-4">
-            {programWeeks.map((w) => (
-              <Card key={w.week} bordered>
-                <div className="flex flex-wrap items-baseline gap-3">
-                  <span className="text-xs font-semibold uppercase tracking-widest text-[#e8951a]">
-                    {w.week}
-                  </span>
-                  <h3 className="text-lg font-bold text-white">{w.title}</h3>
-                </div>
-                <p className="mt-2 text-sm leading-relaxed text-[#9CA3AF]">
-                  {w.desc}
+          <h2 className="text-2xl font-bold">Дорожня карта: 6 тижнів</h2>
+          <ol className="space-y-6">
+            {programWeeks.map((w, i) => (
+              <li key={w.week} className="relative pl-11 sm:pl-12">
+                {i < programWeeks.length - 1 && (
+                  <span
+                    aria-hidden
+                    className="absolute left-[15px] top-9 bottom-[-24px] w-px bg-white/[0.08] sm:left-[17px]"
+                  />
+                )}
+                <span
+                  aria-hidden
+                  className="absolute left-0 top-0 flex h-8 w-8 items-center justify-center rounded-full border border-[#e8951a]/40 bg-[#141414] text-xs font-bold text-[#e8951a] sm:h-9 sm:w-9"
+                >
+                  {i + 1}
+                </span>
+                <Card bordered>
+                  <div className="flex flex-wrap items-baseline gap-3">
+                    <span className="text-xs font-semibold uppercase tracking-widest text-[#e8951a]">
+                      {w.week}
+                    </span>
+                    <h3 className="text-lg font-bold text-white">{w.title}</h3>
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-[#9CA3AF]">
+                    {w.desc}
+                  </p>
+                </Card>
+              </li>
+            ))}
+          </ol>
+        </Container>
+      </Section>
+
+      <Section spacing="block">
+        <Container>
+          <h2 className="mb-2 text-2xl font-bold">Що отримаєш за 6 тижнів</h2>
+          <p className="mb-8 max-w-xl text-sm text-[#8b9199]">
+            Три варіанти результату — не тільки «стартап».
+          </p>
+          <div className="grid gap-5 sm:grid-cols-3">
+            {programOutcomes.map((o) => (
+              <Card key={o.key} bordered className="flex flex-col gap-2">
+                <h3 className="text-lg font-bold text-white">{o.title}</h3>
+                <p className="text-sm leading-relaxed text-[#8b9199]">
+                  {o.desc}
                 </p>
               </Card>
             ))}
