@@ -51,14 +51,5 @@ function initSchema(db: Database.Database) {
       created_at TEXT NOT NULL DEFAULT (datetime('now')),
       PRIMARY KEY (event_id, participant_id)
     );
-
-    CREATE TABLE IF NOT EXISTS program_applications (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      participant_name TEXT NOT NULL,
-      participant_age INTEGER NOT NULL,
-      parent_contact TEXT NOT NULL,
-      direction TEXT NOT NULL,
-      created_at TEXT NOT NULL DEFAULT (datetime('now'))
-    );
   `);
 }

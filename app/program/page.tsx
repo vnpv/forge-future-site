@@ -3,7 +3,6 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import Section from "../components/Section";
 import Container from "../components/Container";
-import ProgramApplicationForm from "../components/ProgramApplicationForm";
 import JsonLd from "@/components/JsonLd";
 import {
   founder,
@@ -307,20 +306,17 @@ export default function ProgramPage() {
               Заявка на практикум
             </h2>
             <p className="mb-8 text-[var(--color-muted)]">
-              Заповни форму - зв&apos;яжемось протягом 1-2 днів. Або пиши
-              одразу в Telegram, якщо так зручніше.
+              Коротка заявка в Telegram - ім&apos;я і вік учасника. Зв&apos;яжемось
+              протягом 1-2 днів.
             </p>
             <a
               href={APPLY_PROGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="mb-10 inline-flex items-center justify-center border border-[var(--color-foreground)]/25 px-6 py-3 text-sm transition-colors hover:bg-[var(--color-foreground)]/5"
+              className="inline-flex items-center justify-center bg-[var(--color-accent)] px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--color-accent-hover)]"
             >
-              Написати в Telegram →
+              Подати заявку в Telegram
             </a>
-          </div>
-          <div className="mx-auto max-w-xl border-2 border-[var(--color-foreground)] p-6 text-left sm:p-8">
-            <ProgramApplicationForm />
           </div>
         </Container>
       </Section>
