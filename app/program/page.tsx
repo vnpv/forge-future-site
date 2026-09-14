@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { Metadata } from "next";
 import Section from "../components/Section";
 import Container from "../components/Container";
@@ -8,7 +9,9 @@ import JsonLd from "@/components/JsonLd";
 import SchoolConceptStrip from "../components/SchoolConceptStrip";
 import {
   audiencePageCopy,
+  eventGallery,
   forgePhilosophy,
+  founder,
   lifeStrategyArtifact,
   pageContext,
   programOffer,
@@ -52,21 +55,62 @@ export default function ProgramPage() {
             {programOffer.tag}
           </p>
           <h2 className="mb-6 text-2xl font-bold">{programOffer.h2}</h2>
-          <Card bordered className="divide-y divide-white/[0.06] p-0">
-            {programOffer.rows.map((r) => (
+          <div className="grid gap-6 lg:grid-cols-[1fr_260px] lg:items-start">
+            <Card bordered className="divide-y divide-white/[0.06] p-0">
+              {programOffer.rows.map((r) => (
+                <div
+                  key={r.label}
+                  className="grid gap-1 p-5 sm:grid-cols-[190px_1fr] sm:items-baseline sm:gap-6"
+                >
+                  <span className="text-xs font-semibold uppercase tracking-wide text-[#8b9199]">
+                    {r.label}
+                  </span>
+                  <span className="text-sm leading-relaxed text-white sm:text-base">
+                    {r.value}
+                  </span>
+                </div>
+              ))}
+            </Card>
+            <Card bordered className="border-[#e8951a]/20 bg-[#1a160f]">
+              <div className="relative mb-4 h-44 w-full overflow-hidden rounded-xl sm:h-48">
+                <Image
+                  src={founder.photoUrl}
+                  alt={founder.photoAlt}
+                  fill
+                  className="object-cover object-[center_15%]"
+                  sizes="260px"
+                />
+              </div>
+              <p className="text-sm font-semibold text-white">
+                {founder.fullName}
+              </p>
+              <p className="mt-1 text-xs text-[#8b9199]">{founder.tagline}</p>
+              <p className="mt-3 text-sm leading-relaxed text-[#9ca3af]">
+                {founder.bio}
+              </p>
+            </Card>
+          </div>
+        </Container>
+      </Section>
+
+      <Section spacing="tight">
+        <Container>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {eventGallery.map((img) => (
               <div
-                key={r.label}
-                className="grid gap-1 p-5 sm:grid-cols-[190px_1fr] sm:items-baseline sm:gap-6"
+                key={img.src}
+                className="relative aspect-[16/10] overflow-hidden rounded-lg border border-white/[0.06]"
               >
-                <span className="text-xs font-semibold uppercase tracking-wide text-[#8b9199]">
-                  {r.label}
-                </span>
-                <span className="text-sm leading-relaxed text-white sm:text-base">
-                  {r.value}
-                </span>
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 640px) 100vw, 33vw"
+                />
               </div>
             ))}
-          </Card>
+          </div>
         </Container>
       </Section>
 
