@@ -1,5 +1,14 @@
-/* ===== Токени ===== */
-:root {
+/*
+ * Стилі Студії (/studio, 10-13). Навмисно окрема, монохромна за задумом
+ * (майстерня) система - холодна синьо-жовта, на противагу гарячій
+ * червоно-чорній Практикуму. Усе, що раніше жило у site-chrome-header/
+ * footer, тепер прибрано - хедер і футер це той самий Nav/Footer, що й
+ * на решті сайту (єдина причина, чому вони раніше "стрибали" між сторінками).
+ * Font-family посилаються на вже завантажені next/font змінні з layout.tsx,
+ * а не тягнуть Google Fonts вдруге.
+ */
+
+.studio-page {
   --white: #FFFFFF;
   --black: #000000;
   --blue: #2B4EFF;
@@ -12,99 +21,24 @@
   --dark-text: #F2F2F2;
   --dark-muted: #9A9A9A;
 
-  --font-display: "Unbounded", sans-serif;
-  --font-text: "Onest", sans-serif;
+  --font-display: var(--font-unbounded), sans-serif;
+  --font-text: var(--font-onest), sans-serif;
 
   --measure: 75ch;
   --gutter: 20px;
-}
 
-@media (prefers-color-scheme: dark) {
-  /* Сторінка навмисно монохромна за задумом (майстерня), системну темну тему не успадковує */
-}
-
-* { box-sizing: border-box; }
-
-html { -webkit-text-size-adjust: 100%; }
-
-body {
-  margin: 0;
   background: var(--white);
   color: var(--black);
   font-family: var(--font-text);
   font-weight: 400;
   line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
 }
 
-/* ===== Шапка й футер сайту (щоб сторінка не виглядала окремим лендосом) ===== */
+.studio-page a { color: inherit; }
 
-.site-chrome-header {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: rgba(12, 12, 12, 0.92);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
+.studio-page img { max-width: 100%; display: block; }
 
-.site-chrome-inner {
-  max-width: 1152px;
-  margin: 0 auto;
-  padding: 14px var(--gutter);
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px 20px;
-}
-
-.site-chrome-logo {
-  font-family: var(--font-text);
-  font-weight: 700;
-  font-size: 1.05rem;
-  text-decoration: none;
-  letter-spacing: -0.01em;
-  flex-shrink: 0;
-}
-
-.site-chrome-logo .fg { color: #E8951A; }
-.site-chrome-logo .fw { color: #F2F2F2; }
-
-.site-chrome-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 20px;
-}
-
-.site-chrome-nav a {
-  font-family: var(--font-text);
-  font-size: 0.85rem;
-  color: #8B9199;
-  text-decoration: none;
-}
-
-.site-chrome-nav a:hover { color: #F2F2F2; }
-
-.site-chrome-nav a.is-current {
-  color: var(--blue);
-  font-weight: 500;
-}
-
-.site-chrome-footer {
-  background: #0C0C0C;
-  padding: 32px 0 24px;
-}
-
-.site-chrome-footer-inner { padding-top: 0; padding-bottom: 0; }
-
-.site-chrome-copy {
-  max-width: 1152px;
-  margin: 20px auto 0;
-  padding: 0 var(--gutter);
-  font-size: 0.75rem;
-  color: #6B7280;
-}
+.studio-page button { font-family: inherit; }
 
 .wrap {
   max-width: 1040px;
@@ -114,12 +48,6 @@ body {
 
 .wrap-prose { max-width: 720px; }
 .wrap-narrow { max-width: 560px; }
-
-a { color: inherit; }
-
-img { max-width: 100%; display: block; }
-
-button { font-family: inherit; }
 
 /* ===== Типографічна шкала ===== */
 
@@ -167,7 +95,7 @@ button { font-family: inherit; }
   color: var(--white);
 }
 
-p { max-width: var(--measure); }
+.studio-page p { max-width: var(--measure); }
 
 /* ===== Кнопки ===== */
 
@@ -468,7 +396,6 @@ p { max-width: var(--measure); }
   color: var(--gray-600);
 }
 
-
 /* ===== Рух (єдиний орієнтований момент) ===== */
 
 .reveal-line {
@@ -498,7 +425,7 @@ p { max-width: var(--measure); }
 /* ===== Брейкпоінти ===== */
 
 @media (min-width: 640px) {
-  :root { --gutter: 32px; }
+  .studio-page { --gutter: 32px; }
 
   .tiles { grid-template-columns: repeat(3, 1fr); }
 
