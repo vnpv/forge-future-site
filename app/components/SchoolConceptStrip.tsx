@@ -2,9 +2,9 @@ import Link from "next/link";
 import { pageContext, schoolOfFutureDiamonds } from "@/lib/content";
 
 type Props = {
-  /** hint — одне речення сторінки; full — лише якщо потрібен повний блок (уникати) */
+  /** hint - одне речення сторінки; full - лише якщо потрібен повний блок (уникати) */
   variant?: "hint" | "full";
-  /** Замість pageContext.* — своє речення */
+  /** Замість pageContext.* - своє речення */
   pageHint?: string;
   className?: string;
 };
@@ -50,7 +50,7 @@ export default function SchoolConceptStrip({
       <Link href="/" className="font-medium text-[#e8951a] hover:underline">
         {schoolOfFutureDiamonds.name}
       </Link>
-      {hint ? ` — ${hint}` : null}
+      {hint ? ` - ${hint}` : null}
     </p>
   );
 }

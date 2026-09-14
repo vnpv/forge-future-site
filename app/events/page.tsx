@@ -103,9 +103,9 @@ export default function EventsPage() {
             </p>
             <p className="mb-3 text-sm text-[#8b9199]">{closedCommunity.short}</p>
             <p className="mb-6 text-sm text-[#9CA3AF]">
-              На вечір — <strong className="text-[#f2f2f2]">тільки підлітки</strong>{" "}
+              На вечір - <strong className="text-[#f2f2f2]">тільки підлітки</strong>{" "}
               (самі, без батьків).
-              Батьки записують через бота. Після вечора — група «Відкритий Вечір».
+              Батьки записують через бота. Після вечора - група «Відкритий Вечір».
               Нагадування в Telegram за день до зустрічі.
             </p>
             <div className="flex flex-wrap gap-3">

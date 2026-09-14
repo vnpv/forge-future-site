@@ -2,7 +2,7 @@ import Link from "next/link";
 import { TelegramCommunityLink } from "./TelegramCta";
 import { closedCommunity } from "@/lib/content";
 
-/** Навігація під hero — без дубля concept/whyFuture (вони в hero і forgeGem) */
+/** Навігація під hero - без дубля concept/whyFuture (вони в hero і forgeGem) */
 export default function HomeHeroDetails() {
   return (
     <p className="text-sm leading-relaxed text-[#6b7280]">

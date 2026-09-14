@@ -59,7 +59,7 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="mx-auto mt-12 max-w-2xl rounded-2xl border border-[#e8951a]/30 bg-[#e8951a]/5 p-6">
             <p className="mb-4 text-sm text-[#9CA3AF]">
               Дати відкритих вечорів і набір потоку анонсуємо в Telegram.
-              Залиши заявку — повідомимо першим.
+              Залиши заявку - повідомимо першим.
             </p>
             <TelegramCta location="blog_article">Залишити заявку →</TelegramCta>
           </div>

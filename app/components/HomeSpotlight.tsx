@@ -42,7 +42,7 @@ export default function HomeSpotlight() {
               {founder.quote}
             </p>
             <footer className="mt-3 text-sm text-[#8b9199]">
-              — {founder.fullName},{" "}
+              - {founder.fullName},{" "}
               <Link href="/about" className="text-[#e8951a] hover:underline">
                 про засновника
               </Link>

@@ -43,7 +43,7 @@ export const metadata: Metadata = {
         url: `/images/og-forge-future-1200x630.webp?v=${OG_IMAGE_VERSION}`,
         width: 1200,
         height: 630,
-        alt: "Forge Future — Школа майбутніх Діамантів",
+        alt: "Forge Future - Школа майбутніх Діамантів",
       },
     ],
   },
@@ -131,7 +131,7 @@ export default function Home() {
               <div className="max-w-2xl space-y-4 text-[#8b9199] leading-relaxed">
                 <p>{homeSections.aboutForge.lead}</p>
                 <p>
-                  Деталі концепції — на сторінці{" "}
+                  Деталі концепції - на сторінці{" "}
                   <Link href="/about" className="text-[#e8951a] hover:underline">
                     Про нас
                   </Link>
@@ -221,7 +221,7 @@ export default function Home() {
             <Link href="/about" className="text-[#e8951a] hover:underline">
               Про Forge Future
             </Link>
-            . Кейси з вечорів — на{" "}
+            . Кейси з вечорів - на{" "}
             <Link href="/events" className="text-[#e8951a] hover:underline">
               сторінці вечорів
             </Link>

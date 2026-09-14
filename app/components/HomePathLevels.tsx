@@ -36,7 +36,7 @@ export default function HomePathLevels() {
       <blockquote className="rounded-xl border border-white/[0.06] bg-[#141414] px-5 py-4 text-sm italic leading-relaxed text-[#9ca3af] sm:px-6 sm:py-5">
         «{forgePhilosophy.founderLine}»
         <footer className="mt-2 not-italic text-xs text-[#6b7280]">
-          — Іван Первой, засновник
+          - Іван Первой, засновник
         </footer>
       </blockquote>
     </div>

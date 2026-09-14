@@ -129,7 +129,7 @@ export default function ProgramPage() {
         <Container>
           <h2 className="mb-2 text-2xl font-bold">Що отримаєш за практикум</h2>
           <p className="mb-8 max-w-xl text-sm text-[#8b9199]">
-            Три варіанти результату — не тільки «стартап».
+            Три варіанти результату - не тільки «стартап».
           </p>
           <div className="grid gap-5 sm:grid-cols-3">
             {programOutcomes.map((o) => (
@@ -155,9 +155,9 @@ export default function ProgramPage() {
             <li>
               → Артефакт{" "}
               <strong className="text-white">{lifeStrategyArtifact.name}</strong>{" "}
-              — уточнюється кожен тиждень
+              - уточнюється кожен тиждень
             </li>
-            <li>→ До 10 підлітків у потоці — мікрогрупа за етапом, не «всі в одному котлі»</li>
+            <li>→ До 10 підлітків у потоці - мікрогрупа за етапом, не «всі в одному котлі»</li>
             <li>→ Чесний зворотний зв&apos;язок на кожному тижні</li>
             <li>→ 70% учасників MVP доходять до результату</li>
           </ul>
@@ -174,7 +174,7 @@ export default function ProgramPage() {
               Заявка на програму
             </h2>
             <p className="mb-4 max-w-lg text-[#9CA3AF]">
-              Заповни коротку форму в Telegram — ім&apos;я та вік учасника.
+              Заповни коротку форму в Telegram - ім&apos;я та вік учасника.
               Напишемо після розгляду заявки.
             </p>
             <TelegramCta flow="program" location="program_footer">

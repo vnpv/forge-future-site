@@ -199,7 +199,7 @@ export default function AboutPage() {
             {gemRolesDefinition.diamonds.label}
           </h3>
           <p className="mb-4 max-w-2xl text-sm text-[#9CA3AF]">
-            Після «{lifeStrategyArtifact.name}» — ти {diamondLexicon.diamondsLabel.toLowerCase()}.
+            Після «{lifeStrategyArtifact.name}» - ти {diamondLexicon.diamondsLabel.toLowerCase()}.
           </p>
           <p className="mb-4 max-w-2xl text-lg font-medium text-white">
             {gemRolesDefinition.diamonds.short}

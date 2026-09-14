@@ -69,7 +69,7 @@ export default function TelegramCta({
   );
 }
 
-/** Закрите ком'юніті Forge — бот пояснює доступ після вечора */
+/** Закрите ком'юніті Forge - бот пояснює доступ після вечора */
 export function TelegramCommunityLink({
   className = "",
   children,
@@ -99,7 +99,7 @@ export function TelegramCommunityLink({
   );
 }
 
-/** Канал Івана — бізнес, особистий розвиток, анонси */
+/** Канал Івана - бізнес, особистий розвиток, анонси */
 export function TelegramIvanChannelLink({
   className = "",
   children,
