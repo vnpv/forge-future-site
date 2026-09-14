@@ -8,8 +8,6 @@ import TelegramCta from "../components/TelegramCta";
 import JsonLd from "@/components/JsonLd";
 import SchoolConceptStrip from "../components/SchoolConceptStrip";
 import {
-  audiencePageCopy,
-  eventGallery,
   forgePhilosophy,
   founder,
   lifeStrategyArtifact,
@@ -43,9 +41,8 @@ export default function ProgramPage() {
             Подати заявку на програму
           </TelegramCta>
         </PageHeader>
-        <Container className="mt-4 space-y-4">
+        <Container className="mt-4">
           <SchoolConceptStrip pageHint={pageContext.program} />
-          <p className="text-sm text-[#8b9199]">{audiencePageCopy.program}</p>
         </Container>
       </Section>
 
@@ -89,27 +86,6 @@ export default function ProgramPage() {
                 {founder.bio}
               </p>
             </Card>
-          </div>
-        </Container>
-      </Section>
-
-      <Section spacing="tight">
-        <Container>
-          <div className="grid gap-3 sm:grid-cols-3">
-            {eventGallery.map((img) => (
-              <div
-                key={img.src}
-                className="relative aspect-[16/10] overflow-hidden rounded-lg border border-white/[0.06]"
-              >
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 640px) 100vw, 33vw"
-                />
-              </div>
-            ))}
           </div>
         </Container>
       </Section>
@@ -172,9 +148,8 @@ export default function ProgramPage() {
         <Container>
           <h2 className="mb-6 text-2xl font-bold">Формат потоку</h2>
           <p className="mb-4 max-w-xl text-sm leading-relaxed text-[#9CA3AF]">
-            Програма — тактична частина: ти вже маєш або формуєш{" "}
-            <strong className="text-white">{lifeStrategyArtifact.name}</strong>.
-            Ми допомагаємо прожити її через реальний проєкт.
+            Тактична частина шляху: доводиш ідею до практики разом з
+            ментором і групою.
           </p>
           <ul className="max-w-xl space-y-2 text-[#9CA3AF]">
             <li>
