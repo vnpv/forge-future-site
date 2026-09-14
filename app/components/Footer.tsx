@@ -8,11 +8,11 @@ import { BRAND } from "@/lib/brand";
 import { FOOTER_LINE } from "@/lib/content";
 
 const links = [
-  { href: "/for-parents", label: "Для батьків" },
-  { href: "/blog", label: "Блог" },
-  { href: "/events", label: "Вечори" },
   { href: "/studio", label: "Студія" },
   { href: "/program", label: "Практикум" },
+  { href: "/events", label: "Вечори" },
+  { href: "/for-parents", label: "Для батьків" },
+  { href: "/blog", label: "Блог" },
   { href: "/about", label: "Про нас" },
   { href: "/faq", label: "FAQ" },
 ];
