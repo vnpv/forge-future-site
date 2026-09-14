@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Студія для дітей 10–13 років — 6 тижнів, 6 власних проєктів | Forge Future</title>
 <meta name="description" content="Онлайн-студія Forge Future для дітей 10–13 років. За 6 тижнів дитина робить шість власних речей руками і штучним інтелектом — і показує їх людям. Запис на 15-хвилинне знайомство.">
+
 <meta name="robots" content="noindex, nofollow">
 <link rel="canonical" href="https://forge-future.com/studio">
 
@@ -53,7 +54,7 @@
       <div class="tile" role="listitem"><span class="tile-num">06</span>власний проєкт</div>
     </div>
 
-    <a href="#apply" class="btn-primary">Записатися на знайомство</a>
+    <a href="https://t.me/ivanpervoy_bot?start=ff_studio" target="_blank" rel="noopener noreferrer" class="btn-primary">Записатися на знайомство</a>
     <p class="hero-meta">8 місць у групі · старт 9 жовтня 2026</p>
   </div>
 </header>
@@ -242,39 +243,10 @@
 <section class="apply" id="apply">
   <div class="wrap wrap-narrow">
     <h2 class="section-title">Записатися на знайомство</h2>
-    <p class="apply-sub">15-хвилинний дзвінок з дитиною і батьком, потім рішення.</p>
+    <p class="apply-sub">Заповниш коротку заявку в Telegram — ім'я і вік дитини. Далі — 15-хвилинний дзвінок з дитиною і батьком, потім рішення.</p>
 
-    <form id="apply-form" class="apply-form" action="https://t.me/ivanpervoy_bot?start=studio" method="get" novalidate>
-      <!-- ФОРМА_URL не задано напряму в контенті — використано існуючий Telegram-бот воронки Forge Future як робочий дефолт, потребує підключення параметра "studio" на боці бота -->
-      <label>
-        Ім'я дитини
-        <input type="text" name="child_name" required autocomplete="off">
-      </label>
-      <label>
-        Вік
-        <input type="number" name="child_age" min="10" max="13" required>
-      </label>
-      <label>
-        Ім'я батька / матері
-        <input type="text" name="parent_name" required autocomplete="off">
-      </label>
-      <label>
-        Телеграм або телефон
-        <input type="text" name="contact" required autocomplete="off">
-      </label>
-      <label>
-        Що дитині зараз цікаво <span class="optional">(необов'язково)</span>
-        <textarea name="interest" rows="2"></textarea>
-      </label>
-
-      <button type="submit" class="btn-primary">Записатися на знайомство</button>
-      <p class="form-error" id="form-error" role="alert" hidden>Заповніть, будь ласка, обов'язкові поля.</p>
-    </form>
-
-    <div class="apply-success" id="apply-success" hidden>
-      <p><strong>Заявку відправлено.</strong></p>
-      <p>Далі — 15-хвилинний дзвінок з дитиною і батьком, потім рішення про групу.</p>
-    </div>
+    <!-- start=ff_studio потребує обробки на боці бота (agents/forge_bot) — поки не додано, впаде у гілку "вечір за замовчуванням" -->
+    <a href="https://t.me/ivanpervoy_bot?start=ff_studio" target="_blank" rel="noopener noreferrer" class="btn-primary">Записатися в Telegram</a>
 
     <p class="contact-line">Питання: <a href="https://t.me/ivanpervoy">Telegram @ivanpervoy</a></p>
   </div>
@@ -286,6 +258,5 @@
   </div>
 </footer>
 
-<script src="/studio-assets/script.js"></script>
 </body>
 </html>
