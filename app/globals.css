@@ -4,11 +4,34 @@
   --color-background: #0c0c0c;
   --color-surface: #141414;
   --color-surface-2: #1c1c1c;
+  --color-surface-strong: #111111;
   --color-foreground: #f2f2f2;
   --color-muted: #8b9199;
+  --color-muted-2: #6b7280;
   --color-accent: #e8951a;
   --color-accent-dark: #c97f12;
+  --color-accent-hover: #f0a432;
   --font-sans: var(--font-onest), system-ui, sans-serif;
+}
+
+/**
+ * Тема "practicum" (/program, 14-19): гаряча сторона Forge - розжарений
+ * акцент на білому. Той самий набір семантичних токенів, інше значення -
+ * компоненти, що використовують bg-surface/text-muted/text-accent тощо,
+ * автоматично перефарбовуються всередині [data-theme="practicum"].
+ * Кузня, не ювелірна крамниця: жодного жовтого, жодного "школи діамантів".
+ */
+[data-theme="practicum"] {
+  --color-background: #ffffff;
+  --color-surface: #f6f4f2;
+  --color-surface-2: #eeebe7;
+  --color-surface-strong: #111111;
+  --color-foreground: #0a0a0a;
+  --color-muted: #4b4b4b;
+  --color-muted-2: #6f6f6f;
+  --color-accent: #e03a00;
+  --color-accent-dark: #b62e00;
+  --color-accent-hover: #b62e00;
 }
 
 * {
@@ -24,6 +47,27 @@ body {
   color: #f2f2f2;
   font-family: var(--font-onest), system-ui, sans-serif;
   min-height: 100vh;
+}
+
+[data-theme="practicum"] {
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+[data-theme="practicum"] ::selection {
+  background: var(--color-accent);
+  color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 body::before {

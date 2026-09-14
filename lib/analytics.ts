@@ -10,7 +10,8 @@ export type AnalyticsEvent =
   | "cta_telegram_ivan_channel"
   | "cta_telegram_channel"
   | "cta_events_page"
-  | "cta_for_parents";
+  | "cta_for_parents"
+  | "program_application_submit";
 
 export function trackEvent(
   name: AnalyticsEvent,

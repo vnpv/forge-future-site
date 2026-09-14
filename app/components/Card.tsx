@@ -12,8 +12,8 @@ export default function Card({
 }: CardProps) {
   return (
     <div
-      className={`rounded-xl bg-[#141414] p-6 transition-colors duration-200 hover:bg-[#181818] ${
-        bordered ? "border border-white/[0.06]" : ""
+      className={`rounded-xl bg-[var(--color-surface)] p-6 transition-colors duration-200 hover:bg-[var(--color-surface-2)] ${
+        bordered ? "border border-[var(--color-foreground)]/[0.06]" : ""
       } ${className}`}
       {...props}
     >
