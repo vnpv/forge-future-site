@@ -10,7 +10,7 @@ const links = [
   { href: "/blog", label: "Блог" },
   { href: "/events", label: "Вечори" },
   { href: "/studio", label: "Студія" },
-  { href: "/program", label: "Програма" },
+  { href: "/program", label: "Практикум" },
   { href: "/about", label: "Про нас" },
   { href: "/faq", label: "FAQ" },
 ];
