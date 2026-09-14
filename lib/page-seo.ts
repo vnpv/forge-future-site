@@ -15,7 +15,7 @@ export const pageSeo = {
     title: `${NEOSCHOOL} для підлітків - Forge Future`,
     description: `Школа майбутніх Діамантів · ${NEOSCHOOL} 10–19. «${LIFE_STRATEGY_NAME}» і власний проєкт. Відкритий вечір 14.09, ${venue.city}.`,
     ogTitle: "Forge Future | Школа майбутніх Діамантів",
-    h1: `${NEOSCHOOL} для підлітків: власний проєкт замість шаблонів`,
+    h1: `${NEOSCHOOL} для підлітків: не теорія, а практика`,
     teaser:
       "Forge Future - альтернатива школі з оцінками: підліток формулює напрямок і доводить проєкт до реалізації - перших грошей, перших клієнтів, а не просто до демо-дня. Старт - безкоштовний відкритий вечір.",
     metaLine: `Відкритий вечір: ${nextOpenEvening.scheduleLine}, ${venue.city}`,
