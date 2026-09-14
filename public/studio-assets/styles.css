@@ -37,6 +37,75 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ===== Шапка й футер сайту (щоб сторінка не виглядала окремим лендосом) ===== */
+
+.site-chrome-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(12, 12, 12, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.site-chrome-inner {
+  max-width: 1152px;
+  margin: 0 auto;
+  padding: 14px var(--gutter);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 20px;
+}
+
+.site-chrome-logo {
+  font-family: var(--font-text);
+  font-weight: 700;
+  font-size: 1.05rem;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+  flex-shrink: 0;
+}
+
+.site-chrome-logo .fg { color: #E8951A; }
+.site-chrome-logo .fw { color: #F2F2F2; }
+
+.site-chrome-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+}
+
+.site-chrome-nav a {
+  font-family: var(--font-text);
+  font-size: 0.85rem;
+  color: #8B9199;
+  text-decoration: none;
+}
+
+.site-chrome-nav a:hover { color: #F2F2F2; }
+
+.site-chrome-nav a.is-current {
+  color: var(--blue);
+  font-weight: 500;
+}
+
+.site-chrome-footer {
+  background: #0C0C0C;
+  padding: 32px 0 24px;
+}
+
+.site-chrome-footer-inner { padding-top: 0; padding-bottom: 0; }
+
+.site-chrome-copy {
+  max-width: 1152px;
+  margin: 20px auto 0;
+  padding: 0 var(--gutter);
+  font-size: 0.75rem;
+  color: #6B7280;
+}
+
 .wrap {
   max-width: 1040px;
   margin: 0 auto;
@@ -399,11 +468,6 @@ p { max-width: var(--measure); }
   color: var(--gray-600);
 }
 
-.site-footer {
-  padding: 32px 0;
-  font-size: 0.8rem;
-  color: var(--gray-600);
-}
 
 /* ===== Рух (єдиний орієнтований момент) ===== */
 

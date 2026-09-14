@@ -11,6 +11,7 @@ const links = [
   { href: "/for-parents", label: "Для батьків" },
   { href: "/blog", label: "Блог" },
   { href: "/events", label: "Вечори" },
+  { href: "/studio", label: "Студія 10-13" },
   { href: "/program", label: "Програма" },
   { href: "/about", label: "Про нас" },
   { href: "/faq", label: "FAQ" },
