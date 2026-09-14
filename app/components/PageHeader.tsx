@@ -17,7 +17,7 @@ export default function PageHeader({
   return (
     <Container>
       {label && (
-        <p className="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-[#e8951a]">
+        <p className="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-accent)]">
           {label}
         </p>
       )}
@@ -25,7 +25,7 @@ export default function PageHeader({
         {title}
       </h1>
       {subtitle && (
-        <p className="mb-4 max-w-2xl text-lg leading-relaxed text-[#8b9199]">
+        <p className="mb-4 max-w-2xl text-lg leading-relaxed text-[var(--color-muted)]">
           {subtitle}
         </p>
       )}

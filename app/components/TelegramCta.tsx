@@ -18,10 +18,10 @@ const base =
 
 const variants: Record<Variant, string> = {
   primary:
-    "rounded-lg bg-[#e8951a] px-6 py-3 text-sm font-semibold text-[#0c0c0c] hover:bg-[#f0a432]",
+    "rounded-lg bg-[var(--color-accent)] px-6 py-3 text-sm font-semibold text-[var(--color-background)] hover:bg-[var(--color-accent-hover)]",
   secondary:
-    "rounded-lg border border-[#e8951a]/40 px-6 py-3 text-sm text-[#e8951a] hover:bg-[#e8951a]/10",
-  inline: "text-[#e8951a] hover:underline text-sm",
+    "rounded-lg border border-[var(--color-accent)]/40 px-6 py-3 text-sm text-[var(--color-accent)] hover:bg-[var(--color-accent)]/10",
+  inline: "text-[var(--color-accent)] hover:underline text-sm",
 };
 
 type Flow = "evening" | "program";
@@ -69,7 +69,7 @@ export default function TelegramCta({
   );
 }
 
-/** Закрите ком'юніті Forge — бот пояснює доступ після вечора */
+/** Закрите ком'юніті Forge - бот пояснює доступ після вечора */
 export function TelegramCommunityLink({
   className = "",
   children,
@@ -91,7 +91,7 @@ export function TelegramCommunityLink({
       href={TELEGRAM_COMMUNITY_BOT_URL}
       target="_blank"
       rel="noopener noreferrer"
-      className={`text-[#e8951a] hover:underline ${className}`}
+      className={`text-[var(--color-accent)] hover:underline ${className}`}
       onClick={onClick}
     >
       {children ?? TELEGRAM_COMMUNITY_LABEL}
@@ -99,7 +99,7 @@ export function TelegramCommunityLink({
   );
 }
 
-/** Канал Івана — бізнес, особистий розвиток, анонси */
+/** Канал Івана - бізнес, особистий розвиток, анонси */
 export function TelegramIvanChannelLink({
   className = "",
   children,
@@ -121,7 +121,7 @@ export function TelegramIvanChannelLink({
       href={TELEGRAM_IVAN_CHANNEL_URL}
       target="_blank"
       rel="noopener noreferrer"
-      className={`text-[#e8951a] hover:underline ${className}`}
+      className={`text-[var(--color-accent)] hover:underline ${className}`}
       onClick={onClick}
     >
       {children ?? TELEGRAM_IVAN_CHANNEL_LABEL}
