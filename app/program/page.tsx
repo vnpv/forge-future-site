@@ -12,6 +12,7 @@ import {
   founder,
   lifeStrategyArtifact,
   pageContext,
+  programFaqs,
   programOffer,
   programOutcomes,
   programWeeks,
@@ -164,6 +165,22 @@ export default function ProgramPage() {
           <p className="mt-6 max-w-xl text-sm text-[#6b7280]">
             {forgePhilosophy.founderLine}
           </p>
+        </Container>
+      </Section>
+
+      <Section spacing="block" className="bg-[#111111]">
+        <Container>
+          <h2 className="mb-6 text-2xl font-bold">Питання та відповіді</h2>
+          <div className="max-w-2xl space-y-4">
+            {programFaqs.map((f) => (
+              <Card key={f.q} bordered>
+                <h3 className="mb-2 text-base font-semibold text-white">
+                  {f.q}
+                </h3>
+                <p className="text-sm text-[#9CA3AF]">{f.a}</p>
+              </Card>
+            ))}
+          </div>
         </Container>
       </Section>
 
