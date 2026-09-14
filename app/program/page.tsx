@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { Metadata } from "next";
 import Section from "../components/Section";
 import Container from "../components/Container";
@@ -10,7 +11,6 @@ import {
   programFaqs,
   programFormat,
   programFounderBio,
-  programGraduatesStat,
   programHowItWorks,
   programNotFor,
   programOutcomes,
@@ -133,9 +133,6 @@ export default function ProgramPage() {
               </div>
             ))}
           </div>
-          <p className="mt-6 text-sm text-[var(--color-muted-2)]">
-            <Placeholder>{programGraduatesStat}</Placeholder>
-          </p>
         </Container>
       </Section>
 
@@ -267,7 +264,10 @@ export default function ProgramPage() {
             {twoPaths.h2}
           </h2>
           <div className="grid gap-px border border-[var(--color-foreground)]/30 bg-[var(--color-foreground)]/30 sm:grid-cols-2">
-            <div className="bg-[var(--color-background)] p-6 opacity-60">
+            <Link
+              href="/studio"
+              className="group bg-[var(--color-background)] p-6 transition-colors hover:bg-[var(--color-foreground)]/[0.03]"
+            >
               <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-[var(--color-muted-2)]">
                 {twoPaths.studio.status}
               </p>
@@ -277,7 +277,10 @@ export default function ProgramPage() {
               <p className="text-sm leading-relaxed text-[var(--color-muted)]">
                 {twoPaths.studio.desc}
               </p>
-            </div>
+              <p className="mt-3 text-sm font-medium text-[var(--color-foreground)] underline-offset-2 group-hover:underline">
+                Дивитись Студію →
+              </p>
+            </Link>
             <div className="border-2 border-[var(--color-accent)] bg-[var(--color-accent)]/[0.06] p-6">
               <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-[var(--color-accent)]">
                 {twoPaths.practicum.status}
