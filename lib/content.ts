@@ -66,11 +66,6 @@ export const PERSONALIZED_APPROACH = "Персоналізований підх�
 /** Головний артефакт - єдина назва на всьому сайті */
 export const LIFE_STRATEGY_NAME = "Власна стратегія життя";
 
-/** Тизер артефакту на головній - повний блок лише на /about#life-strategy */
-export const lifeStrategyTeaser = {
-  href: "/about#life-strategy" as const,
-};
-
 /** Головна метафора Forge Future: огранка → діамант */
 export const diamondLexicon = {
   polished: "діамант",

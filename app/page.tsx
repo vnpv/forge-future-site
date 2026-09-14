@@ -1,23 +1,18 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import Section from "./components/Section";
 import Container from "./components/Container";
-import AmbitiousAudienceBlock from "./components/AmbitiousAudienceBlock";
 import HomeHero from "./components/HomeHero";
 import HomeHeroDetails from "./components/HomeHeroDetails";
 import HomeForgeGem from "./components/HomeForgeGem";
-import LifeStrategyTeaser from "./components/LifeStrategyTeaser";
 import HomeSpotlight from "./components/HomeSpotlight";
 import HomeExploreGrid from "./components/HomeExploreGrid";
-import HomePathLevels from "./components/HomePathLevels";
 import TelegramCta, {
   TelegramCommunityLink,
   TelegramIvanChannelLink,
 } from "./components/TelegramCta";
 import {
   closedCommunity,
-  founder,
   homeTwoPaths,
   nextOpenEvening,
   openEveningsNote,
@@ -74,10 +69,8 @@ export default function Home() {
       </Section>
 
       <Section spacing="block">
-        <Container className="space-y-10">
+        <Container>
           <HomeForgeGem />
-          <LifeStrategyTeaser />
-          <HomePathLevels />
         </Container>
       </Section>
 
@@ -143,77 +136,27 @@ export default function Home() {
 
       <Section spacing="alt" className="ff-section-alt">
         <Container>
-          <h2 className="ff-display mb-2 text-2xl font-extrabold sm:text-3xl">
-            {homeSections.audience.h2}
+          <h2 className="ff-display mb-5 text-2xl font-extrabold sm:text-3xl">
+            {homeSections.aboutForge.h2}
           </h2>
-          <p className="mb-6 max-w-xl text-sm text-[#8b9199]">
-            {homeSections.audience.lead} {nextOpenEvening.scheduleLine}.
-          </p>
-          <AmbitiousAudienceBlock />
-          <div className="mt-6 flex flex-wrap gap-3">
-            <Link
-              href="/events"
-              className="inline-flex items-center justify-center border-2 border-[#e8951a]/40 bg-[#e8951a]/15 px-4 py-2.5 text-sm font-semibold text-[#e8951a] transition-colors hover:bg-[#e8951a]/25"
-            >
-              {homeSections.teenCard.label}: відкриті вечори →
-            </Link>
-            <Link
-              href="/for-parents"
-              className="inline-flex items-center justify-center border-2 border-white/[0.1] px-4 py-2.5 text-sm font-medium hover:bg-white/[0.03]"
-            >
-              {homeSections.parentCard.label} →
-            </Link>
+          <div className="max-w-2xl space-y-4 text-[#8b9199] leading-relaxed">
+            <p>{homeSections.aboutForge.lead}</p>
+            <p>
+              Деталі концепції - на сторінці{" "}
+              <Link href="/about" className="text-[#e8951a] hover:underline">
+                Про нас
+              </Link>
+              .
+            </p>
+            <p className="text-sm">{openEveningsNote}</p>
           </div>
-        </Container>
-      </Section>
-
-      <Section spacing="block">
-        <Container>
-          <div className="grid gap-10 lg:grid-cols-[1fr_280px] lg:items-start">
-            <div>
-              <h2 className="ff-display mb-5 text-2xl font-extrabold sm:text-3xl">
-                {homeSections.aboutForge.h2}
-              </h2>
-              <div className="max-w-2xl space-y-4 text-[#8b9199] leading-relaxed">
-                <p>{homeSections.aboutForge.lead}</p>
-                <p>
-                  Деталі концепції - на сторінці{" "}
-                  <Link href="/about" className="text-[#e8951a] hover:underline">
-                    Про нас
-                  </Link>
-                  .
-                </p>
-                <p className="text-sm">{openEveningsNote}</p>
-              </div>
-              <div className="mt-6 flex flex-wrap gap-4 text-sm">
-                <Link
-                  href="/about"
-                  className="font-medium text-[#e8951a] hover:underline"
-                >
-                  Про засновника →
-                </Link>
-              </div>
-            </div>
-            <div className="border-2 border-[#e8951a]/25 bg-[#1a160f] p-6">
-              <div className="relative mb-4 h-16 w-16 overflow-hidden border-2 border-[#e8951a]/40">
-                <Image
-                  src={founder.photoUrl}
-                  alt=""
-                  fill
-                  className="object-cover object-[center_15%]"
-                  sizes="64px"
-                />
-              </div>
-              <p className="text-sm italic leading-relaxed text-[#d1d5db]">
-                «{founder.quote}»
-              </p>
-              <p className="mt-3 text-xs text-[#8b9199]">
-                <Link href="/about" className="text-[#e8951a] hover:underline">
-                  {founder.fullName}
-                </Link>
-                , засновник
-              </p>
-            </div>
+          <div className="mt-6 flex flex-wrap gap-4 text-sm">
+            <Link
+              href="/about"
+              className="font-medium text-[#e8951a] hover:underline"
+            >
+              Про засновника →
+            </Link>
           </div>
         </Container>
       </Section>
