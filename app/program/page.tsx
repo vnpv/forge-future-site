@@ -1,4 +1,3 @@
-import Link from "next/link";
 import type { Metadata } from "next";
 import Section from "../components/Section";
 import Container from "../components/Container";
@@ -12,6 +11,7 @@ import {
   forgePhilosophy,
   lifeStrategyArtifact,
   pageContext,
+  programOffer,
   programOutcomes,
   programWeeks,
   schoolOfFutureDiamonds,
@@ -46,7 +46,31 @@ export default function ProgramPage() {
         </Container>
       </Section>
 
-      <Section spacing="content" className="bg-[#111111]">
+      <Section spacing="block" className="bg-[#111111]">
+        <Container>
+          <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-[#e8951a]">
+            {programOffer.tag}
+          </p>
+          <h2 className="mb-6 text-2xl font-bold">{programOffer.h2}</h2>
+          <Card bordered className="divide-y divide-white/[0.06] p-0">
+            {programOffer.rows.map((r) => (
+              <div
+                key={r.label}
+                className="grid gap-1 p-5 sm:grid-cols-[190px_1fr] sm:items-baseline sm:gap-6"
+              >
+                <span className="text-xs font-semibold uppercase tracking-wide text-[#8b9199]">
+                  {r.label}
+                </span>
+                <span className="text-sm leading-relaxed text-white sm:text-base">
+                  {r.value}
+                </span>
+              </div>
+            ))}
+          </Card>
+        </Container>
+      </Section>
+
+      <Section spacing="content">
         <Container className="space-y-8">
           <h2 className="text-2xl font-bold">Дорожня карта: 6 тижнів</h2>
           <ol className="space-y-6">
@@ -81,7 +105,7 @@ export default function ProgramPage() {
         </Container>
       </Section>
 
-      <Section spacing="block">
+      <Section spacing="block" className="bg-[#111111]">
         <Container>
           <h2 className="mb-2 text-2xl font-bold">Що отримаєш за 6 тижнів</h2>
           <p className="mb-8 max-w-xl text-sm text-[#8b9199]">
@@ -116,15 +140,7 @@ export default function ProgramPage() {
             </li>
             <li>→ До 10 підлітків у потоці — мікрогрупа за етапом, не «всі в одному котлі»</li>
             <li>→ Чесний зворотний зв&apos;язок на кожному тижні</li>
-            <li>→ Від $500 з сім&apos;ї за потік (уточнимо після заявки)</li>
             <li>→ 70% учасників MVP доходять до результату</li>
-            <li>
-              → Бажано спочатку{" "}
-              <Link href="/events" className="text-[#e8951a] hover:underline">
-                відкритий вечір
-              </Link>
-              , щоб познайомитись
-            </li>
           </ul>
           <p className="mt-6 max-w-xl text-sm text-[#6b7280]">
             {forgePhilosophy.founderLine}
@@ -141,13 +157,6 @@ export default function ProgramPage() {
             <p className="mb-4 max-w-lg text-[#9CA3AF]">
               Заповни коротку форму в Telegram — ім&apos;я та вік учасника.
               Напишемо після розгляду заявки.
-            </p>
-            <p className="mb-8 text-sm text-[#6b7280]">
-              Ще не був на вечорі?{" "}
-              <Link href="/events" className="text-[#e8951a] hover:underline">
-                Запис на відкритий вечір
-              </Link>{" "}
-              — окремий крок, безкоштовно.
             </p>
             <TelegramCta flow="program" location="program_footer">
               Подати заявку в Telegram →
