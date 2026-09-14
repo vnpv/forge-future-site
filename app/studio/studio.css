@@ -25,7 +25,6 @@
   --font-text: var(--font-onest), sans-serif;
 
   --measure: 75ch;
-  --gutter: 20px;
 
   background: var(--white);
   color: var(--black);
@@ -40,10 +39,15 @@
 
 .studio-page button { font-family: inherit; }
 
+/* Той самий max-width + padding, що й у Container.tsx (max-w-6xl px-4 sm:px-6) */
 .wrap {
-  max-width: 1040px;
+  max-width: 1152px;
   margin: 0 auto;
-  padding: 0 var(--gutter);
+  padding: 0 16px;
+}
+
+@media (min-width: 640px) {
+  .wrap { padding: 0 24px; }
 }
 
 .wrap-prose { max-width: 720px; }
@@ -63,8 +67,8 @@
 .hero-title {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(2.4rem, 9vw, 5rem);
-  line-height: 0.98;
+  font-size: clamp(2rem, 6.5vw, 3.5rem);
+  line-height: 1.02;
   letter-spacing: -0.01em;
   margin: 0 0 24px;
 }
@@ -425,8 +429,6 @@
 /* ===== Брейкпоінти ===== */
 
 @media (min-width: 640px) {
-  .studio-page { --gutter: 32px; }
-
   .tiles { grid-template-columns: repeat(3, 1fr); }
 
   .week {

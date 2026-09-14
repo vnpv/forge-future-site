@@ -73,6 +73,20 @@ body {
   color: var(--color-foreground);
 }
 
+/**
+ * Хайлайтер під "В кінці тижня в тебе є" - той самий прийом, що й
+ * .week-result у Студії (studio.css), тільки в гарячому кольорі
+ * Практикуму замість жовтого.
+ */
+[data-theme="practicum"] .ff-week-highlight {
+  display: inline;
+  background: linear-gradient(
+    to bottom,
+    transparent 62%,
+    color-mix(in srgb, var(--color-accent) 30%, transparent) 62%
+  );
+}
+
 [data-theme="practicum"] ::selection {
   background: var(--color-accent);
   color: #ffffff;
@@ -86,6 +100,27 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/**
+ * Ефект появи заголовка (той самий рух, що й на /studio: підйом + fade).
+ * Один блок замість покрокового reveal-line у Студії, бо тут H1 - це
+ * один рядок тексту з lib/page-seo.ts, не заздалегідь розбитий на рядки.
+ * prefers-reduced-motion уже нейтралізує animation-duration вище.
+ */
+.ff-reveal {
+  animation: ff-reveal-up 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes ff-reveal-up {
+  from {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 
