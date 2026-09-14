@@ -6,11 +6,11 @@ import Logo from "./Logo";
 import TelegramCta from "./TelegramCta";
 
 const links = [
-  { href: "/for-parents", label: "Для батьків" },
-  { href: "/blog", label: "Блог" },
-  { href: "/events", label: "Вечори" },
   { href: "/studio", label: "Студія" },
   { href: "/program", label: "Практикум" },
+  { href: "/events", label: "Вечори" },
+  { href: "/for-parents", label: "Для батьків" },
+  { href: "/blog", label: "Блог" },
   { href: "/about", label: "Про нас" },
   { href: "/faq", label: "FAQ" },
 ];

@@ -26,7 +26,7 @@ export default function HomeHero() {
           {BRAND_NICKNAME}
         </p>
 
-        <h1 className="mb-5 max-w-3xl text-[1.75rem] font-bold leading-[1.22] tracking-tight text-white sm:mb-6 sm:text-4xl sm:leading-[1.15] lg:text-[2.75rem]">
+        <h1 className="ff-display mb-5 max-w-3xl text-[1.75rem] font-extrabold leading-[1.05] tracking-tight text-white sm:mb-6 sm:text-4xl lg:text-[2.75rem]">
           {h1}
         </h1>
 
@@ -61,18 +61,12 @@ export default function HomeHero() {
             >
               Деталі вечора →
             </Link>
-            <Link
-              href="/program"
-              className="font-medium text-[#e8951a] transition-colors hover:underline"
-            >
-              Програма 6 тижнів →
-            </Link>
           </div>
         </div>
       </div>
 
       <div className="hidden lg:block">
-        <div className="overflow-hidden rounded-2xl border border-white/[0.08] bg-[#141414]">
+        <div className="overflow-hidden border-2 border-white/[0.1]">
           <div className="relative aspect-[4/5]">
             <Image
               src={founder.photoUrl}
@@ -83,10 +77,10 @@ export default function HomeHero() {
               priority
             />
           </div>
-          <div className="grid grid-cols-3 divide-x divide-white/[0.06] border-t border-white/[0.06]">
+          <div className="grid grid-cols-3 divide-x divide-white/[0.1] border-t-2 border-white/[0.1]">
             {stats.map((s) => (
               <div key={s.label} className="px-2 py-3 text-center">
-                <p className="text-lg font-bold tabular-nums text-[#e8951a]">
+                <p className="ff-display text-lg font-extrabold tabular-nums text-[#e8951a]">
                   {s.value}
                 </p>
                 <p className="mt-0.5 text-[10px] leading-tight text-[#8b9199]">
