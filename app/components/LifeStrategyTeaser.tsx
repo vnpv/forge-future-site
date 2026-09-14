@@ -6,11 +6,11 @@ export default function LifeStrategyTeaser() {
   const section = homeSections.lifeStrategy;
 
   return (
-    <section className="rounded-2xl border border-white/[0.08] bg-[#141414] p-6 sm:p-8">
+    <section className="border-2 border-white/[0.08] bg-[#141414] p-6 sm:p-8">
       <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-[#e8951a]">
         {section.tag}
       </p>
-      <h2 className="mb-3 text-xl font-bold text-white sm:text-2xl">
+      <h2 className="ff-display mb-3 text-xl font-extrabold text-white sm:text-2xl">
         {section.h2}
       </h2>
       <p className="mb-4 max-w-2xl text-sm leading-relaxed text-[#9ca3af]">

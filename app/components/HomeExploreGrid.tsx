@@ -23,7 +23,7 @@ export default function HomeExploreGrid() {
         <Link
           key={item.href}
           href={item.href}
-          className={`ff-explore-card group flex flex-col rounded-xl border border-white/[0.06] bg-[#141414] p-5 ${
+          className={`ff-explore-card group flex flex-col border-2 border-white/[0.08] bg-[#141414] p-5 ${
             item.large ? "sm:col-span-1 lg:min-h-[180px]" : ""
           }`}
         >
@@ -32,12 +32,12 @@ export default function HomeExploreGrid() {
               {item.tag}
             </span>
             {item.badge ? (
-              <span className="rounded-full border border-[#e8951a]/30 bg-[#e8951a]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#e8951a]">
+              <span className="border border-[#e8951a]/40 bg-[#e8951a]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#e8951a]">
                 {item.badge}
               </span>
             ) : null}
           </div>
-          <h3 className="mb-2 text-lg font-bold text-white group-hover:text-[#e8951a] transition-colors">
+          <h3 className="ff-display mb-2 text-lg font-bold text-white group-hover:text-[#e8951a] transition-colors">
             {item.title}
           </h3>
           <p className="mb-4 flex-1 text-sm leading-relaxed text-[#8b9199]">
