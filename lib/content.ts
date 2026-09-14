@@ -507,15 +507,19 @@ export const programNotFor = {
   ],
 } as const;
 
-/** Дорожчі факти замість розмитого "від $500...". Плейсхолдери - бо цифр немає, не вигадуємо. */
+/** Дата старту найближчого потоку - в одному місці, щоб не розходилась між секціями */
+export const PROGRAM_START_DATE = "6 жовтня 2026";
+export const PROGRAM_APPLY_DEADLINE = "1 жовтня 2026";
+
+/** Дорожчі факти замість розмитого "від $500...". */
 export const programFormat = {
   h2: "Формат і вартість",
   facts: [
     { label: "Тривалість", value: "6 тижнів" },
     { label: "Вік", value: "14-19 років" },
     { label: "Місць у потоці", value: "До 10 учасників" },
-    { label: "Старт потоку", value: "[ЗАПОВНИТИ: дата старту найближчого потоку]" },
-    { label: "Набір до", value: "[ЗАПОВНИТИ: дедлайн набору]" },
+    { label: "Старт потоку", value: PROGRAM_START_DATE },
+    { label: "Набір до", value: PROGRAM_APPLY_DEADLINE },
     {
       label: "Вартість",
       value:

@@ -36,6 +36,16 @@
 
 * {
   box-sizing: border-box;
+  /* Прибирає стандартний жовтуватий tap-highlight мобільних браузерів на лінках/кнопках */
+  -webkit-tap-highlight-color: transparent;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-accent, #e8951a);
+  outline-offset: 2px;
 }
 
 html {

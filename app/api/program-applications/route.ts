@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
+import { notifyTelegramNewApplication } from "@/lib/telegram-notify";
 
 const DIRECTIONS = ["site", "game", "service", "unsure"] as const;
 
@@ -34,6 +35,13 @@ export async function POST(req: NextRequest) {
        VALUES (?, ?, ?, ?)`
     )
     .run(participant_name.trim(), age, parent_contact.trim(), direction);
+
+  await notifyTelegramNewApplication({
+    participant_name: participant_name.trim(),
+    participant_age: age,
+    parent_contact: parent_contact.trim(),
+    direction,
+  });
 
   return NextResponse.json({ id: result.lastInsertRowid }, { status: 201 });
 }

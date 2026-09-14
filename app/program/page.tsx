@@ -7,6 +7,7 @@ import ProgramApplicationForm from "../components/ProgramApplicationForm";
 import JsonLd from "@/components/JsonLd";
 import {
   founder,
+  PROGRAM_START_DATE,
   programFaqs,
   programFormat,
   programFounderBio,
@@ -20,6 +21,7 @@ import {
 import { programCourseSchema } from "@/lib/course-schema";
 import { pageSeo } from "@/lib/page-seo";
 import { pageAlternates } from "@/lib/seo";
+import { APPLY_PROGRAM_URL } from "@/lib/telegram";
 
 export const metadata: Metadata = {
   title: pageSeo.program.title,
@@ -61,8 +63,7 @@ export default function ProgramPage() {
               Подати заявку
             </a>
             <p className="text-sm text-[var(--color-muted-2)]">
-              До 10 місць · старт{" "}
-              <Placeholder>[ЗАПОВНИТИ: дата старту]</Placeholder>
+              До 10 місць · старт {PROGRAM_START_DATE}
             </p>
           </div>
           <p className="mt-8 text-sm text-[var(--color-muted-2)]">
@@ -291,7 +292,7 @@ export default function ProgramPage() {
                 одразу в Telegram, якщо так зручніше.
               </p>
               <a
-                href="https://t.me/ivanpervoy_bot?start=ff_program"
+                href={APPLY_PROGRAM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center rounded-lg border border-white/20 px-6 py-3 text-sm text-white transition-colors hover:bg-white/10"
