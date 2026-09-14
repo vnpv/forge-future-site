@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import Card from "./Card";
 import { trackEvent } from "@/lib/analytics";
 
 type Direction = "site" | "game" | "service" | "unsure";
@@ -16,7 +15,7 @@ const DIRECTIONS: { value: Direction; label: string }[] = [
 type Status = "idle" | "submitting" | "success" | "error";
 
 const inputClass =
-  "w-full rounded-lg border border-[var(--color-foreground)]/[0.12] bg-[var(--color-surface)] px-4 py-2.5 text-sm text-[var(--color-foreground)] outline-none transition-colors focus:border-[var(--color-accent)] focus:ring-2 focus:ring-[var(--color-accent)]/30";
+  "w-full border border-[var(--color-foreground)]/25 bg-transparent px-4 py-2.5 text-sm text-[var(--color-foreground)] outline-none transition-colors focus:border-[var(--color-accent)]";
 
 export default function ProgramApplicationForm() {
   const [name, setName] = useState("");
@@ -70,15 +69,15 @@ export default function ProgramApplicationForm() {
 
   if (status === "success") {
     return (
-      <Card bordered className="border-[var(--color-accent)]/30">
-        <h3 className="mb-2 text-lg font-bold text-[var(--color-foreground)]">
+      <div>
+        <h3 className="ff-display mb-2 text-lg font-bold text-[var(--color-foreground)]">
           Заявку отримано
         </h3>
         <p className="text-sm leading-relaxed text-[var(--color-muted)]">
           Ми зв&apos;яжемось протягом 1-2 днів у Telegram або за вказаним
           контактом - розкажемо про найближчий потік і наступний крок.
         </p>
-      </Card>
+      </div>
     );
   }
 
@@ -168,10 +167,10 @@ export default function ProgramApplicationForm() {
           {DIRECTIONS.map((d) => (
             <label
               key={d.value}
-              className={`cursor-pointer rounded-lg border px-3 py-2 text-center text-sm transition-colors ${
+              className={`cursor-pointer border px-3 py-2 text-center text-sm transition-colors ${
                 direction === d.value
                   ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)]"
-                  : "border-[var(--color-foreground)]/[0.12] text-[var(--color-muted)] hover:border-[var(--color-foreground)]/[0.24]"
+                  : "border-[var(--color-foreground)]/25 text-[var(--color-muted)] hover:border-[var(--color-foreground)]/50"
               }`}
             >
               <input
@@ -194,7 +193,7 @@ export default function ProgramApplicationForm() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="w-full rounded-lg bg-[var(--color-accent)] px-6 py-3 text-sm font-semibold text-[var(--color-background)] transition-colors hover:bg-[var(--color-accent-hover)] disabled:opacity-60 sm:w-auto"
+        className="w-full bg-[var(--color-accent)] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[var(--color-accent-hover)] disabled:opacity-60 sm:w-auto"
       >
         {status === "submitting" ? "Надсилаємо..." : "Подати заявку"}
       </button>

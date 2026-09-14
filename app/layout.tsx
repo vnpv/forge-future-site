@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Onest } from "next/font/google";
+import { Onest, Unbounded } from "next/font/google";
 import "./globals.css";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
@@ -14,6 +14,13 @@ const onest = Onest({
   variable: "--font-onest",
   subsets: ["latin", "cyrillic"],
   weight: ["400", "500", "600", "700"],
+});
+
+/** Дисплейний шрифт "Студії"/"Практикуму" - для великих заголовків цих двох продуктів */
+const unbounded = Unbounded({
+  variable: "--font-unbounded",
+  subsets: ["latin", "cyrillic"],
+  weight: ["700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -59,7 +66,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="uk" className={`${onest.variable} h-full antialiased`}>
+    <html lang="uk" className={`${onest.variable} ${unbounded.variable} h-full antialiased`}>
       <body className="relative min-h-full flex flex-col">
         <GoogleAnalytics />
         <VercelAnalytics />
