@@ -127,7 +127,7 @@ export default function ProgramPage() {
 
       <Section spacing="block" className="bg-[#111111]">
         <Container>
-          <h2 className="mb-2 text-2xl font-bold">Що отримаєш за 6 тижнів</h2>
+          <h2 className="mb-2 text-2xl font-bold">Що отримаєш за практикум</h2>
           <p className="mb-8 max-w-xl text-sm text-[#8b9199]">
             Три варіанти результату — не тільки «стартап».
           </p>
