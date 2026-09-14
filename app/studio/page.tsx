@@ -30,11 +30,11 @@ export default function StudioPage() {
 
           <h1 className="hero-title">
             <span className="reveal-line">За шість тижнів</span>
+            <span className="reveal-line">ти зробиш</span>
             <span className="reveal-line">
-              ти зробиш <em>шість</em>
+              <em>шість</em>
             </span>
-            <span className="reveal-line">речей, яких</span>
-            <span className="reveal-line">не існувало</span>
+            <span className="reveal-line">нових для себе речей</span>
           </h1>
 
           <p className="hero-sub">
