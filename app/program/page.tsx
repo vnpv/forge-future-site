@@ -36,6 +36,19 @@ function Placeholder({ children }: { children: React.ReactNode }) {
   );
 }
 
+/** Підкреслює лише ключову фразу в тексті результату тижня - решта без хайлайту */
+function HighlightOutcome({ text, highlight }: { text: string; highlight: string }) {
+  const idx = text.indexOf(highlight);
+  if (idx === -1) return <>{text}</>;
+  return (
+    <>
+      {text.slice(0, idx)}
+      <span className="ff-week-highlight">{highlight}</span>
+      {text.slice(idx + highlight.length)}
+    </>
+  );
+}
+
 export default function ProgramPage() {
   return (
     <div data-theme="practicum" className="bg-[var(--color-background)] text-[var(--color-foreground)]">
@@ -100,12 +113,10 @@ export default function ProgramPage() {
                     {w.title}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">
-                    <span className="ff-week-highlight">
-                      <span className="font-medium text-[var(--color-foreground)]">
-                        В кінці тижня в тебе є:
-                      </span>{" "}
-                      {w.outcome}
-                    </span>
+                    <span className="font-medium text-[var(--color-foreground)]">
+                      В кінці тижня в тебе є:
+                    </span>{" "}
+                    <HighlightOutcome text={w.outcome} highlight={w.highlight} />
                   </p>
                 </div>
               </div>

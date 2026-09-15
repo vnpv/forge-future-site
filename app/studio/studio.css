@@ -213,6 +213,9 @@
   font-weight: 500;
   font-size: 1.05rem;
   margin: 0 0 8px;
+}
+
+.week-result-highlight {
   background: linear-gradient(to bottom, transparent 62%, var(--yellow) 62%);
   display: inline;
 }
