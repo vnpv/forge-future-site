@@ -8,6 +8,14 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "alternatyva-shkoli-dlya-pidlitka",
+    title: "Альтернатива школі для підлітка: неошкола, гуртки чи репетитори - що обрати в 2026",
+    description:
+      "Порівнюємо три альтернативи школі для підлітка 14-19: гуртки, репетитори і неошкола. Чим вони відрізняються і як обрати без помилки. Від практика.",
+    publishedAt: "2026-09-15",
+    readMinutes: 7,
+  },
+  {
     slug: "pidlitok-ne-znaye-choho-khoche",
     title: "Підліток не знає, чого хоче: що робити батькам",
     description:
