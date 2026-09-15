@@ -26,7 +26,7 @@ export default function HomeHero() {
           {BRAND_NICKNAME}
         </p>
 
-        <h1 className="ff-display mb-5 max-w-3xl text-[1.75rem] font-extrabold leading-[1.05] tracking-tight text-white sm:mb-6 sm:text-4xl lg:text-[2.75rem]">
+        <h1 className="ff-display ff-reveal mb-5 max-w-3xl text-[1.75rem] font-extrabold leading-[1.05] tracking-tight text-white sm:mb-6 sm:text-4xl lg:text-[2.75rem]">
           {h1}
         </h1>
 

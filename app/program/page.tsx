@@ -3,7 +3,6 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import Section from "../components/Section";
 import Container from "../components/Container";
-import ProgramApplicationForm from "../components/ProgramApplicationForm";
 import JsonLd from "@/components/JsonLd";
 import {
   founder,
@@ -37,6 +36,19 @@ function Placeholder({ children }: { children: React.ReactNode }) {
   );
 }
 
+/** Підкреслює лише ключову фразу в тексті результату тижня - решта без хайлайту */
+function HighlightOutcome({ text, highlight }: { text: string; highlight: string }) {
+  const idx = text.indexOf(highlight);
+  if (idx === -1) return <>{text}</>;
+  return (
+    <>
+      {text.slice(0, idx)}
+      <span className="ff-week-highlight">{highlight}</span>
+      {text.slice(idx + highlight.length)}
+    </>
+  );
+}
+
 export default function ProgramPage() {
   return (
     <div data-theme="practicum" className="bg-[var(--color-background)] text-[var(--color-foreground)]">
@@ -49,7 +61,7 @@ export default function ProgramPage() {
           <p className="mb-5 text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-accent)]">
             Forge Future · Практикум · 14-19 років
           </p>
-          <h1 className="ff-display mb-6 max-w-3xl text-[clamp(2rem,6.5vw,3.5rem)] font-extrabold leading-[1.02] tracking-tight">
+          <h1 className="ff-display ff-reveal mb-6 max-w-3xl text-[clamp(2rem,6.5vw,3.5rem)] font-extrabold leading-[1.02] tracking-tight">
             {pageSeo.program.h1}
           </h1>
           <p className="mb-8 max-w-2xl text-lg leading-relaxed text-[var(--color-muted)]">
@@ -104,7 +116,7 @@ export default function ProgramPage() {
                     <span className="font-medium text-[var(--color-foreground)]">
                       В кінці тижня в тебе є:
                     </span>{" "}
-                    {w.outcome}
+                    <HighlightOutcome text={w.outcome} highlight={w.highlight} />
                   </p>
                 </div>
               </div>
@@ -307,20 +319,17 @@ export default function ProgramPage() {
               Заявка на практикум
             </h2>
             <p className="mb-8 text-[var(--color-muted)]">
-              Заповни форму - зв&apos;яжемось протягом 1-2 днів. Або пиши
-              одразу в Telegram, якщо так зручніше.
+              Коротка заявка в Telegram - ім&apos;я і вік учасника. Зв&apos;яжемось
+              протягом 1-2 днів.
             </p>
             <a
               href={APPLY_PROGRAM_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="mb-10 inline-flex items-center justify-center border border-[var(--color-foreground)]/25 px-6 py-3 text-sm transition-colors hover:bg-[var(--color-foreground)]/5"
+              className="inline-flex items-center justify-center bg-[var(--color-accent)] px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--color-accent-hover)]"
             >
-              Написати в Telegram →
+              Подати заявку в Telegram
             </a>
-          </div>
-          <div className="mx-auto max-w-xl border-2 border-[var(--color-foreground)] p-6 text-left sm:p-8">
-            <ProgramApplicationForm />
           </div>
         </Container>
       </Section>

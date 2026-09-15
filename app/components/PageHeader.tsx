@@ -21,7 +21,7 @@ export default function PageHeader({
           {label}
         </p>
       )}
-      <h1 className="mb-4 max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-[2.75rem]">
+      <h1 className="ff-reveal mb-4 max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-[2.75rem]">
         {title}
       </h1>
       {subtitle && (

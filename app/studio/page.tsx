@@ -30,11 +30,11 @@ export default function StudioPage() {
 
           <h1 className="hero-title">
             <span className="reveal-line">За шість тижнів</span>
+            <span className="reveal-line">ти зробиш</span>
             <span className="reveal-line">
-              ти зробиш <em>шість</em>
+              <em>шість</em>
             </span>
-            <span className="reveal-line">речей, яких</span>
-            <span className="reveal-line">не існувало</span>
+            <span className="reveal-line">нових для себе речей</span>
           </h1>
 
           <p className="hero-sub">
@@ -85,8 +85,11 @@ export default function StudioPage() {
             <div className="week-body">
               <h3>Зроби за вечір</h3>
               <p className="week-result">
-                В кінці тижня в тебе є: власна обкладинка або аватар, зроблені
-                з нуля, і перший показ групі.
+                В кінці тижня в тебе є:{" "}
+                <span className="week-result-highlight">
+                  власна обкладинка або аватар
+                </span>
+                , зроблені з нуля, і перший показ групі.
               </p>
               <p className="week-training">
                 Що тренуємо: подолання «я не вмію» і перший публічний виступ у
@@ -100,8 +103,11 @@ export default function StudioPage() {
             <div className="week-body">
               <h3>Розріж на шматки</h3>
               <p className="week-result">
-                В кінці тижня в тебе є: історія з трьох сцен — комікс або
-                міні-книжка.
+                В кінці тижня в тебе є:{" "}
+                <span className="week-result-highlight">
+                  історія з трьох сцен
+                </span>{" "}
+                — комікс або міні-книжка.
               </p>
               <p className="week-training">
                 Що тренуємо: декомпозицію — уміння розділити велике на
@@ -116,8 +122,9 @@ export default function StudioPage() {
             <div className="week-body">
               <h3>Зроби так, щоб працювало</h3>
               <p className="week-result">
-                В кінці тижня в тебе є: телеграм-бот, якого можна дати
-                другові.
+                В кінці тижня в тебе є:{" "}
+                <span className="week-result-highlight">телеграм-бот</span>,
+                якого можна дати другові.
               </p>
               <p className="week-training">
                 Що тренуємо: усидливість у 15-хвилинних блоках і спокійну
@@ -131,8 +138,11 @@ export default function StudioPage() {
             <div className="week-body">
               <h3>Твоя ідея</h3>
               <p className="week-result">
-                В кінці тижня в тебе є: односторінковий сайт про те, що тобі
-                справді цікаво.
+                В кінці тижня в тебе є:{" "}
+                <span className="week-result-highlight">
+                  односторінковий сайт
+                </span>{" "}
+                про те, що тобі справді цікаво.
               </p>
               <p className="week-training">
                 Що тренуємо: ініціативу. З цього тижня готових варіантів
@@ -146,7 +156,10 @@ export default function StudioPage() {
             <div className="week-body">
               <h3>Щоб почули</h3>
               <p className="week-result">
-                В кінці тижня в тебе є: озвучена історія або короткий ролик
+                В кінці тижня в тебе є:{" "}
+                <span className="week-result-highlight">
+                  озвучена історія або короткий ролик
+                </span>{" "}
                 зі своїм голосом.
               </p>
               <p className="week-training">
@@ -160,8 +173,11 @@ export default function StudioPage() {
             <div className="week-body">
               <h3>Покажи</h3>
               <p className="week-result">
-                В кінці тижня в тебе є: власний проєкт на вибір і фінальний
-                показ дорослому, якого ти сам запросив.
+                В кінці тижня в тебе є:{" "}
+                <span className="week-result-highlight">
+                  власний проєкт
+                </span>{" "}
+                на вибір і фінальний показ дорослому, якого ти сам запросив.
               </p>
               <p className="week-training">
                 Що тренуємо: доведення до кінця і публічність без страху
