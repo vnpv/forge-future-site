@@ -5,13 +5,14 @@ import {
   AUDIENCE,
   BRAND_NICKNAME,
   founder,
+  nextOpenEvening,
   stats,
   venue,
 } from "@/lib/content";
 import { pageSeo } from "@/lib/page-seo";
 
 const pills = [
-  { label: "Наступний", value: "14.09, 18:00" },
+  { label: "Наступний", value: `${nextOpenEvening.compactDate}, ${nextOpenEvening.time}` },
   { label: "Місто", value: venue.city },
   { label: "Для кого", value: AUDIENCE.label },
 ] as const;

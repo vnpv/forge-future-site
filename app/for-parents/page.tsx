@@ -9,10 +9,12 @@ import JsonLd from "@/components/JsonLd";
 import SchoolConceptStrip from "../components/SchoolConceptStrip";
 import {
   ambitiousAudience,
+  nextOpenEvening,
   pageContext,
   parentConcerns,
   schoolOfFutureDiamonds,
   stats,
+  venue,
 } from "@/lib/content";
 import { pageSeo } from "@/lib/page-seo";
 import { pageAlternates } from "@/lib/seo";
@@ -126,7 +128,7 @@ export default function ForParentsPage() {
         <Container>
           <h2 className="mb-4 text-2xl font-bold">Як це працює</h2>
           <p className="mb-8 max-w-2xl text-[#9CA3AF]">
-            Спочатку безкоштовний відкритий вечір (14.09, 18:00, Київ).
+            Спочатку безкоштовний відкритий вечір ({nextOpenEvening.compactDate}, {nextOpenEvening.time}, {venue.city}).
             Потім,
             якщо підходить 6-тижнева програма від $500 з сім&apos;ї. Деталі на
             вечорі, без тиску.
