@@ -1,9 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { Metadata } from "next";
 import Section from "../components/Section";
 import Container from "../components/Container";
-import Card from "../components/Card";
-import ProgramApplicationForm from "../components/ProgramApplicationForm";
 import JsonLd from "@/components/JsonLd";
 import {
   founder,
@@ -11,7 +10,6 @@ import {
   programFaqs,
   programFormat,
   programFounderBio,
-  programGraduatesStat,
   programHowItWorks,
   programNotFor,
   programOutcomes,
@@ -32,9 +30,22 @@ export const metadata: Metadata = {
 /** Видимий маркер незаповненого факту - щоб не вигадувати цифру */
 function Placeholder({ children }: { children: React.ReactNode }) {
   return (
-    <span className="rounded border border-dashed border-[var(--color-accent)]/50 bg-[var(--color-accent)]/10 px-1.5 py-0.5 text-[var(--color-accent)]">
+    <span className="inline-block border border-dashed border-[var(--color-accent)]/60 bg-[var(--color-accent)]/10 px-1.5 py-0.5 text-[var(--color-accent)]">
       {children}
     </span>
+  );
+}
+
+/** Підкреслює лише ключову фразу в тексті результату тижня - решта без хайлайту */
+function HighlightOutcome({ text, highlight }: { text: string; highlight: string }) {
+  const idx = text.indexOf(highlight);
+  if (idx === -1) return <>{text}</>;
+  return (
+    <>
+      {text.slice(0, idx)}
+      <span className="ff-week-highlight">{highlight}</span>
+      {text.slice(idx + highlight.length)}
+    </>
   );
 }
 
@@ -43,22 +54,23 @@ export default function ProgramPage() {
     <div data-theme="practicum" className="bg-[var(--color-background)] text-[var(--color-foreground)]">
       <JsonLd data={programCourseSchema} />
 
-      {/* 4.1 Верхній екран */}
+      {/* ============ ШАР 1 - ГОЛОС ПІДЛІТКА (білий, щільний) ============ */}
+
       <Section spacing="hero">
         <Container>
-          <p className="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-accent)]">
-            Практикум Forge Future
+          <p className="mb-5 text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-accent)]">
+            Forge Future · Практикум · 14-19 років
           </p>
-          <h1 className="mb-4 max-w-3xl text-3xl font-bold leading-tight tracking-tight sm:text-[2.75rem]">
+          <h1 className="ff-display ff-reveal mb-6 max-w-3xl text-[clamp(2rem,6.5vw,3.5rem)] font-extrabold leading-[1.02] tracking-tight">
             {pageSeo.program.h1}
           </h1>
-          <p className="mb-6 max-w-2xl text-lg leading-relaxed text-[var(--color-muted)]">
+          <p className="mb-8 max-w-2xl text-lg leading-relaxed text-[var(--color-muted)]">
             {pageSeo.program.subtitle}
           </p>
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-wrap items-center gap-5">
             <a
               href="#zayavka"
-              className="inline-flex items-center justify-center rounded-lg bg-[var(--color-accent)] px-6 py-3 text-sm font-semibold text-[var(--color-background)] transition-colors hover:bg-[var(--color-accent-hover)]"
+              className="inline-flex items-center justify-center bg-[var(--color-accent)] px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--color-accent-hover)]"
             >
               Подати заявку
             </a>
@@ -66,129 +78,135 @@ export default function ProgramPage() {
               До 10 місць · старт {PROGRAM_START_DATE}
             </p>
           </div>
-          <p className="mt-8 text-sm text-[var(--color-muted-2)]">
-            Дитині 10-13? Для цього віку буде окремий продукт, Студія.
+          <p className="mt-10 text-sm text-[var(--color-muted-2)]">
+            Дитині 10-13? Для цього віку окремий продукт -{" "}
+            <span className="font-medium text-[var(--color-foreground)]">Студія</span>.
           </p>
         </Container>
       </Section>
 
-      {/* 4.2 Шість тижнів */}
-      <Section spacing="content" className="bg-[var(--color-surface-strong)] text-white">
-        <Container className="space-y-8">
-          <h2 className="text-2xl font-bold">Шість тижнів</h2>
-          <ol className="space-y-6">
+      {/* Шість тижнів - рядки з верхньою рамкою, як у Студії */}
+      <Section spacing="content">
+        <Container>
+          <h2 className="ff-display mb-2 text-[clamp(1.6rem,4.5vw,2.4rem)] font-extrabold">
+            Шість тижнів
+          </h2>
+          <div className="mt-8 border-t-2 border-[var(--color-foreground)] sm:mt-10">
             {programWeeks.map((w, i) => (
-              <li key={w.week} className="relative pl-11 sm:pl-12">
-                {i < programWeeks.length - 1 && (
-                  <span
-                    aria-hidden
-                    className="absolute left-[15px] top-9 bottom-[-24px] w-px bg-white/[0.12] sm:left-[17px]"
-                  />
-                )}
-                <span
-                  aria-hidden
-                  className="absolute left-0 top-0 flex h-8 w-8 items-center justify-center rounded-full border border-[var(--color-accent)]/50 bg-black text-xs font-bold text-[var(--color-accent)] sm:h-9 sm:w-9"
-                >
-                  {i + 1}
+              <div
+                key={w.week}
+                className={`grid grid-cols-[56px_1fr] gap-4 border-b-2 border-[var(--color-foreground)] py-7 sm:grid-cols-[100px_1fr] sm:gap-6`}
+              >
+                <span className="ff-display text-3xl font-extrabold leading-none text-[var(--color-foreground)] sm:text-4xl">
+                  {String(i + 1).padStart(2, "0")}
                 </span>
-                <Card bordered className="border-white/[0.08] bg-white/[0.04]">
-                  <div className="flex flex-wrap items-baseline gap-3">
-                    <span className="text-xs font-semibold uppercase tracking-widest text-white/40">
+                <div>
+                  <div className="mb-2 flex flex-wrap items-baseline gap-3">
+                    <span className="text-xs font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">
                       {w.week}
                     </span>
-                    <span className="rounded border border-white/15 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-white/50">
+                    <span className="border border-[var(--color-foreground)]/25 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-[var(--color-muted-2)]">
                       {w.label}
                     </span>
                   </div>
-                  <h3 className="mt-2 text-lg font-bold text-white">
+                  <h3 className="ff-display text-lg font-bold sm:text-xl">
                     {w.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-white/70">
-                    <span className="font-medium text-white/90">
+                  <p className="mt-2 text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">
+                    <span className="font-medium text-[var(--color-foreground)]">
                       В кінці тижня в тебе є:
                     </span>{" "}
-                    {w.outcome}
+                    <HighlightOutcome text={w.outcome} highlight={w.highlight} />
                   </p>
-                </Card>
-              </li>
+                </div>
+              </div>
             ))}
-          </ol>
+          </div>
         </Container>
       </Section>
 
-      {/* 4.3 Три варіанти результату */}
+      {/* Три варіанти результату - плитки з рамкою, як тайли у Студії */}
       <Section spacing="block">
         <Container>
-          <h2 className="mb-2 text-2xl font-bold">Що отримаєш за практикум</h2>
+          <h2 className="ff-display mb-2 text-[clamp(1.6rem,4.5vw,2.4rem)] font-extrabold">
+            Що отримаєш за практикум
+          </h2>
           <p className="mb-8 max-w-xl text-sm text-[var(--color-muted)]">
             Три варіанти результату - не тільки «стартап».
           </p>
-          <div className="grid gap-5 sm:grid-cols-3">
+          <div className="grid gap-px border border-[var(--color-foreground)] bg-[var(--color-foreground)] sm:grid-cols-3">
             {programOutcomes.map((o) => (
-              <Card key={o.key} bordered className="flex flex-col gap-2">
-                <h3 className="text-lg font-bold text-[var(--color-foreground)]">
-                  {o.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-[var(--color-muted)]">{o.desc}</p>
-              </Card>
-            ))}
-          </div>
-          <p className="mt-6 text-sm text-[var(--color-muted-2)]">
-            <Placeholder>{programGraduatesStat}</Placeholder>
-          </p>
-        </Container>
-      </Section>
-
-      {/* 4.4 Як влаштована робота */}
-      <Section spacing="block" className="bg-[var(--color-surface)]">
-        <Container>
-          <h2 className="mb-6 text-2xl font-bold">{programHowItWorks.h2}</h2>
-          <div className="max-w-2xl space-y-4">
-            {programHowItWorks.paragraphs.map((p) => (
-              <p key={p} className="text-base leading-relaxed text-[var(--color-muted)]">
-                {p}
-              </p>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      {/* 4.5 Кому це не підійде */}
-      <Section spacing="block">
-        <Container>
-          <h2 className="mb-6 text-2xl font-bold">{programNotFor.h2}</h2>
-          <ul className="max-w-2xl space-y-3">
-            {programNotFor.items.map((item) => (
-              <li
-                key={item}
-                className="flex gap-3 text-base leading-relaxed text-[var(--color-muted)]"
+              <div
+                key={o.key}
+                className="flex flex-col gap-2 bg-[var(--color-background)] p-6"
               >
-                <span className="text-[var(--color-accent)]" aria-hidden>
-                  -
-                </span>
-                {item}
-              </li>
+                <h3 className="ff-display text-lg font-bold">{o.title}</h3>
+                <p className="text-sm leading-relaxed text-[var(--color-muted)]">{o.desc}</p>
+              </div>
             ))}
-          </ul>
+          </div>
         </Container>
       </Section>
 
-      {/* 4.6 Хто веде */}
-      <Section spacing="block" className="bg-[var(--color-surface)]">
+      {/* ============ ШАР 2 - ГОЛОС БАТЬКА (чорний, тихий) ============ */}
+
+      <div className="bg-[#0b0b0c] text-[#f2f2f2]">
+        <Section spacing="block">
+          <Container>
+            <h2 className="ff-display mb-6 text-[clamp(1.5rem,4vw,2.1rem)] font-bold text-white">
+              {programHowItWorks.h2}
+            </h2>
+            <div className="max-w-2xl space-y-5">
+              {programHowItWorks.paragraphs.map((p) => (
+                <p key={p} className="text-base leading-relaxed text-white/60">
+                  {p}
+                </p>
+              ))}
+            </div>
+          </Container>
+        </Section>
+
+        <Section spacing="block">
+          <Container>
+            <h2 className="ff-display mb-6 text-[clamp(1.5rem,4vw,2.1rem)] font-bold text-white">
+              {programNotFor.h2}
+            </h2>
+            <ul className="max-w-2xl border-t border-white/15">
+              {programNotFor.items.map((item) => (
+                <li
+                  key={item}
+                  className="flex gap-3 border-b border-white/15 py-3.5 text-base leading-relaxed text-white/60"
+                >
+                  <span className="text-[var(--color-accent)]" aria-hidden>
+                    -
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </Container>
+        </Section>
+      </div>
+
+      {/* ============ ШАР 3 - ЗАКРИВАЮЧА, ПРАКТИЧНА (світла) ============ */}
+
+      <Section spacing="block" className="border-t-2 border-[var(--color-foreground)]">
         <Container>
-          <h2 className="mb-6 text-2xl font-bold">Хто веде</h2>
+          <h2 className="ff-display mb-6 text-[clamp(1.5rem,4vw,2.1rem)] font-extrabold">
+            Хто веде
+          </h2>
           <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-            <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-full border border-[var(--color-foreground)]/[0.1]">
+            <div className="relative h-24 w-24 shrink-0 overflow-hidden border-2 border-[var(--color-foreground)]">
               <Image
                 src={founder.photoUrl}
                 alt={founder.photoAlt}
                 fill
                 className="object-cover object-[center_15%]"
-                sizes="112px"
+                sizes="96px"
               />
             </div>
             <div>
-              <p className="text-base font-semibold text-[var(--color-foreground)]">
+              <p className="ff-display text-base font-bold text-[var(--color-foreground)]">
                 {founder.fullName}
               </p>
               <p className="mt-0.5 text-sm text-[var(--color-muted-2)]">
@@ -202,70 +220,84 @@ export default function ProgramPage() {
         </Container>
       </Section>
 
-      {/* 4.7 Формат і вартість */}
-      <Section spacing="block">
+      <Section spacing="block" className="border-t-2 border-[var(--color-foreground)]">
         <Container>
-          <h2 className="mb-6 text-2xl font-bold">{programFormat.h2}</h2>
-          <Card bordered className="max-w-2xl divide-y divide-foreground/[0.06] p-0">
+          <h2 className="ff-display mb-6 text-[clamp(1.5rem,4vw,2.1rem)] font-extrabold">
+            {programFormat.h2}
+          </h2>
+          <dl className="max-w-2xl">
             {programFormat.facts.map((f) => (
               <div
                 key={f.label}
-                className="grid gap-1 p-5 sm:grid-cols-[160px_1fr] sm:items-baseline sm:gap-6"
+                className="grid gap-1 border-b border-[var(--color-foreground)]/20 py-4 sm:grid-cols-[180px_1fr] sm:items-baseline sm:gap-6"
               >
-                <span className="text-xs font-semibold uppercase tracking-wide text-[var(--color-muted-2)]">
+                <dt className="text-xs font-semibold uppercase tracking-wide text-[var(--color-muted-2)]">
                   {f.label}
-                </span>
-                <span className="text-sm leading-relaxed text-[var(--color-foreground)] sm:text-base">
+                </dt>
+                <dd className="text-sm leading-relaxed text-[var(--color-foreground)] sm:text-base">
                   {f.value.startsWith("[ЗАПОВНИТИ") ? (
                     <Placeholder>{f.value}</Placeholder>
                   ) : (
                     f.value
                   )}
-                </span>
+                </dd>
               </div>
             ))}
-          </Card>
+          </dl>
         </Container>
       </Section>
 
       {/* Q&A */}
-      <Section spacing="block" className="bg-[var(--color-surface)]">
+      <Section spacing="block" className="border-t-2 border-[var(--color-foreground)]">
         <Container>
-          <h2 className="mb-6 text-2xl font-bold">Питання та відповіді</h2>
-          <div className="max-w-2xl space-y-4">
+          <h2 className="ff-display mb-6 text-[clamp(1.5rem,4vw,2.1rem)] font-extrabold">
+            Питання та відповіді
+          </h2>
+          <div className="max-w-2xl">
             {programFaqs.map((f) => (
-              <Card key={f.q} bordered>
-                <h3 className="mb-2 text-base font-semibold text-[var(--color-foreground)]">
+              <details key={f.q} className="group border-b-2 border-[var(--color-foreground)] py-4">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-base font-medium text-[var(--color-foreground)]">
                   {f.q}
-                </h3>
-                <p className="text-sm text-[var(--color-muted)]">{f.a}</p>
-              </Card>
+                  <span className="ff-display shrink-0 text-xl text-[var(--color-muted-2)] group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted)]">{f.a}</p>
+              </details>
             ))}
           </div>
         </Container>
       </Section>
 
-      {/* 4.8 Два шляхи */}
-      <Section spacing="block">
+      {/* Два шляхи */}
+      <Section spacing="block" className="border-t-2 border-[var(--color-foreground)]">
         <Container>
-          <h2 className="mb-6 text-2xl font-bold">{twoPaths.h2}</h2>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-xl border border-[var(--color-foreground)]/[0.1] p-5 opacity-60">
+          <h2 className="ff-display mb-6 text-[clamp(1.5rem,4vw,2.1rem)] font-extrabold">
+            {twoPaths.h2}
+          </h2>
+          <div className="grid gap-px border border-[var(--color-foreground)]/30 bg-[var(--color-foreground)]/30 sm:grid-cols-2">
+            <Link
+              href="/studio"
+              className="group bg-[var(--color-background)] p-6 transition-colors hover:bg-[var(--color-foreground)]/[0.03]"
+            >
               <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-[var(--color-muted-2)]">
                 {twoPaths.studio.status}
               </p>
-              <h3 className="mb-1 text-lg font-bold text-[var(--color-foreground)]">
+              <h3 className="ff-display mb-1 text-lg font-bold">
                 {twoPaths.studio.label}, {twoPaths.studio.age}
               </h3>
               <p className="text-sm leading-relaxed text-[var(--color-muted)]">
                 {twoPaths.studio.desc}
               </p>
-            </div>
-            <div className="rounded-xl border-2 border-[var(--color-accent)] bg-[var(--color-accent)]/[0.06] p-5">
+              <p className="mt-3 text-sm font-medium text-[var(--color-foreground)] underline-offset-2 group-hover:underline">
+                Дивитись Студію →
+              </p>
+            </Link>
+            <div className="border-2 border-[var(--color-accent)] bg-[var(--color-accent)]/[0.06] p-6">
               <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-[var(--color-accent)]">
                 {twoPaths.practicum.status}
               </p>
-              <h3 className="mb-1 text-lg font-bold text-[var(--color-foreground)]">
+              <h3 className="ff-display mb-1 text-lg font-bold">
                 {twoPaths.practicum.label}, {twoPaths.practicum.age}
               </h3>
               <p className="text-sm leading-relaxed text-[var(--color-muted)]">
@@ -279,30 +311,25 @@ export default function ProgramPage() {
         </Container>
       </Section>
 
-      {/* 4.9 Заявка */}
-      <Section spacing="end" id="zayavka" className="bg-[var(--color-surface-strong)] text-white scroll-mt-24">
+      {/* Заявка */}
+      <Section spacing="end" id="zayavka" className="scroll-mt-24 border-t-2 border-[var(--color-foreground)]">
         <Container>
-          <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-start">
-            <div>
-              <h2 className="mb-4 text-2xl font-black sm:text-3xl">
-                Заявка на практикум
-              </h2>
-              <p className="mb-6 max-w-md text-white/70">
-                Заповни форму - зв&apos;яжемось протягом 1-2 днів. Або пиши
-                одразу в Telegram, якщо так зручніше.
-              </p>
-              <a
-                href={APPLY_PROGRAM_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-lg border border-white/20 px-6 py-3 text-sm text-white transition-colors hover:bg-white/10"
-              >
-                Написати в Telegram →
-              </a>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-white p-6 text-[#0a0a0a] sm:p-8">
-              <ProgramApplicationForm />
-            </div>
+          <div className="mx-auto max-w-xl text-center">
+            <h2 className="ff-display mb-4 text-[clamp(1.7rem,5vw,2.4rem)] font-extrabold">
+              Заявка на практикум
+            </h2>
+            <p className="mb-8 text-[var(--color-muted)]">
+              Коротка заявка в Telegram - ім&apos;я і вік учасника. Зв&apos;яжемось
+              протягом 1-2 днів.
+            </p>
+            <a
+              href={APPLY_PROGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center bg-[var(--color-accent)] px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--color-accent-hover)]"
+            >
+              Подати заявку в Telegram
+            </a>
           </div>
         </Container>
       </Section>

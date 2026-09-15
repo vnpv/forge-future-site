@@ -5,8 +5,11 @@ export const TELEGRAM_BOT_USERNAME = "ivanpervoy_bot";
 /** Відкритий вечір */
 export const TELEGRAM_START_OPEN_EVENING = "ff_vechir";
 
-/** 6-тижнева програма */
+/** 6-тижнева програма (Практикум, 14-19) */
 export const TELEGRAM_START_PROGRAM = "ff_program";
+
+/** Студія, 10-13 */
+export const TELEGRAM_START_STUDIO = "ff_studio";
 
 /** Закрите ком'юніті — пояснення в боті (без прямого інвайту в групу) */
 export const TELEGRAM_START_COMMUNITY = "ff_spilnota";
@@ -29,4 +32,5 @@ export function telegramBotUrl(start: string): string {
 
 export const APPLY_OPEN_EVENING_URL = telegramBotUrl(TELEGRAM_START_OPEN_EVENING);
 export const APPLY_PROGRAM_URL = telegramBotUrl(TELEGRAM_START_PROGRAM);
+export const APPLY_STUDIO_URL = telegramBotUrl(TELEGRAM_START_STUDIO);
 export const TELEGRAM_COMMUNITY_BOT_URL = telegramBotUrl(TELEGRAM_START_COMMUNITY);

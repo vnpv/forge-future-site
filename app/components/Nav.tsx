@@ -5,15 +5,22 @@ import { useState } from "react";
 import Logo from "./Logo";
 import TelegramCta from "./TelegramCta";
 
-const links = [
+/** Завжди на видноті, навіть на мобільному - два продукти */
+const primaryLinks = [
+  { href: "/studio", label: "Студія" },
+  { href: "/program", label: "Практикум" },
+];
+
+/** На мобільному - тільки в бургері; на десктопі йдуть слідом за primaryLinks */
+const secondaryLinks = [
+  { href: "/events", label: "Вечори" },
   { href: "/for-parents", label: "Для батьків" },
   { href: "/blog", label: "Блог" },
-  { href: "/events", label: "Вечори" },
-  { href: "/studio", label: "Студія" },
-  { href: "/program", label: "Програма" },
   { href: "/about", label: "Про нас" },
   { href: "/faq", label: "FAQ" },
 ];
+
+const links = [...primaryLinks, ...secondaryLinks];
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
@@ -35,17 +42,34 @@ export default function Nav() {
           ))}
         </nav>
 
-        <TelegramCta
-          variant="primary"
-          className="hidden !px-4 !py-2 text-xs md:inline-flex"
-          location="nav"
-        >
-          Записатись
-        </TelegramCta>
+        {/*
+          Обгортка, а не className="hidden ... lg:inline-flex" на самому
+          TelegramCta: компонент завжди несе unconditional "inline-flex" у
+          своєму base, і Tailwind компілює .inline-flex пізніше за .hidden
+          у скомпільованому CSS - однакова специфічність, останній виграє,
+          тож "hidden" програвав завжди, кнопка була видна на мобільному.
+        */}
+        <div className="hidden lg:block">
+          <TelegramCta variant="primary" className="text-xs" location="nav">
+            Записатись
+          </TelegramCta>
+        </div>
+
+        <nav className="flex items-center gap-4 lg:hidden">
+          {primaryLinks.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className="text-sm text-[#8b9199] transition-colors hover:text-[#f2f2f2]"
+            >
+              {l.label}
+            </Link>
+          ))}
+        </nav>
 
         <button
           type="button"
-          className="flex flex-col gap-1.5 md:hidden"
+          className="flex flex-col gap-1.5 lg:hidden"
           onClick={() => setOpen(!open)}
           aria-label="Меню"
         >
@@ -62,8 +86,8 @@ export default function Nav() {
       </div>
 
       {open && (
-        <div className="border-t border-white/[0.06] bg-[#0c0c0c] px-4 pb-6 pt-4 md:hidden">
-          {links.map((l) => (
+        <div className="border-t border-white/[0.06] bg-[#0c0c0c] px-4 pb-6 pt-4 lg:hidden">
+          {secondaryLinks.map((l) => (
             <Link
               key={l.href}
               href={l.href}

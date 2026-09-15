@@ -40,7 +40,7 @@ export default async function BlogPostPage({ params }: Props) {
           <Link href="/blog" className="text-sm text-[#9CA3AF] hover:text-white">
             ← Блог
           </Link>
-          <h1 className="mt-4 max-w-3xl text-3xl font-bold sm:text-4xl">
+          <h1 className="ff-reveal mt-4 max-w-3xl text-3xl font-bold sm:text-4xl">
             {post.title}
           </h1>
           <p className="mt-3 text-sm text-[#9CA3AF]">

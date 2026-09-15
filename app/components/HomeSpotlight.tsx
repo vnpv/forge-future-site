@@ -11,7 +11,7 @@ export default function HomeSpotlight() {
       <div className="ff-spotlight-shine" aria-hidden />
       <div className="relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <div>
-          <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-[#e8951a]/40 bg-[#e8951a]/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-[#e8951a]">
+          <p className="mb-3 inline-flex items-center gap-2 border border-[#e8951a]/40 bg-[#e8951a]/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-[#e8951a]">
             <span
               className="h-1.5 w-1.5 rounded-full bg-[#e8951a] animate-pulse"
               aria-hidden
@@ -19,7 +19,7 @@ export default function HomeSpotlight() {
             Наступний вечір
           </p>
           <div className="mb-4 flex flex-wrap items-end gap-3 sm:gap-4">
-            <span className="text-5xl font-black tabular-nums leading-none text-white sm:text-6xl">
+            <span className="ff-display text-5xl font-extrabold tabular-nums leading-none text-white sm:text-6xl">
               {dayNum ?? "29"}
             </span>
             <div>
