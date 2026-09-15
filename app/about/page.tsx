@@ -13,10 +13,8 @@ import JsonLd from "@/components/JsonLd";
 import HomeLifeStrategy from "../components/HomeLifeStrategy";
 import {
   gemRolesDefinition,
-  diamondLexicon,
   forgePhilosophy,
   founder,
-  lifeStrategyArtifact,
   nextOpenEvening,
   pathPillars,
   schoolOfFutureDiamonds,
@@ -198,9 +196,6 @@ export default function AboutPage() {
           <h3 className="mb-3 text-lg font-bold text-white">
             {gemRolesDefinition.diamonds.label}
           </h3>
-          <p className="mb-4 max-w-2xl text-sm text-[#9CA3AF]">
-            Після «{lifeStrategyArtifact.name}» - ти {diamondLexicon.diamondsLabel.toLowerCase()}.
-          </p>
           <p className="mb-4 max-w-2xl text-lg font-medium text-white">
             {gemRolesDefinition.diamonds.short}
           </p>
