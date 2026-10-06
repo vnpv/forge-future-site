@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Завантажує запис уроку в приватне сховище дашборду MIDGARD (без входу на сайт).
 // Використання: MIDGARD_INGEST_KEY=... node scripts/midgard-upload-video.mjs <lessonId> <file.mp4> [https://forge-future.com]
+// MIDGARD_AS_SOURCE=1 — покласти як вихідне відео для черги (midgard/uploads/<id>.<ext>)
 import { openAsBlob } from "node:fs";
 import { uploadPresigned } from "@vercel/blob/client";
 
@@ -12,7 +13,9 @@ if (!id || !file || !key) {
 }
 const body = await openAsBlob(file, { type: "video/mp4" });
 let last = -1;
-const res = await uploadPresigned(`midgard/video/${id}.mp4`, body, {
+const ext = file.split(".").pop().toLowerCase();
+const pathname = process.env.MIDGARD_AS_SOURCE ? `midgard/uploads/${id}.${ext}` : `midgard/video/${id}.mp4`;
+const res = await uploadPresigned(pathname, body, {
   access: "private",
   handleUploadUrl: `${base}/midgard/upload`,
   headers: { Authorization: `Bearer ${key}` },
