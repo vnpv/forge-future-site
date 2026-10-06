@@ -21,9 +21,10 @@ function safeEqual(a: string, b: string) {
 type Role = "admin" | "director";
 
 function users() {
-  return (process.env.MIDGARD_USERS ?? "")
-    .split(";")
-    .map((row) => row.split("|").map((x) => x.trim()))
+  const unquote = (x: string) => x.trim().replace(/^["']|["']$/g, "").trim();
+  return unquote(process.env.MIDGARD_USERS ?? "")
+    .split(/[;\n]/)
+    .map((row) => unquote(row).split("|").map(unquote))
     .filter(([email, pass]) => email && pass)
     .map(([email, pass, role]) => ({ email: email.toLowerCase(), pass, role: (role === "admin" ? "admin" : "director") as Role }));
 }
@@ -51,7 +52,8 @@ export function GET(request: Request) {
   if (!role) {
     return new Response("Потрібен вхід: логін — email директора, пароль — від адміністратора Forge Future.", {
       status: 401,
-      headers: { ...NOINDEX, "WWW-Authenticate": 'Basic realm="MIDGARD", charset="UTF-8"', "Content-Type": "text/plain; charset=utf-8" },
+      // Діагностика без секретів: скільки користувачів сервер прочитав із MIDGARD_USERS
+      headers: { ...NOINDEX, "X-Midgard-Users": String(users().length), "WWW-Authenticate": 'Basic realm="MIDGARD", charset="UTF-8"', "Content-Type": "text/plain; charset=utf-8" },
     });
   }
   let page = html;
