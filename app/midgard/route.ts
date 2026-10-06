@@ -4,7 +4,7 @@ import html from "./page-html";
  * Дашборд якості уроків MIDGARD за паролем (HTTP Basic Auth).
  * Користувачі, паролі й справжні імена вчителів — лише у змінних оточення Vercel,
  * бо репозиторій публічний:
- *   MIDGARD_USERS — "email|пароль|роль;email|пароль|роль" (роль: admin або director)
+ *   MIDGARD_USERS — "email|пароль;email|пароль"
  *   MIDGARD_TEACHERS — "Вчитель А=Ім'я П.;Вчитель Б=Ім'я П."
  */
 export const dynamic = "force-dynamic";
@@ -18,38 +18,34 @@ function safeEqual(a: string, b: string) {
   return diff === 0;
 }
 
-type Role = "admin" | "director";
-
 function users() {
   const unquote = (x: string) => x.trim().replace(/^["']|["']$/g, "").trim();
   return unquote(process.env.MIDGARD_USERS ?? "")
     .split(/[;\n]/)
     .map((row) => unquote(row).split("|").map(unquote))
     .filter(([email, pass]) => email && pass)
-    .map(([email, pass, role]) => ({ email: email.toLowerCase(), pass, role: (role === "admin" ? "admin" : "director") as Role }));
+    .map(([email, pass]) => ({ email: email.toLowerCase(), pass }));
 }
 
-/** Повертає роль користувача або null (без налаштувань — доступ закрито). */
-function authorize(request: Request): Role | null {
+/** Без налаштувань MIDGARD_USERS доступ закрито для всіх. */
+function authorized(request: Request): boolean {
   const header = request.headers.get("authorization") ?? "";
-  if (!header.startsWith("Basic ")) return null;
+  if (!header.startsWith("Basic ")) return false;
   let decoded = "";
   try {
     decoded = new TextDecoder().decode(Uint8Array.from(atob(header.slice(6)), (c) => c.charCodeAt(0)));
   } catch {
-    return null;
+    return false;
   }
   const i = decoded.indexOf(":");
-  if (i < 0) return null;
+  if (i < 0) return false;
   const email = decoded.slice(0, i).trim().toLowerCase();
   const pass = decoded.slice(i + 1);
-  const match = users().find((u) => safeEqual(u.email, email) && safeEqual(u.pass, pass));
-  return match ? match.role : null;
+  return users().some((u) => safeEqual(u.email, email) && safeEqual(u.pass, pass));
 }
 
 export function GET(request: Request) {
-  const role = authorize(request);
-  if (!role) {
+  if (!authorized(request)) {
     return new Response("Потрібен вхід: логін — email директора, пароль — від адміністратора Forge Future.", {
       status: 401,
       // Діагностика без секретів: скільки користувачів сервер прочитав із MIDGARD_USERS
@@ -62,6 +58,5 @@ export function GET(request: Request) {
     if (alias && name) page = page.replaceAll(alias, name);
   }
   if (process.env.MIDGARD_TEACHERS) page = page.replace("Демо · дані вчителів знеособлено", "Демо · MIDGARD");
-  // Роль поки не змінює вигляд; знадобиться, коли адмін додаватиме уроки зі сторінки
-  return new Response(page, { headers: { ...NOINDEX, "Content-Type": "text/html; charset=utf-8", "X-Midgard-Role": role } });
+  return new Response(page, { headers: { ...NOINDEX, "Content-Type": "text/html; charset=utf-8" } });
 }
