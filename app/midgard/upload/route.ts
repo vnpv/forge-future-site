@@ -8,7 +8,12 @@ import { LESSON_ID, NOINDEX, validSession, videoPath } from "../auth";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: Request) {
-  if (!process.env.BLOB_READ_WRITE_TOKEN) return Response.json({ error: "Сховище записів не підключене" }, { status: 503, headers: NOINDEX });
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    // Діагностика без секретів: які змінні сховища бачить сервер
+    const has = (k: string) => (process.env[k] ? "1" : "0");
+    const diag = `rw=${has("BLOB_READ_WRITE_TOKEN")} store=${has("BLOB_STORE_ID")} oidc=${has("VERCEL_OIDC_TOKEN")} oidcHdr=${request.headers.get("x-vercel-oidc-token") ? "1" : "0"}`;
+    return Response.json({ error: "Сховище записів не підключене" }, { status: 503, headers: { ...NOINDEX, "X-Midgard-Storage": diag } });
+  }
   const body = (await request.json()) as HandleUploadBody;
   // Токен видаємо лише після входу; callback про завершення підписує сам Vercel (перевіряє handleUpload)
   if (body.type === "blob.generate-client-token" && !(await validSession(request)))
