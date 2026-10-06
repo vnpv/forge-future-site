@@ -1,5 +1,5 @@
 import { head, issueSignedToken, presignUrl } from "@vercel/blob";
-import { LESSON_ID, NOINDEX, validSession, videoPath } from "../auth";
+import { LESSON_ID, NOINDEX, ingestAuthorized, validSession, videoPath } from "../auth";
 import { storageReady } from "../storage";
 
 /**
@@ -13,7 +13,8 @@ export const dynamic = "force-dynamic";
 const TTL = 2 * 60 * 60 * 1000;
 
 export async function GET(request: Request) {
-  if (!(await validSession(request))) return new Response("Потрібен вхід", { status: 401, headers: NOINDEX });
+  // Після входу або за ключем конвеєра (перевірка, що запис доступний)
+  if (!ingestAuthorized(request) && !(await validSession(request))) return new Response("Потрібен вхід", { status: 401, headers: NOINDEX });
   const url = new URL(request.url);
   const id = url.searchParams.get("id") ?? "";
   if (!LESSON_ID.test(id)) return new Response("Невірний урок", { status: 400, headers: NOINDEX });
