@@ -102,17 +102,6 @@ export async function GET(request: Request) {
   if (url.searchParams.has("logout")) {
     return new Response(null, { status: 303, headers: { ...NOINDEX, Location: "/midgard", "Set-Cookie": `${COOKIE}=; Path=/midgard; Max-Age=0; HttpOnly; Secure; SameSite=Lax` } });
   }
-  // ТИМЧАСОВА діагностика формату MIDGARD_USERS (без секретів) — прибрати після налаштування
-  if (url.searchParams.has("diag")) {
-    const raw = process.env.MIDGARD_USERS ?? "";
-    const mask = (s: string) => s.replace(/[^|;\n@.\s"']/g, "x");
-    const lines = [
-      `raw length: ${raw.length}`,
-      `raw shape: ${mask(raw)}`,
-      ...users().map((u, i) => `user ${i + 1}: ${u.email.slice(0, 2)}…@${u.email.split("@")[1] ?? "(немає @)"} · пароль ${u.pass.length} симв. · ${/^\d+$/.test(u.pass) ? "лише цифри" : "не лише цифри"}`),
-    ];
-    return new Response(lines.join("\n"), { headers: { ...NOINDEX, "Content-Type": "text/plain; charset=utf-8" } });
-  }
   if (!(await validSession(request))) return htmlResponse(loginPage());
 
   let page = html;
