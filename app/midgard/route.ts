@@ -70,8 +70,6 @@ export async function GET(request: Request) {
   const data = JSON.stringify(lessons).replace(/</g, "\\u003c");
   const page = html
     .replace("/*LESSONS*/[]", () => data) // функцією: щоб «$» у текстах не спрацював як шаблон
-    .replace("Дашборд директора · аналіз записаних уроків", `Дашборд школи MIDGARD · <a href="/midgard?logout=1" style="color:inherit">Вийти</a>`)
-    .replace("<h1>Якість уроків</h1>", `<h1 style="display:flex;align-items:center;gap:12px"><img src="${LOGO}" alt="MIDGARD" width="44" height="44" style="border-radius:10px;flex:none">Якість уроків</h1>`)
     .replace("<title>", `<link rel="icon" href="${LOGO}"><title>`);
   return htmlResponse(page);
 }

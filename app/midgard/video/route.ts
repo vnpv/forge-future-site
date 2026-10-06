@@ -1,5 +1,5 @@
 import { head, issueSignedToken, presignUrl } from "@vercel/blob";
-import { LESSON_ID, NOINDEX, ingestAuthorized, validSession, videoPath } from "../auth";
+import { LESSON_ID, NOINDEX, ingestAuthorized, posterPath, validSession, videoPath } from "../auth";
 import { storageReady } from "../storage";
 
 /**
@@ -7,6 +7,7 @@ import { storageReady } from "../storage";
  * GET /midgard/video?id=hist0126          → 302 на тимчасове (2 год) підписане посилання;
  *                                           перемотка (Range) іде напряму в CDN Blob
  * GET /midgard/video?id=hist0126&check=1  → {exists} — чи завантажено запис
+ * GET /midgard/video?id=hist0126&poster=1 → кадр-обкладинка уроку (jpg)
  */
 export const dynamic = "force-dynamic";
 
@@ -19,7 +20,7 @@ export async function GET(request: Request) {
   const id = url.searchParams.get("id") ?? "";
   if (!LESSON_ID.test(id)) return new Response("Невірний урок", { status: 400, headers: NOINDEX });
   if (!storageReady()) return Response.json({ exists: false, reason: "storage" }, { headers: NOINDEX });
-  const pathname = videoPath(id);
+  const pathname = url.searchParams.has("poster") ? posterPath(id) : videoPath(id);
 
   if (url.searchParams.has("check")) {
     try {

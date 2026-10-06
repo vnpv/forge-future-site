@@ -1,5 +1,6 @@
-import { LESSON_ID, NOINDEX, ingestAuthorized, validSession } from "../../auth";
-import { type Lesson, getLesson, listLessons, saveLesson } from "../../lessons";
+import { del } from "@vercel/blob";
+import { LESSON_ID, NOINDEX, ingestAuthorized, posterPath, validSession, videoPath } from "../../auth";
+import { type Lesson, getLesson, lessonPath, listLessons, saveLesson } from "../../lessons";
 import { storageReady } from "../../storage";
 
 /**
@@ -7,6 +8,7 @@ import { storageReady } from "../../storage";
  * GET  — усі уроки (після входу або за ключем конвеєра)
  * POST — новий урок із форми «Додати урок» (після входу): створює запис зі статусом queued
  * PUT  — оновлення запису обробником на Mac (лише за ключем конвеєра)
+ * DELETE ?id= — видалити урок разом із записом і обкладинкою (лише за ключем конвеєра)
  */
 export const dynamic = "force-dynamic";
 
@@ -88,5 +90,16 @@ export async function PUT(request: Request) {
   }
   if (!lesson || !LESSON_ID.test(String(lesson.id))) return json({ error: "Невірний id" }, 400);
   await saveLesson(lesson);
+  return json({ ok: true });
+}
+
+export async function DELETE(request: Request) {
+  if (!ingestAuthorized(request)) return json({ error: "Лише для конвеєра" }, 401);
+  const id = new URL(request.url).searchParams.get("id") ?? "";
+  if (!LESSON_ID.test(id)) return json({ error: "Невірний id" }, 400);
+  const source = ((await getLesson(id))?.source as { pathname?: string } | undefined)?.pathname;
+  const paths = [lessonPath(id), videoPath(id), posterPath(id), ...(source?.startsWith("midgard/uploads/") ? [source] : [])];
+  await Promise.all(paths.map((p) => del(p).catch(() => {})));
+  await listLessons(true);
   return json({ ok: true });
 }

@@ -49,6 +49,7 @@ export async function validSession(request: Request) {
 /** Ідентифікатор уроку з results/*.json (напр. hist0126) — ключ файлу запису. */
 export const LESSON_ID = /^[a-z0-9-]{3,40}$/;
 export const videoPath = (id: string) => `midgard/video/${id}.mp4`;
+export const posterPath = (id: string) => `midgard/posters/${id}.jpg`;
 
 /** Ключ конвеєра аналізу (CEO OS) для завантаження записів без входу: env MIDGARD_INGEST_KEY. */
 export function ingestAuthorized(request: Request) {

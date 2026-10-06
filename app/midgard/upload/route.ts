@@ -1,6 +1,6 @@
 import { issueSignedToken } from "@vercel/blob";
 import { handleUploadPresigned, type HandleUploadPresignedBody } from "@vercel/blob/client";
-import { LESSON_ID, NOINDEX, ingestAuthorized, validSession, videoPath } from "../auth";
+import { LESSON_ID, NOINDEX, ingestAuthorized, posterPath, validSession, videoPath } from "../auth";
 import { storageReady } from "../storage";
 
 /**
@@ -26,9 +26,11 @@ export async function POST(request: Request) {
         // Готовий запис (конвеєр): midgard/video/<id>.mp4; вихідне відео з форми: midgard/uploads/<id>.<ext>
         const ready = /^midgard\/video\/([a-z0-9-]+)\.mp4$/.exec(pathname);
         const source = /^midgard\/uploads\/([a-z0-9-]+)\.(mp4|mov|m4v|webm|mkv|avi)$/.exec(pathname);
-        const id = (ready ?? source)?.[1];
-        if (!id || !LESSON_ID.test(id) || (ready && pathname !== videoPath(id))) throw new Error("Невірна назва файлу");
-        const types = ready ? ["video/mp4"] : VIDEO_TYPES;
+        const poster = /^midgard\/posters\/([a-z0-9-]+)\.jpg$/.exec(pathname);
+        if ((ready || poster) && !ingestAuthorized(request)) throw new Error("Лише для конвеєра");
+        const id = (ready ?? source ?? poster)?.[1];
+        if (!id || !LESSON_ID.test(id) || (ready && pathname !== videoPath(id)) || (poster && pathname !== posterPath(id))) throw new Error("Невірна назва файлу");
+        const types = ready ? ["video/mp4"] : poster ? ["image/jpeg"] : VIDEO_TYPES;
         const token = await issueSignedToken({
           pathname,
           operations: ["put"],
