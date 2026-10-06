@@ -1,38 +1,37 @@
-import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
+import { issueSignedToken } from "@vercel/blob";
+import { handleUploadPresigned, type HandleUploadPresignedBody } from "@vercel/blob/client";
 import { LESSON_ID, NOINDEX, validSession, videoPath } from "../auth";
+import { storageReady } from "../storage";
 
 /**
- * Видає браузеру одноразовий токен на завантаження запису уроку в приватний Blob.
+ * Видає браузеру тимчасове підписане посилання на завантаження запису уроку в приватний Blob.
  * Сам файл іде з браузера напряму в сховище, минаючи сервер.
  */
 export const dynamic = "force-dynamic";
 
+const MAX_SIZE = 2 * 1024 * 1024 * 1024;
+
 export async function POST(request: Request) {
-  if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    // Діагностика без секретів: які змінні сховища бачить сервер
-    const has = (k: string) => (process.env[k] ? "1" : "0");
-    const diag = `rw=${has("BLOB_READ_WRITE_TOKEN")} store=${has("BLOB_STORE_ID")} oidc=${has("VERCEL_OIDC_TOKEN")} oidcHdr=${request.headers.get("x-vercel-oidc-token") ? "1" : "0"}`;
-    return Response.json({ error: "Сховище записів не підключене" }, { status: 503, headers: { ...NOINDEX, "X-Midgard-Storage": diag } });
-  }
-  const body = (await request.json()) as HandleUploadBody;
-  // Токен видаємо лише після входу; callback про завершення підписує сам Vercel (перевіряє handleUpload)
-  if (body.type === "blob.generate-client-token" && !(await validSession(request)))
+  if (!storageReady()) return Response.json({ error: "Сховище записів не підключене" }, { status: 503, headers: NOINDEX });
+  const body = (await request.json()) as HandleUploadPresignedBody;
+  if (body.type === "blob.generate-presigned-url" && !(await validSession(request)))
     return Response.json({ error: "Потрібен вхід" }, { status: 401, headers: NOINDEX });
   try {
-    const result = await handleUpload({
+    const result = await handleUploadPresigned({
       body,
       request,
-      onBeforeGenerateToken: async (pathname) => {
+      getSignedToken: async (pathname) => {
         const id = /^midgard\/video\/([a-z0-9-]+)\.mp4$/.exec(pathname)?.[1];
         if (!id || !LESSON_ID.test(id) || pathname !== videoPath(id)) throw new Error("Невірна назва файлу");
-        return {
+        const token = await issueSignedToken({
+          pathname,
+          operations: ["put"],
+          validUntil: Date.now() + 60 * 60 * 1000,
           allowedContentTypes: ["video/mp4"],
-          maximumSizeInBytes: 2 * 1024 * 1024 * 1024,
-          addRandomSuffix: false,
-          allowOverwrite: true,
-        };
+          maximumSizeInBytes: MAX_SIZE,
+        });
+        return { token, urlOptions: { allowedContentTypes: ["video/mp4"], maximumSizeInBytes: MAX_SIZE, allowOverwrite: true, addRandomSuffix: false } };
       },
-      onUploadCompleted: async () => {},
     });
     return Response.json(result, { headers: NOINDEX });
   } catch (e) {
