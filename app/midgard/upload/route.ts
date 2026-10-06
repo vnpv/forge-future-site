@@ -1,6 +1,6 @@
 import { issueSignedToken } from "@vercel/blob";
 import { handleUploadPresigned, type HandleUploadPresignedBody } from "@vercel/blob/client";
-import { LESSON_ID, NOINDEX, validSession, videoPath } from "../auth";
+import { LESSON_ID, NOINDEX, ingestAuthorized, validSession, videoPath } from "../auth";
 import { storageReady } from "../storage";
 
 /**
@@ -14,7 +14,8 @@ const MAX_SIZE = 2 * 1024 * 1024 * 1024;
 export async function POST(request: Request) {
   if (!storageReady()) return Response.json({ error: "Сховище записів не підключене" }, { status: 503, headers: NOINDEX });
   const body = (await request.json()) as HandleUploadPresignedBody;
-  if (body.type === "blob.generate-presigned-url" && !(await validSession(request)))
+  // Посилання видаємо після входу або за ключем конвеєра (скрипт scripts/midgard-upload-video.mjs)
+  if (body.type === "blob.generate-presigned-url" && !ingestAuthorized(request) && !(await validSession(request)))
     return Response.json({ error: "Потрібен вхід" }, { status: 401, headers: NOINDEX });
   try {
     const result = await handleUploadPresigned({
