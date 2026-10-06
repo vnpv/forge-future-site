@@ -1,12 +1,14 @@
 import html from "./page-html";
 import { COOKIE, MAX_AGE, NOINDEX, makeSession, safeEqual, users, validSession } from "./auth";
+import { listLessons } from "./lessons";
+import { storageReady } from "./storage";
 
 /**
  * Дашборд якості уроків MIDGARD з власною формою входу (українською).
  * Користувачі, паролі й справжні імена вчителів — лише у змінних оточення Vercel,
  * бо репозиторій публічний:
  *   MIDGARD_USERS — "email|пароль;email|пароль"
- *   MIDGARD_TEACHERS — "Вчитель А=Ім'я П.;Вчитель Б=Ім'я П."
+ * Уроки (з іменами вчителів) — у приватному Blob midgard/lessons/*.json, не в коді.
  * Сесія — підписаний cookie на 30 днів (auth.ts); зміна MIDGARD_USERS скидає всі сесії.
  * Записи уроків — приватний Vercel Blob (video/route.ts, upload/route.ts).
  */
@@ -63,13 +65,12 @@ export async function GET(request: Request) {
   }
   if (!(await validSession(request))) return htmlResponse(loginPage());
 
-  let page = html;
-  for (const pair of (process.env.MIDGARD_TEACHERS ?? "").split(";")) {
-    const [alias, name] = pair.split("=").map((s) => s.trim());
-    if (alias && name) page = page.replaceAll(alias, name);
-  }
-  page = page
-    .replace(/Демо · дані вчителів знеособлено/, `Демо · MIDGARD · <a href="/midgard?logout=1" style="color:inherit">Вийти</a>`)
+  // Уроки — з приватного сховища (lessons.ts), щоб новий урок з'являвся без редеплою
+  const lessons = storageReady() ? await listLessons().catch(() => []) : [];
+  const data = JSON.stringify(lessons).replace(/</g, "\\u003c");
+  const page = html
+    .replace("/*LESSONS*/[]", () => data) // функцією: щоб «$» у текстах не спрацював як шаблон
+    .replace("Дашборд директора · аналіз записаних уроків", `Дашборд школи MIDGARD · <a href="/midgard?logout=1" style="color:inherit">Вийти</a>`)
     .replace("<h1>Якість уроків</h1>", `<h1 style="display:flex;align-items:center;gap:12px"><img src="${LOGO}" alt="MIDGARD" width="44" height="44" style="border-radius:10px;flex:none">Якість уроків</h1>`)
     .replace("<title>", `<link rel="icon" href="${LOGO}"><title>`);
   return htmlResponse(page);

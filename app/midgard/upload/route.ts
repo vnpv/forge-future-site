@@ -9,7 +9,8 @@ import { storageReady } from "../storage";
  */
 export const dynamic = "force-dynamic";
 
-const MAX_SIZE = 2 * 1024 * 1024 * 1024;
+const MAX_SIZE = 5 * 1024 * 1024 * 1024;
+const VIDEO_TYPES = ["video/mp4", "video/quicktime", "video/x-m4v", "video/webm", "video/x-matroska", "video/x-msvideo", "application/octet-stream"];
 
 export async function POST(request: Request) {
   if (!storageReady()) return Response.json({ error: "Сховище записів не підключене" }, { status: 503, headers: NOINDEX });
@@ -22,16 +23,20 @@ export async function POST(request: Request) {
       body,
       request,
       getSignedToken: async (pathname) => {
-        const id = /^midgard\/video\/([a-z0-9-]+)\.mp4$/.exec(pathname)?.[1];
-        if (!id || !LESSON_ID.test(id) || pathname !== videoPath(id)) throw new Error("Невірна назва файлу");
+        // Готовий запис (конвеєр): midgard/video/<id>.mp4; вихідне відео з форми: midgard/uploads/<id>.<ext>
+        const ready = /^midgard\/video\/([a-z0-9-]+)\.mp4$/.exec(pathname);
+        const source = /^midgard\/uploads\/([a-z0-9-]+)\.(mp4|mov|m4v|webm|mkv|avi)$/.exec(pathname);
+        const id = (ready ?? source)?.[1];
+        if (!id || !LESSON_ID.test(id) || (ready && pathname !== videoPath(id))) throw new Error("Невірна назва файлу");
+        const types = ready ? ["video/mp4"] : VIDEO_TYPES;
         const token = await issueSignedToken({
           pathname,
           operations: ["put"],
-          validUntil: Date.now() + 60 * 60 * 1000,
-          allowedContentTypes: ["video/mp4"],
+          validUntil: Date.now() + 3 * 60 * 60 * 1000,
+          allowedContentTypes: types,
           maximumSizeInBytes: MAX_SIZE,
         });
-        return { token, urlOptions: { allowedContentTypes: ["video/mp4"], maximumSizeInBytes: MAX_SIZE, allowOverwrite: true, addRandomSuffix: false } };
+        return { token, urlOptions: { allowedContentTypes: types, maximumSizeInBytes: MAX_SIZE, allowOverwrite: true, addRandomSuffix: false } };
       },
     });
     return Response.json(result, { headers: NOINDEX });
