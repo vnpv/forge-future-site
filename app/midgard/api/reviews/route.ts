@@ -3,13 +3,15 @@ import { type Supervision, getLesson, saveReview } from "../../lessons";
 import { storageReady } from "../../storage";
 
 /**
- * Перевірка AI-аналізу супервізором (пілот): статус «на перевірці» / «перевірено»,
- * загальний коментар і коментарі до окремих критеріїв. Лише ролі supervisor і admin.
+ * Перевірка AI-аналізу супервізором (пілот): по кожному пункту «що вплинуло на оцінку» —
+ * підтвердити, змінити рівень критерію або відхилити сильну сторону/рекомендацію, коментар за бажанням.
+ * Статус: «на перевірці», коли опрацьовано не все, «перевірено» — коли все. Лише ролі supervisor і admin.
  */
 export const dynamic = "force-dynamic";
 
 const json = (data: unknown, status = 200) => Response.json(data, { status, headers: NOINDEX });
-const VERDICTS = new Set(["agree", "partly", "disagree"]);
+const DECISIONS = new Set(["confirm", "change", "reject"]);
+const LEVELS = new Set(["strong", "partial", "none", "na"]);
 
 export async function POST(request: Request) {
   const me = await currentUser(request);
@@ -26,11 +28,13 @@ export async function POST(request: Request) {
   if (!LESSON_ID.test(id) || !(await getLesson(id))) return json({ error: "Урок не знайдено" }, 404);
   const status = b.status === "reviewed" ? "reviewed" : "in_review";
   const items: Supervision["items"] = {};
-  for (const [k, v] of Object.entries((b.items as Record<string, { verdict?: string; comment?: string }>) ?? {})) {
-    if (!/^[a-z0-9]{1,6}$/.test(k) || !v) continue;
-    const verdict = VERDICTS.has(String(v.verdict)) ? (v.verdict as "agree" | "partly" | "disagree") : undefined;
+  for (const [k, v] of Object.entries((b.items as Record<string, { decision?: string; level?: string; comment?: string }>) ?? {})) {
+    if (!/^(str:|rec:)?[a-z0-9]{1,6}$/.test(k) || !v) continue;
+    const decision = DECISIONS.has(String(v.decision)) ? (v.decision as "confirm" | "change" | "reject") : undefined;
+    const level = decision === "change" && LEVELS.has(String(v.level)) ? (v.level as "strong" | "partial" | "none" | "na") : undefined;
     const comment = typeof v.comment === "string" ? v.comment.trim().slice(0, 1000) : "";
-    if (verdict || comment) items[k] = { ...(verdict ? { verdict } : {}), ...(comment ? { comment } : {}) };
+    if (decision === "change" && !level) continue;
+    if (decision || comment) items[k] = { ...(decision ? { decision } : {}), ...(level ? { level } : {}), ...(comment ? { comment } : {}) };
   }
   const review: Supervision = {
     status,

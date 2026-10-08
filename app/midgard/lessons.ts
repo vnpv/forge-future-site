@@ -56,7 +56,8 @@ export async function saveLesson(lesson: Lesson) {
 export type Supervision = {
   status: "in_review" | "reviewed";
   comment?: string;
-  items?: Record<string, { verdict?: "agree" | "partly" | "disagree"; comment?: string }>;
+  // ключ: id критерію (m1, k3…) або "str:s1" / "rec:r2"; decision: підтвердити, змінити рівень (критерій) чи відхилити (сильна сторона/рекомендація)
+  items?: Record<string, { decision?: "confirm" | "change" | "reject"; level?: "strong" | "partial" | "none" | "na"; comment?: string }>;
   by?: string;
   at?: string;
 };
