@@ -1,6 +1,6 @@
 import html from "./page-html";
-import { COOKIE, MAX_AGE, NOINDEX, makeSession, safeEqual, users, validSession } from "./auth";
-import { listLessons } from "./lessons";
+import { COOKIE, MAX_AGE, NOINDEX, currentUser, makeSession, safeEqual, users } from "./auth";
+import { lessonsWithReviews } from "./lessons";
 import { storageReady } from "./storage";
 
 /**
@@ -63,13 +63,16 @@ export async function GET(request: Request) {
   if (url.searchParams.has("logout")) {
     return new Response(null, { status: 303, headers: { ...NOINDEX, Location: "/midgard", "Set-Cookie": `${COOKIE}=; Path=/midgard; Max-Age=0; HttpOnly; Secure; SameSite=Lax` } });
   }
-  if (!(await validSession(request))) return htmlResponse(loginPage());
+  const me = await currentUser(request);
+  if (!me) return htmlResponse(loginPage());
 
   // Уроки — з приватного сховища (lessons.ts), щоб новий урок з'являвся без редеплою
-  const lessons = storageReady() ? await listLessons().catch(() => []) : [];
+  const lessons = storageReady() ? await lessonsWithReviews().catch(() => []) : [];
   const data = JSON.stringify(lessons).replace(/</g, "\\u003c");
+  const meJs = JSON.stringify(me).replace(/</g, "\\u003c");
   const page = html
     .replace("/*LESSONS*/[]", () => data) // функцією: щоб «$» у текстах не спрацював як шаблон
+    .replace("/*ME*/null", () => meJs)
     .replace("<title>", `<link rel="icon" href="${LOGO}"><title>`);
   return htmlResponse(page);
 }

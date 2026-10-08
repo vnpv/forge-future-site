@@ -13,13 +13,17 @@ export function safeEqual(a: string, b: string) {
   return diff === 0;
 }
 
+export type Role = "admin" | "supervisor" | "director";
+const ROLES = new Set(["admin", "supervisor", "director"]);
+
+/** MIDGARD_USERS: "email|пароль|роль;…", роль — admin | supervisor | director (за замовчуванням director). */
 export function users() {
   const unquote = (x: string) => x.trim().replace(/^["']|["']$/g, "").trim();
   return unquote(process.env.MIDGARD_USERS ?? "")
     .split(/[;\n]/)
     .map((row) => unquote(row).split("|").map(unquote))
     .filter(([email, pass]) => email && pass)
-    .map(([email, pass]) => ({ email: email.toLowerCase(), pass }));
+    .map(([email, pass, role]) => ({ email: email.toLowerCase(), pass, role: (ROLES.has(role) ? role : "director") as Role }));
 }
 
 async function sign(payload: string) {
@@ -34,17 +38,25 @@ export async function makeSession(email: string) {
   return `${payload}.${await sign(payload)}`;
 }
 
-export async function validSession(request: Request) {
-  if (!users().length) return false; // без налаштувань — доступ закрито
+/** Поточний користувач за cookie-сесією або null. */
+export async function currentUser(request: Request) {
+  if (!users().length) return null; // без налаштувань — доступ закрито
   const raw = (request.headers.get("cookie") ?? "").split(/;\s*/).find((c) => c.startsWith(COOKIE + "="));
-  if (!raw) return false;
+  if (!raw) return null;
   // email містить крапки, тож розбираємо з кінця: <email>.<exp>.<sig>
   const parts = raw.slice(COOKIE.length + 1).split(".");
   const sig = parts.pop(), exp = parts.pop(), email = parts.join(".");
-  if (!email || !exp || !sig || Number(exp) < Date.now() / 1000) return false;
-  if (!safeEqual(sig, await sign(`${email}.${exp}`))) return false;
-  return users().some((u) => u.email === decodeURIComponent(email));
+  if (!email || !exp || !sig || Number(exp) < Date.now() / 1000) return null;
+  if (!safeEqual(sig, await sign(`${email}.${exp}`))) return null;
+  const u = users().find((x) => x.email === decodeURIComponent(email));
+  return u ? { email: u.email, role: u.role } : null;
 }
+
+export async function validSession(request: Request) {
+  return (await currentUser(request)) !== null;
+}
+
+export const canReview = (role?: Role) => role === "supervisor" || role === "admin";
 
 /** Ідентифікатор уроку з results/*.json (напр. hist0126) — ключ файлу запису. */
 export const LESSON_ID = /^[a-z0-9-]{3,40}$/;

@@ -51,3 +51,40 @@ export async function saveLesson(lesson: Lesson) {
   });
   cache = null;
 }
+
+/** Перевірка супервізора: midgard/reviews/<id>.json (окремо від уроку, щоб обробник її не перезаписав). */
+export type Supervision = {
+  status: "in_review" | "reviewed";
+  comment?: string;
+  items?: Record<string, { verdict?: "agree" | "partly" | "disagree"; comment?: string }>;
+  by?: string;
+  at?: string;
+};
+export const reviewPath = (id: string) => `midgard/reviews/${id}.json`;
+
+export async function listReviews(): Promise<Record<string, Supervision>> {
+  const out: Record<string, Supervision> = {};
+  let cursor: string | undefined;
+  const paths: string[] = [];
+  do {
+    const page = await list({ prefix: "midgard/reviews/", cursor, limit: 1000 });
+    paths.push(...page.blobs.map((b) => b.pathname).filter((p) => p.endsWith(".json")));
+    cursor = page.hasMore ? page.cursor : undefined;
+  } while (cursor);
+  await Promise.all(paths.map(async (p) => {
+    const r = (await readJson(p)) as unknown as Supervision | null;
+    if (r) out[p.slice("midgard/reviews/".length, -5)] = r;
+  }));
+  return out;
+}
+
+export async function saveReview(id: string, review: Supervision) {
+  await put(reviewPath(id), JSON.stringify(review), { access: "private", contentType: "application/json", addRandomSuffix: false, allowOverwrite: true });
+  cache = null;
+}
+
+/** Уроки разом із перевірками супервізора (поле supervision). */
+export async function lessonsWithReviews(fresh = false) {
+  const [lessons, reviews] = await Promise.all([listLessons(fresh), listReviews().catch(() => ({} as Record<string, Supervision>))]);
+  return lessons.map((l) => (reviews[l.id] ? { ...l, supervision: reviews[l.id] } : l));
+}

@@ -1,6 +1,6 @@
 import { del } from "@vercel/blob";
 import { LESSON_ID, NOINDEX, ingestAuthorized, posterPath, validSession, videoPath } from "../../auth";
-import { type Lesson, getLesson, lessonPath, listLessons, saveLesson } from "../../lessons";
+import { type Lesson, getLesson, lessonPath, lessonsWithReviews, listLessons, saveLesson } from "../../lessons";
 import { storageReady } from "../../storage";
 
 /**
@@ -30,7 +30,7 @@ function teacherIdFor(name: string, lessons: Lesson[]) {
 export async function GET(request: Request) {
   if (!ingestAuthorized(request) && !(await validSession(request))) return json({ error: "Потрібен вхід" }, 401);
   if (!storageReady()) return json({ lessons: [] });
-  return json({ lessons: await listLessons(true) });
+  return json({ lessons: await lessonsWithReviews(true) });
 }
 
 export async function POST(request: Request) {
