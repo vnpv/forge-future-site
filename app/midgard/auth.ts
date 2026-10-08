@@ -16,14 +16,16 @@ export function safeEqual(a: string, b: string) {
 export type Role = "admin" | "supervisor" | "director";
 const ROLES = new Set(["admin", "supervisor", "director"]);
 
-/** MIDGARD_USERS: "email|пароль|роль;…", роль — admin | supervisor | director (за замовчуванням director). */
+/** MIDGARD_USERS: "email|пароль|роль;…", роль — admin | supervisor | director.
+ *  Пілот: без ролі користувач — supervisor (усі поточні можуть перевіряти аналіз). Після пілоту змінити DEFAULT_ROLE на director. */
+const DEFAULT_ROLE: Role = "supervisor";
 export function users() {
   const unquote = (x: string) => x.trim().replace(/^["']|["']$/g, "").trim();
   return unquote(process.env.MIDGARD_USERS ?? "")
     .split(/[;\n]/)
     .map((row) => unquote(row).split("|").map(unquote))
     .filter(([email, pass]) => email && pass)
-    .map(([email, pass, role]) => ({ email: email.toLowerCase(), pass, role: (ROLES.has(role) ? role : "director") as Role }));
+    .map(([email, pass, role]) => ({ email: email.toLowerCase(), pass, role: (ROLES.has(role) ? role : DEFAULT_ROLE) as Role }));
 }
 
 async function sign(payload: string) {
