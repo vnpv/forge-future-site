@@ -33,8 +33,17 @@ export async function GET(request: Request) {
       readError = e instanceof Error ? e.message : String(e);
     }
   }
+  let cachedReadError: string | null = null;
+  if (probe) {
+    try {
+      const r = await get(probe.pathname, { access: "private", useCache: true });
+      if (!r || r.statusCode !== 200) cachedReadError = "порожня відповідь";
+    } catch (e) {
+      cachedReadError = e instanceof Error ? e.message : String(e);
+    }
+  }
   const total = blobs.reduce((a, b) => a + b.size, 0);
-  return json({ totalMB: Math.round(total / 1048576), count: blobs.length, listError, readError, blobs: blobs.sort((a, b) => b.size - a.size) });
+  return json({ totalMB: Math.round(total / 1048576), count: blobs.length, listError, readError, cachedReadError, blobs: blobs.sort((a, b) => b.size - a.size) });
 }
 
 export async function DELETE(request: Request) {
