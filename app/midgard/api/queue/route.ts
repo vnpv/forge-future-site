@@ -1,6 +1,6 @@
 import { del, issueSignedToken, presignUrl } from "@vercel/blob";
 import { LESSON_ID, NOINDEX, ingestAuthorized } from "../../auth";
-import { getLesson, listLessons } from "../../lessons";
+import { getLesson, queuedIds } from "../../lessons";
 import { storageReady } from "../../storage";
 
 /**
@@ -13,7 +13,8 @@ export const dynamic = "force-dynamic";
 export async function GET(request: Request) {
   if (!ingestAuthorized(request)) return Response.json({ error: "Лише для конвеєра" }, { status: 401, headers: NOINDEX });
   if (!storageReady()) return Response.json({ queue: [] }, { headers: NOINDEX });
-  const queued = (await listLessons(true)).filter((l) => l.status === "queued");
+  // лише уроки з міткою черги — без читання всіх уроків (ліміти Vercel Blob)
+  const queued = (await Promise.all((await queuedIds()).map(getLesson))).filter((l) => l && l.status === "queued") as NonNullable<Awaited<ReturnType<typeof getLesson>>>[];
   const validUntil = Date.now() + 6 * 60 * 60 * 1000;
   const queue = await Promise.all(
     queued.map(async (lesson) => {

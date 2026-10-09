@@ -1,4 +1,4 @@
-import { get, list, put } from "@vercel/blob";
+import { del, get, list, put } from "@vercel/blob";
 
 /**
  * Уроки дашборду MIDGARD у приватному Vercel Blob: midgard/lessons/<id>.json.
@@ -11,8 +11,11 @@ export type Lesson = Record<string, unknown> & { id: string; status?: LessonStat
 export const lessonPath = (id: string) => `midgard/lessons/${id}.json`;
 const PREFIX = "midgard/lessons/";
 
+// Ліміти Vercel Blob (Hobby): кожне читання — операція. Тому: список кешуємо 2 хв,
+// а вміст файлу перечитуємо, лише якщо змінився (uploadedAt зі списку).
 let cache: { at: number; lessons: Lesson[] } | null = null;
-const CACHE_MS = 15_000;
+const CACHE_MS = 120_000;
+const bodies = new Map<string, { stamp: string; data: Lesson }>();
 
 async function readJson(pathname: string): Promise<Lesson | null> {
   const res = await get(pathname, { access: "private", useCache: false }).catch(() => null);
@@ -24,18 +27,43 @@ async function readJson(pathname: string): Promise<Lesson | null> {
   }
 }
 
-export async function listLessons(fresh = false): Promise<Lesson[]> {
-  if (!fresh && cache && Date.now() - cache.at < CACHE_MS) return cache.lessons;
-  const paths: string[] = [];
+/** Список файлів із префіксом + вміст із кешем за uploadedAt: [шлях, вміст]. */
+async function readAll(prefix: string): Promise<[string, Lesson][]> {
+  const metas: { pathname: string; stamp: string }[] = [];
   let cursor: string | undefined;
   do {
-    const page = await list({ prefix: PREFIX, cursor, limit: 1000 });
-    paths.push(...page.blobs.map((b) => b.pathname).filter((p) => p.endsWith(".json")));
+    const page = await list({ prefix, cursor, limit: 1000 });
+    metas.push(...page.blobs.filter((b) => b.pathname.endsWith(".json")).map((b) => ({ pathname: b.pathname, stamp: new Date(b.uploadedAt).toISOString() })));
     cursor = page.hasMore ? page.cursor : undefined;
   } while (cursor);
-  const lessons = (await Promise.all(paths.map(readJson))).filter((l): l is Lesson => !!l && typeof l.id === "string");
+  const out = await Promise.all(metas.map(async ({ pathname, stamp }) => {
+    const hit = bodies.get(pathname);
+    if (hit && hit.stamp === stamp) return hit.data;
+    const data = await readJson(pathname);
+    if (data) bodies.set(pathname, { stamp, data });
+    return data ? ([pathname, data] as [string, Lesson]) : null;
+  }));
+  return out.filter((x): x is [string, Lesson] => !!x);
+}
+
+export async function listLessons(fresh = false): Promise<Lesson[]> {
+  if (!fresh && cache && Date.now() - cache.at < CACHE_MS) return cache.lessons;
+  const lessons = (await readAll(PREFIX)).map(([, l]) => l).filter((l) => typeof l.id === "string");
   cache = { at: Date.now(), lessons };
   return lessons;
+}
+
+/** Мітки черги midgard/queue/<id>: обробнику не треба читати всі уроки, щоб знайти нові. */
+const queuePath = (id: string) => `midgard/queue/${id}.json`;
+export async function queuedIds(): Promise<string[]> {
+  const ids: string[] = [];
+  let cursor: string | undefined;
+  do {
+    const page = await list({ prefix: "midgard/queue/", cursor, limit: 1000 });
+    ids.push(...page.blobs.map((b) => b.pathname.slice("midgard/queue/".length, -5)));
+    cursor = page.hasMore ? page.cursor : undefined;
+  } while (cursor);
+  return ids;
 }
 
 export async function getLesson(id: string) {
@@ -49,6 +77,9 @@ export async function saveLesson(lesson: Lesson) {
     addRandomSuffix: false,
     allowOverwrite: true,
   });
+  if (lesson.status === "queued")
+    await put(queuePath(lesson.id), "{}", { access: "private", contentType: "application/json", addRandomSuffix: false, allowOverwrite: true });
+  else if (lesson.status === "processing") await del(queuePath(lesson.id)).catch(() => {});
   cache = null;
 }
 
@@ -63,29 +94,23 @@ export type Supervision = {
 };
 export const reviewPath = (id: string) => `midgard/reviews/${id}.json`;
 
-export async function listReviews(): Promise<Record<string, Supervision>> {
+let reviewsCache: { at: number; data: Record<string, Supervision> } | null = null;
+export async function listReviews(fresh = false): Promise<Record<string, Supervision>> {
+  if (!fresh && reviewsCache && Date.now() - reviewsCache.at < CACHE_MS) return reviewsCache.data;
   const out: Record<string, Supervision> = {};
-  let cursor: string | undefined;
-  const paths: string[] = [];
-  do {
-    const page = await list({ prefix: "midgard/reviews/", cursor, limit: 1000 });
-    paths.push(...page.blobs.map((b) => b.pathname).filter((p) => p.endsWith(".json")));
-    cursor = page.hasMore ? page.cursor : undefined;
-  } while (cursor);
-  await Promise.all(paths.map(async (p) => {
-    const r = (await readJson(p)) as unknown as Supervision | null;
-    if (r) out[p.slice("midgard/reviews/".length, -5)] = r;
-  }));
+  for (const [p, r] of await readAll("midgard/reviews/")) out[p.slice("midgard/reviews/".length, -5)] = r as unknown as Supervision;
+  reviewsCache = { at: Date.now(), data: out };
   return out;
 }
 
 export async function saveReview(id: string, review: Supervision) {
   await put(reviewPath(id), JSON.stringify(review), { access: "private", contentType: "application/json", addRandomSuffix: false, allowOverwrite: true });
   cache = null;
+  reviewsCache = null;
 }
 
 /** Уроки разом із перевірками супервізора (поле supervision). */
 export async function lessonsWithReviews(fresh = false) {
-  const [lessons, reviews] = await Promise.all([listLessons(fresh), listReviews().catch(() => ({} as Record<string, Supervision>))]);
+  const [lessons, reviews] = await Promise.all([listLessons(fresh), listReviews(fresh).catch(() => ({} as Record<string, Supervision>))]);
   return lessons.map((l) => (reviews[l.id] ? { ...l, supervision: reviews[l.id] } : l));
 }
