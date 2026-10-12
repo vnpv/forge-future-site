@@ -38,7 +38,7 @@ async function readAll(prefix: string): Promise<[string, Lesson][]> {
   } while (cursor);
   const out = await Promise.all(metas.map(async ({ pathname, stamp }) => {
     const hit = bodies.get(pathname);
-    if (hit && hit.stamp === stamp) return hit.data;
+    if (hit && hit.stamp === stamp) return [pathname, hit.data] as [string, Lesson];
     const data = await readJson(pathname);
     if (data) bodies.set(pathname, { stamp, data });
     return data ? ([pathname, data] as [string, Lesson]) : null;
