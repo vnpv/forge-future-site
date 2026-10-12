@@ -30,7 +30,11 @@ function teacherIdFor(name: string, lessons: Lesson[]) {
 export async function GET(request: Request) {
   if (!ingestAuthorized(request) && !(await validSession(request))) return json({ error: "Потрібен вхід" }, 401);
   if (!storageReady()) return json({ lessons: [] });
-  return json({ lessons: await lessonsWithReviews(true) });
+  try {
+    return json({ lessons: await lessonsWithReviews(true) });
+  } catch (e) {
+    return json({ error: "Не вдалося прочитати уроки", detail: e instanceof Error ? e.message : String(e) }, 500);
+  }
 }
 
 export async function POST(request: Request) {
