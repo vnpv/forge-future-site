@@ -1,4 +1,4 @@
-import { NOINDEX, currentUser, userKey } from "../../auth";
+import { NOINDEX, currentUser, statePath } from "../../auth";
 import { BOOK_ID, LEGACY_N } from "../../books";
 import { readText, storageReady, writeText } from "../../store";
 
@@ -9,7 +9,6 @@ import { readText, storageReady, writeText } from "../../store";
 export const dynamic = "force-dynamic";
 const MAX = 1_000_000;
 const err = (m: string, status: number) => Response.json({ error: m }, { status, headers: NOINDEX });
-const statePath = (email: string, b: string, v: string) => `focus/users/${userKey(email)}/${b}-${v}.json`;
 
 function parse(url: URL) {
   const b = url.searchParams.get("b") ?? "";

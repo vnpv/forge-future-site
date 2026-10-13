@@ -103,3 +103,6 @@ export function ingestAuthorized(request: Request) {
 
 /** Тека користувача в сховищі: хеш пошти, щоб не світити адреси в шляхах. */
 export const userKey = (email: string) => createHash("sha256").update(email.toLowerCase()).digest("hex").slice(0, 20);
+
+/** Шлях стану воркбука людини в сховищі. */
+export const statePath = (email: string, b: string, v: string) => `focus/users/${userKey(email)}/${b}-${v}.json`;
