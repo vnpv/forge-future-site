@@ -1,4 +1,4 @@
-import { NOINDEX, currentUser, statePath } from "../auth";
+import { NOINDEX, currentUser, loadStudents, normTrack, statePath } from "../auth";
 import { BOOK_ID, fileFor, loadBooks } from "../books";
 import { readText, storageReady } from "../store";
 
@@ -74,7 +74,8 @@ export async function GET(request: Request) {
   if (!storageReady()) return new Response("Сховище не підключене", { status: 503, headers: NOINDEX });
   const book = (await loadBooks()).find((x) => x.id === b);
   // Для режиму «перегляд учня» показуємо ту версію, що бачить учень (а якщо її немає — шаблон власника)
-  const file = book ? (as ? (fileFor(book, "student", "main") ?? fileFor(book, "admin", "main")) : fileFor(book, me.role, v)) : null;
+  const asTrack = as ? normTrack((await loadStudents()).find((s) => s.email === as.toLowerCase())?.track) : "business";
+  const file = book ? (as ? (fileFor(book, "student", "main", asTrack) ?? fileFor(book, "admin", "main")) : fileFor(book, me.role, v, me.track)) : null;
   if (!file) return new Response("Цей воркбук ще готується", { status: 404, headers: { ...NOINDEX, "Content-Type": "text/plain; charset=utf-8" } });
   if (as && (await readText(statePath(as, b, "main"), true)) === null)
     return new Response(`<!doctype html><meta charset="utf-8"><body style="font:16px system-ui;display:grid;place-items:center;height:100vh;margin:0;color:#666;text-align:center;padding:24px">Учень ще нічого не заповнював у цьому воркбуці.</body>`, { headers: { ...NOINDEX, "Content-Type": "text/html; charset=utf-8" } });

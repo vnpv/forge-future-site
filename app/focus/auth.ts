@@ -16,7 +16,11 @@ export const COOKIE = "focus_session";
 export const MAX_AGE = 60 * 60 * 24 * 30;
 export const NOINDEX = { "X-Robots-Tag": "noindex, nofollow", "Cache-Control": "private, no-store" };
 export type Role = "admin" | "student";
-export type Me = { email: string; role: Role; name: string };
+/** business — власна справа/проєкт; career — старт кар'єри (портфоліо для першої роботи). */
+export type Track = "business" | "career";
+export const TRACKS: Track[] = ["business", "career"];
+export const normTrack = (t: unknown): Track => (t === "career" ? "career" : "business");
+export type Me = { email: string; role: Role; name: string; track: Track };
 
 export function safeEqual(a: string, b: string) {
   if (a.length !== b.length) return false;
@@ -37,7 +41,7 @@ function adminUsers() {
 }
 
 /* ---------- учні в Blob ---------- */
-export type Student = { email: string; name: string; salt: string; hash: string; createdAt: string };
+export type Student = { email: string; name: string; track?: Track; salt: string; hash: string; createdAt: string };
 const USERS_PATH = "focus/users.json";
 
 export async function loadStudents(fresh = false): Promise<Student[]> {
@@ -49,9 +53,9 @@ export async function loadStudents(fresh = false): Promise<Student[]> {
 }
 export const saveStudents = (users: Student[]) => writeText(USERS_PATH, JSON.stringify({ users }), "application/json");
 const hashPass = (pass: string, salt: string) => scryptSync(pass, salt, 32).toString("hex");
-export function makeStudent(email: string, name: string, password: string): Student {
+export function makeStudent(email: string, name: string, password: string, track: Track = "business"): Student {
   const salt = randomBytes(16).toString("hex");
-  return { email: email.toLowerCase(), name, salt, hash: hashPass(password, salt), createdAt: new Date().toISOString() };
+  return { email: email.toLowerCase(), name, track, salt, hash: hashPass(password, salt), createdAt: new Date().toISOString() };
 }
 export function newPassword() {
   const abc = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -60,9 +64,9 @@ export function newPassword() {
 
 export async function verifyLogin(email: string, password: string): Promise<Me | null> {
   const e = email.trim().toLowerCase();
-  if (adminUsers().some((u) => safeEqual(u.email, e) && safeEqual(u.pass, password))) return { email: e, role: "admin", name: "Власник" };
+  if (adminUsers().some((u) => safeEqual(u.email, e) && safeEqual(u.pass, password))) return { email: e, role: "admin", name: "Власник", track: "business" };
   const s = (await loadStudents(true)).find((u) => u.email === e);
-  if (s && timingSafeEqual(Buffer.from(hashPass(password, s.salt), "hex"), Buffer.from(s.hash, "hex"))) return { email: e, role: "student", name: s.name };
+  if (s && timingSafeEqual(Buffer.from(hashPass(password, s.salt), "hex"), Buffer.from(s.hash, "hex"))) return { email: e, role: "student", name: s.name, track: normTrack(s.track) };
   return null;
 }
 
@@ -89,9 +93,9 @@ export async function currentUser(request: Request): Promise<Me | null> {
   if (!enc || !exp || !sig || Number(exp) < Date.now() / 1000) return null;
   if (!safeEqual(sig, await sign(`${enc}.${exp}`))) return null;
   const email = decodeURIComponent(enc);
-  if (adminUsers().some((u) => u.email === email)) return { email, role: "admin", name: "Власник" };
+  if (adminUsers().some((u) => u.email === email)) return { email, role: "admin", name: "Власник", track: "business" };
   const s = (await loadStudents()).find((u) => u.email === email);
-  return s ? { email, role: "student", name: s.name } : null;
+  return s ? { email, role: "student", name: s.name, track: normTrack(s.track) } : null;
 }
 
 /** Ключ конвеєра CEO OS (той самий, що й для MIDGARD) — для завантаження файлів воркбуків скриптом. */

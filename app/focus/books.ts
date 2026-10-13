@@ -2,12 +2,18 @@ import { readText, writeText } from "./store";
 
 /**
  * Список воркбуків: приватний Blob focus/books.json — нові додаються без деплою (PUT /focus/api/doc).
- * Кожен воркбук має до трьох файлів-варіантів:
+ * Файли-варіанти воркбука:
  *   admin   — версія власника (з його відповідями)
  *   student — чистий шаблон для учнів (колонки порожні, з підказками «Напр.:»)
  *   example — той самий шаблон із прикладом проєкту; учень бачить його окремою вкладкою
+ *   student-career / example-career — те саме для напряму «Старт кар'єри»; якщо немає, береться student / example
  */
-export type Book = { id: string; title: string; order: number; files: { admin?: string; student?: string; example?: string } };
+export type Book = {
+  id: string;
+  title: string;
+  order: number;
+  files: { admin?: string; student?: string; example?: string; "student-career"?: string; "example-career"?: string };
+};
 
 const PATH = "focus/books.json";
 export const BOOK_ID = /^[a-z0-9-]{2,40}$/;
@@ -31,7 +37,9 @@ export async function loadBooks(fresh = false): Promise<Book[]> {
 export const saveBooks = (books: Book[]) => writeText(PATH, JSON.stringify({ books }), "application/json");
 
 /** Який файл показати: власнику — admin (або student), учню — student. */
-export function fileFor(book: Book, role: "admin" | "student", variant: "main" | "example") {
-  if (variant === "example") return book.files.example ?? null;
-  return role === "admin" ? (book.files.admin ?? book.files.student ?? null) : (book.files.student ?? null);
+export function fileFor(book: Book, role: "admin" | "student", variant: "main" | "example", track: "business" | "career" = "business") {
+  const career = track === "career" && role === "student";
+  if (variant === "example") return (career ? book.files["example-career"] : undefined) ?? book.files.example ?? null;
+  if (role === "admin") return book.files.admin ?? book.files.student ?? null;
+  return (career ? book.files["student-career"] : undefined) ?? book.files.student ?? null;
 }

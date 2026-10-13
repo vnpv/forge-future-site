@@ -1,4 +1,4 @@
-import { NOINDEX, currentUser, loadStudents, makeStudent, newPassword, saveStudents } from "../../auth";
+import { NOINDEX, currentUser, loadStudents, makeStudent, newPassword, normTrack, saveStudents } from "../../auth";
 import { storageReady } from "../../store";
 
 /** Керування учнями (лише admin): список, додати/скинути пароль, видалити. */
@@ -13,25 +13,34 @@ async function admin(request: Request) {
 
 export async function GET(request: Request) {
   if (!(await admin(request))) return err("Немає доступу", 403);
-  const list = (await loadStudents(true)).map((s) => ({ email: s.email, name: s.name, createdAt: s.createdAt }));
+  const list = (await loadStudents(true)).map((s) => ({ email: s.email, name: s.name, track: normTrack(s.track), createdAt: s.createdAt }));
   return Response.json({ students: list }, { headers: NOINDEX });
 }
 
-/** { email, name?, password? } — новий учень або скидання пароля існуючого. Пароль повертається один раз. */
+/**
+ * { email, name?, track?, password?, reset? }:
+ *  • нового учня створює з паролем (заданим або згенерованим; повертається один раз);
+ *  • існуючому змінює ім'я/напрям без зміни пароля, а пароль скидає лише з password або reset:true.
+ */
 export async function POST(request: Request) {
   if (!(await admin(request))) return err("Немає доступу", 403);
   if (!storageReady()) return err("Сховище не підключене", 503);
-  const body = (await request.json().catch(() => ({}))) as { email?: string; name?: string; password?: string };
+  const body = (await request.json().catch(() => ({}))) as { email?: string; name?: string; password?: string; track?: string; reset?: boolean };
   const email = String(body.email ?? "").trim().toLowerCase();
   if (!EMAIL.test(email)) return err("Невірна пошта", 400);
-  const password = String(body.password ?? "").trim() || newPassword();
-  if (password.length < 8) return err("Пароль має бути не коротший за 8 символів", 400);
   const students = await loadStudents(true);
   const old = students.find((s) => s.email === email);
   const name = String(body.name ?? "").trim() || old?.name || email.split("@")[0];
-  const next = makeStudent(email, name, password);
+  const track = normTrack(body.track ?? old?.track);
+  if (old && !body.password && !body.reset) {
+    await saveStudents(students.map((s) => (s.email === email ? { ...s, name, track } : s)));
+    return Response.json({ ok: true, email, name, track }, { headers: NOINDEX });
+  }
+  const password = String(body.password ?? "").trim() || newPassword();
+  if (password.length < 8) return err("Пароль має бути не коротший за 8 символів", 400);
+  const next = makeStudent(email, name, password, track);
   await saveStudents([...students.filter((s) => s.email !== email), old ? { ...next, createdAt: old.createdAt } : next]);
-  return Response.json({ ok: true, email, name, password }, { headers: NOINDEX });
+  return Response.json({ ok: true, email, name, track, password }, { headers: NOINDEX });
 }
 
 export async function DELETE(request: Request) {

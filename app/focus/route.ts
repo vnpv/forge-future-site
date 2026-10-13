@@ -109,10 +109,10 @@ iframe{flex:1;width:100%;border:0;background:#fff}
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeMenu(); });
   fetch('/focus/api/books',{credentials:'same-origin'}).then(function(r){return r.json()}).then(function(d){
     if(!d.me){ location.reload(); return; }
-    S.books=d.books; S.students=d.students||[]; $('who').textContent=d.me.name||d.me.email;
+    S.books=d.books.filter(function(b){ return d.me.role==='admin' || b.main || b.example; }); S.students=d.students||[]; $('who').textContent=d.me.name||d.me.email;
     if(d.me.role==='admin'){ $('adm').hidden=false;
       if(S.students.length){ $('stuBtn').hidden=false; var m=$('stuMenu');
-        S.students.forEach(function(s){ var b=el('button',''); b.type='button'; b.appendChild(el('span','',s.name)); b.appendChild(el('small','',s.email)); b.onclick=function(){ openAs(s); }; m.appendChild(b); }); } }
+        S.students.forEach(function(s){ var b=el('button',''); b.type='button'; b.appendChild(el('span','',s.name)); b.appendChild(el('small','',s.email+' · '+(s.track==='career'?'Старт карʼєри':'Власна справа'))); b.onclick=function(){ openAs(s); }; m.appendChild(b); }); } }
     var n={}; try{ n=JSON.parse(localStorage.getItem('focus_nav')||'{}'); }catch(e){}
     var h=(location.hash||'').slice(1);
     S.b=(S.books.filter(function(x){return x.id===(h||n.b)})[0]||S.books[0]||{}).id||null;

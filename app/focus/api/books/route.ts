@@ -10,9 +10,9 @@ export async function GET(request: Request) {
   const books = (await loadBooks()).map((b) => ({
     id: b.id,
     title: b.title,
-    main: Boolean(fileFor(b, me.role, "main")),
-    example: Boolean(b.files.example),
+    main: Boolean(fileFor(b, me.role, "main", me.track)),
+    example: Boolean(fileFor(b, me.role, "example", me.track)),
   }));
-  const students = me.role === "admin" ? (await loadStudents()).map((s) => ({ email: s.email, name: s.name })) : [];
+  const students = me.role === "admin" ? (await loadStudents()).map((s) => ({ email: s.email, name: s.name, track: s.track ?? "business" })) : [];
   return Response.json({ me, books, students }, { headers: NOINDEX });
 }

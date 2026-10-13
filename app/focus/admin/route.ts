@@ -14,8 +14,8 @@ a{color:var(--muted)}h1{font-size:20px;margin:0}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:12px}
 form{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;align-items:end}
 label{display:grid;gap:5px;font-size:13px;color:var(--muted)}
-input{font:inherit;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);min-width:0}
-input:focus,button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+input,select{font:inherit;padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);min-width:0;width:100%}
+input:focus,select:focus,button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 button{font:inherit;font-weight:600;padding:9px 12px;border:0;border-radius:8px;background:var(--accent);color:#14160a;cursor:pointer}
 button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:500}
 table{width:100%;border-collapse:collapse;font-size:14px}td,th{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:middle}
@@ -26,25 +26,33 @@ code{background:var(--bg);padding:2px 6px;border-radius:6px}
 <section class="card"><b>Додати учня або скинути пароль</b>
 <form id="f"><label>Пошта<input name="email" type="email" required></label>
 <label>Ім'я<input name="name" placeholder="Як звати"></label>
+<label>Напрям
+<select name="track"><option value="business">Власна справа (свій проєкт чи бізнес)</option><option value="career">Старт кар'єри (портфоліо для першої роботи)</option></select></label>
 <label>Пароль (порожньо = згенерувати)<input name="password" autocomplete="new-password"></label>
 <button type="submit">Зберегти</button></form>
 <div id="msg" hidden></div></section>
-<section class="card"><b>Список</b><div style="overflow-x:auto"><table><thead><tr><th>Ім'я</th><th>Пошта</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
+<section class="card"><b>Список</b><div style="overflow-x:auto"><table><thead><tr><th>Ім'я</th><th>Пошта</th><th>Напрям</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
 <span style="color:var(--muted);font-size:13px">Роботи учня: на головній сторінці вибери його зі списку «Учень».</span></section>
 <script>
 var $=function(i){return document.getElementById(i)};
 function show(t,err){ var m=$('msg'); m.hidden=false; m.className='msg'+(err?' err':''); m.textContent=t; }
 function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]}); }
+function post(b){ return fetch('/focus/api/users',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}).then(function(r){return r.json()}); }
 function load(){ fetch('/focus/api/users',{credentials:'same-origin'}).then(function(r){return r.json()}).then(function(d){
-  $('rows').innerHTML=(d.students||[]).map(function(s){ return '<tr><td>'+esc(s.name)+'</td><td>'+esc(s.email)+'</td><td><button class="ghost" data-del="'+esc(s.email)+'">Видалити</button></td></tr>'; }).join('')||'<tr><td colspan="3" style="color:var(--muted)">Поки немає учнів</td></tr>';
+  $('rows').innerHTML=(d.students||[]).map(function(s){ return '<tr><td>'+esc(s.name)+'</td><td>'+esc(s.email)+'</td><td>'+
+    '<select data-track="'+esc(s.email)+'" aria-label="Напрям"><option value="business"'+(s.track==='business'?' selected':'')+'>Власна справа</option><option value="career"'+(s.track==='career'?' selected':'')+'>Старт карʼєри</option></select></td><td style="white-space:nowrap">'+
+    '<button class="ghost" data-reset="'+esc(s.email)+'">Новий пароль</button> <button class="ghost" data-del="'+esc(s.email)+'">Видалити</button></td></tr>'; }).join('')||'<tr><td colspan="4" style="color:var(--muted)">Поки немає учнів</td></tr>';
   document.querySelectorAll('[data-del]').forEach(function(b){ b.onclick=function(){ if(!confirm('Видалити '+b.dataset.del+'? Відповіді в сховищі лишаться.')) return;
     fetch('/focus/api/users?email='+encodeURIComponent(b.dataset.del),{method:'DELETE',credentials:'same-origin'}).then(load); }; });
+  document.querySelectorAll('[data-track]').forEach(function(sel){ sel.onchange=function(){ post({email:sel.dataset.track,track:sel.value}).then(function(d){ if(d.error) show(d.error,true); else show('Напрям змінено: '+d.email+'. Учень побачить свою версію воркбука при наступному відкритті.'); }); }; });
+  document.querySelectorAll('[data-reset]').forEach(function(b){ b.onclick=function(){ if(!confirm('Видати новий пароль для '+b.dataset.reset+'? Старий перестане працювати.')) return;
+    post({email:b.dataset.reset,reset:true}).then(function(d){ if(d.error) show(d.error,true); else show('Новий пароль для '+d.email+': '+d.password+' (покажу лише зараз)'); }); }; });
 }); }
 $('f').onsubmit=function(e){ e.preventDefault(); var fd=new FormData(e.target);
-  fetch('/focus/api/users',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:fd.get('email'),name:fd.get('name'),password:fd.get('password')})})
+  fetch('/focus/api/users',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:fd.get('email'),name:fd.get('name'),track:fd.get('track'),password:fd.get('password')})})
     .then(function(r){return r.json()}).then(function(d){
       if(d.error){ show(d.error,true); return; }
-      show('Готово. Пошта: '+d.email+' · пароль: '+d.password+' (покажу лише зараз, передай учню)'); e.target.reset(); load(); }); };
+      show('Готово. Пошта: '+d.email+' · напрям: '+(d.track==='career'?'Старт карʼєри':'Власна справа')+' · '+(d.password?'пароль: '+d.password+' (покажу лише зараз, передай учню)':'пароль без змін')); e.target.reset(); load(); }); };
 load();
 </script></main></body></html>`;
 

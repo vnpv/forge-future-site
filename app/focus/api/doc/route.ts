@@ -4,13 +4,13 @@ import { storageReady, writeText } from "../../store";
 
 /**
  * Завантаження/оновлення воркбука скриптом (без деплою):
- *   PUT /focus/api/doc?b=<id>&v=admin|student|example[&title=…][&order=N]
+ *   PUT /focus/api/doc?b=<id>&v=admin|student|example|student-career|example-career[&title=…][&order=N]
  * з заголовком Authorization: Bearer <MIDGARD_INGEST_KEY>, тіло — HTML.
  * Новий b додає воркбук у список. Старий формат ?n=1|2|3 теж працює (= admin-версія).
  */
 export const dynamic = "force-dynamic";
 const MAX = 3_000_000;
-const VARIANTS = ["admin", "student", "example"] as const;
+const VARIANTS = ["admin", "student", "example", "student-career", "example-career"] as const;
 const err = (m: string, status: number) => Response.json({ error: m }, { status, headers: NOINDEX });
 
 export async function PUT(request: Request) {
@@ -21,7 +21,7 @@ export async function PUT(request: Request) {
   const b = q.get("b") ?? Object.entries(LEGACY_N).find(([, v]) => v === n)?.[0] ?? "";
   const v = (q.get("v") ?? "admin") as (typeof VARIANTS)[number];
   if (!BOOK_ID.test(b)) return err("Невірний id воркбука (a-z, 0-9, дефіс)", 400);
-  if (!VARIANTS.includes(v)) return err("v = admin | student | example", 400);
+  if (!VARIANTS.includes(v)) return err("v = admin | student | example | student-career | example-career", 400);
   const html = await request.text();
   if (html.length > MAX || !/<html[\s>]/i.test(html)) return err("Очікується HTML до 3 МБ", 400);
 
