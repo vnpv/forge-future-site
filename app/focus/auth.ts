@@ -1,9 +1,18 @@
+import { createHash } from "node:crypto";
+
 /**
  * Доступ до воркбуків FOCUS (forge-future.com/focus).
- * Користувачі: env FOCUS_USERS ("email|пароль;email|пароль"). Якщо її не задано —
- * лише записи з роллю admin із MIDGARD_USERS ("email|пароль|admin"), щоб власник мав доступ одразу.
+ * Користувачі: env FOCUS_USERS ("email|пароль;email|пароль"). Якщо її не задано — записи з
+ * MIDGARD_USERS ("email|пароль[|роль]"), але лише власник: роль admin, пошта @forge-future.com
+ * або пошта з OWNER_HASHES (SHA-256, щоб не світити адресу в публічному репо).
+ * Звичайні користувачі MIDGARD (вчителі, супервізори, директор) сюди не потрапляють.
  * Сесія — підписаний cookie на 30 днів; без налаштувань доступ закритий.
  */
+const OWNER_HASHES = ["c314ad478f668f37b8f64f445fcf3b117b659185a2e30d6fd28ae65d511992d2"];
+const isOwner = (email: string, role?: string) =>
+  role === "admin" ||
+  email.endsWith("@forge-future.com") ||
+  OWNER_HASHES.includes(createHash("sha256").update(email).digest("hex"));
 export const COOKIE = "focus_session";
 export const MAX_AGE = 60 * 60 * 24 * 30;
 export const NOINDEX = { "X-Robots-Tag": "noindex, nofollow", "Cache-Control": "private, no-store" };
@@ -26,7 +35,7 @@ export function users() {
       .map(([email, pass]) => ({ email: email.toLowerCase(), pass }));
   }
   return rows(process.env.MIDGARD_USERS ?? "")
-    .filter(([email, pass, role]) => email && pass && role === "admin")
+    .filter(([email, pass, role]) => email && pass && isOwner(email.toLowerCase(), role))
     .map(([email, pass]) => ({ email: email.toLowerCase(), pass }));
 }
 
