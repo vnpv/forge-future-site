@@ -1,21 +1,22 @@
-import { createHash } from "node:crypto";
+import { createHash, randomBytes, scryptSync, timingSafeEqual } from "node:crypto";
+import { readText, writeText } from "./store";
 
 /**
- * Доступ до воркбуків FOCUS (forge-future.com/focus).
- * Користувачі: env FOCUS_USERS ("email|пароль;email|пароль"). Якщо її не задано — записи з
- * MIDGARD_USERS ("email|пароль[|роль]"), але лише власник: роль admin, пошта @forge-future.com
- * або пошта з OWNER_HASHES (SHA-256, щоб не світити адресу в публічному репо).
- * Звичайні користувачі MIDGARD (вчителі, супервізори, директор) сюди не потрапляють.
- * Сесія — підписаний cookie на 30 днів; без налаштувань доступ закритий.
+ * Акаунти FOCUS (forge-future.com/focus).
+ *  • admin (власник): env FOCUS_USERS ("email|пароль;…"); якщо не задано — записи з MIDGARD_USERS,
+ *    але лише власник: роль admin, пошта @forge-future.com або пошта з OWNER_HASHES (SHA-256).
+ *  • student: зберігаються в приватному Blob focus/users.json (пароль — scrypt), створює admin на /focus/admin.
+ * Сесія — підписаний cookie на 30 днів; без секрету доступ закритий.
  */
 const OWNER_HASHES = ["c314ad478f668f37b8f64f445fcf3b117b659185a2e30d6fd28ae65d511992d2"];
 const isOwner = (email: string, role?: string) =>
-  role === "admin" ||
-  email.endsWith("@forge-future.com") ||
-  OWNER_HASHES.includes(createHash("sha256").update(email).digest("hex"));
+  role === "admin" || email.endsWith("@forge-future.com") || OWNER_HASHES.includes(createHash("sha256").update(email).digest("hex"));
+
 export const COOKIE = "focus_session";
 export const MAX_AGE = 60 * 60 * 24 * 30;
 export const NOINDEX = { "X-Robots-Tag": "noindex, nofollow", "Cache-Control": "private, no-store" };
+export type Role = "admin" | "student";
+export type Me = { email: string; role: Role; name: string };
 
 export function safeEqual(a: string, b: string) {
   if (a.length !== b.length) return false;
@@ -27,21 +28,49 @@ export function safeEqual(a: string, b: string) {
 const unquote = (x: string) => x.trim().replace(/^["']|["']$/g, "").trim();
 const rows = (raw: string) => unquote(raw).split(/[;\n]/).map((r) => unquote(r).split("|").map(unquote));
 
-export function users() {
+function adminUsers() {
   const own = process.env.FOCUS_USERS ?? "";
-  if (own.trim()) {
-    return rows(own)
-      .filter(([email, pass]) => email && pass)
-      .map(([email, pass]) => ({ email: email.toLowerCase(), pass }));
-  }
+  if (own.trim()) return rows(own).filter(([e, p]) => e && p).map(([e, p]) => ({ email: e.toLowerCase(), pass: p }));
   return rows(process.env.MIDGARD_USERS ?? "")
-    .filter(([email, pass, role]) => email && pass && isOwner(email.toLowerCase(), role))
-    .map(([email, pass]) => ({ email: email.toLowerCase(), pass }));
+    .filter(([e, p, role]) => e && p && isOwner(e.toLowerCase(), role))
+    .map(([e, p]) => ({ email: e.toLowerCase(), pass: p }));
 }
 
+/* ---------- учні в Blob ---------- */
+export type Student = { email: string; name: string; salt: string; hash: string; createdAt: string };
+const USERS_PATH = "focus/users.json";
+
+export async function loadStudents(fresh = false): Promise<Student[]> {
+  try {
+    return (JSON.parse((await readText(USERS_PATH, fresh)) ?? "{}").users as Student[]) ?? [];
+  } catch {
+    return [];
+  }
+}
+export const saveStudents = (users: Student[]) => writeText(USERS_PATH, JSON.stringify({ users }), "application/json");
+const hashPass = (pass: string, salt: string) => scryptSync(pass, salt, 32).toString("hex");
+export function makeStudent(email: string, name: string, password: string): Student {
+  const salt = randomBytes(16).toString("hex");
+  return { email: email.toLowerCase(), name, salt, hash: hashPass(password, salt), createdAt: new Date().toISOString() };
+}
+export function newPassword() {
+  const abc = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  return Array.from(randomBytes(10), (b) => abc[b % abc.length]).join("");
+}
+
+export async function verifyLogin(email: string, password: string): Promise<Me | null> {
+  const e = email.trim().toLowerCase();
+  if (adminUsers().some((u) => safeEqual(u.email, e) && safeEqual(u.pass, password))) return { email: e, role: "admin", name: "Власник" };
+  const s = (await loadStudents(true)).find((u) => u.email === e);
+  if (s && timingSafeEqual(Buffer.from(hashPass(password, s.salt), "hex"), Buffer.from(s.hash, "hex"))) return { email: e, role: "student", name: s.name };
+  return null;
+}
+
+/* ---------- сесія ---------- */
+const secret = () => (process.env.FOCUS_USERS ?? "").trim() || (process.env.MIDGARD_USERS ?? "").trim();
+
 async function sign(payload: string) {
-  const secret = (process.env.FOCUS_USERS ?? "").trim() || (process.env.MIDGARD_USERS ?? "");
-  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode("focus:" + secret), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode("focus:" + secret()), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
   const sig = await crypto.subtle.sign("HMAC", key, new TextEncoder().encode(payload));
   return btoa(String.fromCharCode(...new Uint8Array(sig))).replace(/[+/=]/g, (c) => ({ "+": "-", "/": "_", "=": "" })[c]!);
 }
@@ -51,15 +80,18 @@ export async function makeSession(email: string) {
   return `${payload}.${await sign(payload)}`;
 }
 
-export async function validSession(request: Request) {
-  if (!users().length) return false;
+export async function currentUser(request: Request): Promise<Me | null> {
+  if (!secret()) return null;
   const raw = (request.headers.get("cookie") ?? "").split(/;\s*/).find((c) => c.startsWith(COOKIE + "="));
-  if (!raw) return false;
+  if (!raw) return null;
   const parts = raw.slice(COOKIE.length + 1).split(".");
-  const sig = parts.pop(), exp = parts.pop(), email = parts.join(".");
-  if (!email || !exp || !sig || Number(exp) < Date.now() / 1000) return false;
-  if (!safeEqual(sig, await sign(`${email}.${exp}`))) return false;
-  return users().some((u) => u.email === decodeURIComponent(email));
+  const sig = parts.pop(), exp = parts.pop(), enc = parts.join(".");
+  if (!enc || !exp || !sig || Number(exp) < Date.now() / 1000) return null;
+  if (!safeEqual(sig, await sign(`${enc}.${exp}`))) return null;
+  const email = decodeURIComponent(enc);
+  if (adminUsers().some((u) => u.email === email)) return { email, role: "admin", name: "Власник" };
+  const s = (await loadStudents()).find((u) => u.email === email);
+  return s ? { email, role: "student", name: s.name } : null;
 }
 
 /** Ключ конвеєра CEO OS (той самий, що й для MIDGARD) — для завантаження файлів воркбуків скриптом. */
@@ -69,10 +101,5 @@ export function ingestAuthorized(request: Request) {
   return key.length >= 32 && safeEqual(got, key);
 }
 
-/** Воркбуки: n → назва в сховищі й заголовок. */
-export const BOOKS: Record<string, { file: string; title: string }> = {
-  "1": { file: "focus/w1-focus-model.html", title: "FOCUS-модель" },
-  "2": { file: "focus/w2-client-photofit.html", title: "Фоторобот клієнта" },
-  "3": { file: "focus/w3-knockout-offer.html", title: "Нокаут-офер" },
-};
-export const statePath = (n: string) => `focus/state/${n}.json`;
+/** Тека користувача в сховищі: хеш пошти, щоб не світити адреси в шляхах. */
+export const userKey = (email: string) => createHash("sha256").update(email.toLowerCase()).digest("hex").slice(0, 20);
