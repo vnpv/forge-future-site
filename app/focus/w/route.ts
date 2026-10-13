@@ -14,21 +14,48 @@ export const dynamic = "force-dynamic";
 const SHIM = (cfg: { b: string; v: string; as: string }) => `<script>(function(){
   var C=${JSON.stringify(cfg)}, RO=!!C.as;
   var URL_='/focus/api/state?b='+encodeURIComponent(C.b)+'&v='+encodeURIComponent(C.v)+(C.as?'&as='+encodeURIComponent(C.as):'');
-  var data={}, timer=null, dirty=false;
-  try{ var x=new XMLHttpRequest(); x.open('GET',URL_,false); x.send(null); if(x.status===200){ data=JSON.parse(x.responseText||'{}')||{}; } }catch(e){}
-  function push(){ timer=null; if(!dirty||RO) return; dirty=false;
-    try{ fetch(URL_,{method:'PUT',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify(data),keepalive:true}); }catch(e){} }
-  function schedule(){ dirty=true; if(timer) clearTimeout(timer); timer=setTimeout(push,900); }
+  var data={}, rev=0, lastSent=null, dirty=false, inflight=false, blocked=false, fails=0, pill=null, hideT=null;
+  try{ var x=new XMLHttpRequest(); x.open('GET',URL_,false); x.send(null);
+    if(x.status===200){ data=JSON.parse(x.responseText||'{}')||{}; rev=parseInt(x.getResponseHeader('X-Rev')||'0',10)||0; lastSent=JSON.stringify(data); }
+  }catch(e){}
+  function status(kind){
+    if(RO) return;
+    if(!pill){ if(!document.body) return; pill=document.createElement('div');
+      pill.setAttribute('role','status');
+      pill.style.cssText='position:fixed;right:10px;bottom:10px;z-index:99999;font:600 12px system-ui,sans-serif;padding:5px 10px;border-radius:999px;box-shadow:0 1px 6px rgba(0,0,0,.25);pointer-events:none';
+      document.body.appendChild(pill); }
+    var m={saving:['Зберігаю…','#e8e8e0','#111'],saved:['Збережено ✓','#dfff3c','#111'],error:['Не збережено, повторюю…','#ff9184','#111'],conflict:['Відкрито на іншому пристрої — оновіть сторінку, щоб не втратити зміни','#ff9184','#111'],auth:['Сесія завершилась — увійдіть знову','#ff9184','#111']}[kind];
+    pill.textContent=m[0]; pill.style.background=m[1]; pill.style.color=m[2]; pill.style.opacity='1';
+    clearTimeout(hideT); if(kind==='saved') hideT=setTimeout(function(){ pill.style.opacity='.55'; },2500);
+  }
+  function retry(){ fails++; status('error'); setTimeout(flush,Math.min(30000,1000*Math.pow(2,fails))); }
+  function flush(unload){
+    if(RO||blocked||inflight||!dirty) return;
+    var body=JSON.stringify(data);
+    if(body===lastSent){ dirty=false; return; }
+    dirty=false; inflight=true; status('saving');
+    fetch(URL_,{method:'PUT',credentials:'same-origin',headers:{'Content-Type':'application/json','If-Match':String(rev)},body:body,keepalive:!!unload&&body.length<60000})
+      .then(function(r){
+        inflight=false;
+        if(r.status===409){ blocked=true; status('conflict'); return; }
+        if(r.status===401||r.status===403){ blocked=true; status('auth'); return; }
+        if(!r.ok){ dirty=true; retry(); return; }
+        rev=parseInt(r.headers.get('X-Rev')||String(rev),10)||rev; lastSent=body; fails=0; status('saved');
+        if(dirty) flush();
+      }).catch(function(){ inflight=false; dirty=true; retry(); });
+  }
+  function change(){ dirty=true; flush(); }
   var mem={
     get length(){ return Object.keys(data).length; },
     key:function(i){ return Object.keys(data)[i]||null; },
     getItem:function(k){ return Object.prototype.hasOwnProperty.call(data,k)?data[k]:null; },
-    setItem:function(k,v){ data[String(k)]=String(v); schedule(); },
-    removeItem:function(k){ delete data[k]; schedule(); },
-    clear:function(){ data={}; schedule(); }
+    setItem:function(k,v){ data[String(k)]=String(v); change(); },
+    removeItem:function(k){ delete data[k]; change(); },
+    clear:function(){ data={}; change(); }
   };
   try{ Object.defineProperty(window,'localStorage',{configurable:true,value:mem}); }catch(e){}
-  window.addEventListener('pagehide',function(){ if(dirty) push(); });
+  window.addEventListener('pagehide',function(){ flush(true); });
+  document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='hidden') flush(true); });
   if(RO) document.addEventListener('DOMContentLoaded',function(){
     var b=document.createElement('div'); b.textContent='Перегляд: '+C.as+' (зміни не зберігаються)';
     b.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:99999;background:#dfff3c;color:#111;font:600 13px system-ui;padding:6px 12px;text-align:center';
