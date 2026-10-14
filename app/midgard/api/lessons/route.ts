@@ -31,7 +31,8 @@ export async function GET(request: Request) {
   if (!ingestAuthorized(request) && !(await validSession(request))) return json({ error: "Потрібен вхід" }, 401);
   if (!storageReady()) return json({ lessons: [] });
   try {
-    return json({ lessons: await lessonsWithReviews(true) });
+    const fresh = new URL(request.url).searchParams.has("fresh");
+    return json({ lessons: await lessonsWithReviews(fresh) });
   } catch (e) {
     return json({ error: "Не вдалося прочитати уроки", detail: e instanceof Error ? e.message : String(e) }, 500);
   }
