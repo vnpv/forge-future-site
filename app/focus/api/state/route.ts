@@ -1,6 +1,6 @@
 import { NOINDEX, currentUser, statePath } from "../../auth";
 import { BOOK_ID, LEGACY_N } from "../../books";
-import { readText, storageReady, writeText } from "../../store";
+import { StoreError, ownCached, readText, storageReady, writeText } from "../../store";
 
 /**
  * Персональний стан воркбука: об'єкт {ключ: значення}. Шлях: focus/users/<хеш пошти>/<воркбук>-<main|example>.json.
@@ -31,6 +31,8 @@ function unpack(text: string | null): Stored {
 const withRev = (body: unknown, rev: number, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { ...NOINDEX, "Content-Type": "application/json", "X-Rev": String(rev) } });
 
+const unavailable = () => err("Сховище тимчасово недоступне. Дані не втрачено, зміни зараз не зберігаються.", 503);
+
 export async function GET(request: Request) {
   const { b, v, as } = parse(new URL(request.url));
   const me = await currentUser(request);
@@ -39,11 +41,16 @@ export async function GET(request: Request) {
   if (as && me.role !== "admin") return err("Немає доступу", 403);
   if (!storageReady()) return withRev({}, 0);
   const target = as || me.email;
-  let text = await readText(statePath(target, b, v), true);
-  // Перенесення зі старої схеми (до акаунтів): стан власника лежав у focus/state/<n>.json
-  if (text === null && me.role === "admin" && !as && v === "main" && LEGACY_N[b]) text = await readText(`focus/state/${LEGACY_N[b]}.json`, true);
-  const st = unpack(text);
-  return withRev(st.data, st.rev);
+  try {
+    let text = await readText(statePath(target, b, v), true);
+    // Перенесення зі старої схеми (до акаунтів): стан власника лежав у focus/state/<n>.json
+    if (text === null && me.role === "admin" && !as && v === "main" && LEGACY_N[b]) text = await readText(`focus/state/${LEGACY_N[b]}.json`, true);
+    const st = unpack(text);
+    return withRev(st.data, st.rev);
+  } catch (e) {
+    if (e instanceof StoreError) return unavailable();
+    throw e;
+  }
 }
 
 export async function PUT(request: Request) {
@@ -62,10 +69,19 @@ export async function PUT(request: Request) {
   for (const [k, val] of Object.entries(obj as Record<string, unknown>)) if (typeof val === "string" && k.length < 120) clean[k] = val;
   // Оптимістична версія: якщо стан змінили деінде (інша вкладка/пристрій), не перезаписуємо мовчки
   const path = statePath(me.email, b, v);
-  const cur = unpack(await readText(path, true));
-  const base = request.headers.get("if-match");
-  if (base !== null && Number(base) !== cur.rev) return withRev({ error: "Стан змінено на іншому пристрої", rev: cur.rev }, cur.rev, 409);
-  const rev = cur.rev + 1;
-  await writeText(path, JSON.stringify({ rev, data: clean }), "application/json");
-  return withRev({ ok: true, rev }, rev);
+  try {
+    // власний недавній запис цього інстансу береться з пам'яті (без читання з Blob)
+    const cached = ownCached(path);
+    const cur = unpack(cached !== undefined ? cached : await readText(path, true));
+    const base = request.headers.get("if-match");
+    if (base !== null && Number(base) !== cur.rev) return withRev({ error: "Стан змінено на іншому пристрої", rev: cur.rev }, cur.rev, 409);
+    // нічого не змінилось: не витрачаємо запис у сховищі
+    if (cur.rev > 0 && JSON.stringify(cur.data) === JSON.stringify(clean)) return withRev({ ok: true, rev: cur.rev, unchanged: true }, cur.rev);
+    const rev = cur.rev + 1;
+    await writeText(path, JSON.stringify({ rev, data: clean }), "application/json");
+    return withRev({ ok: true, rev }, rev);
+  } catch (e) {
+    if (e instanceof StoreError) return unavailable();
+    throw e;
+  }
 }

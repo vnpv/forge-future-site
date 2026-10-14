@@ -114,7 +114,7 @@ iframe{flex:1;width:100%;border:0;background:#fff}
   document.addEventListener('click',function(e){ if(!$('stuMenu').contains(e.target)) closeMenu(); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeMenu(); });
   fetch('/focus/api/books',{credentials:'same-origin'}).then(function(r){return r.json()}).then(function(d){
-    if(!d.me){ location.reload(); return; }
+    if(d.error && !d.me){ if(/недоступне/.test(d.error)){ var em=$('empty'); em.hidden=false; em.textContent=d.error; return; } location.reload(); return; }
     S.admin=d.me.role==='admin'; S.books=d.books.filter(function(b){ return S.admin || b.main || b.example; }); S.students=d.students||[]; $('who').textContent=d.me.name||d.me.email;
     if(d.me.role==='admin'){ $('adm').hidden=false;
       if(S.students.length){ $('stuBtn').hidden=false; var m=$('stuMenu');

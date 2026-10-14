@@ -1,4 +1,4 @@
-import { readText, writeText } from "./store";
+import { StoreError, readText, writeText } from "./store";
 
 /**
  * Список воркбуків: приватний Blob focus/books.json — нові додаються без деплою (PUT /focus/api/doc).
@@ -28,9 +28,11 @@ export const LEGACY_N: Record<string, string> = { "focus-model": "1", "client-ph
 
 export async function loadBooks(fresh = false): Promise<Book[]> {
   try {
-    const parsed = JSON.parse((await readText(PATH, fresh)) ?? "null") as { books?: Book[] } | null;
+    const parsed = JSON.parse((await readText(PATH, fresh, 300_000)) ?? "null") as { books?: Book[] } | null;
     if (parsed?.books?.length) return [...parsed.books].sort((a, b) => a.order - b.order);
-  } catch {}
+  } catch (e) {
+    if (e instanceof StoreError) throw e;
+  }
   return DEFAULTS;
 }
 

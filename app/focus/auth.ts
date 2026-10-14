@@ -45,8 +45,9 @@ export type Student = { email: string; name: string; track?: Track; salt: string
 const USERS_PATH = "focus/users.json";
 
 export async function loadStudents(fresh = false): Promise<Student[]> {
+  const text = await readText(USERS_PATH, fresh, 120_000); // StoreError пробиває наверх
   try {
-    return (JSON.parse((await readText(USERS_PATH, fresh)) ?? "{}").users as Student[]) ?? [];
+    return (JSON.parse(text ?? "{}").users as Student[]) ?? [];
   } catch {
     return [];
   }
@@ -65,7 +66,7 @@ export function newPassword() {
 export async function verifyLogin(email: string, password: string): Promise<Me | null> {
   const e = email.trim().toLowerCase();
   if (adminUsers().some((u) => safeEqual(u.email, e) && safeEqual(u.pass, password))) return { email: e, role: "admin", name: "Власник", track: "business" };
-  const s = (await loadStudents(true)).find((u) => u.email === e);
+  const s = (await loadStudents(true).catch(() => [] as Student[])).find((u) => u.email === e);
   if (s && timingSafeEqual(Buffer.from(hashPass(password, s.salt), "hex"), Buffer.from(s.hash, "hex"))) return { email: e, role: "student", name: s.name, track: normTrack(s.track) };
   return null;
 }
@@ -94,7 +95,7 @@ export async function currentUser(request: Request): Promise<Me | null> {
   if (!safeEqual(sig, await sign(`${enc}.${exp}`))) return null;
   const email = decodeURIComponent(enc);
   if (adminUsers().some((u) => u.email === email)) return { email, role: "admin", name: "Власник", track: "business" };
-  const s = (await loadStudents()).find((u) => u.email === email);
+  const s = (await loadStudents().catch(() => [] as Student[])).find((u) => u.email === email);
   return s ? { email, role: "student", name: s.name, track: normTrack(s.track) } : null;
 }
 
