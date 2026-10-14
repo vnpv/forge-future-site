@@ -12,6 +12,8 @@ export async function GET(request: Request) {
     title: b.title,
     main: Boolean(fileFor(b, me.role, "main", me.track)),
     example: Boolean(fileFor(b, me.role, "example", me.track)),
+    hasAdmin: Boolean(b.files.admin),
+    hasStudent: Boolean(b.files.student || b.files["student-career"]),
   }));
   const students = me.role === "admin" ? (await loadStudents()).map((s) => ({ email: s.email, name: s.name, track: s.track ?? "business" })) : [];
   return Response.json({ me, books, students }, { headers: NOINDEX });

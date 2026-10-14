@@ -80,14 +80,20 @@ iframe{flex:1;width:100%;border:0;background:#fff}
 <main><iframe id="book" title="Воркбук" hidden></iframe><div class="empty" id="empty" hidden></div></main>
 <script>
 (function(){
-  var S={books:[],students:[],b:null,v:'main',as:null}, $=function(i){return document.getElementById(i)};
+  var S={books:[],students:[],b:null,v:'main',as:null,admin:false}, $=function(i){return document.getElementById(i)};
   function save(){ try{ localStorage.setItem('focus_nav',JSON.stringify({b:S.b,v:S.v})); }catch(e){} }
   function el(t,c,x){ var e=document.createElement(t); if(c) e.className=c; if(x!==undefined) e.textContent=x; return e; }
+  function visible(){
+    // власнику: свої воркбуки; у режимі «Роботи учнів» — ті, що бачать учні
+    return S.books.filter(function(b){ return S.admin ? (S.as ? b.hasStudent : b.hasAdmin) : true; });
+  }
   function render(){
     var tabs=$('tabs'); tabs.innerHTML='';
-    S.books.forEach(function(bk){ var t=el('button','',bk.title); t.type='button';
+    var list=visible();
+    if(list.length && !list.some(function(b){return b.id===S.b})) S.b=list[0].id;
+    list.forEach(function(bk){ var t=el('button','',bk.title); t.type='button';
       if(bk.id===S.b) t.setAttribute('aria-current','true'); t.onclick=function(){ S.b=bk.id; S.v='main'; render(); }; tabs.appendChild(t); });
-    var cur=S.books.filter(function(x){return x.id===S.b})[0], seg=$('seg'); seg.innerHTML='';
+    var cur=list.filter(function(x){return x.id===S.b})[0], seg=$('seg'); seg.innerHTML='';
     if(cur && cur.example && !S.as){ [['main','Мій воркбук'],['example','Приклад']].forEach(function(p){ var t=el('button','',p[1]); t.type='button';
       if(S.v===p[0]) t.setAttribute('aria-current','true'); t.onclick=function(){ S.v=p[0]; render(); }; seg.appendChild(t); }); }
     seg.hidden=!seg.children.length;
@@ -109,13 +115,13 @@ iframe{flex:1;width:100%;border:0;background:#fff}
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') closeMenu(); });
   fetch('/focus/api/books',{credentials:'same-origin'}).then(function(r){return r.json()}).then(function(d){
     if(!d.me){ location.reload(); return; }
-    S.books=d.books.filter(function(b){ return d.me.role==='admin' || b.main || b.example; }); S.students=d.students||[]; $('who').textContent=d.me.name||d.me.email;
+    S.admin=d.me.role==='admin'; S.books=d.books.filter(function(b){ return S.admin || b.main || b.example; }); S.students=d.students||[]; $('who').textContent=d.me.name||d.me.email;
     if(d.me.role==='admin'){ $('adm').hidden=false;
       if(S.students.length){ $('stuBtn').hidden=false; var m=$('stuMenu');
         S.students.forEach(function(s){ var b=el('button',''); b.type='button'; b.appendChild(el('span','',s.name)); b.appendChild(el('small','',s.email+' · '+(s.track==='career'?'Старт карʼєри':'Власна справа'))); b.onclick=function(){ openAs(s); }; m.appendChild(b); }); } }
     var n={}; try{ n=JSON.parse(localStorage.getItem('focus_nav')||'{}'); }catch(e){}
     var h=(location.hash||'').slice(1);
-    S.b=(S.books.filter(function(x){return x.id===(h||n.b)})[0]||S.books[0]||{}).id||null;
+    var vis=visible(); S.b=(vis.filter(function(x){return x.id===(h||n.b)})[0]||vis[0]||{}).id||null;
     render();
   }).catch(function(){ var em=$('empty'); em.hidden=false; em.textContent='Не вдалося завантажити список воркбуків.'; });
 })();
