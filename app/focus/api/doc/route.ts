@@ -13,6 +13,18 @@ const MAX = 3_000_000;
 const VARIANTS = ["admin", "student", "example", "student-career", "example-career"] as const;
 const err = (m: string, status: number) => Response.json({ error: m }, { status, headers: NOINDEX });
 
+/** Прибрати воркбук зі списку (файли й чужі стани лишаються): DELETE ?b=<id> */
+export async function DELETE(request: Request) {
+  if (!ingestAuthorized(request)) return err("Немає доступу", 401);
+  if (!storageReady()) return err("Сховище не підключене", 503);
+  const b = new URL(request.url).searchParams.get("b") ?? "";
+  if (!BOOK_ID.test(b)) return err("Невірний id воркбука", 400);
+  const books = await loadBooks(true);
+  if (!books.some((x) => x.id === b)) return err("Немає такого воркбука", 404);
+  await saveBooks(books.filter((x) => x.id !== b));
+  return Response.json({ ok: true, removed: b }, { headers: NOINDEX });
+}
+
 export async function PUT(request: Request) {
   if (!ingestAuthorized(request)) return err("Немає доступу", 401);
   if (!storageReady()) return err("Сховище не підключене", 503);
