@@ -1,13 +1,14 @@
 import html from "./page-html";
-import { COOKIE, MAX_AGE, NOINDEX, currentUser, makeSession, safeEqual, users } from "./auth";
+import { COOKIE, MAX_AGE, NOINDEX, authenticate, currentUser, makeSession } from "./auth";
+import { EMAIL, ROLE_LABEL, type Role, canManageUsers, findInvite, hashPassword, readStore, saveStore } from "./users";
 import { lessonsWithReviews } from "./lessons";
 import { storageReady } from "./storage";
 
 /**
  * Дашборд якості уроків MIDGARD з власною формою входу (українською).
- * Користувачі, паролі й справжні імена вчителів — лише у змінних оточення Vercel,
- * бо репозиторій публічний:
- *   MIDGARD_USERS — "email|пароль;email|пароль"
+ * Користувачі реєструються за посиланням-запрошенням від власника чи сисадміна (/midgard/users, приватний Blob, users.ts)
+ * і самі задають пароль. Запасний вхід і справжні імена вчителів — у змінних оточення Vercel, бо репозиторій публічний:
+ *   MIDGARD_USERS — "email|пароль|роль;…"
  * Уроки (з іменами вчителів) — у приватному Blob midgard/lessons/*.json, не в коді.
  * Сесія — підписаний cookie на 30 днів (auth.ts); зміна MIDGARD_USERS скидає всі сесії.
  * Записи уроків — приватний Vercel Blob (video/route.ts, upload/route.ts).
@@ -18,11 +19,15 @@ const LOGO = "/images/midgard-logo.jpg";
 
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
 
-function loginPage(error = "", email = "") {
+type InviteView = { token: string; role: Role; email?: string; reset?: boolean };
+
+function loginPage(error = "", email = "", inv?: InviteView) {
+  const invite = inv?.token ?? "";
+  const locked = Boolean(inv?.email);
   return `<!doctype html><html lang="uk"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Вхід · Якість уроків MIDGARD</title>
+<title>${invite ? "Реєстрація" : "Вхід"} · Якість уроків MIDGARD</title>
 <link rel="icon" href="${LOGO}">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Commissioner:wght@400;500;600&family=Unbounded:wght@600&display=swap">
 <style>
@@ -48,12 +53,17 @@ button:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
   <div class="brand"><img src="${LOGO}" alt="Логотип школи MIDGARD" width="64" height="64">
     <div><h1>Якість уроків</h1><p class="sub">Дашборд школи MIDGARD</p></div></div>
   ${error ? `<div class="err" role="alert">${esc(error)}</div>` : ""}
-  <label for="email">Електронна пошта<input id="email" name="email" type="email" autocomplete="username" required value="${esc(email)}" placeholder="name@example.com"></label>
-  <label for="password">Пароль<input id="password" name="password" type="password" autocomplete="current-password" required></label>
-  <button type="submit">Увійти</button>
+  ${inv ? `<p class="sub">${inv.reset ? "Задайте новий пароль (щонайменше 8 символів)." : `Вас запросили до дашборду з роллю «${ROLE_LABEL[inv.role]}». Вкажіть пошту й придумайте пароль (щонайменше 8 символів).`}</p>
+  <input type="hidden" name="invite" value="${esc(invite)}">` : ""}
+  <label for="email">Електронна пошта<input id="email" name="email" type="email" autocomplete="username" required value="${esc(email)}" placeholder="name@example.com"${locked ? " readonly" : ""}></label>
+  <label for="password">${invite ? "Новий пароль" : "Пароль"}<input id="password" name="password" type="password" autocomplete="${invite ? "new-password" : "current-password"}" required${invite ? ' minlength="8"' : ""}></label>
+  ${invite ? `<label for="password2">Повторіть пароль<input id="password2" name="password2" type="password" autocomplete="new-password" required minlength="8"></label>` : ""}
+  <button type="submit">${inv ? (inv.reset ? "Зберегти пароль і увійти" : "Зареєструватися") : "Увійти"}</button>
   <p class="foot">Немає доступу? Зверніться до адміністратора Forge Future.</p>
 </form></body></html>`;
 }
+
+const BAD_INVITE = "Посилання-запрошення недійсне або прострочене. Попросіть адміністратора надіслати нове.";
 
 const htmlResponse = (body: string, status = 200, extra: Record<string, string> = {}) =>
   new Response(body, { status, headers: { ...NOINDEX, "Content-Type": "text/html; charset=utf-8", ...extra } });
@@ -62,6 +72,11 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   if (url.searchParams.has("logout")) {
     return new Response(null, { status: 303, headers: { ...NOINDEX, Location: "/midgard", "Set-Cookie": `${COOKIE}=; Path=/midgard; Max-Age=0; HttpOnly; Secure; SameSite=Lax` } });
+  }
+  const token = url.searchParams.get("invite");
+  if (token) {
+    const inv = await findInvite(token).catch(() => null);
+    return inv ? htmlResponse(loginPage("", inv.email ?? "", { ...inv, token })) : htmlResponse(loginPage(BAD_INVITE), 410);
   }
   const me = await currentUser(request);
   if (!me) return htmlResponse(loginPage());
@@ -73,24 +88,47 @@ export async function GET(request: Request) {
   const page = html
     .replace("/*LESSONS*/[]", () => data) // функцією: щоб «$» у текстах не спрацював як шаблон
     .replace("/*ME*/null", () => meJs)
-    .replace("<title>", `<link rel="icon" href="${LOGO}"><title>`);
+    .replace("<title>", `<link rel="icon" href="${LOGO}"><title>`)
+    // власнику й сисадміну — посилання на керування користувачами поруч із «Вийти»
+    .replace('<a class="logout" href="/midgard?logout=1">', (m) => (canManageUsers(me.role) ? `<a class="logout" href="/midgard/users">Користувачі</a> · ${m}` : m))
+    // нові ролі для сторінки, згенерованої з CEO OS dashboard.html (там лише admin/supervisor/director)
+    .replace("ME.role === 'admin'", "['admin','owner','sysadmin'].includes(ME.role)")
+    .replace("ROLE_NAME = {", "ROLE_NAME = {owner:'власник', sysadmin:'сисадмін', ");
   return htmlResponse(page);
 }
 
 export async function POST(request: Request) {
-  let email = "", password = "";
+  let email = "", password = "", password2 = "", invite = "";
   try {
     const form = await request.formData();
-    email = String(form.get("email") ?? "").trim();
+    email = String(form.get("email") ?? "").trim().toLowerCase();
     password = String(form.get("password") ?? "");
+    password2 = String(form.get("password2") ?? "");
+    invite = String(form.get("invite") ?? "");
   } catch {}
-  const ok = users().some((u) => safeEqual(u.email, email.toLowerCase()) && safeEqual(u.pass, password));
-  if (!ok) {
+  if (invite) {
+    // Реєстрація за запрошенням або скидання пароля: людина сама задає пароль
+    const inv = await findInvite(invite).catch(() => null);
+    if (!inv) return htmlResponse(loginPage(BAD_INVITE), 410);
+    const view = { ...inv, token: invite };
+    if (inv.email) email = inv.email;
+    if (!EMAIL.test(email)) return htmlResponse(loginPage("Перевірте адресу пошти.", email, view), 400);
+    if (password.length < 8) return htmlResponse(loginPage("Пароль має бути щонайменше 8 символів.", email, view), 400);
+    if (password !== password2) return htmlResponse(loginPage("Паролі не збігаються.", email, view), 400);
+    const store = await readStore(true);
+    const exists = store.users.find((u) => u.email === email);
+    if (exists && !inv.reset) return htmlResponse(loginPage("Користувач із такою поштою вже є. Увійдіть або попросіть скинути пароль.", email, view), 409);
+    const { hash, salt } = await hashPassword(password);
+    const users = exists
+      ? store.users.map((u) => (u.email === email ? { ...u, hash, salt } : u))
+      : [...store.users, { email, role: inv.role, hash, salt, createdBy: inv.createdBy, createdAt: new Date().toISOString() }];
+    await saveStore({ ...store, users, invites: store.invites.filter((i) => i.id !== inv.id) });
+  } else if (!(await authenticate(email, password))) {
     await new Promise((r) => setTimeout(r, 800)); // гальмуємо підбір пароля
     return htmlResponse(loginPage("Невірна електронна пошта або пароль. Спробуйте ще раз.", email), 401);
   }
   return new Response(null, {
     status: 303,
-    headers: { ...NOINDEX, Location: "/midgard", "Set-Cookie": `${COOKIE}=${await makeSession(email.toLowerCase())}; Path=/midgard; Max-Age=${MAX_AGE}; HttpOnly; Secure; SameSite=Lax` },
+    headers: { ...NOINDEX, Location: "/midgard", "Set-Cookie": `${COOKIE}=${await makeSession(email)}; Path=/midgard; Max-Age=${MAX_AGE}; HttpOnly; Secure; SameSite=Lax` },
   });
 }
