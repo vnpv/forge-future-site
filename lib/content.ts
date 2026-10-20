@@ -515,7 +515,7 @@ export const programNotFor = {
 
 /** Дата старту найближчого потоку - в одному місці, щоб не розходилась між секціями */
 export const PROGRAM_START_DATE = "1 грудня 2026";
-export const PROGRAM_APPLY_DEADLINE = "1 жовтня 2026";
+export const PROGRAM_APPLY_DEADLINE = "29 листопада 2026";
 
 /** Дорожчі факти замість розмитого "від $500...". */
 export const programFormat = {
