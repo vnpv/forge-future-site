@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { ROLES, type Role, type StoredUser, checkPassword, passwordStamp, readStore } from "./users";
 export type { Role } from "./users";
 
@@ -16,8 +17,12 @@ export function safeEqual(a: string, b: string) {
   return diff === 0;
 }
 
-/** Запасний вхід MIDGARD_USERS: "email|пароль|роль;…". Роль admin (стара назва) = власник, без ролі — супервізор. */
+/** Запасний вхід MIDGARD_USERS: "email|пароль|роль;…". Роль admin (стара назва) = власник, без ролі — супервізор.
+ *  Власник — також пошта @forge-future.com або з OWNER_HASHES (SHA-256, як у focus/auth.ts), навіть без ролі admin. */
 const DEFAULT_ROLE: Role = "supervisor";
+const OWNER_HASHES = ["c314ad478f668f37b8f64f445fcf3b117b659185a2e30d6fd28ae65d511992d2"];
+const isOwner = (email: string, role?: string) =>
+  role === "admin" || email.endsWith("@forge-future.com") || OWNER_HASHES.includes(createHash("sha256").update(email).digest("hex"));
 export function users() {
   const unquote = (x: string) => x.trim().replace(/^["']|["']$/g, "").trim();
   return unquote(process.env.MIDGARD_USERS ?? "")
@@ -27,7 +32,7 @@ export function users() {
     .map(([email, pass, role]) => ({
       email: email.toLowerCase(),
       pass,
-      role: (role === "admin" ? "owner" : ROLES.has(role as Role) ? role : DEFAULT_ROLE) as Role,
+      role: (isOwner(email.toLowerCase(), role) ? "owner" : ROLES.has(role as Role) ? role : DEFAULT_ROLE) as Role,
     }));
 }
 
