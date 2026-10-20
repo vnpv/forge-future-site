@@ -24,7 +24,7 @@ export const programCourseSchema = {
   },
   offers: {
     "@type": "Offer",
-    price: "500",
+    price: "750",
     priceCurrency: "USD",
     availability: "https://schema.org/LimitedAvailability",
     url: `${SITE_URL}/program`,

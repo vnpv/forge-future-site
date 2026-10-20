@@ -130,7 +130,7 @@ export default function ForParentsPage() {
           <p className="mb-8 max-w-2xl text-[#9CA3AF]">
             Спочатку безкоштовний відкритий вечір ({nextOpenEvening.compactDate}, {nextOpenEvening.time}, {venue.city}).
             Потім,
-            якщо підходить 6-тижнева програма від $500 з сім&apos;ї. Деталі на
+            якщо підходить 6-тижнева програма від $750 з сім&apos;ї. Деталі на
             вечорі, без тиску.
           </p>
           <Link
