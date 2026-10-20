@@ -1,6 +1,7 @@
 import { NOINDEX, currentUser } from "../auth";
+import { canManageUsers } from "../users";
 
-/** Сторінка керування користувачами дашборду MIDGARD (лише admin). Дані — через /midgard/api/users. */
+/** Сторінка керування користувачами дашборду MIDGARD (власник і сисадмін). Дані — через /midgard/api/users. */
 export const dynamic = "force-dynamic";
 
 const LOGO = "/images/midgard-logo.jpg";
@@ -26,7 +27,7 @@ a{color:var(--blue)}
 h2{font-size:16px;margin:0 0 12px}
 form.add{display:flex;flex-wrap:wrap;gap:10px;align-items:end}
 label{display:grid;gap:6px;font-size:13.5px;font-weight:500}
-form.add label:first-child{flex:1 1 240px}
+form.add label{flex:1 1 240px}
 input,select{font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:var(--bg);color:var(--ink)}
 button{font:inherit;font-weight:600;padding:9px 14px;border:0;border-radius:9px;background:var(--lime);color:#14200a;cursor:pointer}
 button.ghost{background:transparent;border:1px solid var(--line);color:var(--ink);font-weight:500;padding:6px 10px;font-size:13.5px}
@@ -52,29 +53,30 @@ button:focus-visible,input:focus,select:focus{outline:2px solid var(--blue);outl
 <section class="card">
   <h2>Запросити користувача</h2>
   <form class="add" id="add">
-    <label>Електронна пошта<input name="email" type="email" required placeholder="name@example.com"></label>
-    <label>Роль<select name="role">
-      <option value="director">Директор — перегляд і завантаження</option>
-      <option value="supervisor" selected>Супервізор — ще й перевірка аналізу</option>
-      <option value="admin">Адміністратор — усе, включно з користувачами</option>
-    </select></label>
-    <button type="submit">Створити запрошення</button>
+    <label>Роль<select name="role" id="role"></select></label>
+    <label>Пошта (необов'язково)<input name="email" type="email" placeholder="name@example.com"></label>
+    <button type="submit">Створити посилання</button>
   </form>
   <div id="out"></div>
-  <p class="hint">Людина відкриває посилання, сама задає пароль і далі входить як усі. Посилання одноразове й діє 7 днів. Надішліть його в пошту чи месенджер.</p>
+  <p class="hint">Людина відкриває посилання, вводить свою пошту й пароль і далі входить як усі. Посилання одноразове й діє 7 днів. Якщо вказати пошту, зареєструватися зможе лише з нею.</p>
 </section>
 <section class="card">
-  <h2>Усі користувачі</h2>
+  <h2>Відкриті запрошення</h2>
+  <div id="invites">Завантаження…</div>
+</section>
+<section class="card">
+  <h2>Користувачі</h2>
   <div id="list">Завантаження…</div>
-  <p class="hint" id="envhint" hidden>«З Vercel» — запасні входи зі змінної MIDGARD_USERS. Кнопка нижче копіює їх сюди з поточними паролями, щоб ними можна було керувати на сайті.
-    <br><button type="button" class="ghost" id="import">Перенести користувачів з Vercel</button></p>
+  <p class="hint" id="envhint" hidden>«Запасний вхід» — рядки зі змінної MIDGARD_USERS у Vercel. Щоб керувати людиною тут, створіть їй запрошення з її поштою: після реєстрації діє пароль із сайту.</p>
 </section>
 </main>
 <script>
-const ROLE={admin:"Адміністратор",supervisor:"Супервізор",director:"Директор"};
+const ROLE={owner:"Власник",sysadmin:"Сисадмін",director:"Директор школи",supervisor:"Супервізор"};
+const ROLE_HINT={owner:"усі права, включно з усіма користувачами",sysadmin:"усі права, керує директорами й супервізорами",director:"перегляд і завантаження уроків",supervisor:"перегляд, завантаження і перевірка аналізу"};
 const $=(s)=>document.querySelector(s);
 const esc=(s)=>String(s).replace(/[&<>"]/g,(c)=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[c]);
 const fmt=(d)=>d?new Date(d).toLocaleDateString("uk-UA",{day:"numeric",month:"short"}):"";
+let ME=null;
 async function api(method,body,q=""){
   const r=await fetch("/midgard/api/users"+q,{method,headers:body?{"Content-Type":"application/json"}:{},body:body?JSON.stringify(body):undefined});
   const d=await r.json().catch(()=>({error:"Помилка сервера"}));
@@ -82,55 +84,56 @@ async function api(method,body,q=""){
   return d;
 }
 function show(html,kind="ok"){ $("#out").innerHTML=html?'<div class="msg '+kind+'" role="status" style="margin-top:12px">'+html+"</div>":""; }
-function showLink(email,link,text){
-  show(esc(text)+" <b>"+esc(email)+"</b>:"+'<div class="link"><input readonly value="'+esc(link)+'" id="lnk"><button type="button" class="ghost" id="copy">Скопіювати</button></div>');
+function showLink(text,link){
+  show(text+':<div class="link"><input readonly value="'+esc(link)+'" id="lnk"><button type="button" class="ghost" id="copy">Скопіювати</button></div><div class="meta" style="margin-top:6px">Посилання показується лише зараз. Скопіюйте й надішліть його в пошту чи месенджер.</div>');
   $("#copy").onclick=()=>{navigator.clipboard.writeText(link).then(()=>{$("#copy").textContent="Скопійовано";});};
-  $("#lnk").select();
+  $("#lnk").select(); window.scrollTo({top:0,behavior:"smooth"});
 }
-const STATUS={active:"",invited:"чекає реєстрації",expired:"запрошення прострочене"};
-function render(users){
-  $("#envhint").hidden=!users.some((u)=>u.source==="vercel");
-  if(!users.length){ $("#list").textContent="Поки нікого немає."; return; }
-  $("#list").innerHTML=users.map((u)=>{
-    const st=u.source==="vercel"?'<span class="tag">з Vercel</span>':(STATUS[u.status]?'<span class="tag">'+STATUS[u.status]+"</span>":"");
-    const meta=u.source==="vercel"?"Запасний вхід, змінюється лише у Vercel":[u.createdBy?"додав(ла) "+esc(u.createdBy):"",u.createdAt?fmt(u.createdAt):"",u.inEnv?"також є у Vercel":""].filter(Boolean).join(" · ");
-    const acts=u.source==="vercel"?'<span class="meta">'+ROLE[u.role]+"</span>":
-      '<select data-role="'+esc(u.email)+'" aria-label="Роль">'+Object.keys(ROLE).map((r)=>'<option value="'+r+'"'+(r===u.role?" selected":"")+">"+ROLE[r]+"</option>").join("")+"</select>"+
-      '<button type="button" class="ghost" data-reset="'+esc(u.email)+'">'+(u.status==="active"?"Скинути пароль":"Нове посилання")+"</button>"+
-      '<button type="button" class="ghost danger" data-del="'+esc(u.email)+'">Видалити</button>';
-    return '<div class="row"><div class="who"><b>'+esc(u.email)+"</b>"+st+'<div class="meta">'+meta+'</div></div><div class="acts">'+acts+"</div></div>";
-  }).join("");
+function render(d){
+  ME=d.me;
+  const sel=$("#role"), cur=sel.value;
+  sel.innerHTML=d.canInvite.map((r)=>'<option value="'+r+'">'+ROLE[r]+" — "+ROLE_HINT[r]+"</option>").join("");
+  if(d.canInvite.includes(cur)) sel.value=cur;
+  $("#invites").innerHTML=d.invites.length?d.invites.map((i)=>'<div class="row"><div class="who"><b>'+ROLE[i.role]+"</b>"+(i.reset?'<span class="tag">новий пароль</span>':"")+'<div class="meta">'+(i.email?esc(i.email):"будь-яка пошта")+" · діє до "+fmt(i.exp)+" · створив(ла) "+esc(i.createdBy)+'</div></div><div class="acts">'+(i.editable?'<button type="button" class="ghost danger" data-cancel="'+esc(i.id)+'">Скасувати</button>':"")+"</div></div>").join(""):'<span class="meta">Немає відкритих запрошень.</span>';
+  $("#envhint").hidden=!d.users.some((u)=>u.source==="vercel");
+  $("#list").innerHTML=d.users.length?d.users.map((u)=>{
+    const me=u.email===ME.email;
+    const tags=(me?'<span class="tag">це ви</span>':"")+(u.source==="vercel"?'<span class="tag">запасний вхід</span>':"");
+    const meta=u.source==="vercel"?ROLE[u.role]+" · змінюється лише у Vercel":ROLE[u.role]+(u.createdBy?" · запросив(ла) "+esc(u.createdBy):"")+(u.createdAt?" · "+fmt(u.createdAt):"");
+    let acts="";
+    if(u.editable) acts='<select data-role="'+esc(u.email)+'" aria-label="Роль">'+d.canInvite.map((r)=>'<option value="'+r+'"'+(r===u.role?" selected":"")+">"+ROLE[r]+"</option>").join("")+"</select>"+
+      '<button type="button" class="ghost" data-reset="'+esc(u.email)+'">Скинути пароль</button><button type="button" class="ghost danger" data-del="'+esc(u.email)+'">Видалити</button>';
+    else if(me&&u.source==="site") acts='<button type="button" class="ghost" data-reset="'+esc(u.email)+'">Змінити свій пароль</button>';
+    return '<div class="row"><div class="who"><b>'+esc(u.email)+"</b>"+tags+'<div class="meta">'+meta+'</div></div><div class="acts">'+acts+"</div></div>";
+  }).join(""):'<span class="meta">Поки нікого немає.</span>';
 }
-async function load(){ try{ render((await api("GET")).users); }catch(e){ $("#list").innerHTML='<div class="msg err">'+esc(e.message)+"</div>"; } }
+async function load(){ try{ render(await api("GET")); }catch(e){ $("#list").innerHTML='<div class="msg err">'+esc(e.message)+"</div>"; } }
 $("#add").onsubmit=async(ev)=>{
   ev.preventDefault();
-  const f=new FormData(ev.target), email=String(f.get("email")).trim().toLowerCase();
-  try{ const d=await api("POST",{action:"add",email,role:f.get("role")}); render(d.users); ev.target.reset(); showLink(email,d.link,"Посилання-запрошення для"); }
+  const f=new FormData(ev.target), email=String(f.get("email")||"").trim().toLowerCase(), role=String(f.get("role"));
+  try{ const d=await api("POST",{action:"invite",role,email}); render(d); ev.target.email.value=""; showLink("Посилання для реєстрації з роллю «"+ROLE[role]+"»"+(email?" для <b>"+esc(email)+"</b>":""),d.link); }
   catch(e){ show(esc(e.message),"err"); }
 };
-$("#list").addEventListener("click",async(ev)=>{
+document.body.addEventListener("click",async(ev)=>{
   const t=ev.target;
   try{
-    if(t.dataset.reset){ const d=await api("POST",{action:"reset",email:t.dataset.reset}); render(d.users); showLink(t.dataset.reset,d.link,"Посилання для нового пароля"); window.scrollTo({top:0,behavior:"smooth"}); }
-    if(t.dataset.del && confirm("Видалити "+t.dataset.del+"? Доступ зникне одразу.")){ render((await api("DELETE",null,"?email="+encodeURIComponent(t.dataset.del))).users); show(""); }
+    if(t.dataset.reset){ const d=await api("POST",{action:"reset",email:t.dataset.reset}); render(d); showLink("Посилання для нового пароля <b>"+esc(t.dataset.reset)+"</b>",d.link); }
+    if(t.dataset.cancel){ render(await api("POST",{action:"cancel",id:t.dataset.cancel})); }
+    if(t.dataset.del && confirm("Видалити "+t.dataset.del+"? Доступ зникне одразу.")){ render(await api("DELETE",null,"?email="+encodeURIComponent(t.dataset.del))); show(""); }
   }catch(e){ show(esc(e.message),"err"); window.scrollTo({top:0,behavior:"smooth"}); }
 });
 $("#list").addEventListener("change",async(ev)=>{
   const t=ev.target; if(!t.dataset.role) return;
-  try{ render((await api("POST",{action:"role",email:t.dataset.role,role:t.value})).users); show("Роль змінено: "+esc(t.dataset.role)); }
+  try{ render(await api("POST",{action:"role",email:t.dataset.role,role:t.value})); show("Роль змінено: "+esc(t.dataset.role)); }
   catch(e){ show(esc(e.message),"err"); load(); }
 });
-$("#import").onclick=async()=>{
-  try{ const d=await api("POST",{action:"import"}); render(d.users); show(d.imported?"Перенесено користувачів: "+d.imported+". Тепер ними можна керувати тут.":"Усі вже перенесені."); }
-  catch(e){ show(esc(e.message),"err"); }
-};
 load();
 </script></body></html>`;
 
 export async function GET(request: Request) {
   const me = await currentUser(request);
   if (!me) return new Response(null, { status: 303, headers: { ...NOINDEX, Location: "/midgard" } });
-  if (me.role !== "admin")
-    return new Response("Керувати користувачами може лише адміністратор", { status: 403, headers: { ...NOINDEX, "Content-Type": "text/plain; charset=utf-8" } });
+  if (!canManageUsers(me.role))
+    return new Response("Керувати користувачами можуть лише власник і сисадмін", { status: 403, headers: { ...NOINDEX, "Content-Type": "text/plain; charset=utf-8" } });
   return new Response(page, { headers: { ...NOINDEX, "Content-Type": "text/html; charset=utf-8" } });
 }
