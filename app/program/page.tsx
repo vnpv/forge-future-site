@@ -9,6 +9,7 @@ import {
   PROGRAM_START_DATE,
   programFaqs,
   programFormat,
+  programPackages,
   programFounderBio,
   programHowItWorks,
   programNotFor,
@@ -244,6 +245,35 @@ export default function ProgramPage() {
               </div>
             ))}
           </dl>
+          <div className="mt-10 grid gap-4 md:grid-cols-3">
+            {programPackages.map((p) => (
+              <div
+                key={p.name}
+                className={`flex flex-col border-2 p-6 ${
+                  p.note?.startsWith("Рекомендуємо")
+                    ? "border-[var(--color-accent)]"
+                    : "border-[var(--color-foreground)]"
+                }`}
+              >
+                <p className="ff-display text-lg font-bold text-[var(--color-foreground)]">
+                  {p.name}
+                </p>
+                <p className="ff-display mt-1 text-3xl font-extrabold text-[var(--color-foreground)]">
+                  {p.price}
+                </p>
+                {p.note && (
+                  <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-[var(--color-accent)]">
+                    {p.note}
+                  </p>
+                )}
+                <ul className="mt-4 flex flex-col gap-2 text-sm leading-relaxed text-[var(--color-muted)]">
+                  {p.features.map((feat) => (
+                    <li key={feat}>- {feat}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </Container>
       </Section>
 

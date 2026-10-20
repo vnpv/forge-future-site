@@ -23,8 +23,10 @@ export const programCourseSchema = {
     audienceType: "Підлітки, амбітна молодь",
   },
   offers: {
-    "@type": "Offer",
-    price: "750",
+    "@type": "AggregateOffer",
+    lowPrice: "500",
+    highPrice: "1000",
+    offerCount: 3,
     priceCurrency: "USD",
     availability: "https://schema.org/LimitedAvailability",
     url: `${SITE_URL}/program`,
