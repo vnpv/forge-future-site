@@ -1,5 +1,5 @@
-import { LESSON_ID, NOINDEX, canReview, currentUser } from "../../auth";
-import { type Supervision, getLesson, saveReview } from "../../lessons";
+import { LESSON_ID, NOINDEX, canReview, currentUser, ingestAuthorized } from "../../auth";
+import { type Supervision, getLesson, listReviews, saveReview } from "../../lessons";
 import { storageReady } from "../../storage";
 
 /**
@@ -12,6 +12,23 @@ export const dynamic = "force-dynamic";
 const json = (data: unknown, status = 200) => Response.json(data, { status, headers: NOINDEX });
 const DECISIONS = new Set(["confirm", "change", "reject"]);
 const LEVELS = new Set(["strong", "partial", "none", "na"]);
+
+/** Зведення перевірок для сповіщень у Telegram (лише ключ конвеєра). */
+export async function GET(request: Request) {
+  if (!ingestAuthorized(request)) return json({ error: "Потрібен ключ" }, 401);
+  if (!storageReady()) return json({ reviews: [] });
+  const all = await listReviews();
+  const reviews = Object.entries(all).map(([lessonId, r]) => {
+    const items = Object.values(r.items ?? {});
+    return {
+      lessonId, status: r.status, by: r.by, at: r.at,
+      done: items.filter((x) => x.decision).length,
+      changed: items.filter((x) => x.decision === "change" || x.decision === "reject").length,
+      comments: items.filter((x) => x.comment).length + (r.comment ? 1 : 0),
+    };
+  });
+  return json({ reviews });
+}
 
 export async function POST(request: Request) {
   const me = await currentUser(request);
