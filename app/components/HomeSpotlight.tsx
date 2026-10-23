@@ -11,9 +11,9 @@ export default function HomeSpotlight() {
       <div className="ff-spotlight-shine" aria-hidden />
       <div className="relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <div>
-          <p className="mb-3 inline-flex items-center gap-2 border border-[#e8951a]/40 bg-[#e8951a]/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-[#e8951a]">
+          <p className="mb-3 inline-flex items-center gap-2 border border-[#5ee0d0]/40 bg-[#5ee0d0]/10 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-[#5ee0d0]">
             <span
-              className="h-1.5 w-1.5 rounded-full bg-[#e8951a] animate-pulse"
+              className="h-1.5 w-1.5 rounded-full bg-[#5ee0d0] animate-pulse"
               aria-hidden
             />
             Наступний вечір
@@ -23,27 +23,27 @@ export default function HomeSpotlight() {
               {dayNum ?? "29"}
             </span>
             <div>
-              <p className="text-lg font-bold uppercase tracking-wide text-[#e8951a] sm:text-xl">
+              <p className="text-lg font-bold uppercase tracking-wide text-[#5ee0d0] sm:text-xl">
                 {month ?? "травня"} {year ?? "2026"}
               </p>
-              <p className="text-sm text-[#8b9199]">
+              <p className="text-sm text-[#b9b5ab]">
                 {nextOpenEvening.weekday}, {nextOpenEvening.time} · {venue.city}
               </p>
             </div>
           </div>
-          <p className="mb-6 max-w-md text-sm leading-relaxed text-[#9ca3af]">
+          <p className="mb-6 max-w-md text-sm leading-relaxed text-[#b9b5ab]">
             {nextOpenEvening.description}
           </p>
           <TelegramCta location="spotlight">Записатись на цей вечір →</TelegramCta>
         </div>
         <div className="flex items-end gap-3 sm:gap-5 max-lg:mt-2">
-          <blockquote className="relative min-w-0 flex-1 border-l-2 border-[#e8951a]/50 pl-5 sm:pl-6">
+          <blockquote className="relative min-w-0 flex-1 border-l-2 border-[#5ee0d0]/50 pl-5 sm:pl-6">
             <p className="text-lg font-semibold leading-snug text-white sm:text-xl">
               {founder.quote}
             </p>
-            <footer className="mt-3 text-sm text-[#8b9199]">
+            <footer className="mt-3 text-sm text-[#b9b5ab]">
               - {founder.fullName},{" "}
-              <Link href="/about" className="text-[#e8951a] hover:underline">
+              <Link href="/about" className="text-[#5ee0d0] hover:underline">
                 про засновника
               </Link>
             </footer>

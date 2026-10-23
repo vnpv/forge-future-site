@@ -10,7 +10,6 @@ const STATIC_LAST_MODIFIED = new Date("2026-09-08");
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     "",
-    "/for-parents",
     "/blog",
     "/events",
     "/program",
@@ -21,7 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const priorityFor = (path: string) =>
     path === ""
       ? 1
-      : path === "/for-parents"
+      : path === "/program"
         ? 0.95
         : path === "/events"
           ? 0.9

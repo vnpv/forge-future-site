@@ -19,12 +19,9 @@ export const organizationSchema = {
     TELEGRAM_IVAN_CHANNEL_URL,
   ],
   areaServed: { "@type": "Country", name: "Ukraine" },
-  alternateName: "Школа майбутніх Діамантів",
   knowsAbout: [
-    "Школа майбутніх Діамантів",
-    "Неошкола",
+    "практикум для підлітків",
     "альтернативне навчання",
-    "власна стратегія життя",
     "власні проєкти для підлітків",
     "менторство",
   ],

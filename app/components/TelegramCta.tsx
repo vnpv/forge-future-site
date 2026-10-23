@@ -46,7 +46,7 @@ export default function TelegramCta({
     flow === "program" ? APPLY_PROGRAM_URL : APPLY_OPEN_EVENING_URL;
   const label =
     children ??
-    (flow === "program" ? "Подати заявку на програму" : "Записатись на вечір");
+    (flow === "program" ? "Записатися на розбір" : "Записатись на вечір");
 
   const onClick = () => {
     trackEvent(

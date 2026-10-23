@@ -4,8 +4,8 @@ import type { ReactElement } from "react";
 
 function YakZarobytyPidlitku(): ReactElement {
   return (
-    <div className="prose-ff mx-auto max-w-2xl space-y-6 text-[#9CA3AF] leading-relaxed">
-      <p className="text-lg text-[#d1d5db]">
+    <div className="prose-ff mx-auto max-w-2xl space-y-6 text-[#b9b5ab] leading-relaxed">
+      <p className="text-lg text-[#d2cec4]">
         Я заробив перший мільйон у 36. Хочу, щоб ти зробив свій перший крок
         раніше. Не «коли виростеш», а з того, що вже можеш сьогодні.
       </p>
@@ -20,34 +20,34 @@ function YakZarobytyPidlitku(): ReactElement {
 
       <h2 className="text-xl font-bold text-white">5 способів, які працюють</h2>
 
-      <h3 className="text-lg font-semibold text-[#e8951a]">1. Контент і соцмережі</h3>
+      <h3 className="text-lg font-semibold text-[#5ee0d0]">1. Контент і соцмережі</h3>
       <p>
         Монтаж, обкладинки, короткі відео, ведення сторінки для малого бізнесу.
         Почни з одного клієнта з оточення: «зроблю 3 reels за тиждень». Покажи
         приклад, навіть якщо це твій акаунт.
       </p>
 
-      <h3 className="text-lg font-semibold text-[#e8951a]">2. Фріланс</h3>
+      <h3 className="text-lg font-semibold text-[#5ee0d0]">2. Фріланс</h3>
       <p>
         Дизайн, тексти, простий код, переклад. Шукай у Telegram-каналах з
         вакансіями, пиши 5 людям напряму, не чекай ідеального портфоліо. Перше
         замовлення часто від знайомого знайомого.
       </p>
 
-      <h3 className="text-lg font-semibold text-[#e8951a]">3. Навчання молодших</h3>
+      <h3 className="text-lg font-semibold text-[#5ee0d0]">3. Навчання молодших</h3>
       <p>
         Предмет, у якому ти сильний: математика, англійська, гітара. Формат:
         2–3 учні, фіксований час, чесна ціна. Це вже бізнес: ти відповідаєш за
         результат.
       </p>
 
-      <h3 className="text-lg font-semibold text-[#e8951a]">4. Свій маленький продукт</h3>
+      <h3 className="text-lg font-semibold text-[#5ee0d0]">4. Свій маленький продукт</h3>
       <p>
         Наліпки, мерч, цифровий шаблон, послуга «налаштую телефон». Головне:
         хтось заплатив, не лише сказав «круто».
       </p>
 
-      <h3 className="text-lg font-semibold text-[#e8951a]">5. Допомога бізнесу поруч</h3>
+      <h3 className="text-lg font-semibold text-[#5ee0d0]">5. Допомога бізнесу поруч</h3>
       <p>
         Кав&apos;ярня, салон, батьківський знайомий. Запропонуй конкретику:
         вести Instagram, збирати відгуки, тестувати ідею. Один кейс у 15 років
@@ -109,8 +109,8 @@ function YakZarobytyPidlitku(): ReactElement {
 
 function PidlitokNeZnayeChohoKhoche(): ReactElement {
   return (
-    <div className="prose-ff mx-auto max-w-2xl space-y-6 text-[#9CA3AF] leading-relaxed">
-      <p className="text-lg text-[#d1d5db]">
+    <div className="prose-ff mx-auto max-w-2xl space-y-6 text-[#b9b5ab] leading-relaxed">
+      <p className="text-lg text-[#d2cec4]">
         «Він нічого не хоче. Цілими днями в телефоні. Питаю, ким хочеш бути -
         знизує плечима». Якщо це про вашу сім&apos;ю - видихніть. Підліток, який
         не знає, чого хоче, - це не зламаний підліток. Це нормальний стан у
@@ -168,7 +168,7 @@ function PidlitokNeZnayeChohoKhoche(): ReactElement {
 
       <h2 className="text-xl font-bold text-white">5 кроків для батьків</h2>
 
-      <h3 className="text-lg font-semibold text-[#e8951a]">
+      <h3 className="text-lg font-semibold text-[#5ee0d0]">
         1. Приберіть питання «ким ти хочеш бути»
       </h3>
       <p>
@@ -176,7 +176,7 @@ function PidlitokNeZnayeChohoKhoche(): ReactElement {
         відповіді на 20 років уперед і лякає. Друге - відкриває розмову.
       </p>
 
-      <h3 className="text-lg font-semibold text-[#e8951a]">
+      <h3 className="text-lg font-semibold text-[#5ee0d0]">
         2. Шукайте інтерес у тому, що вже є
       </h3>
       <p>
@@ -185,7 +185,7 @@ function PidlitokNeZnayeChohoKhoche(): ReactElement {
         монтаж TikTok - це все сирий інтерес, з яким можна працювати.
       </p>
 
-      <h3 className="text-lg font-semibold text-[#e8951a]">
+      <h3 className="text-lg font-semibold text-[#5ee0d0]">
         3. Допоможіть зробити крок, а не план
       </h3>
       <p>
@@ -194,7 +194,7 @@ function PidlitokNeZnayeChohoKhoche(): ReactElement {
         Маленький реальний крок важить більше за великий уявний план.
       </p>
 
-      <h3 className="text-lg font-semibold text-[#e8951a]">
+      <h3 className="text-lg font-semibold text-[#5ee0d0]">
         4. Хваліть за дію, не за результат
       </h3>
       <p>
@@ -203,7 +203,7 @@ function PidlitokNeZnayeChohoKhoche(): ReactElement {
         показав людям. Якість приходить з повтореннями.
       </p>
 
-      <h3 className="text-lg font-semibold text-[#e8951a]">
+      <h3 className="text-lg font-semibold text-[#5ee0d0]">
         5. Дайте середовище, де діють однолітки
       </h3>
       <p>
@@ -300,8 +300,8 @@ function PidlitokNeZnayeChohoKhoche(): ReactElement {
 
 function AlternatyvaShkoliDlyaPidlitka(): ReactElement {
   return (
-    <div className="prose-ff mx-auto max-w-2xl space-y-6 text-[#9CA3AF] leading-relaxed">
-      <p className="text-lg text-[#d1d5db]">
+    <div className="prose-ff mx-auto max-w-2xl space-y-6 text-[#b9b5ab] leading-relaxed">
+      <p className="text-lg text-[#d2cec4]">
         «Школа не дає нічого, крім ЗНО, а дитині явно потрібно щось інше» -
         цю фразу я чую від батьків щотижня. Далі йде пошук: гурток, репетитор,
         курси, «якась неошкола». Розберемо чесно, що насправді дають три
@@ -324,7 +324,7 @@ function AlternatyvaShkoliDlyaPidlitka(): ReactElement {
         Три шляхи, якими зазвичай ідуть батьки
       </h2>
 
-      <h3 className="text-lg font-semibold text-[#e8951a]">1. Гурток</h3>
+      <h3 className="text-lg font-semibold text-[#5ee0d0]">1. Гурток</h3>
       <p>
         Танці, робототехніка, малювання, футбол. Сильна сторона - навичка і
         дисципліна в конкретній справі. Слабка - гурток рідко вчить доводити
@@ -332,7 +332,7 @@ function AlternatyvaShkoliDlyaPidlitka(): ReactElement {
         тренера чи викладача, а не будують щось своє з нуля.
       </p>
 
-      <h3 className="text-lg font-semibold text-[#e8951a]">
+      <h3 className="text-lg font-semibold text-[#5ee0d0]">
         2. Репетитор або курси
       </h3>
       <p>
@@ -342,7 +342,7 @@ function AlternatyvaShkoliDlyaPidlitka(): ReactElement {
         курсу вже визначає, чим ти займаєшся, а не допомагає це знайти.
       </p>
 
-      <h3 className="text-lg font-semibold text-[#e8951a]">3. Неошкола</h3>
+      <h3 className="text-lg font-semibold text-[#5ee0d0]">3. Неошкола</h3>
       <p>
         Формат без оцінок і уроків, де підліток сам формулює напрямок і
         працює над власним проєктом з ментором поруч. Найближче до того,
@@ -393,21 +393,21 @@ function AlternatyvaShkoliDlyaPidlitka(): ReactElement {
         Де тут Forge Future
       </h2>
       <p>
-        Ми - неошкола для 10-19 років, побудована саме навколо власного
-        проєкту, а не уроків. Починається з безкоштовного відкритого вечора
-        в Києві: підліток формулює «Власну стратегію життя» - короткий
-        живий документ про те, що його драйвить і який перший крок. Для
-        тих, хто хоче йти далі - шестритижневий Практикум з ментором: від
-        ідеї до демо-дня, мікрогрупа до 10 людей, від $500 за потік із
-        сім&apos;ї. Для віку 10-13 - окремий формат Студія, деталі на
-        сторінці «Студія».
+        Forge Future - це практикум для підлітків 14-19, побудований
+        навколо власного проєкту, а не уроків: шість тижнів, мікрогрупа до
+        10 людей, один результат на тиждень і Demo Day наприкінці. Батьки
+        щотижня отримують апдейт про те, що зробила дитина. Пакети: $500,
+        $750 і $1000 за потік. Для віку 10-13 - окремий формат Студія,
+        деталі на сторінці «Студія».
       </p>
 
       <h2 className="text-xl font-bold text-white">Перший крок сьогодні</h2>
       <p>
-        Не обирайте формат наосліп на рік уперед. Сходіть з підлітком на
-        один безкоштовний відкритий вечір - і за 90 хвилин стане видно,
-        підходить формат чи ні, без ризику й без оплати наперед.
+        Не обирайте формат наосліп на рік уперед. Запишіться на безкоштовний
+        розбір на 20 хвилин: ви розповісте про дитину, а я скажу, що бачу
+        і що спробувати першим. Після розбору місце тримаємо 48 годин, і
+        якщо після першого тижня формат не підійде, повертаємо оплату за
+        решту програми. Для підлітків є ще безкоштовний відкритий вечір.
       </p>
 
       <h2 className="text-xl font-bold text-white">Часті питання</h2>

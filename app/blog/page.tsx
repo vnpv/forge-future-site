@@ -29,13 +29,13 @@ export default function BlogPage() {
           <SchoolConceptStrip pageHint={pageContext.blog} />
         </Container>
       </Section>
-      <Section spacing="content" className="bg-[#111111]">
+      <Section spacing="content" className="bg-[#17181b]">
         <Container>
           <ul className="grid gap-4 sm:grid-cols-2">
             {blogPosts.map((post) => (
               <li key={post.slug}>
                 <Card bordered className="flex h-full flex-col gap-3">
-                  <p className="text-xs text-[#9CA3AF]">
+                  <p className="text-xs text-[#b9b5ab]">
                     {new Date(post.publishedAt).toLocaleDateString("uk-UA", {
                       day: "numeric",
                       month: "long",
@@ -46,17 +46,17 @@ export default function BlogPage() {
                   <h2 className="text-lg font-semibold text-white">
                     <Link
                       href={`/blog/${post.slug}`}
-                      className="hover:text-[#e8951a]"
+                      className="hover:text-[#5ee0d0]"
                     >
                       {post.title}
                     </Link>
                   </h2>
-                  <p className="flex-1 text-sm text-[#9CA3AF]">
+                  <p className="flex-1 text-sm text-[#b9b5ab]">
                     {post.description}
                   </p>
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="text-sm font-medium text-[#e8951a] hover:underline"
+                    className="text-sm font-medium text-[#5ee0d0] hover:underline"
                   >
                     Читати →
                   </Link>

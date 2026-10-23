@@ -9,9 +9,9 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const styles: Record<Variant, string> = {
-  primary: "bg-[#F59E0B] text-[#0D0D0D] hover:bg-[#D97706] font-semibold",
+  primary: "bg-[#5ee0d0] text-[#0D0D0D] hover:bg-[#D97706] font-semibold",
   outline: "border border-white/20 text-white hover:bg-white/5",
-  ghost: "text-[#9CA3AF] hover:text-white",
+  ghost: "text-[#b9b5ab] hover:text-white",
 };
 
 export default function Button({

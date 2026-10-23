@@ -51,14 +51,14 @@ export default function FaqPage() {
                 <h2 className="mb-2 text-base font-semibold text-white">
                   {f.q}
                 </h2>
-                <p className="text-sm text-[#9CA3AF]">
+                <p className="text-sm text-[#b9b5ab]">
                   {f.a}
                   {"href" in f && f.href && (
                     <>
                       {" "}
                       <Link
                         href={f.href}
-                        className="text-[#F59E0B] hover:underline"
+                        className="text-[#5ee0d0] hover:underline"
                       >
                         Перейти →
                       </Link>
@@ -72,7 +72,7 @@ export default function FaqPage() {
             <TelegramCta variant="secondary">Записатись на вечір</TelegramCta>
             <Link
               href="/events"
-              className="text-sm text-[#9CA3AF] hover:text-white"
+              className="text-sm text-[#b9b5ab] hover:text-white"
             >
               Деталі про вечір →
             </Link>
