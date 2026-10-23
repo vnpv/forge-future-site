@@ -15,23 +15,37 @@
 }
 
 /**
- * Тема "practicum" (/program, 14-19): гаряча сторона Forge - розжарений
- * акцент на білому. Той самий набір семантичних токенів, інше значення -
+ * Тема "practicum" (/program, 14-19): темний фон і бірюзовий акцент, той самий
+ * візуальний код, що й в Instagram Forge Future (23.10.2026). Той самий набір семантичних токенів, інше значення -
  * компоненти, що використовують bg-surface/text-muted/text-accent тощо,
  * автоматично перефарбовуються всередині [data-theme="practicum"].
  * Кузня, не ювелірна крамниця: жодного жовтого, жодного "школи діамантів".
  */
 [data-theme="practicum"] {
-  --color-background: #ffffff;
-  --color-surface: #f6f4f2;
-  --color-surface-2: #eeebe7;
-  --color-surface-strong: #111111;
-  --color-foreground: #0a0a0a;
-  --color-muted: #4b4b4b;
-  --color-muted-2: #6f6f6f;
-  --color-accent: #e03a00;
-  --color-accent-dark: #b62e00;
-  --color-accent-hover: #b62e00;
+  --color-background: #111214;
+  --color-surface: #17181b;
+  --color-surface-2: #1d1f23;
+  --color-surface-strong: #0b0b0c;
+  --color-foreground: #f1ede4;
+  --color-muted: #b9b5ab;
+  --color-muted-2: #8e8a80;
+  --color-accent: #5ee0d0;
+  --color-accent-dark: #3cc1b1;
+  --color-accent-hover: #86ebdf;
+}
+
+/** Фото засновника в hero: приглушене, як фон в Instagram-слайдах */
+.ff-hero-photo {
+  opacity: 0.5;
+  filter: grayscale(1) brightness(0.7) contrast(1.05);
+  -webkit-mask-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0) 0%, #000 55%),
+    linear-gradient(to bottom, #000 50%, rgba(0, 0, 0, 0) 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0) 0%, #000 55%),
+    linear-gradient(to bottom, #000 50%, rgba(0, 0, 0, 0) 100%);
+  mask-composite: intersect;
 }
 
 /** Дисплейний шрифт для великих заголовків Студії/Практикуму (Unbounded) */
@@ -89,7 +103,7 @@ body {
 
 [data-theme="practicum"] ::selection {
   background: var(--color-accent);
-  color: #ffffff;
+  color: #06201c;
 }
 
 @media (prefers-reduced-motion: reduce) {

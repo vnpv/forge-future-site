@@ -7,16 +7,23 @@ import JsonLd from "@/components/JsonLd";
 import {
   founder,
   PROGRAM_START_DATE,
-  programFaqs,
-  programFormat,
   programPackages,
-  programFounderBio,
-  programHowItWorks,
-  programNotFor,
-  programOutcomes,
-  programWeeks,
-  twoPaths,
 } from "@/lib/content";
+import {
+  programFaqsV2,
+  programFinal,
+  programFor,
+  programFounderLine,
+  programGuarantees,
+  programHero,
+  programMirror,
+  programPricing,
+  programRhythm,
+  programShift,
+  programVisibility,
+  programVs,
+  programWeeksV2,
+} from "@/lib/program-page";
 import { programCourseSchema } from "@/lib/course-schema";
 import { pageSeo } from "@/lib/page-seo";
 import { pageAlternates } from "@/lib/seo";
@@ -28,26 +35,29 @@ export const metadata: Metadata = {
   alternates: pageAlternates("/program"),
 };
 
-/** Видимий маркер незаповненого факту - щоб не вигадувати цифру */
-function Placeholder({ children }: { children: React.ReactNode }) {
+function Cta({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <span className="inline-block border border-dashed border-[var(--color-accent)]/60 bg-[var(--color-accent)]/10 px-1.5 py-0.5 text-[var(--color-accent)]">
+    <a
+      href={APPLY_PROGRAM_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={`inline-flex items-center justify-center bg-[var(--color-accent)] px-7 py-4 text-sm font-bold text-[#06201c] transition-colors hover:bg-[var(--color-accent-hover)] ${className}`}
+    >
       {children}
-    </span>
+    </a>
   );
 }
 
-/** Підкреслює лише ключову фразу в тексті результату тижня - решта без хайлайту */
-function HighlightOutcome({ text, highlight }: { text: string; highlight: string }) {
-  const idx = text.indexOf(highlight);
-  if (idx === -1) return <>{text}</>;
+function H2({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      {text.slice(0, idx)}
-      <span className="ff-week-highlight">{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </>
+    <h2 className="ff-display mb-3 max-w-3xl text-[clamp(1.6rem,4.6vw,2.6rem)] font-extrabold leading-[1.08] tracking-tight">
+      {children}
+    </h2>
   );
+}
+
+function Lead({ children }: { children: React.ReactNode }) {
+  return <p className="mb-8 max-w-2xl text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">{children}</p>;
 }
 
 export default function ProgramPage() {
@@ -55,69 +65,99 @@ export default function ProgramPage() {
     <div data-theme="practicum" className="bg-[var(--color-background)] text-[var(--color-foreground)]">
       <JsonLd data={programCourseSchema} />
 
-      {/* ============ ШАР 1 - ГОЛОС ПІДЛІТКА (білий, щільний) ============ */}
-
-      <Section spacing="hero">
-        <Container>
-          <p className="mb-5 text-xs font-medium uppercase tracking-[0.18em] text-[var(--color-accent)]">
-            Forge Future · Практикум · 14-19 років
-          </p>
-          <h1 className="ff-display ff-reveal mb-6 max-w-3xl text-[clamp(2rem,6.5vw,3.5rem)] font-extrabold leading-[1.02] tracking-tight">
-            {pageSeo.program.h1}
-          </h1>
-          <p className="mb-8 max-w-2xl text-lg leading-relaxed text-[var(--color-muted)]">
-            {pageSeo.program.subtitle}
-          </p>
-          <div className="flex flex-wrap items-center gap-5">
-            <a
-              href="#zayavka"
-              className="inline-flex items-center justify-center bg-[var(--color-accent)] px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--color-accent-hover)]"
-            >
-              Подати заявку
-            </a>
-            <p className="text-sm text-[var(--color-muted-2)]">
-              До 10 місць · старт {PROGRAM_START_DATE}
-            </p>
+      {/* 1. HERO */}
+      <Section spacing="hero" className="relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 hidden sm:block" aria-hidden>
+          <div className="ff-hero-photo absolute right-0 top-0 h-full w-[46%]">
+            <Image
+              src={founder.photoUrl}
+              alt=""
+              fill
+              priority
+              className="object-cover object-[center_12%]"
+              sizes="46vw"
+            />
           </div>
-          <p className="mt-10 text-sm text-[var(--color-muted-2)]">
-            Дитині 10-13? Для цього віку окремий продукт -{" "}
-            <span className="font-medium text-[var(--color-foreground)]">Студія</span>.
+        </div>
+        <Container className="relative">
+          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">
+            {programHero.eyebrow}
+          </p>
+          <h1 className="ff-display ff-reveal mb-6 max-w-3xl text-[clamp(2rem,6vw,3.6rem)] font-extrabold leading-[1.04] tracking-tight">
+            {programHero.h1}
+          </h1>
+          <p className="mb-8 max-w-xl text-lg leading-relaxed text-[var(--color-muted)]">{programHero.sub}</p>
+          <div className="flex flex-col items-start gap-3">
+            <Cta>{programHero.cta}</Cta>
+            <p className="max-w-md text-sm text-[var(--color-muted-2)]">{programHero.ctaNote}</p>
+          </div>
+          <dl className="mt-10 grid max-w-xl grid-cols-2 gap-x-8 gap-y-5 border-t border-white/12 pt-6 sm:grid-cols-4">
+            {programHero.facts.map((f) => (
+              <div key={f.k}>
+                <dt className="text-[11px] font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">
+                  {f.k}
+                </dt>
+                <dd className="mt-1 text-sm font-medium">{f.k === "Старт" ? PROGRAM_START_DATE : f.v}</dd>
+              </div>
+            ))}
+          </dl>
+        </Container>
+      </Section>
+
+      {/* 2. ДЗЕРКАЛО */}
+      <Section spacing="block" className="border-t border-white/10">
+        <Container>
+          <H2>{programMirror.h2}</H2>
+          <div className="mt-8 grid gap-px border border-white/12 bg-white/12 sm:grid-cols-2">
+            {programMirror.items.map((t) => (
+              <p key={t} className="bg-[var(--color-background)] p-6 text-base leading-relaxed sm:text-lg">
+                {t}
+              </p>
+            ))}
+          </div>
+          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-[var(--color-foreground)]">
+            {programMirror.lead}
           </p>
         </Container>
       </Section>
 
-      {/* Шість тижнів - рядки з верхньою рамкою, як у Студії */}
-      <Section spacing="content">
+      {/* 3. ІНШИЙ ПІДХІД */}
+      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
         <Container>
-          <h2 className="ff-display mb-2 text-[clamp(1.6rem,4.5vw,2.4rem)] font-extrabold">
-            Шість тижнів
-          </h2>
-          <div className="mt-8 border-t-2 border-[var(--color-foreground)] sm:mt-10">
-            {programWeeks.map((w, i) => (
+          <H2>{programShift.h2}</H2>
+          <Lead>{programShift.lead}</Lead>
+          <div className="grid gap-px border border-white/12 bg-white/12 md:grid-cols-3">
+            {programShift.steps.map((s) => (
+              <div key={s.n} className="flex flex-col gap-3 bg-[var(--color-surface)] p-6">
+                <span className="ff-display text-3xl font-extrabold text-[var(--color-accent)]">{s.n}</span>
+                <h3 className="ff-display text-lg font-bold">{s.title}</h3>
+                <p className="text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">{s.text}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-8 max-w-2xl text-base leading-relaxed text-[var(--color-muted)]">{programShift.note}</p>
+        </Container>
+      </Section>
+
+      {/* 4. ШІСТЬ ТИЖНІВ */}
+      <Section spacing="block" className="border-t border-white/10">
+        <Container>
+          <H2>{programRhythm.h2}</H2>
+          <Lead>{programRhythm.lead}</Lead>
+          <div className="border-t border-white/20">
+            {programWeeksV2.map((w, i) => (
               <div
-                key={w.week}
-                className={`grid grid-cols-[56px_1fr] gap-4 border-b-2 border-[var(--color-foreground)] py-7 sm:grid-cols-[100px_1fr] sm:gap-6`}
+                key={w.title}
+                className="grid grid-cols-[52px_1fr] gap-4 border-b border-white/20 py-6 sm:grid-cols-[96px_1fr] sm:gap-6"
               >
-                <span className="ff-display text-3xl font-extrabold leading-none text-[var(--color-foreground)] sm:text-4xl">
+                <span className="ff-display text-3xl font-extrabold leading-none text-[var(--color-accent)] sm:text-4xl">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <div className="mb-2 flex flex-wrap items-baseline gap-3">
-                    <span className="text-xs font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">
-                      {w.week}
-                    </span>
-                    <span className="border border-[var(--color-foreground)]/25 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-[var(--color-muted-2)]">
-                      {w.label}
-                    </span>
-                  </div>
-                  <h3 className="ff-display text-lg font-bold sm:text-xl">
-                    {w.title}
-                  </h3>
+                  <h3 className="ff-display text-lg font-bold sm:text-xl">{w.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">
-                    <span className="font-medium text-[var(--color-foreground)]">
-                      В кінці тижня в тебе є:
-                    </span>{" "}
-                    <HighlightOutcome text={w.outcome} highlight={w.highlight} />
+                    <span className="font-medium text-[var(--color-foreground)]">Наприкінці тижня: </span>
+                    {w.outcome}
                   </p>
                 </div>
               </div>
@@ -126,240 +166,251 @@ export default function ProgramPage() {
         </Container>
       </Section>
 
-      {/* Три варіанти результату - плитки з рамкою, як тайли у Студії */}
-      <Section spacing="block">
+      {/* 5. ВИ БАЧИТЕ, ЩО ВІДБУВАЄТЬСЯ */}
+      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
         <Container>
-          <h2 className="ff-display mb-2 text-[clamp(1.6rem,4.5vw,2.4rem)] font-extrabold">
-            Що отримаєш за практикум
-          </h2>
-          <p className="mb-8 max-w-xl text-sm text-[var(--color-muted)]">
-            Три варіанти результату - не тільки «стартап».
-          </p>
-          <div className="grid gap-px border border-[var(--color-foreground)] bg-[var(--color-foreground)] sm:grid-cols-3">
-            {programOutcomes.map((o) => (
-              <div
-                key={o.key}
-                className="flex flex-col gap-2 bg-[var(--color-background)] p-6"
+          <H2>{programVisibility.h2}</H2>
+          <Lead>{programVisibility.lead}</Lead>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="border border-white/15 p-6">
+              <h3 className="ff-display mb-4 text-lg font-bold">{programVisibility.weekly.title}</h3>
+              <ul className="mb-5 flex flex-col gap-2.5">
+                {programVisibility.weekly.items.map((it) => (
+                  <li key={it} className="flex gap-3 text-base">
+                    <span className="text-[var(--color-accent)]" aria-hidden>
+                      →
+                    </span>
+                    {it}
+                  </li>
+                ))}
+              </ul>
+              <p className="text-sm leading-relaxed text-[var(--color-muted)]">{programVisibility.weekly.note}</p>
+              <a
+                href={programVisibility.weekly.sampleHref}
+                className="mt-5 inline-block text-sm font-semibold text-[var(--color-accent)] underline-offset-4 hover:underline"
               >
-                <h3 className="ff-display text-lg font-bold">{o.title}</h3>
-                <p className="text-sm leading-relaxed text-[var(--color-muted)]">{o.desc}</p>
-              </div>
-            ))}
+                {programVisibility.weekly.sampleLabel}
+              </a>
+            </div>
+            <div className="border border-[var(--color-accent)]/50 p-6">
+              <h3 className="ff-display mb-4 text-lg font-bold">{programVisibility.demoDay.title}</h3>
+              <p className="text-base leading-relaxed text-[var(--color-muted)]">{programVisibility.demoDay.text}</p>
+            </div>
           </div>
         </Container>
       </Section>
 
-      {/* ============ ШАР 2 - ГОЛОС БАТЬКА (чорний, тихий) ============ */}
+      {/* 6. КУРС VS ПРАКТИКУМ */}
+      <Section spacing="block" className="border-t border-white/10">
+        <Container>
+          <H2>{programVs.h2}</H2>
+          <div className="mt-8 overflow-x-auto">
+            <table className="w-full min-w-[560px] border-collapse text-left text-sm sm:text-base">
+              <thead>
+                <tr className="border-b border-white/25">
+                  {programVs.head.map((h, i) => (
+                    <th
+                      key={h + i}
+                      className={`py-3 pr-4 text-xs font-semibold uppercase tracking-widest ${
+                        i === 2 ? "text-[var(--color-accent)]" : "text-[var(--color-muted-2)]"
+                      }`}
+                    >
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {programVs.rows.map((r) => (
+                  <tr key={r[0]} className="border-b border-white/12 align-top">
+                    <td className="py-4 pr-4 font-medium">{r[0]}</td>
+                    <td className="py-4 pr-4 text-[var(--color-muted)]">{r[1]}</td>
+                    <td className="py-4 pr-4">{r[2]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Container>
+      </Section>
 
-      <div className="bg-[#0b0b0c] text-[#f2f2f2]">
-        <Section spacing="block">
-          <Container>
-            <h2 className="ff-display mb-6 text-[clamp(1.5rem,4vw,2.1rem)] font-bold text-white">
-              {programHowItWorks.h2}
-            </h2>
-            <div className="max-w-2xl space-y-5">
-              {programHowItWorks.paragraphs.map((p) => (
-                <p key={p} className="text-base leading-relaxed text-white/60">
-                  {p}
-                </p>
-              ))}
-            </div>
-          </Container>
-        </Section>
+      {/* 7. ГАРАНТІЇ */}
+      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
+        <Container>
+          <H2>{programGuarantees.h2}</H2>
+          <div className="mt-8 grid gap-px border border-white/12 bg-white/12 md:grid-cols-3">
+            {programGuarantees.items.map((g) => (
+              <div key={g.title} className="flex flex-col gap-3 bg-[var(--color-surface)] p-6">
+                <h3 className="ff-display text-base font-bold leading-snug">{g.title}</h3>
+                <p className="text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">{g.text}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-6 max-w-2xl text-sm leading-relaxed text-[var(--color-muted-2)]">{programGuarantees.note}</p>
+        </Container>
+      </Section>
 
-        <Section spacing="block">
-          <Container>
-            <h2 className="ff-display mb-6 text-[clamp(1.5rem,4vw,2.1rem)] font-bold text-white">
-              {programNotFor.h2}
-            </h2>
-            <ul className="max-w-2xl border-t border-white/15">
-              {programNotFor.items.map((item) => (
-                <li
-                  key={item}
-                  className="flex gap-3 border-b border-white/15 py-3.5 text-base leading-relaxed text-white/60"
+      {/* 8. ПАКЕТИ */}
+      <Section spacing="block" className="border-t border-white/10">
+        <Container>
+          <H2>{programPricing.h2}</H2>
+          <Lead>{programPricing.lead}</Lead>
+          <div className="grid gap-4 md:grid-cols-3">
+            {programPackages.map((p) => {
+              const hot = p.note?.startsWith("Рекомендуємо");
+              return (
+                <div
+                  key={p.name}
+                  className={`flex flex-col border-2 p-6 ${hot ? "border-[var(--color-accent)]" : "border-white/25"}`}
                 >
+                  <p className="ff-display text-lg font-bold">{p.name}</p>
+                  <p className="ff-display mt-1 text-3xl font-extrabold">{p.price}</p>
+                  {p.note && (
+                    <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-[var(--color-accent)]">
+                      {p.note}
+                    </p>
+                  )}
+                  <ul className="mt-4 flex flex-col gap-2 text-sm leading-relaxed text-[var(--color-muted)]">
+                    {p.features.map((f) => (
+                      <li key={f} className="flex gap-2">
+                        <span className="text-[var(--color-accent)]" aria-hidden>
+                          →
+                        </span>
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
+          </div>
+          <div className="mt-8 border border-white/15 p-6">
+            <p className="ff-display mb-3 text-base font-bold">{programPricing.bonuses.title}</p>
+            <ul className="grid gap-2 sm:grid-cols-2">
+              {programPricing.bonuses.items.map((b) => (
+                <li key={b} className="flex gap-2 text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">
                   <span className="text-[var(--color-accent)]" aria-hidden>
-                    -
+                    +
                   </span>
-                  {item}
+                  {b}
                 </li>
               ))}
             </ul>
-          </Container>
-        </Section>
-      </div>
+          </div>
+          <div className="mt-8">
+            <Cta>{programFinal.cta}</Cta>
+          </div>
+        </Container>
+      </Section>
 
-      {/* ============ ШАР 3 - ЗАКРИВАЮЧА, ПРАКТИЧНА (світла) ============ */}
-
-      <Section spacing="block" className="border-t-2 border-[var(--color-foreground)]">
+      {/* 9. ДЛЯ КОГО */}
+      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
         <Container>
-          <h2 className="ff-display mb-6 text-[clamp(1.5rem,4vw,2.1rem)] font-extrabold">
-            Хто веде
-          </h2>
-          <div className="flex flex-col gap-6 sm:flex-row sm:items-start">
-            <div className="relative h-24 w-24 shrink-0 overflow-hidden border-2 border-[var(--color-foreground)]">
+          <H2>{programFor.h2}</H2>
+          <div className="mt-8 grid gap-6 md:grid-cols-2">
+            <div>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[var(--color-accent)]">
+                Підійде, якщо
+              </p>
+              <ul className="border-t border-white/15">
+                {programFor.forYou.map((t) => (
+                  <li key={t} className="border-b border-white/15 py-3.5 text-base leading-relaxed">
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">
+                Не підійде, якщо
+              </p>
+              <ul className="border-t border-white/15">
+                {programFor.notForYou.map((t) => (
+                  <li
+                    key={t}
+                    className="border-b border-white/15 py-3.5 text-base leading-relaxed text-[var(--color-muted)]"
+                  >
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* 10. ХТО ВЕДЕ */}
+      <Section spacing="block" className="border-t border-white/10">
+        <Container>
+          <H2>Хто веде</H2>
+          <div className="mt-6 flex flex-col gap-6 sm:flex-row sm:items-start">
+            <div className="relative h-28 w-28 shrink-0 overflow-hidden border-2 border-white/30">
               <Image
                 src={founder.photoUrl}
                 alt={founder.photoAlt}
                 fill
-                className="object-cover object-[center_15%]"
-                sizes="96px"
+                className="object-cover object-[center_15%] grayscale"
+                sizes="112px"
               />
             </div>
             <div>
-              <p className="ff-display text-base font-bold text-[var(--color-foreground)]">
-                {founder.fullName}
-              </p>
-              <p className="mt-0.5 text-sm text-[var(--color-muted-2)]">
-                Засновник Forge Future
-              </p>
-              <p className="mt-3 max-w-xl text-sm leading-relaxed text-[var(--color-muted)]">
-                {programFounderBio}
-              </p>
+              <p className="ff-display text-base font-bold">{founder.fullName}</p>
+              <p className="mt-0.5 text-sm text-[var(--color-muted-2)]">Засновник Forge Future</p>
+              <p className="mt-3 max-w-xl text-base leading-relaxed text-[var(--color-muted)]">{programFounderLine}</p>
             </div>
           </div>
         </Container>
       </Section>
 
-      <Section spacing="block" className="border-t-2 border-[var(--color-foreground)]">
+      {/* 11. FAQ */}
+      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
         <Container>
-          <h2 className="ff-display mb-6 text-[clamp(1.5rem,4vw,2.1rem)] font-extrabold">
-            {programFormat.h2}
-          </h2>
-          <dl className="max-w-2xl">
-            {programFormat.facts.map((f) => (
-              <div
-                key={f.label}
-                className="grid gap-1 border-b border-[var(--color-foreground)]/20 py-4 sm:grid-cols-[180px_1fr] sm:items-baseline sm:gap-6"
-              >
-                <dt className="text-xs font-semibold uppercase tracking-wide text-[var(--color-muted-2)]">
-                  {f.label}
-                </dt>
-                <dd className="text-sm leading-relaxed text-[var(--color-foreground)] sm:text-base">
-                  {f.value.startsWith("[ЗАПОВНИТИ") ? (
-                    <Placeholder>{f.value}</Placeholder>
-                  ) : (
-                    f.value
-                  )}
-                </dd>
-              </div>
-            ))}
-          </dl>
-          <div className="mt-10 grid gap-4 md:grid-cols-3">
-            {programPackages.map((p) => (
-              <div
-                key={p.name}
-                className={`flex flex-col border-2 p-6 ${
-                  p.note?.startsWith("Рекомендуємо")
-                    ? "border-[var(--color-accent)]"
-                    : "border-[var(--color-foreground)]"
-                }`}
-              >
-                <p className="ff-display text-lg font-bold text-[var(--color-foreground)]">
-                  {p.name}
-                </p>
-                <p className="ff-display mt-1 text-3xl font-extrabold text-[var(--color-foreground)]">
-                  {p.price}
-                </p>
-                {p.note && (
-                  <p className="mt-2 text-xs font-semibold uppercase tracking-wide text-[var(--color-accent)]">
-                    {p.note}
-                  </p>
-                )}
-                <ul className="mt-4 flex flex-col gap-2 text-sm leading-relaxed text-[var(--color-muted)]">
-                  {p.features.map((feat) => (
-                    <li key={feat}>- {feat}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      {/* Q&A */}
-      <Section spacing="block" className="border-t-2 border-[var(--color-foreground)]">
-        <Container>
-          <h2 className="ff-display mb-6 text-[clamp(1.5rem,4vw,2.1rem)] font-extrabold">
-            Питання та відповіді
-          </h2>
-          <div className="max-w-2xl">
-            {programFaqs.map((f) => (
-              <details key={f.q} className="group border-b-2 border-[var(--color-foreground)] py-4">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-base font-medium text-[var(--color-foreground)]">
+          <H2>Питання та відповіді</H2>
+          <div className="mt-6 max-w-2xl">
+            {programFaqsV2.map((f) => (
+              <details key={f.q} className="group border-b border-white/20 py-4">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-base font-medium">
                   {f.q}
-                  <span className="ff-display shrink-0 text-xl text-[var(--color-muted-2)] group-open:rotate-45">
+                  <span className="ff-display shrink-0 text-xl text-[var(--color-accent)] transition-transform group-open:rotate-45">
                     +
                   </span>
                 </summary>
-                <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted)]">{f.a}</p>
+                <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">{f.a}</p>
               </details>
             ))}
           </div>
         </Container>
       </Section>
 
-      {/* Два шляхи */}
-      <Section spacing="block" className="border-t-2 border-[var(--color-foreground)]">
+      {/* 12. ФІНАЛЬНИЙ CTA */}
+      <Section spacing="end" id="zayavka" className="scroll-mt-24 border-t border-white/10">
         <Container>
-          <h2 className="ff-display mb-6 text-[clamp(1.5rem,4vw,2.1rem)] font-extrabold">
-            {twoPaths.h2}
-          </h2>
-          <div className="grid gap-px border border-[var(--color-foreground)]/30 bg-[var(--color-foreground)]/30 sm:grid-cols-2">
-            <Link
-              href="/studio"
-              className="group bg-[var(--color-background)] p-6 transition-colors hover:bg-[var(--color-foreground)]/[0.03]"
-            >
-              <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-[var(--color-muted-2)]">
-                {twoPaths.studio.status}
-              </p>
-              <h3 className="ff-display mb-1 text-lg font-bold">
-                {twoPaths.studio.label}, {twoPaths.studio.age}
-              </h3>
-              <p className="text-sm leading-relaxed text-[var(--color-muted)]">
-                {twoPaths.studio.desc}
-              </p>
-              <p className="mt-3 text-sm font-medium text-[var(--color-foreground)] underline-offset-2 group-hover:underline">
-                Дивитись Студію →
-              </p>
-            </Link>
-            <div className="border-2 border-[var(--color-accent)] bg-[var(--color-accent)]/[0.06] p-6">
-              <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-[var(--color-accent)]">
-                {twoPaths.practicum.status}
-              </p>
-              <h3 className="ff-display mb-1 text-lg font-bold">
-                {twoPaths.practicum.label}, {twoPaths.practicum.age}
-              </h3>
-              <p className="text-sm leading-relaxed text-[var(--color-muted)]">
-                {twoPaths.practicum.desc}
-              </p>
-            </div>
-          </div>
-          <p className="mt-6 max-w-2xl text-sm text-[var(--color-muted-2)]">
-            {twoPaths.note}
-          </p>
-        </Container>
-      </Section>
-
-      {/* Заявка */}
-      <Section spacing="end" id="zayavka" className="scroll-mt-24 border-t-2 border-[var(--color-foreground)]">
-        <Container>
-          <div className="mx-auto max-w-xl text-center">
-            <h2 className="ff-display mb-4 text-[clamp(1.7rem,5vw,2.4rem)] font-extrabold">
-              Заявка на практикум
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="ff-display mb-4 text-[clamp(1.8rem,5vw,2.8rem)] font-extrabold leading-tight">
+              {programFinal.h2}
             </h2>
-            <p className="mb-8 text-[var(--color-muted)]">
-              Коротка заявка в Telegram - ім&apos;я і вік учасника. Зв&apos;яжемось
-              протягом 1-2 днів.
+            <p className="mb-6 text-lg leading-relaxed text-[var(--color-muted)]">{programFinal.lead}</p>
+            <ul className="mx-auto mb-8 inline-flex flex-col items-start gap-2 text-left">
+              {programFinal.points.map((p) => (
+                <li key={p} className="flex gap-3 text-base">
+                  <span className="text-[var(--color-accent)]" aria-hidden>
+                    →
+                  </span>
+                  {p}
+                </li>
+              ))}
+            </ul>
+            <div>
+              <Cta>{programFinal.cta}</Cta>
+            </div>
+            <p className="mt-5 text-sm text-[var(--color-muted-2)]">{programFinal.note}</p>
+            <p className="mt-8 text-sm text-[var(--color-muted-2)]">
+              Дитині 10-13? Для цього віку окремий продукт,{" "}
+              <Link href="/studio" className="font-medium text-[var(--color-foreground)] underline-offset-2 hover:underline">
+                Студія
+              </Link>
+              .
             </p>
-            <a
-              href={APPLY_PROGRAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center bg-[var(--color-accent)] px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-[var(--color-accent-hover)]"
-            >
-              Подати заявку в Telegram
-            </a>
           </div>
         </Container>
       </Section>
