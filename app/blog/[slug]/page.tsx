@@ -37,13 +37,13 @@ export default async function BlogPostPage({ params }: Props) {
     <>
       <Section spacing="hero">
         <Container>
-          <Link href="/blog" className="text-sm text-[#9CA3AF] hover:text-white">
+          <Link href="/blog" className="text-sm text-[#b9b5ab] hover:text-white">
             ← Блог
           </Link>
           <h1 className="ff-reveal mt-4 max-w-3xl text-3xl font-bold sm:text-4xl">
             {post.title}
           </h1>
-          <p className="mt-3 text-sm text-[#9CA3AF]">
+          <p className="mt-3 text-sm text-[#b9b5ab]">
             {new Date(post.publishedAt).toLocaleDateString("uk-UA", {
               day: "numeric",
               month: "long",
@@ -53,11 +53,11 @@ export default async function BlogPostPage({ params }: Props) {
           </p>
         </Container>
       </Section>
-      <Section spacing="end" className="bg-[#111111]">
+      <Section spacing="end" className="bg-[#17181b]">
         <Container>
           <ArticleBody />
-          <div className="mx-auto mt-12 max-w-2xl rounded-2xl border border-[#e8951a]/30 bg-[#e8951a]/5 p-6">
-            <p className="mb-4 text-sm text-[#9CA3AF]">
+          <div className="mx-auto mt-12 max-w-2xl rounded-2xl border border-[#5ee0d0]/30 bg-[#5ee0d0]/5 p-6">
+            <p className="mb-4 text-sm text-[#b9b5ab]">
               Дати відкритих вечорів і набір потоку анонсуємо в Telegram.
               Залиши заявку - повідомимо першим.
             </p>

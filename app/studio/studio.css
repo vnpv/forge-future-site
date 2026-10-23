@@ -1,7 +1,6 @@
 /*
- * Стилі Студії (/studio, 10-13). Навмисно окрема, монохромна за задумом
- * (майстерня) система - холодна синьо-жовта, на противагу гарячій
- * червоно-чорній Практикуму. Усе, що раніше жило у site-chrome-header/
+ * Стилі Студії (/studio, 10-13). Структура окрема, палітра спільна з рештою
+ * сайту (темний фон, кремовий текст, бірюзовий акцент). Усе, що раніше жило у site-chrome-header/
  * footer, тепер прибрано - хедер і футер це той самий Nav/Footer, що й
  * на решті сайту (єдина причина, чому вони раніше "стрибали" між сторінками).
  * Font-family посилаються на вже завантажені next/font змінні з layout.tsx,
@@ -9,17 +8,19 @@
  */
 
 .studio-page {
-  --white: #FFFFFF;
-  --black: #000000;
-  --blue: #2B4EFF;
-  --yellow: #FFD400;
-  --orange: #FF4A1C;
+  /* Єдина палітра сайту (23.10.2026): темний фон, кремовий текст, бірюзовий акцент.
+     Імена змінних збережено, значення інвертовано: --white = фон, --black = текст. */
+  --white: #111214;
+  --black: #f1ede4;
+  --blue: #5ee0d0;
+  --yellow: #5ee0d0;
+  --orange: #5ee0d0;
 
-  --gray-600: #5A5A5A;
-  --gray-300: #C9C9C9;
-  --dark-bg: #0B0B0C;
-  --dark-text: #F2F2F2;
-  --dark-muted: #9A9A9A;
+  --gray-600: #b9b5ab;
+  --gray-300: #3a3d44;
+  --dark-bg: #0b0b0c;
+  --dark-text: #f1ede4;
+  --dark-muted: #b9b5ab;
 
   --font-display: var(--font-unbounded), sans-serif;
   --font-text: var(--font-onest), sans-serif;
@@ -96,7 +97,7 @@
   font-size: clamp(1.6rem, 4.5vw, 2.2rem);
   line-height: 1.05;
   margin: 0 0 28px;
-  color: var(--white);
+  color: var(--dark-text);
 }
 
 .studio-page p { max-width: var(--measure); }
@@ -247,7 +248,7 @@
   font-family: var(--font-text);
   font-weight: 500;
   font-size: 1.05rem;
-  color: var(--white);
+  color: var(--dark-text);
   margin: 0 0 8px;
 }
 

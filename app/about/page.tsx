@@ -61,7 +61,7 @@ export default function AboutPage() {
         />
       </Section>
 
-      <Section spacing="content" className="bg-[#111111]">
+      <Section spacing="content" className="bg-[#17181b]">
         <Container>
           <div className="grid gap-10 lg:grid-cols-[280px_1fr] lg:items-start">
             <div className="mx-auto w-full max-w-[280px] lg:mx-0">
@@ -75,7 +75,7 @@ export default function AboutPage() {
                   priority
                 />
               </div>
-              <p className="mt-4 text-center text-sm text-[#9CA3AF] lg:text-left">
+              <p className="mt-4 text-center text-sm text-[#b9b5ab] lg:text-left">
                 <span className="font-semibold text-white">
                   {founder.fullName}
                 </span>
@@ -87,7 +87,7 @@ export default function AboutPage() {
                   href={founder.personalSite}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#F59E0B] hover:underline"
+                  className="text-[#5ee0d0] hover:underline"
                 >
                   {founder.personalSiteLabel} →
                 </a>
@@ -95,7 +95,7 @@ export default function AboutPage() {
                   href={founder.linkedIn}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#F59E0B] hover:underline"
+                  className="text-[#5ee0d0] hover:underline"
                 >
                   {founder.linkedInLabel} →
                 </a>
@@ -104,10 +104,10 @@ export default function AboutPage() {
 
             <div>
               <h2 className="mb-4 text-2xl font-bold">{aboutSections.founder.h2}</h2>
-              <p className="mb-6 leading-relaxed text-[#9CA3AF]">
+              <p className="mb-6 leading-relaxed text-[#b9b5ab]">
                 {founder.bio}
               </p>
-              <blockquote className="mb-8 border-l-2 border-[#F59E0B] pl-4 italic text-[#D1D5DB]">
+              <blockquote className="mb-8 border-l-2 border-[#5ee0d0] pl-4 italic text-[#d2cec4]">
                 «{founder.quote}»
               </blockquote>
 
@@ -117,10 +117,10 @@ export default function AboutPage() {
               <div className="space-y-4">
                 {founder.why.map((item) => (
                   <Card key={item.title} bordered>
-                    <h4 className="mb-2 font-semibold text-[#F59E0B]">
+                    <h4 className="mb-2 font-semibold text-[#5ee0d0]">
                       {item.title}
                     </h4>
-                    <p className="text-sm leading-relaxed text-[#9CA3AF]">
+                    <p className="text-sm leading-relaxed text-[#b9b5ab]">
                       {item.text}
                     </p>
                   </Card>
@@ -134,21 +134,21 @@ export default function AboutPage() {
       <Section spacing="block">
         <Container>
           <h2 className="mb-6 text-2xl font-bold">{aboutSections.built.h2}</h2>
-          <ul className="max-w-2xl space-y-3 text-[#9CA3AF]">
+          <ul className="max-w-2xl space-y-3 text-[#b9b5ab]">
             {founder.built.map((item) => (
               <li key={item} className="flex gap-3">
-                <span className="text-[#F59E0B]">→</span>
+                <span className="text-[#5ee0d0]">→</span>
                 <span>{item}</span>
               </li>
             ))}
           </ul>
-          <p className="mt-6 text-sm text-[#9CA3AF]">
+          <p className="mt-6 text-sm text-[#b9b5ab]">
             Більше про продукти та бізнеси на{" "}
             <a
               href={founder.personalSite}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#F59E0B] hover:underline"
+              className="text-[#5ee0d0] hover:underline"
             >
               pervoy.com
             </a>
@@ -157,7 +157,7 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      <Section spacing="tight" className="bg-[#111111]">
+      <Section spacing="tight" className="bg-[#17181b]">
         <Container>
           <HomeLifeStrategy />
         </Container>
@@ -168,10 +168,10 @@ export default function AboutPage() {
           <h2 id="gem-roles" className="mb-4 text-2xl font-bold scroll-mt-24">
             {aboutSections.audience.h2}
           </h2>
-          <p className="mb-6 max-w-2xl text-sm text-[#9CA3AF]">
+          <p className="mb-6 max-w-2xl text-sm text-[#b9b5ab]">
             {gemRolesDefinition.lexiconLine}
           </p>
-          <p className="mb-8 max-w-2xl text-sm font-medium text-[#e8951a]">
+          <p className="mb-8 max-w-2xl text-sm font-medium text-[#5ee0d0]">
             {gemRolesDefinition.path}
           </p>
 
@@ -185,9 +185,9 @@ export default function AboutPage() {
             {gemRolesDefinition.gems.bullets.map((item) => (
               <li
                 key={item}
-                className="flex gap-3 text-sm leading-relaxed text-[#9CA3AF]"
+                className="flex gap-3 text-sm leading-relaxed text-[#b9b5ab]"
               >
-                <span className="text-[#F59E0B]">→</span>
+                <span className="text-[#5ee0d0]">→</span>
                 {item}
               </li>
             ))}
@@ -203,17 +203,17 @@ export default function AboutPage() {
             {gemRolesDefinition.diamonds.bullets.map((item) => (
               <li
                 key={item}
-                className="flex gap-3 text-sm leading-relaxed text-[#9CA3AF]"
+                className="flex gap-3 text-sm leading-relaxed text-[#b9b5ab]"
               >
-                <span className="text-[#F59E0B]">→</span>
+                <span className="text-[#5ee0d0]">→</span>
                 {item}
               </li>
             ))}
           </ul>
-          <p className="mb-6 max-w-2xl text-sm text-[#6b7280]">
+          <p className="mb-6 max-w-2xl text-sm text-[#8e8a80]">
             {gemRolesDefinition.notThis}
           </p>
-          <blockquote className="max-w-2xl border-l-2 border-[#F59E0B]/50 pl-4 text-sm italic leading-relaxed text-[#D1D5DB]">
+          <blockquote className="max-w-2xl border-l-2 border-[#5ee0d0]/50 pl-4 text-sm italic leading-relaxed text-[#d2cec4]">
             {gemRolesDefinition.closing}
           </blockquote>
         </Container>
@@ -222,7 +222,7 @@ export default function AboutPage() {
       <Section spacing="block">
         <Container>
           <h2 className="mb-6 text-2xl font-bold">{aboutSections.why.h2}</h2>
-          <div className="max-w-2xl space-y-4 leading-relaxed text-[#9CA3AF]">
+          <div className="max-w-2xl space-y-4 leading-relaxed text-[#b9b5ab]">
             <p>{forgePhilosophy.body}</p>
             <p>
               Зона геніальності:{" "}
@@ -232,12 +232,12 @@ export default function AboutPage() {
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
             {pathPillars.map((p) => (
               <Card key={p.key} bordered className="text-sm">
-                <p className="mb-1 font-semibold text-[#F59E0B]">{p.title}</p>
-                <p className="text-[#9CA3AF]">{p.desc}</p>
+                <p className="mb-1 font-semibold text-[#5ee0d0]">{p.title}</p>
+                <p className="text-[#b9b5ab]">{p.desc}</p>
               </Card>
             ))}
           </div>
-          <blockquote className="mt-8 max-w-2xl border-l-2 border-[#F59E0B]/50 pl-4 text-sm italic text-[#D1D5DB]">
+          <blockquote className="mt-8 max-w-2xl border-l-2 border-[#5ee0d0]/50 pl-4 text-sm italic text-[#d2cec4]">
             «{forgePhilosophy.founderLine}»
           </blockquote>
         </Container>
@@ -248,7 +248,7 @@ export default function AboutPage() {
           <h2 className="mb-6 text-2xl font-bold">{aboutSections.trust.h2}</h2>
           <ul className="grid gap-4 sm:grid-cols-3">
             {founder.trust.map((item) => (
-              <Card key={item} bordered className="text-sm text-[#9CA3AF]">
+              <Card key={item} bordered className="text-sm text-[#b9b5ab]">
                 {item}
               </Card>
             ))}
@@ -256,13 +256,13 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      <Section spacing="end" className="bg-[#111111]">
+      <Section spacing="end" className="bg-[#17181b]">
         <Container>
           <h2 className="mb-4 text-2xl font-bold">{aboutSections.formats.h2}</h2>
-          <ul className="mb-8 space-y-3 text-[#9CA3AF]">
+          <ul className="mb-8 space-y-3 text-[#b9b5ab]">
             <li>
               →{" "}
-              <Link href="/events" className="text-[#F59E0B] hover:underline">
+              <Link href="/events" className="text-[#5ee0d0] hover:underline">
                 Відкриті вечори
               </Link>{" "}
               {nextOpenEvening.scheduleLine}, {venue.label}.{" "}
@@ -270,7 +270,7 @@ export default function AboutPage() {
             </li>
             <li>
               →{" "}
-              <Link href="/program" className="text-[#F59E0B] hover:underline">
+              <Link href="/program" className="text-[#5ee0d0] hover:underline">
                 6-тижнева програма
               </Link>{" "}
               до 10 підлітків у потоці
@@ -284,7 +284,7 @@ export default function AboutPage() {
           <div className="flex flex-wrap gap-3">
             <TelegramCta>Прийти на вечір →</TelegramCta>
             <Link
-              href="/for-parents"
+              href="/program"
               className="inline-flex items-center rounded-full border border-white/20 px-7 py-3.5 text-sm text-white hover:bg-white/5"
             >
               Для батьків

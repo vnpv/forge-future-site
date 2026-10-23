@@ -8,6 +8,14 @@ export type BlogPost = {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "navchannya-v-ukrytti-shcho-robyty-batkam",
+    title: "Навчання в укритті та під час тривог: що робити батькам, щоб дитина не відстала",
+    description:
+      "Як у 2026 влаштовані уроки під час тривалих тривог, що робити з освітніми втратами, режимом, домашкою і мотивацією підлітка. Практичний план для батьків.",
+    publishedAt: "2026-10-23",
+    readMinutes: 9,
+  },
+  {
     slug: "alternatyva-shkoli-dlya-pidlitka",
     title: "Альтернатива школі для підлітка: неошкола, гуртки чи репетитори - що обрати в 2026",
     description:

@@ -1,96 +1,66 @@
 import Image from "next/image";
 import Link from "next/link";
 import TelegramCta from "./TelegramCta";
-import {
-  AUDIENCE,
-  BRAND_NICKNAME,
-  founder,
-  nextOpenEvening,
-  stats,
-  venue,
-} from "@/lib/content";
+import { founder, PROGRAM_START_DATE } from "@/lib/content";
 import { pageSeo } from "@/lib/page-seo";
 
-const pills = [
-  { label: "Наступний", value: `${nextOpenEvening.compactDate}, ${nextOpenEvening.time}` },
-  { label: "Місто", value: venue.city },
-  { label: "Для кого", value: AUDIENCE.label },
+const facts = [
+  { k: "Група", v: "до 10 підлітків" },
+  { k: "Практикум", v: "6 тижнів" },
+  { k: "Старт", v: PROGRAM_START_DATE },
+  { k: "Веде", v: "Іван Первой особисто" },
 ] as const;
 
 export default function HomeHero() {
   const { h1, teaser, metaLine } = pageSeo.home;
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[1fr_320px] lg:items-center">
-      <div className="ff-hero">
-        <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-[#e8951a] sm:mb-5">
-          {BRAND_NICKNAME}
+    <div className="relative">
+      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[46%] lg:block" aria-hidden>
+        <div className="ff-hero-photo absolute inset-0">
+          <Image
+            src={founder.photoUrl}
+            alt=""
+            fill
+            priority
+            className="object-cover object-[center_12%]"
+            sizes="46vw"
+          />
+        </div>
+      </div>
+      <div className="ff-hero relative max-w-3xl">
+        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)] sm:mb-5">
+          Forge Future · Практикум 14-19 · Студія 10-13
         </p>
 
-        <h1 className="ff-display ff-reveal mb-5 max-w-3xl text-[1.75rem] font-extrabold leading-[1.05] tracking-tight text-white sm:mb-6 sm:text-4xl lg:text-[2.75rem]">
+        <h1 className="ff-display ff-reveal mb-5 text-[clamp(1.9rem,5.4vw,3.4rem)] font-extrabold leading-[1.05] tracking-tight text-white sm:mb-6">
           {h1}
         </h1>
 
-        <p className="mb-5 max-w-xl text-base leading-[1.65] text-[#c4c8cc] sm:mb-6 sm:text-lg">
-          {teaser}
-        </p>
+        <p className="mb-8 max-w-xl text-base leading-[1.65] text-[#d2cec4] sm:text-lg">{teaser}</p>
 
-        <p className="mb-8 max-w-xl text-sm leading-relaxed text-[#8b9199] sm:mb-10">
-          {metaLine}
-        </p>
-
-        <div className="mb-8 flex flex-wrap gap-2.5 sm:mb-10">
-          {pills.map((p) => (
-            <span
-              key={p.label}
-              className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.08] bg-[#141414]/80 px-3.5 py-1.5 text-xs sm:text-sm"
-            >
-              <span className="text-[#6b7280]">{p.label}</span>
-              <span className="font-medium text-[#f2f2f2]">{p.value}</span>
-            </span>
-          ))}
-        </div>
-
-        <div className="flex flex-col gap-5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-6">
-          <TelegramCta location="hero" className="w-full sm:w-auto">
-            Записатись на вечір
+        <div className="mb-3 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-6">
+          <TelegramCta flow="program" location="hero" className="w-full sm:w-auto">
+            Записатися на розбір 20 хвилин
           </TelegramCta>
-          <div className="flex flex-wrap gap-x-5 gap-y-3 text-sm">
-            <Link
-              href="/events"
-              className="font-medium text-[#8b9199] transition-colors hover:text-[#f2f2f2]"
-            >
-              Деталі вечора →
-            </Link>
-          </div>
+          <Link href="/program" className="text-sm font-medium text-[#b9b5ab] transition-colors hover:text-[#f1ede4]">
+            Про практикум →
+          </Link>
         </div>
-      </div>
+        <p className="mb-8 max-w-md text-sm text-[#8e8a80]">
+          Безкоштовна розмова: що видно у вашій дитині і що спробувати першим.
+        </p>
 
-      <div className="hidden lg:block">
-        <div className="overflow-hidden border-2 border-white/[0.1]">
-          <div className="relative aspect-[4/5]">
-            <Image
-              src={founder.photoUrl}
-              alt={`${founder.fullName}, засновник Forge Future`}
-              fill
-              className="object-cover object-[center_15%]"
-              sizes="320px"
-              priority
-            />
-          </div>
-          <div className="grid grid-cols-3 divide-x divide-white/[0.1] border-t-2 border-white/[0.1]">
-            {stats.map((s) => (
-              <div key={s.label} className="px-2 py-3 text-center">
-                <p className="ff-display text-lg font-extrabold tabular-nums text-[#e8951a]">
-                  {s.value}
-                </p>
-                <p className="mt-0.5 text-[10px] leading-tight text-[#8b9199]">
-                  {s.label}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
+        <dl className="grid max-w-xl grid-cols-2 gap-x-8 gap-y-5 border-t border-white/[0.12] pt-6 sm:grid-cols-4">
+          {facts.map((f) => (
+            <div key={f.k}>
+              <dt className="text-[11px] font-semibold uppercase tracking-widest text-[#8e8a80]">{f.k}</dt>
+              <dd className="mt-1 text-sm font-medium text-[#f1ede4]">{f.v}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <p className="mt-8 max-w-xl text-sm leading-relaxed text-[#8e8a80]">{metaLine}</p>
       </div>
     </div>
   );

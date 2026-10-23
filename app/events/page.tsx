@@ -67,43 +67,43 @@ export default function EventsPage() {
         />
         <Container className="mt-4 space-y-4">
           <SchoolConceptStrip pageHint={pageContext.events} />
-          <p className="text-sm text-[#8b9199]">{audiencePageCopy.events}</p>
+          <p className="text-sm text-[#b9b5ab]">{audiencePageCopy.events}</p>
         </Container>
       </Section>
 
-      <Section spacing="content" className="bg-[#111111]">
+      <Section spacing="content" className="bg-[#17181b]">
         <Container className="space-y-6">
-          <div className="rounded-3xl border border-[#F59E0B]/30 bg-[#F59E0B]/5 p-8 sm:p-12">
-            <span className="mb-4 inline-block rounded-full bg-[#F59E0B] px-3 py-1 text-xs font-bold text-[#0D0D0D]">
+          <div className="rounded-3xl border border-[#5ee0d0]/30 bg-[#5ee0d0]/5 p-8 sm:p-12">
+            <span className="mb-4 inline-block rounded-full bg-[#5ee0d0] px-3 py-1 text-xs font-bold text-[#0D0D0D]">
               НАСТУПНИЙ
             </span>
             <h2 className="mb-4 text-2xl font-bold sm:text-3xl">
               {nextOpenEvening.title}
             </h2>
-            <ul className="mb-8 space-y-2 text-[#9CA3AF]">
+            <ul className="mb-8 space-y-2 text-[#b9b5ab]">
               <li>📅 {nextOpenEvening.scheduleLine}</li>
               <li>🕖 {nextOpenEvening.duration}</li>
               <li>📍 {nextOpenEvening.location}</li>
             </ul>
 
-            <h3 className="mb-3 text-sm font-semibold uppercase tracking-widest text-[#F59E0B]">
+            <h3 className="mb-3 text-sm font-semibold uppercase tracking-widest text-[#5ee0d0]">
               Як проходить вечір
             </h3>
             <ul className="mb-8 space-y-2">
               {nextOpenEvening.agenda.map((item) => (
-                <li key={item} className="flex gap-3 text-sm text-[#9CA3AF]">
-                  <span className="text-[#F59E0B]">→</span>
+                <li key={item} className="flex gap-3 text-sm text-[#b9b5ab]">
+                  <span className="text-[#5ee0d0]">→</span>
                   {item}
                 </li>
               ))}
             </ul>
 
-            <p className="mb-2 text-sm text-[#9CA3AF]">
+            <p className="mb-2 text-sm text-[#b9b5ab]">
               {nextOpenEvening.registration}
             </p>
-            <p className="mb-3 text-sm text-[#8b9199]">{closedCommunity.short}</p>
-            <p className="mb-6 text-sm text-[#9CA3AF]">
-              На вечір - <strong className="text-[#f2f2f2]">тільки підлітки</strong>{" "}
+            <p className="mb-3 text-sm text-[#b9b5ab]">{closedCommunity.short}</p>
+            <p className="mb-6 text-sm text-[#b9b5ab]">
+              На вечір - <strong className="text-[#f1ede4]">тільки підлітки</strong>{" "}
               (самі, без батьків).
               Батьки записують через бота. Після вечора - група «Відкритий Вечір».
               Нагадування в Telegram за день до зустрічі.
@@ -116,8 +116,8 @@ export default function EventsPage() {
             </div>
             <p className="mt-6">
               <Link
-                href="/for-parents"
-                className="text-sm text-[#9CA3AF] hover:text-white"
+                href="/program"
+                className="text-sm text-[#b9b5ab] hover:text-white"
               >
                 Для батьків →
               </Link>
@@ -129,7 +129,7 @@ export default function EventsPage() {
       <Section spacing="alt" className="ff-section-alt">
         <Container>
           <h2 className="mb-2 text-xl font-bold sm:text-2xl">Міста</h2>
-          <p className="mb-6 max-w-xl text-sm text-[#8b9199]">
+          <p className="mb-6 max-w-xl text-sm text-[#b9b5ab]">
             {openEveningsNote}
           </p>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -139,7 +139,7 @@ export default function EventsPage() {
                 bordered
                 className={
                   c.status === "active"
-                    ? "border-[#e8951a]/30"
+                    ? "border-[#5ee0d0]/30"
                     : "border-dashed border-white/10"
                 }
               >
@@ -148,14 +148,14 @@ export default function EventsPage() {
                   <span
                     className={`rounded-full px-2 py-0.5 text-[10px] font-bold uppercase ${
                       c.status === "active"
-                        ? "bg-[#e8951a] text-[#0c0c0c]"
-                        : "border border-white/15 text-[#8b9199]"
+                        ? "bg-[#5ee0d0] text-[#111214]"
+                        : "border border-white/15 text-[#b9b5ab]"
                     }`}
                   >
                     {c.status === "active" ? "Зараз" : "Скоро"}
                   </span>
                 </div>
-                <p className="text-sm text-[#8b9199]">{c.note}</p>
+                <p className="text-sm text-[#b9b5ab]">{c.note}</p>
               </Card>
             ))}
           </div>
@@ -168,10 +168,10 @@ export default function EventsPage() {
           <div className="grid gap-4 sm:grid-cols-2">
             {pastEvenings.map((e) => (
               <Card key={e.date} bordered>
-                <p className="mb-1 text-xs text-[#9CA3AF]">{e.date}</p>
+                <p className="mb-1 text-xs text-[#b9b5ab]">{e.date}</p>
                 <h3 className="mb-2 font-semibold text-white">{e.title}</h3>
-                <p className="mb-2 text-xs text-[#6b7280]">{e.location}</p>
-                <p className="text-sm text-[#9CA3AF]">{e.recap}</p>
+                <p className="mb-2 text-xs text-[#8e8a80]">{e.location}</p>
+                <p className="text-sm text-[#b9b5ab]">{e.recap}</p>
               </Card>
             ))}
           </div>

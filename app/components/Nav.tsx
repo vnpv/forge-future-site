@@ -7,14 +7,13 @@ import TelegramCta from "./TelegramCta";
 
 /** Завжди на видноті, навіть на мобільному - два продукти */
 const primaryLinks = [
-  { href: "/studio", label: "Студія" },
   { href: "/program", label: "Практикум" },
+  { href: "/studio", label: "Студія" },
 ];
 
 /** На мобільному - тільки в бургері; на десктопі йдуть слідом за primaryLinks */
 const secondaryLinks = [
   { href: "/events", label: "Вечори" },
-  { href: "/for-parents", label: "Для батьків" },
   { href: "/blog", label: "Блог" },
   { href: "/about", label: "Про нас" },
   { href: "/faq", label: "FAQ" },
@@ -26,7 +25,7 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#0c0c0c]/85 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#111214]/85 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 sm:px-6">
         <Logo />
 
@@ -35,7 +34,7 @@ export default function Nav() {
             <Link
               key={l.href}
               href={l.href}
-              className="text-sm text-[#8b9199] transition-colors hover:text-[#f2f2f2]"
+              className="text-sm text-[#b9b5ab] transition-colors hover:text-[#f1ede4]"
             >
               {l.label}
             </Link>
@@ -50,8 +49,8 @@ export default function Nav() {
           тож "hidden" програвав завжди, кнопка була видна на мобільному.
         */}
         <div className="hidden lg:block">
-          <TelegramCta variant="primary" className="text-xs" location="nav">
-            Записатись
+          <TelegramCta variant="primary" flow="program" className="text-xs" location="nav">
+            Розбір 20 хв
           </TelegramCta>
         </div>
 
@@ -60,7 +59,7 @@ export default function Nav() {
             <Link
               key={l.href}
               href={l.href}
-              className="text-sm text-[#8b9199] transition-colors hover:text-[#f2f2f2]"
+              className="text-sm text-[#b9b5ab] transition-colors hover:text-[#f1ede4]"
             >
               {l.label}
             </Link>
@@ -86,20 +85,20 @@ export default function Nav() {
       </div>
 
       {open && (
-        <div className="border-t border-white/[0.06] bg-[#0c0c0c] px-4 pb-6 pt-4 lg:hidden">
+        <div className="border-t border-white/[0.06] bg-[#111214] px-4 pb-6 pt-4 lg:hidden">
           {secondaryLinks.map((l) => (
             <Link
               key={l.href}
               href={l.href}
-              className="block py-3 text-base text-[#8b9199] hover:text-white"
+              className="block py-3 text-base text-[#b9b5ab] hover:text-white"
               onClick={() => setOpen(false)}
             >
               {l.label}
             </Link>
           ))}
           <div className="mt-4">
-            <TelegramCta variant="primary" className="w-full">
-              Записатись на вечір
+            <TelegramCta variant="primary" flow="program" className="w-full" location="nav_mobile">
+              Розбір 20 хвилин
             </TelegramCta>
           </div>
         </div>
