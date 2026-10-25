@@ -5,6 +5,8 @@ import Container from "./components/Container";
 import HomeHero from "./components/HomeHero";
 import HomeSpotlight from "./components/HomeSpotlight";
 import HomeExploreGrid from "./components/HomeExploreGrid";
+import InstagramShowcase from "./components/InstagramShowcase";
+import { APPLY_PROGRAM_URL } from "@/lib/telegram";
 import TelegramCta, {
   TelegramCommunityLink,
   TelegramIvanChannelLink,
@@ -88,6 +90,12 @@ export default function Home() {
               Уся програма →
             </Link>
           </div>
+        </Container>
+      </Section>
+
+      <Section spacing="block" className="border-t border-white/10">
+        <Container>
+          <InstagramShowcase ctaHref={APPLY_PROGRAM_URL} ctaLabel="Записатися на розбір 20 хвилин" />
         </Container>
       </Section>
 
