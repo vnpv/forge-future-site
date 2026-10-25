@@ -18,7 +18,6 @@ import {
   programFounderLine,
   programGuarantees,
   programHero,
-  programMirror,
   programPricing,
   programRhythm,
   programShift,
@@ -104,23 +103,6 @@ export default function ProgramPage() {
               </div>
             ))}
           </dl>
-        </Container>
-      </Section>
-
-      {/* 2. ДЗЕРКАЛО */}
-      <Section spacing="block" className="border-t border-white/10">
-        <Container>
-          <H2>{programMirror.h2}</H2>
-          <div className="mt-8 grid gap-px border border-white/12 bg-white/12 sm:grid-cols-2">
-            {programMirror.items.map((t) => (
-              <p key={t} className="bg-[var(--color-background)] p-6 text-base leading-relaxed sm:text-lg">
-                {t}
-              </p>
-            ))}
-          </div>
-          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-[var(--color-foreground)]">
-            {programMirror.lead}
-          </p>
         </Container>
       </Section>
 
