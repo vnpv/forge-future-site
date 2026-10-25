@@ -4,6 +4,8 @@ import type { Metadata } from "next";
 import Section from "../components/Section";
 import Container from "../components/Container";
 import JsonLd from "@/components/JsonLd";
+import InstagramShowcase from "../components/InstagramShowcase";
+import { reelVideoSchema } from "@/lib/instagram";
 import {
   founder,
   PROGRAM_START_DATE,
@@ -64,6 +66,7 @@ export default function ProgramPage() {
   return (
     <div data-theme="practicum" className="bg-[var(--color-background)] text-[var(--color-foreground)]">
       <JsonLd data={programCourseSchema} />
+      <JsonLd data={reelVideoSchema} />
 
       {/* 1. HERO */}
       <Section spacing="hero" className="relative overflow-hidden">
@@ -136,6 +139,13 @@ export default function ProgramPage() {
             ))}
           </div>
           <p className="mt-8 max-w-2xl text-base leading-relaxed text-[var(--color-muted)]">{programShift.note}</p>
+        </Container>
+      </Section>
+
+      {/* Instagram: рілс і пости прямо на сторінці */}
+      <Section spacing="block" className="border-t border-white/10" id="instagram">
+        <Container>
+          <InstagramShowcase ctaHref={APPLY_PROGRAM_URL} ctaLabel={programHero.cta} />
         </Container>
       </Section>
 

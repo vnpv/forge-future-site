@@ -5,6 +5,7 @@ import Container from "./components/Container";
 import HomeHero from "./components/HomeHero";
 import HomeSpotlight from "./components/HomeSpotlight";
 import HomeExploreGrid from "./components/HomeExploreGrid";
+import InstagramInterviews from "./components/InstagramInterviews";
 import TelegramCta, {
   TelegramCommunityLink,
   TelegramIvanChannelLink,
@@ -88,6 +89,12 @@ export default function Home() {
               Уся програма →
             </Link>
           </div>
+        </Container>
+      </Section>
+
+      <Section spacing="block" className="border-t border-white/10">
+        <Container>
+          <InstagramInterviews />
         </Container>
       </Section>
 
