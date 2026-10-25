@@ -143,7 +143,7 @@ export default function ProgramPage() {
       </Section>
 
       {/* Instagram: рілс і пости прямо на сторінці */}
-      <Section spacing="block" className="border-t border-white/10">
+      <Section spacing="block" className="border-t border-white/10" id="instagram">
         <Container>
           <InstagramShowcase ctaHref={APPLY_PROGRAM_URL} ctaLabel={programHero.cta} />
         </Container>

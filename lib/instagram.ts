@@ -91,3 +91,75 @@ export const reelVideoSchema = {
   inLanguage: "uk",
   author: { "@type": "Person", name: "Іван Первой" },
 };
+
+export type InstagramInterview = {
+  id: string;
+  url: string;
+  date: string;
+  tag: string;
+  title: string;
+  excerpt: string;
+  cover: string;
+};
+
+/** Старіші рілси для головної: інтерв'ю з підлітками й освітянами. Підписи з публікацій. */
+export const instagramInterviews: InstagramInterview[] = [
+  {
+    id: "DdWckhlMSEN",
+    url: "https://www.instagram.com/reel/DdWckhlMSEN/",
+    date: "16.09.2026",
+    tag: "Серія · УАЛ",
+    title: "Підлітки Української академії лідерства на сцені",
+    excerpt:
+      "Не на «дітей». На людей, які у 15-17 років вирішують, ким бути, коли країна ще воює за право це вирішувати. УАЛ не гасить бунт, а вчить відповідальності за своє життя і за країну.",
+    cover: "/instagram/iv-1.webp",
+  },
+  {
+    id: "DdZL4Lssxuz",
+    url: "https://www.instagram.com/reel/DdZL4Lssxuz/",
+    date: "17.09.2026",
+    tag: "Інтерв'ю · УАЛ",
+    title: "Друга серія інтерв'ю з підлітками УАЛ",
+    excerpt: "Друга серія інтерв'ю від молодих і талановитих підлітків Української академії лідерства.",
+    cover: "/instagram/iv-2.webp",
+  },
+  {
+    id: "DdeaE8_sull",
+    url: "https://www.instagram.com/reel/DdeaE8_sull/",
+    date: "19.09.2026",
+    tag: "Інтерв'ю · УАЛ",
+    title: "«Зараз мій головний проєкт - це я сама»",
+    excerpt:
+      "Спитав випускницю УАЛ, який проєкт вона запускає далі. Вона щойно вступила до КШЕ. Мені для тієї ж відповіді знадобилось 15 років в IT і крісло CEO.",
+    cover: "/instagram/iv-3.webp",
+  },
+  {
+    id: "Ddl_zdhsFqA",
+    url: "https://www.instagram.com/reel/Ddl_zdhsFqA/",
+    date: "22.09.2026",
+    tag: "Ментори",
+    title: "Ментор - це людина, яка іде на два кроки попереду",
+    excerpt:
+      "Ті, хто дійшов далеко, здебільшого дають поради з вершини, і ці поради далеко не завжди працюють унизу.",
+    cover: "/instagram/iv-4.webp",
+  },
+  {
+    id: "Ddqj44YM8QF",
+    url: "https://www.instagram.com/reel/Ddqj44YM8QF/",
+    date: "24.09.2026",
+    tag: "Інтерв'ю · мрія",
+    title: "Мріяти, планувати, творити, діяти… чи зраджувати себе?",
+    excerpt: "Питання до підлітка: яка твоя мрія?",
+    cover: "/instagram/iv-5.webp",
+  },
+  {
+    id: "DepAmvmsZlG",
+    url: "https://www.instagram.com/reel/DepAmvmsZlG/",
+    date: "18.10.2026",
+    tag: "Форум · освіта",
+    title: "Освіта Дивосвіту",
+    excerpt:
+      "Раз на рік освітяни й діячі культури збираються, щоб вдихнути надію і віру в майбутнє української освіти. Зсув вже пішов, тепер ШІ вносить корективи, навчання в укриттях змінює підходи.",
+    cover: "/instagram/iv-6.webp",
+  },
+];
