@@ -42,7 +42,7 @@ function Cta({ children, className = "" }: { children: React.ReactNode; classNam
       href={APPLY_PROGRAM_URL}
       target="_blank"
       rel="noopener noreferrer"
-      className={`inline-flex items-center justify-center bg-[var(--color-accent)] px-7 py-4 text-sm font-bold text-[#06201c] transition-colors hover:bg-[var(--color-accent-hover)] ${className}`}
+      className={`ff-cta ${className}`}
     >
       {children}
     </a>
@@ -89,7 +89,7 @@ export default function ProgramPage() {
             {programHero.h1}
           </h1>
           <p className="mb-8 max-w-xl text-lg leading-relaxed text-[var(--color-muted)]">{programHero.sub}</p>
-          <div className="flex flex-col items-start gap-3">
+          <div className="flex flex-col items-center gap-3 text-center">
             <Cta>{programHero.cta}</Cta>
             <p className="max-w-md text-sm text-[var(--color-muted-2)]">{programHero.ctaNote}</p>
           </div>
@@ -289,7 +289,7 @@ export default function ProgramPage() {
               ))}
             </ul>
           </div>
-          <div className="mt-8">
+          <div className="mt-8 flex justify-center">
             <Cta>{programFinal.cta}</Cta>
           </div>
         </Container>
@@ -392,7 +392,7 @@ export default function ProgramPage() {
                 </li>
               ))}
             </ul>
-            <div>
+            <div className="flex justify-center">
               <Cta>{programFinal.cta}</Cta>
             </div>
             <p className="mt-5 text-sm text-[var(--color-muted-2)]">{programFinal.note}</p>

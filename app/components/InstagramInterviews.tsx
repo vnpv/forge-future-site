@@ -65,7 +65,7 @@ export default function InstagramInterviews() {
         <div className="flex flex-wrap items-center gap-3">
           <Link
             href="/program#instagram"
-            className="inline-flex items-center justify-center bg-[var(--color-accent)] px-7 py-4 text-sm font-bold text-[#06201c] transition-colors hover:bg-[var(--color-accent-hover)]"
+            className="ff-cta"
           >
             Дивитись на сторінці практикуму
           </Link>
@@ -73,7 +73,7 @@ export default function InstagramInterviews() {
             href={INSTAGRAM_PROFILE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center border border-white/25 px-6 py-4 text-sm font-semibold transition-colors hover:border-white/60"
+            className="ff-cta-secondary"
           >
             Підписатися на Instagram
           </a>
