@@ -9,6 +9,8 @@
   --color-muted: #b9b5ab;
   --color-muted-2: #8e8a80;
   --color-accent: #5ee0d0;
+  --color-cta: #22c55e;
+  --color-cta-hover: #4ade80;
   --color-accent-dark: #3cc1b1;
   --color-accent-hover: #86ebdf;
   --font-sans: var(--font-onest), system-ui, sans-serif;
@@ -248,3 +250,18 @@ body::before {
   background-color: #181818;
   transform: translateY(-2px);
 }
+
+/* Єдина головна кнопка (CTA) на всьому сайті */
+.ff-cta {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  background: var(--color-cta); color: #06200f;
+  padding: 1rem 1.75rem; font-size: 0.875rem; font-weight: 700; line-height: 1.2;
+  border-radius: 0; transition: background-color .15s;
+}
+.ff-cta:hover { background: var(--color-cta-hover); }
+.ff-cta-secondary {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  border: 1px solid rgb(255 255 255 / 0.25); padding: 1rem 1.5rem;
+  font-size: 0.875rem; font-weight: 600; line-height: 1.2; transition: border-color .15s;
+}
+.ff-cta-secondary:hover { border-color: rgb(255 255 255 / 0.6); }

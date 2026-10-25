@@ -17,10 +17,8 @@ const base =
   "inline-flex items-center justify-center gap-2 transition-colors font-medium";
 
 const variants: Record<Variant, string> = {
-  primary:
-    "rounded-lg bg-[var(--color-accent)] px-6 py-3 text-sm font-semibold text-[var(--color-background)] hover:bg-[var(--color-accent-hover)]",
-  secondary:
-    "rounded-lg border border-[var(--color-accent)]/40 px-6 py-3 text-sm text-[var(--color-accent)] hover:bg-[var(--color-accent)]/10",
+  primary: "ff-cta",
+  secondary: "ff-cta-secondary",
   inline: "text-[var(--color-accent)] hover:underline text-sm",
 };
 
