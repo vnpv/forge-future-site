@@ -81,11 +81,11 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <div className="mt-8 flex flex-wrap items-center gap-5">
+          <div className="ff-cta-stack mt-8">
             <TelegramCta flow="program" location="home_steps">
               Записатися на розбір
             </TelegramCta>
-            <Link href="/program" className="text-sm font-medium text-[var(--color-accent)] hover:underline">
+            <Link href="/program" className="ff-cta-link">
               Уся програма →
             </Link>
           </div>
@@ -213,11 +213,11 @@ export default function Home() {
                   <li>{nextOpenEvening.location}</li>
                   <li>{nextOpenEvening.duration}</li>
                 </ul>
-                <div className="flex flex-wrap gap-3">
+                <div className="ff-cta-stack">
                   <TelegramCta location="home_evening">Записатись</TelegramCta>
                   <Link
                     href="/events"
-                    className="inline-flex items-center border-2 border-white/[0.1] px-5 py-2.5 text-sm hover:bg-white/[0.03]"
+                    className="ff-cta-link"
                   >
                     Програма вечора
                   </Link>

@@ -108,9 +108,9 @@ export default function EventsPage() {
               Батьки записують через бота. Після вечора - група «Відкритий Вечір».
               Нагадування в Telegram за день до зустрічі.
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="ff-cta-stack">
               <TelegramCta location="events_hero">Записатись на вечір →</TelegramCta>
-              <TelegramCommunityLink className="inline-flex items-center text-sm font-medium">
+              <TelegramCommunityLink className="ff-cta-link">
                 Після вечора: {closedCommunity.title} →
               </TelegramCommunityLink>
             </div>

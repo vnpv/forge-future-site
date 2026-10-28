@@ -281,11 +281,11 @@ export default function AboutPage() {
               <TelegramCommunityLink location="about" />
             </li>
           </ul>
-          <div className="flex flex-wrap gap-3">
+          <div className="ff-cta-stack">
             <TelegramCta>Прийти на вечір →</TelegramCta>
             <Link
               href="/program"
-              className="inline-flex items-center rounded-full border border-white/20 px-7 py-3.5 text-sm text-white hover:bg-white/5"
+              className="ff-cta-link"
             >
               Для батьків
             </Link>

@@ -89,7 +89,7 @@ export default function ProgramPage() {
             {programHero.h1}
           </h1>
           <p className="mb-8 max-w-xl text-lg leading-relaxed text-[var(--color-muted)]">{programHero.sub}</p>
-          <div className="flex flex-col items-center gap-3 text-center">
+          <div className="ff-cta-stack gap-3">
             <Cta>{programHero.cta}</Cta>
             <p className="max-w-md text-sm text-[var(--color-muted-2)]">{programHero.ctaNote}</p>
           </div>
@@ -289,7 +289,7 @@ export default function ProgramPage() {
               ))}
             </ul>
           </div>
-          <div className="mt-8 flex justify-center">
+          <div className="ff-cta-stack ff-cta-stack--center mt-8">
             <Cta>{programFinal.cta}</Cta>
           </div>
         </Container>
@@ -392,8 +392,11 @@ export default function ProgramPage() {
                 </li>
               ))}
             </ul>
-            <div className="flex justify-center">
+            <div className="ff-cta-stack ff-cta-stack--center">
               <Cta>{programFinal.cta}</Cta>
+              <Link href="/events" className="ff-cta-link">
+                Або прийти на відкритий вечір →
+              </Link>
             </div>
             <p className="mt-5 text-sm text-[var(--color-muted-2)]">{programFinal.note}</p>
             <p className="mt-8 text-sm text-[var(--color-muted-2)]">

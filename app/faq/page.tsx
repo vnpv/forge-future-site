@@ -68,11 +68,11 @@ export default function FaqPage() {
               </Card>
             ))}
           </div>
-          <div className="mt-10 flex flex-wrap items-center gap-4">
-            <TelegramCta variant="secondary">Записатись на вечір</TelegramCta>
+          <div className="ff-cta-stack mt-10">
+            <TelegramCta>Записатись на вечір</TelegramCta>
             <Link
               href="/events"
-              className="text-sm text-[#b9b5ab] hover:text-white"
+              className="ff-cta-link"
             >
               Деталі про вечір →
             </Link>

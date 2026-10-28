@@ -265,3 +265,17 @@ body::before {
   font-size: 0.875rem; font-weight: 600; line-height: 1.2; transition: border-color .15s;
 }
 .ff-cta-secondary:hover { border-color: rgb(255 255 255 / 0.6); }
+/* Єдиний патерн CTA: основна кнопка на всю ширину, додаткова під нею */
+.ff-cta-stack {
+  display: flex; flex-direction: column; align-items: stretch; gap: 0.875rem;
+  width: 100%; max-width: 30rem;
+}
+.ff-cta-stack--center { margin-inline: auto; text-align: center; }
+.ff-cta-stack > .ff-cta { width: 100%; }
+.ff-cta-link {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.875rem; font-weight: 500; line-height: 1.4;
+  color: #b9b5ab; transition: color .15s;
+}
+.ff-cta-stack--center .ff-cta-link { justify-content: center; }
+.ff-cta-link:hover { color: #f1ede4; }

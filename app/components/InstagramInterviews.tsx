@@ -62,7 +62,7 @@ export default function InstagramInterviews() {
         <p className="max-w-xl text-base text-[var(--color-muted)]">
           А те, що я пишу про сам практикум для батьків підлітків (рілс і три пости), зібрано на сторінці практикуму.
         </p>
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="ff-cta-stack">
           <Link
             href="/program#instagram"
             className="ff-cta"
@@ -73,7 +73,7 @@ export default function InstagramInterviews() {
             href={INSTAGRAM_PROFILE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="ff-cta-secondary"
+            className="ff-cta-link"
           >
             Підписатися на Instagram
           </a>

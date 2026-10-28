@@ -39,11 +39,11 @@ export default function HomeHero() {
 
         <p className="mb-8 max-w-xl text-base leading-[1.65] text-[#d2cec4] sm:text-lg">{teaser}</p>
 
-        <div className="mb-3 flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:gap-6">
-          <TelegramCta flow="program" location="hero" className="w-full sm:w-auto">
+        <div className="ff-cta-stack mb-3">
+          <TelegramCta flow="program" location="hero">
             Записатися на розбір 20 хвилин
           </TelegramCta>
-          <Link href="/program" className="text-sm font-medium text-[#b9b5ab] transition-colors hover:text-[#f1ede4]">
+          <Link href="/program" className="ff-cta-link">
             Про практикум →
           </Link>
         </div>

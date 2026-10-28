@@ -61,7 +61,7 @@ export default async function BlogPostPage({ params }: Props) {
               Дати відкритих вечорів і набір потоку анонсуємо в Telegram.
               Залиши заявку - повідомимо першим.
             </p>
-            <TelegramCta location="blog_article">Залишити заявку →</TelegramCta>
+            <TelegramCta location="blog_article" className="w-full">Залишити заявку →</TelegramCta>
           </div>
         </Container>
       </Section>

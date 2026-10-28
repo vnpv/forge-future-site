@@ -105,7 +105,11 @@
 /* ===== Кнопки ===== */
 
 .btn-primary {
-  display: inline-block;
+  display: block;
+  width: 100%;
+  max-width: 30rem;
+  text-align: center;
+  box-sizing: border-box;
   background: var(--blue);
   color: var(--white);
   font-family: var(--font-text);

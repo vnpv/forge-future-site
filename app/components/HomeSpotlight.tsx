@@ -34,7 +34,7 @@ export default function HomeSpotlight() {
           <p className="mb-6 max-w-md text-sm leading-relaxed text-[#b9b5ab]">
             {nextOpenEvening.description}
           </p>
-          <TelegramCta location="spotlight">Записатись на цей вечір →</TelegramCta>
+          <TelegramCta location="spotlight" className="w-full max-w-[30rem]">Записатись на цей вечір →</TelegramCta>
         </div>
         <div className="flex items-end gap-3 sm:gap-5 max-lg:mt-2">
           <blockquote className="relative min-w-0 flex-1 border-l-2 border-[#5ee0d0]/50 pl-5 sm:pl-6">

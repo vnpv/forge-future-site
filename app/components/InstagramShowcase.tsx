@@ -323,7 +323,7 @@ export default function InstagramShowcase({ ctaHref, ctaLabel }: { ctaHref: stri
         <p className="max-w-xl text-base text-[var(--color-muted)]">
           Впізнали свою ситуацію? Розбір на 20 хвилин безкоштовний: ви розповідаєте про дитину, я кажу, що бачу.
         </p>
-        <div className="flex flex-wrap items-center justify-center gap-3">
+        <div className="ff-cta-stack ff-cta-stack--center">
           <a
             href={ctaHref}
             target="_blank"
@@ -336,7 +336,7 @@ export default function InstagramShowcase({ ctaHref, ctaLabel }: { ctaHref: stri
             href={INSTAGRAM_PROFILE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="ff-cta-secondary"
+            className="ff-cta-link"
           >
             <IgIcon className="h-4 w-4" /> Підписатися на Instagram
           </a>
