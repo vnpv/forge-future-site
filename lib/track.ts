@@ -40,5 +40,20 @@ export async function allRecords(): Promise<TrackRec[]> {
       }
     }),
   );
-  return recs.filter((r): r is TrackRec => !!r);
+  // партнер, що відкрив власний лінк (тест), не рахується як відвідувач
+  return recs.filter((r): r is TrackRec => !!r && r.uid !== r.ref);
+}
+
+export type StatRow = { ref: string; counts: number[]; last: string; new24: number };
+
+/** Зведення по ref: скільки людей дійшло до кожного етапу, остання активність, нових за 24 год. */
+export function summarize(recs: TrackRec[], now = Date.now()): StatRow[] {
+  const g = new Map<string, TrackRec[]>();
+  for (const r of recs) g.set(r.ref || "", [...(g.get(r.ref || "") ?? []), r]);
+  return [...g.entries()].map(([ref, rs]) => ({
+    ref,
+    counts: STAGES.map((_, i) => rs.filter((r) => r.stage >= i).length),
+    last: rs.reduce((m, r) => (r.last > m ? r.last : m), ""),
+    new24: rs.filter((r) => now - Date.parse(r.first) < 86_400_000).length,
+  }));
 }
