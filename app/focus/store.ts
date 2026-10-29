@@ -63,3 +63,21 @@ export async function writeText(pathname: string, body: string, contentType: str
   }
   cache.set(pathname, { at: Date.now(), text: body, own: true });
 }
+
+/** Список файлів за префіксом (для статистики). У LOCAL — з диска. */
+export async function listPaths(prefix: string): Promise<string[]> {
+  if (LOCAL) {
+    const { readdir } = await import("node:fs/promises");
+    const dir = join(LOCAL, prefix);
+    return (await readdir(dir).catch(() => [] as string[])).map((f) => `${prefix}${f}`);
+  }
+  const { list } = await import("@vercel/blob");
+  const out: string[] = [];
+  let cursor: string | undefined;
+  do {
+    const r = await list({ prefix, cursor, limit: 1000 });
+    out.push(...r.blobs.map((b) => b.pathname));
+    cursor = r.hasMore ? r.cursor : undefined;
+  } while (cursor);
+  return out;
+}

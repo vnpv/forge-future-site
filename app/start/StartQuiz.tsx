@@ -12,7 +12,7 @@ const REF_KEY = "ff_ref";
 type TgButton = { setText?(t: string): void; show(): void; hide(): void; onClick(f: () => void): void; offClick(f: () => void): void };
 type TgWebApp = {
   initData: string;
-  initDataUnsafe?: { start_param?: string };
+  initDataUnsafe?: { start_param?: string; user?: { id?: number } };
   ready(): void;
   close(): void;
   expand(): void;
@@ -240,6 +240,40 @@ export default function StartQuiz() {
   useEffect(() => {
     if (program) window.scrollTo({ top: 0 });
   }, [program]);
+
+  // Воронка: етап зростає тільки вперед. Чекаємо на Telegram (до 3 с), щоб id був стабільним.
+  const [tgChecked, setTgChecked] = useState(false);
+  useEffect(() => {
+    if (tg) setTgChecked(true);
+    else {
+      const t = setTimeout(() => setTgChecked(true), 3000);
+      return () => clearTimeout(t);
+    }
+  }, [tg]);
+  const stage = booked ? 7 : program ? 6 : step;
+  const [sentStage, setSentStage] = useState(-1);
+  useEffect(() => {
+    if (!tgChecked || stage <= sentStage) return;
+    let uid = tg?.initDataUnsafe?.user?.id ? String(tg.initDataUnsafe.user.id) : "";
+    if (!uid) {
+      try {
+        uid = localStorage.getItem("ff_uid") ?? "";
+        if (!uid) {
+          uid = "a" + Math.random().toString(36).slice(2, 12);
+          localStorage.setItem("ff_uid", uid);
+        }
+      } catch {
+        uid = "a" + Math.random().toString(36).slice(2, 12);
+      }
+    }
+    setSentStage(stage);
+    fetch("/api/track", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ uid, ref, tg: Boolean(tg), stage }),
+      keepalive: true,
+    }).catch(() => {});
+  }, [tgChecked, stage, sentStage, tg, ref]);
 
   const canAddHome = Boolean(tg?.addToHomeScreen) && home !== "added" && home !== "unsupported";
 
