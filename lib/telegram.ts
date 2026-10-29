@@ -31,7 +31,6 @@ export function telegramBotUrl(start: string): string {
 }
 
 export const APPLY_OPEN_EVENING_URL = telegramBotUrl(TELEGRAM_START_OPEN_EVENING);
-export const APPLY_PROGRAM_URL = telegramBotUrl(TELEGRAM_START_PROGRAM);
 export const APPLY_STUDIO_URL = telegramBotUrl(TELEGRAM_START_STUDIO);
 export const TELEGRAM_COMMUNITY_BOT_URL = telegramBotUrl(TELEGRAM_START_COMMUNITY);
 
@@ -42,3 +41,6 @@ export function miniAppUrl(ref?: string): string {
   const base = `https://t.me/${TELEGRAM_BOT_USERNAME}/${TELEGRAM_MINIAPP_SHORTNAME}`;
   return ref ? `${base}?startapp=${ref}` : base;
 }
+
+/** Усі кнопки «Записатися на розбір» на сайті ведуть у квіз-застосунок; ref web = канал «сайт». */
+export const APPLY_PROGRAM_URL = miniAppUrl("web");
