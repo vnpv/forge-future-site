@@ -7,6 +7,12 @@ export const metadata: Metadata = {
   title: "Опитування для батьків підлітків",
   description: "4 питання за хвилину: що відбувається з вашим підлітком і що робити цього тижня.",
   alternates: pageAlternates("/start"),
+  openGraph: {
+    type: "website",
+    locale: "uk_UA",
+    title: "Що відбувається з вашим підлітком? 4 питання за хвилину",
+    description: "Опитування для батьків підлітків 14-19 від Forge Future. Результат одразу, а далі можна записатися на безкоштовний розбір з Іваном Первой.",
+  },
 };
 
 export default function StartPage() {
