@@ -29,12 +29,10 @@ export default function StudioPage() {
           <p className="kicker">FORGE FUTURE · СТУДІЯ · 10–13 РОКІВ</p>
 
           <h1 className="hero-title">
-            <span className="reveal-line">За шість тижнів</span>
-            <span className="reveal-line">ти зробиш</span>
+            <span className="reveal-line">Шість тижнів.</span>
             <span className="reveal-line">
-              <em>шість</em>
+              Шість <em>нових</em> речей.
             </span>
-            <span className="reveal-line">нових для себе речей</span>
           </h1>
 
           <p className="hero-sub">
