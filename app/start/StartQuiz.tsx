@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { botLink, cleanRef, fearLines, profiles, questions, SHARE_TEXT } from "@/lib/start-quiz";
 import { miniAppUrl } from "@/lib/telegram";
+import Booking from "./Booking";
 
 const REF_KEY = "ff_ref";
 
@@ -38,6 +39,8 @@ export default function StartQuiz() {
   const [tg, setTg] = useState<TgWebApp | null>(null);
   const [home, setHome] = useState("");
   const [sent, setSent] = useState(false);
+  const [days, setDays] = useState<Record<string, string[]> | null>(null);
+  const [booked, setBooked] = useState<{ label: string; meet: string } | null>(null);
 
   useEffect(() => {
     let r = cleanRef(new URLSearchParams(window.location.search).get("ref"));
@@ -95,21 +98,35 @@ export default function StartQuiz() {
     return () => tg.BackButton.offClick(back);
   }, [tg, step]);
 
+  // Слоти для запису тягнемо, коли людина дійшла до результату. Немає Google-календаря чи слотів: запис через чат.
+  useEffect(() => {
+    if (!done || days) return;
+    fetch("/api/slots")
+      .then((r) => r.json())
+      .then((j) => setDays(j.configured && Object.keys(j.days ?? {}).length ? j.days : {}))
+      .catch(() => setDays({}));
+  }, [done, days]);
+  const canBook = Boolean(days && Object.keys(days).length);
+
   // Нижня кнопка Telegram на екрані результату: запис на розбір
   useEffect(() => {
     if (!tg) return;
     const go = () => {
+      if (canBook) {
+        document.getElementById("booking")?.scrollIntoView({ behavior: "smooth", block: "center" });
+        return;
+      }
       tg.openTelegramLink(botLink(ref, answers));
       setSent(true);
       setTimeout(() => tg.close(), 600);
     };
-    if (done && !sent) {
-      tg.MainButton.setText?.("Записатися на розмову");
+    if (done && !sent && !booked && days) {
+      tg.MainButton.setText?.(canBook ? "Обрати час розмови" : "Записатися на розмову");
       tg.MainButton.onClick(go);
       tg.MainButton.show();
     } else tg.MainButton.hide();
     return () => tg.MainButton.offClick(go);
-  }, [tg, done, sent, ref, answers]);
+  }, [tg, done, sent, booked, days, canBook, ref, answers]);
 
   const canAddHome = Boolean(tg?.addToHomeScreen) && home !== "added" && home !== "unsupported";
 
@@ -186,7 +203,18 @@ export default function StartQuiz() {
         </section>
       )}
 
-      {done && profile && !sent && (
+      {booked && (
+        <section className="py-10 text-center">
+          <h2 className="ff-display mb-3 text-[clamp(1.5rem,6vw,2.1rem)] font-extrabold leading-tight">Готово ✅</h2>
+          <p className="mb-2 text-lg font-bold">Розмова {booked.label} (за Києвом)</p>
+          <p className="mb-6 text-base leading-relaxed text-[var(--color-muted)]">
+            Запрошення з Google Calendar уже на вашому email{booked.meet ? ", у ньому посилання на відеодзвінок" : ""}. Якщо час раптом зміниться, напишіть мені: @IvanPervoy.
+          </p>
+          {tg && <button className="ff-cta w-full" onClick={() => tg.close()}>Закрити</button>}
+        </section>
+      )}
+
+      {done && profile && !sent && !booked && (
         <section>
           <p className="mb-3 text-sm font-semibold text-[var(--color-accent)]">Ваш результат</p>
           <h2 className="ff-display mb-3 text-[clamp(1.5rem,6vw,2.1rem)] font-extrabold leading-tight">{profile.name}</h2>
@@ -209,7 +237,18 @@ export default function StartQuiz() {
             <p className="mb-4 text-base leading-relaxed text-[var(--color-muted)]">
               Я питаю, ви розповідаєте. Наприкінці кажу, що бачу, і пропоную наступний крок. Безкоштовно.
             </p>
-            {tg ? (
+            {canBook ? (
+              <Booking
+                days={days!}
+                ageLabel={questions[0].options[answers[0]]?.label ?? ""}
+                ref_={ref}
+                code={profile.id + answers.join("")}
+                initData={tg?.initData ?? ""}
+                onBooked={(label, meet) => setBooked({ label, meet })}
+              />
+            ) : days === null ? (
+              <p className="text-sm text-[var(--color-muted)]">Завантажую вільний час…</p>
+            ) : tg ? (
               <p className="text-sm text-[var(--color-accent)]">Кнопка «Записатися на розмову» внизу екрана ↓</p>
             ) : (
               <a href={botLink(ref, answers)} target="_blank" rel="noopener noreferrer" className="ff-cta w-full">

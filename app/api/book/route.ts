@@ -1,0 +1,66 @@
+import { NextRequest, NextResponse } from "next/server";
+import { createEvent, googleConfigured } from "@/lib/booking/google";
+import { freeSlots, SLOT_MIN } from "@/lib/booking/slots";
+import { notifyIvan, sendTelegram, verifyInitData } from "@/lib/booking/telegram";
+import { kyivToUtc } from "@/lib/booking/time";
+
+export const dynamic = "force-dynamic";
+
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const esc = (s: string) => s.replace(/[<>&]/g, "");
+
+export async function POST(req: NextRequest) {
+  if (!googleConfigured()) return NextResponse.json({ error: "not_configured" }, { status: 503 });
+  const b = (await req.json().catch(() => null)) as Record<string, string> | null;
+  const date = String(b?.date ?? "");
+  const time = String(b?.time ?? "");
+  const name = esc(String(b?.name ?? "").trim()).slice(0, 40);
+  const email = String(b?.email ?? "").trim().toLowerCase().slice(0, 120);
+  const age = esc(String(b?.age ?? "")).slice(0, 8);
+  const ref = String(b?.ref ?? "").replace(/[^a-z0-9]/g, "").slice(0, 16);
+  const code = String(b?.code ?? "").replace(/[^a-z0-9]/g, "").slice(0, 8);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || !/^\d{2}:\d{2}$/.test(time) || name.length < 2 || !EMAIL.test(email))
+    return NextResponse.json({ error: "bad_request" }, { status: 400 });
+
+  // слот має бути вільним саме зараз (перерахунок із Google і NotePlan)
+  let free: Record<string, string[]>;
+  try {
+    free = await freeSlots();
+  } catch (e) {
+    console.error("book slots", e);
+    return NextResponse.json({ error: "unavailable" }, { status: 503 });
+  }
+  if (!free[date]?.includes(time)) return NextResponse.json({ error: "taken" }, { status: 409 });
+
+  const tg = verifyInitData(String(b?.initData ?? ""));
+  const start = kyivToUtc(date, time);
+  const end = new Date(start.getTime() + SLOT_MIN * 60_000);
+  const who = tg ? `Telegram: ${tg.username ? "@" + tg.username : "id " + tg.id}` : "Telegram: не підтверджено (браузер)";
+  const description = [
+    `Дитина: ${name}, ${age}`,
+    `Email: ${email}`,
+    who,
+    `Квіз: ${code || "-"}`,
+    `Джерело: ${ref || "-"}`,
+    "Розмова 20 хвилин: ситуація, точка Б, сумніви, пропозиція (razbir-scenario-20min.md)",
+  ].join("\n");
+
+  let ev;
+  try {
+    ev = await createEvent({ start, end, summary: `Розмова про ${name} (Forge Future)`, description, email });
+  } catch (e) {
+    console.error("book create", e);
+    return NextResponse.json({ error: "unavailable" }, { status: 503 });
+  }
+
+  const label = `${date.split("-").reverse().join(".")} о ${time}`;
+  const channel = ref && /^(ig|rl|yt|tg)/.test(ref) ? `Канал: <code>${ref}</code>` : ref ? `Партнер: <code>${ref}</code> (10%)` : "";
+  await notifyIvan(
+    [`📅 <b>Розмова заброньована</b>: ${label} (Київ)`, `Дитина: ${name}, ${age}`, `Email: ${email}`, who, `Квіз: ${code || "-"}`, channel, ev.meet ? `Meet: ${ev.meet}` : ""]
+      .filter(Boolean)
+      .join("\n"),
+  );
+  if (tg) await sendTelegram(tg.id, `Записав ✅ Розмова ${label} за київським часом. Запрошення з Google прийшло на ${email}${ev.meet ? `\nПосилання: ${ev.meet}` : ""}`);
+
+  return NextResponse.json({ ok: true, label, meet: ev.meet });
+}
