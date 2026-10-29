@@ -212,6 +212,26 @@ export default function StartQuiz() {
   }, [done, days]);
   const canBook = Boolean(days && Object.keys(days).length);
 
+  // Слоти оновлюємо, поки людина дивиться: звільнені слоти (скасована зустріч) з'являються без перезапуску застосунку.
+  useEffect(() => {
+    if (!done || !days || booked) return;
+    const refresh = () => {
+      if (document.visibilityState !== "visible") return;
+      fetch("/api/slots")
+        .then((r) => r.json())
+        .then((j) => {
+          if (j.configured && j.days) setDays(j.days);
+        })
+        .catch(() => {});
+    };
+    const t = setInterval(refresh, 30_000);
+    document.addEventListener("visibilitychange", refresh);
+    return () => {
+      clearInterval(t);
+      document.removeEventListener("visibilitychange", refresh);
+    };
+  }, [done, booked, Boolean(days)]); // eslint-disable-line react-hooks/exhaustive-deps
+
   // Нижня кнопка Telegram на екрані результату: запис на розбір
   useEffect(() => {
     if (!tg) return;

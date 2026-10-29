@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const WD = ["нд", "пн", "вт", "ср", "чт", "пт", "сб"];
 
@@ -28,6 +28,12 @@ export default function Booking({ days, ageLabel, ref_, code, initData, onBooked
   const [email, setEmail] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
+
+  // слоти оновилися (хтось скасував або зайняв): не тримаємо вибір, якого вже немає
+  useEffect(() => {
+    if (date && !days[date]) setDate(Object.keys(days)[0] ?? "");
+    else if (time && !(days[date] ?? []).includes(time)) setTime("");
+  }, [days]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const valid = date && time && name.trim().length >= 2 && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
 
