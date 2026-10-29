@@ -31,7 +31,8 @@ export function telegramBotUrl(start: string): string {
 }
 
 export const APPLY_OPEN_EVENING_URL = telegramBotUrl(TELEGRAM_START_OPEN_EVENING);
-export const APPLY_PROGRAM_URL = telegramBotUrl(TELEGRAM_START_PROGRAM);
+/** Практикум: кнопка веде одразу в Mini App (опитування й запис), канал web для обліку. */
+export const APPLY_PROGRAM_URL = `https://t.me/${TELEGRAM_BOT_USERNAME}/start?startapp=webprogram`;
 export const APPLY_STUDIO_URL = telegramBotUrl(TELEGRAM_START_STUDIO);
 export const TELEGRAM_COMMUNITY_BOT_URL = telegramBotUrl(TELEGRAM_START_COMMUNITY);
 

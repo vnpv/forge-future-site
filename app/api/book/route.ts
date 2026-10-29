@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
 
   const label = `${date.split("-").reverse().join(".")} о ${time}`;
   const channel =
-    ref && /^(ig|rl|yt|tg)/.test(ref)
+    ref && /^(ig|rl|yt|tg|web)/.test(ref)
       ? `Канал: <code>${ref}</code>`
       : ref
         ? `Партнер: ${esc(await partnerLabel(ref))} (10%), id <code>${ref}</code>`

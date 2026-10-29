@@ -31,6 +31,27 @@ declare global {
   }
 }
 
+const doubts: { q: string; a: string }[] = [
+  { q: "«Дитина не захоче»", a: "Підліток сам обирає свій проєкт. На початку, за згодою, 10 хвилин розмови з ним. Не підійшло після першого тижня: повертаємо передоплату." },
+  { q: "«Платили за курси, результату не було»", a: "Тут результат видно щотижня: один результат на тиждень і наприкінці показ проєктів. Не лекції, а власна справа." },
+  { q: "«Не бачу, що відбувається»", a: "Щотижня ви отримуєте апдейт на одну сторінку: що зроблено і що далі." },
+  { q: "«Це не для нашого підлітка»", a: "Саме для цього розмова: за 20 хвилин скажу чесно, чи це підходить, і що спробувати першим, навіть якщо практикум не підійде." },
+];
+
+function Doubts() {
+  return (
+    <div className="mb-5 border-t border-white/10 pt-3">
+      <p className="mb-2 text-sm font-bold">Що найчастіше зупиняє батьків</p>
+      {doubts.map((d) => (
+        <details key={d.q} className="border-b border-white/10 py-2">
+          <summary className="cursor-pointer text-base">{d.q}</summary>
+          <p className="mt-2 text-sm leading-relaxed text-[var(--color-muted)]">{d.a}</p>
+        </details>
+      ))}
+    </div>
+  );
+}
+
 export default function StartQuiz() {
   const [step, setStep] = useState(0); // 0 вступ, 1..4 питання, 5 результат
   const [answers, setAnswers] = useState<number[]>([]);
@@ -237,6 +258,7 @@ export default function StartQuiz() {
             <p className="mb-4 text-base leading-relaxed text-[var(--color-muted)]">
               Я питаю, ви розповідаєте. Наприкінці кажу, що бачу, і пропоную наступний крок. Безкоштовно.
             </p>
+            <Doubts />
             {canBook ? (
               <Booking
                 days={days!}
@@ -259,6 +281,7 @@ export default function StartQuiz() {
 
           <h3 className="ff-display mb-3 text-xl font-extrabold">Практикум Forge Future</h3>
           <ul className="mb-6 flex flex-col gap-2 text-base leading-relaxed">
+            <li>Для підлітка, який ще не знає, чого хоче: знайти напрямок і довести його до першого результату.</li>
             <li>6 тижнів, група до 10 підлітків 14-19, старт 1 грудня.</li>
             <li>Підліток обирає і робить власний проєкт. Веду особисто я.</li>
             <li>Щотижня ви отримуєте апдейт на одну сторінку: що зроблено і що далі.</li>
