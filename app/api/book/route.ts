@@ -3,6 +3,7 @@ import { createEvent, googleConfigured } from "@/lib/booking/google";
 import { freeSlots, SLOT_MIN } from "@/lib/booking/slots";
 import { notifyIvan, partnerLabel, sendTelegram, verifyInitData } from "@/lib/booking/telegram";
 import { kyivToUtc } from "@/lib/booking/time";
+import { storageReady, writeText } from "@/app/focus/store";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +17,7 @@ export async function POST(req: NextRequest) {
   const time = String(b?.time ?? "");
   const name = esc(String(b?.name ?? "").trim()).slice(0, 40);
   const email = String(b?.email ?? "").trim().toLowerCase().slice(0, 120);
+  const contact = esc(String(b?.contact ?? "").trim()).slice(0, 60);
   const age = esc(String(b?.age ?? "")).slice(0, 8);
   const ref = String(b?.ref ?? "").replace(/[^a-z0-9]/g, "").slice(0, 16);
   const code = String(b?.code ?? "").replace(/[^a-z0-9]/g, "").slice(0, 8);
@@ -33,6 +35,7 @@ export async function POST(req: NextRequest) {
   if (!free[date]?.includes(time)) return NextResponse.json({ error: "taken" }, { status: 409 });
 
   const tg = verifyInitData(String(b?.initData ?? ""));
+  if (!tg && contact.length < 5) return NextResponse.json({ error: "bad_request" }, { status: 400 });
   const start = kyivToUtc(date, time);
   const end = new Date(start.getTime() + SLOT_MIN * 60_000);
   const who = tg ? `Telegram: ${tg.username ? "@" + tg.username : "id " + tg.id}` : "Telegram: не підтверджено (браузер)";
@@ -51,7 +54,7 @@ export async function POST(req: NextRequest) {
       summary: `Розбір з Іваном (Forge Future): ${name}`,
       description,
       email,
-      privateProps: { child: `${name}, ${age}`, quiz: code || "-", source: ref || "-", telegram: tg ? String(tg.id) : "-" },
+      privateProps: { child: `${name}, ${age}`, quiz: code || "-", source: ref || "-", telegram: tg ? String(tg.id) : "-", contact: contact || "-" },
     });
   } catch (e) {
     console.error("book create", e);
@@ -66,11 +69,21 @@ export async function POST(req: NextRequest) {
         ? `Партнер: ${esc(await partnerLabel(ref))} (10%), id <code>${ref}</code>`
         : "";
   await notifyIvan(
-    [`📅 <b>Розбір заброньовано</b>: ${label} (Київ)`, `Дитина: ${name}, ${age}`, `Email: ${email}`, who, `Квіз: ${code || "-"}`, channel, ev.meet ? `Meet: ${ev.meet}` : ""]
+    [`📅 <b>Розбір заброньовано</b>: ${label} (Київ)`, `Дитина: ${name}, ${age}`, `Email: ${email}`, tg ? "" : `Контакт: ${contact}`, who, `Квіз: ${code || "-"}`, channel, ev.meet ? `Meet: ${ev.meet}` : ""]
       .filter(Boolean)
       .join("\n"),
   );
   if (tg) await sendTelegram(tg.id, `Записав ✅ Розбір ${label} за київським часом. Запрошення з Google прийшло на ${email}${ev.meet ? `\nПосилання: ${ev.meet}` : ""}`);
 
-  return NextResponse.json({ ok: true, label, meet: ev.meet });
+  // Запис із сайту (без Telegram): код, за яким бот підключить людину і надішле підтвердження в Telegram
+  let bid = "";
+  if (!tg && storageReady()) {
+    bid = Math.random().toString(36).slice(2, 10);
+    try {
+      await writeText(`booking/b/${bid}.json`, JSON.stringify({ label, email, name, meet: ev.meet, ref, contact }), "application/json");
+    } catch {
+      bid = "";
+    }
+  }
+  return NextResponse.json({ ok: true, label, meet: ev.meet, bid });
 }

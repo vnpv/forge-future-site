@@ -144,7 +144,7 @@ export default function StartQuiz() {
   const [sent, setSent] = useState(false);
   const [program, setProgram] = useState(false);
   const [days, setDays] = useState<Record<string, string[]> | null>(null);
-  const [booked, setBooked] = useState<{ label: string; meet: string } | null>(null);
+  const [booked, setBooked] = useState<{ label: string; meet: string; bid: string } | null>(null);
 
   useEffect(() => {
     let r = cleanRef(new URLSearchParams(window.location.search).get("ref"));
@@ -377,6 +377,11 @@ export default function StartQuiz() {
           <p className="mb-6 text-base leading-relaxed text-[var(--color-muted)]">
             Запрошення з Google Calendar уже на вашому email{booked.meet ? ", у ньому посилання на відеодзвінок" : ""}. Якщо час раптом зміниться, напишіть мені: @IvanPervoy.
           </p>
+          {!tg && booked.bid && (
+            <a className="ff-cta mb-3 w-full" href={`https://t.me/ivanpervoy_bot?start=bk_${booked.bid}`} target="_blank" rel="noopener noreferrer">
+              Отримати нагадування в Telegram
+            </a>
+          )}
           <a className="ff-cta-secondary mb-3 w-full" href="https://forge-future.com/program" target="_blank" rel="noopener noreferrer">Детальніше про програму</a>
           {tg && <button className="ff-cta w-full" onClick={() => tg.close()}>Закрити</button>}
         </section>
@@ -425,7 +430,7 @@ export default function StartQuiz() {
                 ref_={ref}
                 code={profile.id + answers.join("")}
                 initData={tg?.initData ?? ""}
-                onBooked={(label, meet) => setBooked({ label, meet })}
+                onBooked={(label, meet, bid) => setBooked({ label, meet, bid })}
               />
             ) : days === null ? (
               <p className="text-sm text-[var(--color-muted)]">Завантажую вільний час…</p>

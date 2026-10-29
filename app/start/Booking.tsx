@@ -16,7 +16,7 @@ type Props = {
   ref_: string;
   code: string;
   initData: string;
-  onBooked: (label: string, meet: string) => void;
+  onBooked: (label: string, meet: string, bid: string) => void;
 };
 
 /** Вибір дня й часу, ім'я дитини, email. Запис створює подію в Google Calendar Івана з запрошенням на email. */
@@ -26,6 +26,8 @@ export default function Booking({ days, ageLabel, ref_, code, initData, onBooked
   const [time, setTime] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [contact, setContact] = useState("");
+  const inTg = Boolean(initData);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
 
@@ -35,7 +37,7 @@ export default function Booking({ days, ageLabel, ref_, code, initData, onBooked
     else if (time && !(days[date] ?? []).includes(time)) setTime("");
   }, [days]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const valid = date && time && name.trim().length >= 2 && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
+  const valid = date && time && name.trim().length >= 2 && (inTg || contact.trim().length >= 5) && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
 
   async function submit() {
     if (!valid || busy) return;
@@ -45,10 +47,10 @@ export default function Booking({ days, ageLabel, ref_, code, initData, onBooked
       const res = await fetch("/api/book", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ date, time, name, email, age: ageLabel, ref: ref_, code, initData }),
+        body: JSON.stringify({ date, time, name, email, contact, age: ageLabel, ref: ref_, code, initData }),
       });
       const j = await res.json().catch(() => ({}));
-      if (res.ok && j.ok) return onBooked(j.label, j.meet ?? "");
+      if (res.ok && j.ok) return onBooked(j.label, j.meet ?? "", j.bid ?? "");
       if (res.status === 409) {
         setErr("Цей час щойно зайняли. Оберіть інший.");
         setTime("");
@@ -111,6 +113,12 @@ export default function Booking({ days, ageLabel, ref_, code, initData, onBooked
         onChange={(e) => setEmail(e.target.value)}
         maxLength={120}
       />
+      {!inTg && (
+        <>
+          <label className="mb-1 block text-sm text-[var(--color-muted)]">Telegram (@нік) або телефон: щоб написати, якщо щось зміниться</label>
+          <input className={`${field} mb-4`} value={contact} onChange={(e) => setContact(e.target.value)} maxLength={60} autoComplete="tel" />
+        </>
+      )}
       {err && <p className="mb-3 text-sm text-red-400">{err}</p>}
       <button className="ff-cta w-full disabled:opacity-40" disabled={!valid || busy} onClick={submit}>
         {busy ? "Записую…" : time ? `Підтвердити: ${dayLabel(date).num} о ${time}` : "Оберіть час"}
