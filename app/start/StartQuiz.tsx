@@ -39,54 +39,84 @@ const doubts: { q: string; a: string }[] = [
   { q: "«Це не для нашого підлітка»", a: "Саме для цього розбір: за 20 хвилин скажу чесно, чи це підходить, і що спробувати першим, навіть якщо практикум не підійде." },
 ];
 
-function ProgramMore() {
-  const h = "mb-2 mt-4 text-sm font-bold";
-  const li = "text-sm leading-relaxed text-[var(--color-muted)]";
+function Card({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <details className="mb-5 border border-white/20 bg-[var(--color-background)]">
-      <summary className="cursor-pointer px-4 py-3 text-base font-semibold">Детальніше про програму</summary>
-      <div className="px-4 pb-4">
-        <p className={h}>6 тижнів: що робить підліток</p>
-        <ol className="flex flex-col gap-2">
-          {programWeeksV2.map((w, i) => (
-            <li key={w.title} className={li}>
-              <b className="text-[var(--color-foreground)]">{i + 1}. {w.title}.</b> {w.outcome}
-            </li>
-          ))}
-        </ol>
-        <p className={h}>Що бачите ви</p>
+    <section className="mb-5 border border-white/10 bg-[var(--color-surface)] p-4">
+      <h3 className="ff-display mb-3 text-base font-extrabold">{title}</h3>
+      {children}
+    </section>
+  );
+}
+
+function ProgramView({ onBack }: { onBack: () => void }) {
+  const muted = "text-sm leading-relaxed text-[var(--color-muted)]";
+  return (
+    <section>
+      <p className="mb-3 text-sm font-semibold text-[var(--color-accent)]">Практикум Forge Future</p>
+      <h2 className="ff-display mb-2 text-[clamp(1.5rem,6vw,2.1rem)] font-extrabold leading-tight">Що це за програма</h2>
+      <p className="mb-6 text-base leading-relaxed text-[var(--color-muted)]">
+        6 тижнів, група до 10 підлітків 14-19, старт 1 грудня. Підліток знаходить напрямок і робить власний проєкт, веде Іван особисто.
+      </p>
+
+      <h3 className="mb-3 text-sm font-bold uppercase tracking-wide">6 тижнів: що робить підліток</h3>
+      <ol className="mb-6 flex flex-col gap-3">
+        {programWeeksV2.map((w, i) => (
+          <li key={w.title} className="flex gap-3 border border-white/10 bg-[var(--color-surface)] p-4">
+            <span className="ff-display w-6 shrink-0 text-xl font-extrabold text-[var(--color-accent)]">{i + 1}</span>
+            <span>
+              <b className="block text-base">{w.title}</b>
+              <span className={muted}>{w.outcome}</span>
+            </span>
+          </li>
+        ))}
+      </ol>
+
+      <Card title="Що бачите ви">
+        <p className={`${muted} mb-2`}>Раз на тиждень, одна сторінка:</p>
         <ul className="flex flex-col gap-1">
           {programVisibility.weekly.items.map((t) => (
-            <li key={t} className={li}>· {t}</li>
+            <li key={t} className="text-base">· {t}</li>
           ))}
         </ul>
-        <p className={h}>Для кого</p>
-        <ul className="flex flex-col gap-1">
-          {programFor.forYou.map((t) => (
-            <li key={t} className={li}>· {t}</li>
-          ))}
-        </ul>
-        <p className={h}>Не для вас, якщо</p>
-        <ul className="flex flex-col gap-1">
-          {programFor.notForYou.map((t) => (
-            <li key={t} className={li}>· {t}</li>
-          ))}
-        </ul>
-        <p className={h}>Гарантії</p>
+      </Card>
+
+      <Card title="Для кого">
         <ul className="flex flex-col gap-2">
+          {programFor.forYou.map((t) => (
+            <li key={t} className="text-base leading-relaxed">✓ {t}</li>
+          ))}
+        </ul>
+      </Card>
+
+      <Card title="Не підійде, якщо">
+        <ul className="flex flex-col gap-2">
+          {programFor.notForYou.map((t) => (
+            <li key={t} className={muted}>· {t}</li>
+          ))}
+        </ul>
+      </Card>
+
+      <Card title="Гарантії">
+        <ul className="flex flex-col gap-3">
           {programGuarantees.items.map((g) => (
-            <li key={g.title} className={li}>
-              <b className="text-[var(--color-foreground)]">{g.title}.</b> {g.text}
+            <li key={g.title}>
+              <b className="block text-base">{g.title}</b>
+              <span className={muted}>{g.text}</span>
             </li>
           ))}
         </ul>
-        <p className={h}>Вартість</p>
-        <p className={li}>Три пакети: $500, $750 і $1000 за потік. Оплата 50% до старту, 50% до третього тижня. Розбір 20 хвилин безкоштовний.</p>
-        <a className="mt-4 inline-block text-sm underline" href="https://forge-future.com/program" target="_blank" rel="noopener noreferrer">
-          Уся програма на сайті
-        </a>
-      </div>
-    </details>
+      </Card>
+
+      <Card title="Вартість">
+        <p className="mb-1 text-base">Три пакети: $500, $750 і $1000 за потік.</p>
+        <p className={muted}>Оплата 50% до старту, 50% до третього тижня. Розбір 20 хвилин безкоштовний.</p>
+      </Card>
+
+      <button className="ff-cta mb-3 w-full" onClick={onBack}>Обрати час розбору</button>
+      <a className="block text-center text-sm underline text-[var(--color-muted)]" href="https://forge-future.com/program" target="_blank" rel="noopener noreferrer">
+        Усе на сайті
+      </a>
+    </section>
   );
 }
 
@@ -112,6 +142,7 @@ export default function StartQuiz() {
   const [tg, setTg] = useState<TgWebApp | null>(null);
   const [home, setHome] = useState("");
   const [sent, setSent] = useState(false);
+  const [program, setProgram] = useState(false);
   const [days, setDays] = useState<Record<string, string[]> | null>(null);
   const [booked, setBooked] = useState<{ label: string; meet: string } | null>(null);
 
@@ -163,13 +194,13 @@ export default function StartQuiz() {
   // Нативна кнопка «Назад» Telegram
   useEffect(() => {
     if (!tg) return;
-    const back = () => setStep((s) => Math.max(0, s - 1));
+    const back = () => (program ? setProgram(false) : setStep((s) => Math.max(0, s - 1)));
     if (step > 0) {
       tg.BackButton.show();
       tg.BackButton.onClick(back);
     } else tg.BackButton.hide();
     return () => tg.BackButton.offClick(back);
-  }, [tg, step]);
+  }, [tg, step, program]);
 
   // Слоти для запису тягнемо, коли людина дійшла до результату. Немає Google-календаря чи слотів: запис через чат.
   useEffect(() => {
@@ -185,6 +216,11 @@ export default function StartQuiz() {
   useEffect(() => {
     if (!tg) return;
     const go = () => {
+      if (program) {
+        setProgram(false);
+        setTimeout(() => document.getElementById("booking")?.scrollIntoView({ block: "center" }), 100);
+        return;
+      }
       if (canBook) {
         document.getElementById("booking")?.scrollIntoView({ behavior: "smooth", block: "center" });
         return;
@@ -194,12 +230,16 @@ export default function StartQuiz() {
       setTimeout(() => tg.close(), 600);
     };
     if (done && !sent && !booked && days) {
-      tg.MainButton.setText?.(canBook ? "Обрати час розбору" : "Записатися на розбір");
+      tg.MainButton.setText?.(program || canBook ? "Обрати час розбору" : "Записатися на розбір");
       tg.MainButton.onClick(go);
       tg.MainButton.show();
     } else tg.MainButton.hide();
     return () => tg.MainButton.offClick(go);
-  }, [tg, done, sent, booked, days, canBook, ref, answers]);
+  }, [tg, done, sent, booked, days, canBook, program, ref, answers]);
+
+  useEffect(() => {
+    if (program) window.scrollTo({ top: 0 });
+  }, [program]);
 
   const canAddHome = Boolean(tg?.addToHomeScreen) && home !== "added" && home !== "unsupported";
 
@@ -288,7 +328,16 @@ export default function StartQuiz() {
         </section>
       )}
 
-      {done && profile && !sent && !booked && (
+      {done && !sent && !booked && program && (
+        <ProgramView
+          onBack={() => {
+            setProgram(false);
+            setTimeout(() => document.getElementById("booking")?.scrollIntoView({ block: "center" }), 100);
+          }}
+        />
+      )}
+
+      {done && profile && !sent && !booked && !program && (
         <section>
           <p className="mb-3 text-sm font-semibold text-[var(--color-accent)]">Ваш результат</p>
           <h2 className="ff-display mb-3 text-[clamp(1.5rem,6vw,2.1rem)] font-extrabold leading-tight">{profile.name}</h2>
@@ -312,7 +361,9 @@ export default function StartQuiz() {
               Я питаю, ви розповідаєте. Наприкінці кажу, що бачу, і пропоную наступний крок. Безкоштовно.
             </p>
             <Doubts />
-            <ProgramMore />
+            <button className="ff-cta-secondary mb-5 w-full" onClick={() => setProgram(true)}>
+              Детальніше про програму →
+            </button>
             {canBook ? (
               <Booking
                 days={days!}
