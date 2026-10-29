@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
   const who = tg ? `Telegram: ${tg.username ? "@" + tg.username : "id " + tg.id}` : "Telegram: не підтверджено (браузер)";
   // Опис бачить сам батько в запрошенні: лише людські слова. Службове (квіз, джерело) йде Івану в Telegram і в приховане поле події.
   const description = [
-    `Розмова 20 хвилин про вашого підлітка з Іваном Первой (Forge Future). Посилання на відеодзвінок у цьому запрошенні.`,
+    `Розбір 20 хвилин вашого підлітка з Іваном Первой (Forge Future). Посилання на відеодзвінок у цьому запрошенні.`,
     `Я питатиму про ситуацію, ви розповідаєте. Наприкінці скажу, що бачу, і запропоную наступний крок. Безкоштовно.`,
     `Якщо час треба змінити, напишіть мені в Telegram: @IvanPervoy.`,
   ].join("\n\n");
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
     ev = await createEvent({
       start,
       end,
-      summary: `Розмова з Іваном (Forge Future): ${name}`,
+      summary: `Розбір з Іваном (Forge Future): ${name}`,
       description,
       email,
       privateProps: { child: `${name}, ${age}`, quiz: code || "-", source: ref || "-", telegram: tg ? String(tg.id) : "-" },
@@ -66,11 +66,11 @@ export async function POST(req: NextRequest) {
         ? `Партнер: ${esc(await partnerLabel(ref))} (10%), id <code>${ref}</code>`
         : "";
   await notifyIvan(
-    [`📅 <b>Розмова заброньована</b>: ${label} (Київ)`, `Дитина: ${name}, ${age}`, `Email: ${email}`, who, `Квіз: ${code || "-"}`, channel, ev.meet ? `Meet: ${ev.meet}` : ""]
+    [`📅 <b>Розбір заброньовано</b>: ${label} (Київ)`, `Дитина: ${name}, ${age}`, `Email: ${email}`, who, `Квіз: ${code || "-"}`, channel, ev.meet ? `Meet: ${ev.meet}` : ""]
       .filter(Boolean)
       .join("\n"),
   );
-  if (tg) await sendTelegram(tg.id, `Записав ✅ Розмова ${label} за київським часом. Запрошення з Google прийшло на ${email}${ev.meet ? `\nПосилання: ${ev.meet}` : ""}`);
+  if (tg) await sendTelegram(tg.id, `Записав ✅ Розбір ${label} за київським часом. Запрошення з Google прийшло на ${email}${ev.meet ? `\nПосилання: ${ev.meet}` : ""}`);
 
   return NextResponse.json({ ok: true, label, meet: ev.meet });
 }

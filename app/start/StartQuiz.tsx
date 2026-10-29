@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { botLink, cleanRef, fearLines, profiles, questions, SHARE_TEXT } from "@/lib/start-quiz";
 import { miniAppUrl } from "@/lib/telegram";
 import Booking from "./Booking";
+import { programFor, programGuarantees, programVisibility, programWeeksV2 } from "@/lib/program-page";
 
 const REF_KEY = "ff_ref";
 
@@ -35,8 +36,59 @@ const doubts: { q: string; a: string }[] = [
   { q: "«Дитина не захоче»", a: "Підліток сам обирає свій проєкт. На початку, за згодою, 10 хвилин розмови з ним. Не підійшло після першого тижня: повертаємо передоплату." },
   { q: "«Платили за курси, результату не було»", a: "Тут результат видно щотижня: один результат на тиждень і наприкінці показ проєктів. Не лекції, а власна справа." },
   { q: "«Не бачу, що відбувається»", a: "Щотижня ви отримуєте апдейт на одну сторінку: що зроблено і що далі." },
-  { q: "«Це не для нашого підлітка»", a: "Саме для цього розмова: за 20 хвилин скажу чесно, чи це підходить, і що спробувати першим, навіть якщо практикум не підійде." },
+  { q: "«Це не для нашого підлітка»", a: "Саме для цього розбір: за 20 хвилин скажу чесно, чи це підходить, і що спробувати першим, навіть якщо практикум не підійде." },
 ];
+
+function ProgramMore() {
+  const h = "mb-2 mt-4 text-sm font-bold";
+  const li = "text-sm leading-relaxed text-[var(--color-muted)]";
+  return (
+    <details className="mb-5 border border-white/20 bg-[var(--color-background)]">
+      <summary className="cursor-pointer px-4 py-3 text-base font-semibold">Детальніше про програму</summary>
+      <div className="px-4 pb-4">
+        <p className={h}>6 тижнів: що робить підліток</p>
+        <ol className="flex flex-col gap-2">
+          {programWeeksV2.map((w, i) => (
+            <li key={w.title} className={li}>
+              <b className="text-[var(--color-foreground)]">{i + 1}. {w.title}.</b> {w.outcome}
+            </li>
+          ))}
+        </ol>
+        <p className={h}>Що бачите ви</p>
+        <ul className="flex flex-col gap-1">
+          {programVisibility.weekly.items.map((t) => (
+            <li key={t} className={li}>· {t}</li>
+          ))}
+        </ul>
+        <p className={h}>Для кого</p>
+        <ul className="flex flex-col gap-1">
+          {programFor.forYou.map((t) => (
+            <li key={t} className={li}>· {t}</li>
+          ))}
+        </ul>
+        <p className={h}>Не для вас, якщо</p>
+        <ul className="flex flex-col gap-1">
+          {programFor.notForYou.map((t) => (
+            <li key={t} className={li}>· {t}</li>
+          ))}
+        </ul>
+        <p className={h}>Гарантії</p>
+        <ul className="flex flex-col gap-2">
+          {programGuarantees.items.map((g) => (
+            <li key={g.title} className={li}>
+              <b className="text-[var(--color-foreground)]">{g.title}.</b> {g.text}
+            </li>
+          ))}
+        </ul>
+        <p className={h}>Вартість</p>
+        <p className={li}>Три пакети: $500, $750 і $1000 за потік. Оплата 50% до старту, 50% до третього тижня. Розбір 20 хвилин безкоштовний.</p>
+        <a className="mt-4 inline-block text-sm underline" href="https://forge-future.com/program" target="_blank" rel="noopener noreferrer">
+          Уся програма на сайті
+        </a>
+      </div>
+    </details>
+  );
+}
 
 function Doubts() {
   return (
@@ -142,7 +194,7 @@ export default function StartQuiz() {
       setTimeout(() => tg.close(), 600);
     };
     if (done && !sent && !booked && days) {
-      tg.MainButton.setText?.(canBook ? "Обрати час розмови" : "Записатися на розмову");
+      tg.MainButton.setText?.(canBook ? "Обрати час розбору" : "Записатися на розбір");
       tg.MainButton.onClick(go);
       tg.MainButton.show();
     } else tg.MainButton.hide();
@@ -227,10 +279,11 @@ export default function StartQuiz() {
       {booked && (
         <section className="py-10 text-center">
           <h2 className="ff-display mb-3 text-[clamp(1.5rem,6vw,2.1rem)] font-extrabold leading-tight">Готово ✅</h2>
-          <p className="mb-2 text-lg font-bold">Розмова {booked.label} (за Києвом)</p>
+          <p className="mb-2 text-lg font-bold">Розбір {booked.label} (за Києвом)</p>
           <p className="mb-6 text-base leading-relaxed text-[var(--color-muted)]">
             Запрошення з Google Calendar уже на вашому email{booked.meet ? ", у ньому посилання на відеодзвінок" : ""}. Якщо час раптом зміниться, напишіть мені: @IvanPervoy.
           </p>
+          <a className="ff-cta-secondary mb-3 w-full" href="https://forge-future.com/program" target="_blank" rel="noopener noreferrer">Детальніше про програму</a>
           {tg && <button className="ff-cta w-full" onClick={() => tg.close()}>Закрити</button>}
         </section>
       )}
@@ -254,11 +307,12 @@ export default function StartQuiz() {
           <p className="mb-8 text-sm text-[var(--color-muted-2)]">Це спостереження, а не діагноз.</p>
 
           <div className="mb-8 border border-[var(--color-accent)]/40 bg-[var(--color-surface)] p-5">
-            <h3 className="ff-display mb-2 text-xl font-extrabold">Обговорити саме вашу дитину: 20 хвилин зі мною</h3>
+            <h3 className="ff-display mb-2 text-xl font-extrabold">Розбір вашої дитини: 20 хвилин зі мною</h3>
             <p className="mb-4 text-base leading-relaxed text-[var(--color-muted)]">
               Я питаю, ви розповідаєте. Наприкінці кажу, що бачу, і пропоную наступний крок. Безкоштовно.
             </p>
             <Doubts />
+            <ProgramMore />
             {canBook ? (
               <Booking
                 days={days!}
@@ -271,10 +325,10 @@ export default function StartQuiz() {
             ) : days === null ? (
               <p className="text-sm text-[var(--color-muted)]">Завантажую вільний час…</p>
             ) : tg ? (
-              <p className="text-sm text-[var(--color-accent)]">Кнопка «Записатися на розмову» внизу екрана ↓</p>
+              <p className="text-sm text-[var(--color-accent)]">Кнопка «Записатися на розбір» внизу екрана ↓</p>
             ) : (
               <a href={botLink(ref, answers)} target="_blank" rel="noopener noreferrer" className="ff-cta w-full">
-                Записатися на розмову в Telegram
+                Записатися на розбір у Telegram
               </a>
             )}
           </div>
