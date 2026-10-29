@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createEvent, googleConfigured } from "@/lib/booking/google";
 import { freeSlots, SLOT_MIN } from "@/lib/booking/slots";
-import { notifyIvan, sendTelegram, verifyInitData } from "@/lib/booking/telegram";
+import { notifyIvan, partnerLabel, sendTelegram, verifyInitData } from "@/lib/booking/telegram";
 import { kyivToUtc } from "@/lib/booking/time";
 
 export const dynamic = "force-dynamic";
@@ -54,7 +54,12 @@ export async function POST(req: NextRequest) {
   }
 
   const label = `${date.split("-").reverse().join(".")} о ${time}`;
-  const channel = ref && /^(ig|rl|yt|tg)/.test(ref) ? `Канал: <code>${ref}</code>` : ref ? `Партнер: <code>${ref}</code> (10%)` : "";
+  const channel =
+    ref && /^(ig|rl|yt|tg)/.test(ref)
+      ? `Канал: <code>${ref}</code>`
+      : ref
+        ? `Партнер: ${esc(await partnerLabel(ref))} (10%), id <code>${ref}</code>`
+        : "";
   await notifyIvan(
     [`📅 <b>Розмова заброньована</b>: ${label} (Київ)`, `Дитина: ${name}, ${age}`, `Email: ${email}`, who, `Квіз: ${code || "-"}`, channel, ev.meet ? `Meet: ${ev.meet}` : ""]
       .filter(Boolean)

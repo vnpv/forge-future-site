@@ -42,3 +42,17 @@ export async function sendTelegram(chatId: string | number, text: string): Promi
 }
 
 export const notifyIvan = (text: string) => sendTelegram(process.env.IVAN_CHAT_ID ?? "", text);
+
+/** Ref-код партнера = його Telegram id. Ім'я і @username беремо в Telegram (працює, бо партнер уже стартував бота). */
+export async function partnerLabel(ref: string): Promise<string> {
+  if (!/^\d{5,12}$/.test(ref) || !BOT()) return ref;
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${BOT()}/getChat?chat_id=${ref}`);
+    const j = (await res.json()) as { ok: boolean; result?: { first_name?: string; last_name?: string; username?: string } };
+    if (!j.ok || !j.result) return ref;
+    const name = [j.result.first_name, j.result.last_name].filter(Boolean).join(" ");
+    return `${name}${j.result.username ? " @" + j.result.username : ""}`.trim() || ref;
+  } catch {
+    return ref;
+  }
+}
