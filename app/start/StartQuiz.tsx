@@ -1,0 +1,258 @@
+"use client";
+
+import Image from "next/image";
+import { useEffect, useMemo, useState } from "react";
+import { botLink, cleanRef, fearLines, profiles, questions, SHARE_TEXT } from "@/lib/start-quiz";
+import { miniAppUrl } from "@/lib/telegram";
+
+const REF_KEY = "ff_ref";
+
+type TgButton = { setText?(t: string): void; show(): void; hide(): void; onClick(f: () => void): void; offClick(f: () => void): void };
+type TgWebApp = {
+  initData: string;
+  initDataUnsafe?: { start_param?: string };
+  ready(): void;
+  expand(): void;
+  setHeaderColor?(c: string): void;
+  setBackgroundColor?(c: string): void;
+  disableVerticalSwipes?(): void;
+  isVersionAtLeast(v: string): boolean;
+  openTelegramLink(url: string): void;
+  addToHomeScreen?(): void;
+  checkHomeScreenStatus?(cb: (s: string) => void): void;
+  MainButton: TgButton;
+  BackButton: TgButton;
+};
+declare global {
+  interface Window {
+    Telegram?: { WebApp?: TgWebApp };
+  }
+}
+
+export default function StartQuiz() {
+  const [step, setStep] = useState(0); // 0 вступ, 1..4 питання, 5 результат
+  const [answers, setAnswers] = useState<number[]>([]);
+  const [ref, setRef] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [tg, setTg] = useState<TgWebApp | null>(null);
+  const [home, setHome] = useState("");
+
+  useEffect(() => {
+    let r = cleanRef(new URLSearchParams(window.location.search).get("ref"));
+    try {
+      if (r) localStorage.setItem(REF_KEY, r);
+      else r = cleanRef(localStorage.getItem(REF_KEY));
+    } catch {}
+    setRef(r);
+  }, []);
+
+  /** Telegram Mini App: SDK вантажиться окремо, чекаємо на нього до 3 с. Поза Telegram initData порожній. */
+  useEffect(() => {
+    let tries = 0;
+    const timer = setInterval(() => {
+      const w = window.Telegram?.WebApp;
+      if (w?.initData) {
+        clearInterval(timer);
+        w.ready();
+        w.expand();
+        try {
+          w.setHeaderColor?.("#111214");
+          w.setBackgroundColor?.("#111214");
+          w.disableVerticalSwipes?.();
+        } catch {}
+        const sp = cleanRef(w.initDataUnsafe?.start_param);
+        if (sp) {
+          setRef(sp);
+          try {
+            localStorage.setItem(REF_KEY, sp);
+          } catch {}
+        }
+        if (w.isVersionAtLeast("8.0")) w.checkHomeScreenStatus?.((s) => setHome(s));
+        setTg(w);
+      } else if (++tries > 100) clearInterval(timer);
+    }, 100);
+    return () => clearInterval(timer);
+  }, []);
+
+  const done = step > questions.length;
+  const profile = useMemo(() => (done ? profiles[answers[1]] : null), [done, answers]);
+  const shareUrl = useMemo(() => {
+    if (tg) return miniAppUrl(ref);
+    const base = "https://forge-future.com/start";
+    return ref ? `${base}?ref=${ref}` : base;
+  }, [ref, tg]);
+
+  // Нативна кнопка «Назад» Telegram
+  useEffect(() => {
+    if (!tg) return;
+    const back = () => setStep((s) => Math.max(0, s - 1));
+    if (step > 0) {
+      tg.BackButton.show();
+      tg.BackButton.onClick(back);
+    } else tg.BackButton.hide();
+    return () => tg.BackButton.offClick(back);
+  }, [tg, step]);
+
+  // Нижня кнопка Telegram на екрані результату: запис на розбір
+  useEffect(() => {
+    if (!tg) return;
+    const go = () => tg.openTelegramLink(botLink(ref, answers));
+    if (done) {
+      tg.MainButton.setText?.("Записатися на розбір");
+      tg.MainButton.onClick(go);
+      tg.MainButton.show();
+    } else tg.MainButton.hide();
+    return () => tg.MainButton.offClick(go);
+  }, [tg, done, ref, answers]);
+
+  const canAddHome = Boolean(tg?.addToHomeScreen) && home !== "added" && home !== "unsupported";
+
+  function pick(i: number) {
+    setAnswers((a) => [...a.slice(0, step - 1), i]);
+    setStep((s) => s + 1);
+  }
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {}
+  }
+
+  return (
+    <main className="mx-auto w-full max-w-xl px-4 py-8 sm:py-12">
+      {step === 0 && (
+        <section>
+          <p className="mb-3 text-sm font-semibold text-[var(--color-accent)]">Forge Future · для батьків підлітків 14-19</p>
+          <h1 className="ff-display mb-4 text-[clamp(1.7rem,7vw,2.4rem)] font-extrabold leading-[1.1] tracking-tight">
+            Йому 16. Він нічого не хоче. І всі кажуть: це вік.
+          </h1>
+          <p className="mb-6 text-base leading-relaxed text-[var(--color-muted)]">
+            4 питання, 1 хвилина. Одразу отримаєте розбір вашої ситуації і 3 кроки на цей тиждень. Безкоштовно.
+          </p>
+          <button className="ff-cta w-full" onClick={() => setStep(1)}>Почати</button>
+          {canAddHome && (
+            <button className="mt-4 w-full text-center text-sm text-[var(--color-muted)] underline" onClick={() => tg?.addToHomeScreen?.()}>
+              Додати на екран телефона
+            </button>
+          )}
+        </section>
+      )}
+
+      {step >= 1 && step <= questions.length && (
+        <section>
+          <p className="mb-3 text-sm text-[var(--color-muted-2)]">
+            Питання {step} з {questions.length}
+          </p>
+          <div className="mb-6 h-1 w-full bg-[var(--color-surface-2)]">
+            <div className="h-1 bg-[var(--color-accent)]" style={{ width: `${((step - 1) / questions.length) * 100}%` }} />
+          </div>
+          <h2 className="ff-display mb-5 text-[clamp(1.3rem,5.5vw,1.8rem)] font-extrabold leading-tight">
+            {questions[step - 1].title}
+          </h2>
+          <div className="flex flex-col gap-3">
+            {questions[step - 1].options.map((o, i) => (
+              <button
+                key={o.label}
+                onClick={() => pick(i)}
+                className="border border-white/20 bg-[var(--color-surface)] px-4 py-4 text-left text-base transition-colors hover:border-[var(--color-accent)]"
+              >
+                {o.label}
+              </button>
+            ))}
+          </div>
+          {step > 1 && !tg && (
+            <button className="mt-6 text-sm text-[var(--color-muted)] underline" onClick={() => setStep((s) => s - 1)}>
+              Назад
+            </button>
+          )}
+        </section>
+      )}
+
+      {done && profile && (
+        <section>
+          <p className="mb-3 text-sm font-semibold text-[var(--color-accent)]">Ваш розбір</p>
+          <h2 className="ff-display mb-3 text-[clamp(1.5rem,6vw,2.1rem)] font-extrabold leading-tight">{profile.name}</h2>
+          <p className="mb-5 text-base leading-relaxed text-[var(--color-muted)]">{profile.lead}</p>
+
+          <h3 className="mb-3 text-sm font-bold uppercase tracking-wide">3 кроки на цей тиждень</h3>
+          <ol className="mb-5 flex flex-col gap-3">
+            {profile.tips.map((t, i) => (
+              <li key={i} className="flex gap-3 border border-white/10 bg-[var(--color-surface)] p-4 text-base leading-relaxed">
+                <span className="ff-display w-5 shrink-0 font-extrabold text-[var(--color-accent)]">{i + 1}</span>
+                <span>{t}</span>
+              </li>
+            ))}
+          </ol>
+          <p className="mb-2 text-base leading-relaxed">{fearLines[answers[3]]}</p>
+          <p className="mb-8 text-sm text-[var(--color-muted-2)]">Це спостереження, а не діагноз.</p>
+
+          <div className="mb-8 border border-[var(--color-accent)]/40 bg-[var(--color-surface)] p-5">
+            <h3 className="ff-display mb-2 text-xl font-extrabold">Розібрати саме вашу дитину: 20 хвилин зі мною</h3>
+            <p className="mb-4 text-base leading-relaxed text-[var(--color-muted)]">
+              Я питаю, ви розповідаєте. Наприкінці кажу, що бачу, і пропоную наступний крок. Безкоштовно.
+            </p>
+            {tg ? (
+              <p className="text-sm text-[var(--color-accent)]">Кнопка «Записатися на розбір» внизу екрана ↓</p>
+            ) : (
+              <a href={botLink(ref, answers)} target="_blank" rel="noopener noreferrer" className="ff-cta w-full">
+                Записатися на розбір у Telegram
+              </a>
+            )}
+          </div>
+
+          <h3 className="ff-display mb-3 text-xl font-extrabold">Практикум Forge Future</h3>
+          <ul className="mb-6 flex flex-col gap-2 text-base leading-relaxed">
+            <li>6 тижнів, група до 10 підлітків 14-19, старт 1 грудня.</li>
+            <li>Підліток обирає і робить власний проєкт. Веду особисто я.</li>
+            <li>Щотижня ви отримуєте апдейт на одну сторінку: що зроблено і що далі.</li>
+            <li>Не підійшло після першого тижня: повертаємо передоплату.</li>
+          </ul>
+
+          <div className="mb-8 flex items-center gap-4 border border-white/10 bg-[var(--color-surface)] p-4">
+            <Image src="/images/ivan-founder-800.webp" alt="Іван Первой" width={72} height={72} unoptimized className="h-[72px] w-[72px] rounded-full object-cover" />
+            <p className="text-sm leading-relaxed text-[var(--color-muted)]">
+              <b className="text-[var(--color-foreground)]">Іван Первой.</b> Батько двох синів, в IT з 2011, продакт-менеджер і CEO. Засновник Forge Future.
+            </p>
+          </div>
+
+          <h3 className="mb-2 text-sm font-bold uppercase tracking-wide">Знаєте батьків підлітків?</h3>
+          <p className="mb-3 text-sm text-[var(--color-muted)]">Перешліть це опитування: воно займає хвилину.</p>
+          <div className="mb-8 flex flex-col gap-3 sm:flex-row">
+            <a
+              className="ff-cta-secondary flex-1"
+              target="_blank"
+              rel="noopener noreferrer"
+              href={`https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(SHARE_TEXT)}`}
+            >
+              Переслати в Telegram
+            </a>
+            <button className="ff-cta-secondary flex-1" onClick={copy}>
+              {copied ? "Скопійовано" : "Скопіювати посилання"}
+            </button>
+          </div>
+
+          {canAddHome && (
+            <button className="ff-cta-secondary mb-8 w-full" onClick={() => tg?.addToHomeScreen?.()}>
+              Додати застосунок на екран телефона
+            </button>
+          )}
+
+          <p className="text-sm leading-relaxed text-[var(--color-muted-2)]">
+            Хочете рекомендувати і отримувати 10% від кожної оплати?{" "}
+            <a
+              className="underline"
+              target="_blank"
+              rel="noopener noreferrer"
+              href={`https://t.me/IvanPervoy?text=${encodeURIComponent("Привіт! Хочу стати партнером Forge Future")}`}
+            >
+              Напишіть мені
+            </a>
+            .
+          </p>
+        </section>
+      )}
+    </main>
+  );
+}
