@@ -12,6 +12,7 @@ type TgWebApp = {
   initData: string;
   initDataUnsafe?: { start_param?: string };
   ready(): void;
+  close(): void;
   expand(): void;
   setHeaderColor?(c: string): void;
   setBackgroundColor?(c: string): void;
@@ -36,6 +37,7 @@ export default function StartQuiz() {
   const [copied, setCopied] = useState(false);
   const [tg, setTg] = useState<TgWebApp | null>(null);
   const [home, setHome] = useState("");
+  const [sent, setSent] = useState(false);
 
   useEffect(() => {
     let r = cleanRef(new URLSearchParams(window.location.search).get("ref"));
@@ -96,14 +98,18 @@ export default function StartQuiz() {
   // Нижня кнопка Telegram на екрані результату: запис на розбір
   useEffect(() => {
     if (!tg) return;
-    const go = () => tg.openTelegramLink(botLink(ref, answers));
-    if (done) {
-      tg.MainButton.setText?.("Записатися на розбір");
+    const go = () => {
+      tg.openTelegramLink(botLink(ref, answers));
+      setSent(true);
+      setTimeout(() => tg.close(), 600);
+    };
+    if (done && !sent) {
+      tg.MainButton.setText?.("Записатися на розмову");
       tg.MainButton.onClick(go);
       tg.MainButton.show();
     } else tg.MainButton.hide();
     return () => tg.MainButton.offClick(go);
-  }, [tg, done, ref, answers]);
+  }, [tg, done, sent, ref, answers]);
 
   const canAddHome = Boolean(tg?.addToHomeScreen) && home !== "added" && home !== "unsupported";
 
@@ -126,10 +132,10 @@ export default function StartQuiz() {
         <section>
           <p className="mb-3 text-sm font-semibold text-[var(--color-accent)]">Forge Future · для батьків підлітків 14-19</p>
           <h1 className="ff-display mb-4 text-[clamp(1.7rem,7vw,2.4rem)] font-extrabold leading-[1.1] tracking-tight">
-            Йому 16. Він нічого не хоче. І всі кажуть: це вік.
+            Підліток нічого не хоче. І всі кажуть: це вік.
           </h1>
           <p className="mb-6 text-base leading-relaxed text-[var(--color-muted)]">
-            4 питання, 1 хвилина. Одразу отримаєте розбір вашої ситуації і 3 кроки на цей тиждень. Безкоштовно.
+            4 питання, 1 хвилина. Одразу побачите, що відбувається з вашим підлітком, і отримаєте 3 кроки на цей тиждень. Безкоштовно.
           </p>
           <button className="ff-cta w-full" onClick={() => setStep(1)}>Почати</button>
           {canAddHome && (
@@ -170,9 +176,19 @@ export default function StartQuiz() {
         </section>
       )}
 
-      {done && profile && (
+      {sent && (
+        <section className="py-10 text-center">
+          <h2 className="ff-display mb-3 text-[clamp(1.5rem,6vw,2.1rem)] font-extrabold leading-tight">Чат з ботом відкрито ✅</h2>
+          <p className="mb-6 text-base leading-relaxed text-[var(--color-muted)]">
+            Напишіть там ім'я та вік дитини. Я зв'яжуся з вами особисто, щоб домовитись про час.
+          </p>
+          <button className="ff-cta w-full" onClick={() => tg?.close()}>Закрити</button>
+        </section>
+      )}
+
+      {done && profile && !sent && (
         <section>
-          <p className="mb-3 text-sm font-semibold text-[var(--color-accent)]">Ваш розбір</p>
+          <p className="mb-3 text-sm font-semibold text-[var(--color-accent)]">Ваш результат</p>
           <h2 className="ff-display mb-3 text-[clamp(1.5rem,6vw,2.1rem)] font-extrabold leading-tight">{profile.name}</h2>
           <p className="mb-5 text-base leading-relaxed text-[var(--color-muted)]">{profile.lead}</p>
 
@@ -189,15 +205,15 @@ export default function StartQuiz() {
           <p className="mb-8 text-sm text-[var(--color-muted-2)]">Це спостереження, а не діагноз.</p>
 
           <div className="mb-8 border border-[var(--color-accent)]/40 bg-[var(--color-surface)] p-5">
-            <h3 className="ff-display mb-2 text-xl font-extrabold">Розібрати саме вашу дитину: 20 хвилин зі мною</h3>
+            <h3 className="ff-display mb-2 text-xl font-extrabold">Обговорити саме вашу дитину: 20 хвилин зі мною</h3>
             <p className="mb-4 text-base leading-relaxed text-[var(--color-muted)]">
               Я питаю, ви розповідаєте. Наприкінці кажу, що бачу, і пропоную наступний крок. Безкоштовно.
             </p>
             {tg ? (
-              <p className="text-sm text-[var(--color-accent)]">Кнопка «Записатися на розбір» внизу екрана ↓</p>
+              <p className="text-sm text-[var(--color-accent)]">Кнопка «Записатися на розмову» внизу екрана ↓</p>
             ) : (
               <a href={botLink(ref, answers)} target="_blank" rel="noopener noreferrer" className="ff-cta w-full">
-                Записатися на розбір у Telegram
+                Записатися на розмову в Telegram
               </a>
             )}
           </div>

@@ -5,7 +5,7 @@ import { pageAlternates } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: "Опитування для батьків підлітків",
-  description: "4 питання за хвилину: розбір вашої ситуації з підлітком і 3 кроки на цей тиждень.",
+  description: "4 питання за хвилину: що відбувається з вашим підлітком і що робити цього тижня.",
   alternates: pageAlternates("/start"),
 };
 
