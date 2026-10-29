@@ -84,6 +84,7 @@ export async function createEvent(p: {
   summary: string;
   description: string;
   email: string;
+  privateProps?: Record<string, string>;
 }): Promise<CreatedEvent> {
   if (fakeMode()) return { link: "https://calendar.google.com/", meet: "https://meet.google.com/fake-dev" };
   const j = (await api("/calendars/primary/events?conferenceDataVersion=1&sendUpdates=all", {
@@ -96,6 +97,7 @@ export async function createEvent(p: {
       attendees: [{ email: p.email }],
       conferenceData: { createRequest: { requestId: crypto.randomUUID(), conferenceSolutionKey: { type: "hangoutsMeet" } } },
       reminders: { useDefault: true },
+      extendedProperties: p.privateProps ? { private: p.privateProps } : undefined,
     }),
   })) as { htmlLink?: string; hangoutLink?: string };
   return { link: j.htmlLink ?? "", meet: j.hangoutLink ?? "" };

@@ -36,18 +36,23 @@ export async function POST(req: NextRequest) {
   const start = kyivToUtc(date, time);
   const end = new Date(start.getTime() + SLOT_MIN * 60_000);
   const who = tg ? `Telegram: ${tg.username ? "@" + tg.username : "id " + tg.id}` : "Telegram: не підтверджено (браузер)";
+  // Опис бачить сам батько в запрошенні: лише людські слова. Службове (квіз, джерело) йде Івану в Telegram і в приховане поле події.
   const description = [
-    `Дитина: ${name}, ${age}`,
-    `Email: ${email}`,
-    who,
-    `Квіз: ${code || "-"}`,
-    `Джерело: ${ref || "-"}`,
-    "Розмова 20 хвилин: ситуація, точка Б, сумніви, пропозиція (razbir-scenario-20min.md)",
-  ].join("\n");
+    `Розмова 20 хвилин про вашого підлітка з Іваном Первой (Forge Future). Посилання на відеодзвінок у цьому запрошенні.`,
+    `Я питатиму про ситуацію, ви розповідаєте. Наприкінці скажу, що бачу, і запропоную наступний крок. Безкоштовно.`,
+    `Якщо час треба змінити, напишіть мені в Telegram: @IvanPervoy.`,
+  ].join("\n\n");
 
   let ev;
   try {
-    ev = await createEvent({ start, end, summary: `Розмова про ${name} (Forge Future)`, description, email });
+    ev = await createEvent({
+      start,
+      end,
+      summary: `Розмова з Іваном (Forge Future): ${name}`,
+      description,
+      email,
+      privateProps: { child: `${name}, ${age}`, quiz: code || "-", source: ref || "-", telegram: tg ? String(tg.id) : "-" },
+    });
   } catch (e) {
     console.error("book create", e);
     return NextResponse.json({ error: "unavailable" }, { status: 503 });
