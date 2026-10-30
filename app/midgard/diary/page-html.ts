@@ -6,7 +6,7 @@ const html: string = String.raw`<!doctype html><html lang="uk"><head><meta chars
 <link rel="icon" href="/images/midgard-logo.jpg">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Unbounded:wght@600;700;800&display=swap">
 <style>
-:root{--bg:#f4f7ee;--card:#ffffff;--card2:#eef3e2;--ink:#18202f;--muted:#556070;--muted2:#7a8494;--line:#dde4d0;--line2:#c5cfb4;--soft:#eef3e2;--lime:#9ccc2c;--limeink:#14200a;--lt:#3f6b0e;--blue:#2a4fb0;--blue-soft:#e6ecfb;--ok:#2f8a3a;--ok-soft:#e1f2dd;--warn:#a8650d;--warn-soft:#fbefd5;--bad:#b0362b;--bad-soft:#f9e2df;--info:#2a4fb0;--info-soft:#e6ecfb;--shadow:none;color-scheme:light}
+:root{--bg:#eef2fa;--card:#ffffff;--card2:#e7edf9;--ink:#18202f;--muted:#556070;--muted2:#7a8494;--line:#d6deef;--line2:#b9c6e2;--soft:#e7edf9;--lime:#8fd11f;--limeink:#14200a;--lt:#2a4fb0;--blue:#2a4fb0;--blue-soft:#e6ecfb;--ok:#2f8a3a;--ok-soft:#e1f2dd;--warn:#a8650d;--warn-soft:#fbefd5;--bad:#b0362b;--bad-soft:#f9e2df;--info:#2a4fb0;--info-soft:#e6ecfb;--shadow:none;color-scheme:light}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Onest,system-ui,sans-serif;min-height:100vh}
@@ -189,6 +189,45 @@ details.sj .x{}
 .rfree:hover{border-color:var(--lime);color:var(--lt)}
 input[type=color]{width:38px;height:30px;padding:0;border:1px solid var(--line2);background:none}
 input[type=file]{font-size:13px;color:var(--muted)}
+/* насичені акценти: синій сайдбар, кольорові картки */
+.side{background:#1b3a8f;border-right:0;color:#fff}
+.side .brand small{color:#a9bdf0}
+.nav button{color:#cfdcff}
+.nav button:hover{background:rgba(255,255,255,.1);color:#fff}
+.nav button[aria-current=page]{background:var(--lime);color:var(--limeink);border-left-color:var(--limeink)}
+.side .foot{color:#a9bdf0}
+.side .foot a{color:#d6ee9a}
+.side .foot .btn{background:transparent;color:#fff;border-color:rgba(255,255,255,.35)}
+.side .foot .btn:hover{border-color:var(--lime);color:var(--lime)}
+.demo{background:#fff3c4;border-color:#e0a800;color:#7a5200}
+.hello{background:linear-gradient(115deg,#1b3a8f,#2a4fb0 60%,#4f7be0);border:0;color:#fff}
+.hello:before{width:6px;background:var(--lime)}
+.hello h2{color:#fff}
+.hello p{color:#dbe6ff}
+.stat b{color:var(--blue);font-size:38px}
+.card.stat{border-top:4px solid var(--blue)}
+.grid>.card.stat:nth-child(2){border-top-color:var(--lime)}
+.grid>.card.stat:nth-child(3){border-top-color:#f5c23d}
+.grid>.card.stat:nth-child(4){border-top-color:#e0623f}
+.card h2{color:var(--blue)}
+.sec h3{color:var(--blue)}
+.lesson,.cell{background:color-mix(in srgb,var(--c) 9%,#fff)}
+.lesson:hover,.cell:hover{background:color-mix(in srgb,var(--c) 16%,#fff)}
+.cell.gap{background:none}
+.day.today h3{color:var(--blue);border-bottom-color:var(--blue)}
+.day.today h3 b{background:var(--blue);color:#fff}
+.top{background:var(--bg)}
+.who button[aria-pressed=true]{background:var(--blue);color:#fff}
+.btn{background:#fff}
+.btn.pri,.btn.lime{background:var(--lime)}
+.chip.info{background:#dce6fb}
+.seg button[aria-pressed=true]{background:var(--blue);color:#fff}
+.opts button[aria-pressed=true]{background:var(--blue);border-color:var(--blue);color:#fff}
+.dayTabs button[aria-pressed=true]{background:var(--blue);border-color:var(--blue);color:#fff}
+.msg.me{background:var(--blue);border-color:var(--blue);color:#fff}
+.contacts button[aria-pressed=true]{border-left-color:var(--blue)}
+.mtabs button[aria-current=page]{color:var(--blue)}
+.cal button.td{box-shadow:inset 0 0 0 2px var(--blue)}
 @media (max-width:1100px){.g4{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}.wk{gap:6px}}
 @media (max-width:820px){
  .app{grid-template-columns:1fr}.side{display:none}
