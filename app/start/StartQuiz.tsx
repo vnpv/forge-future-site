@@ -108,7 +108,7 @@ function ProgramView({ onBack }: { onBack: () => void }) {
       </Card>
 
       <Card title="Вартість">
-        <p className="mb-1 text-base">Три пакети: $500, $750 і $1000 за потік.</p>
+        <p className="mb-1 text-base">Три пакети: $1000, $1500 і $2000 за потік.</p>
         <p className={muted}>Оплата 50% до старту, 50% до третього тижня. Розбір 20 хвилин безкоштовний.</p>
       </Card>
 

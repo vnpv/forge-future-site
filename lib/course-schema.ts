@@ -24,8 +24,8 @@ export const programCourseSchema = {
   },
   offers: {
     "@type": "AggregateOffer",
-    lowPrice: "500",
-    highPrice: "1000",
+    lowPrice: "1000",
+    highPrice: "2000",
     offerCount: 3,
     priceCurrency: "USD",
     availability: "https://schema.org/LimitedAvailability",
