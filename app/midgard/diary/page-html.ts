@@ -315,6 +315,7 @@ function seedState(){
   {id:'n1',a:'Адміністрація',d:addDays(TODAY,-2),t:'Зміна розкладу дзвінків: з наступного тижня перерва після 3-го уроку — 20 хвилин.',likes:0,pin:true},
   {id:'n2',a:'Адміністрація',d:addDays(TODAY,-6),t:'Відкрито запис на гуртки другого семестру. Перегляньте список у розділі «Календар».',likes:0},
   {id:'n3',a:'Адміністрація',d:addDays(TODAY,-12),t:'Нагадуємо: довідки про стан здоровʼя приймаються до кінця місяця.',likes:0}];
+ if(!S.calls)S.calls=[];
  if(!S.evs)S.evs=[
   {id:'e1',t:'Контрольна з математики',d:addDays(TODAY,3),tm:'09:25',k:'іспит'},
   {id:'e2',t:'Батьківські збори 7-А',d:addDays(TODAY,5),tm:'18:00',k:'збори'},
@@ -387,7 +388,7 @@ function lesson(date,slot){
  var filled=past?(base||o.topic!==undefined):true;
  return {id:id,date:date,slot:slot,code:code,subj:sj,time:BELLS[slot],room:o.room||sj.room,past:past,wd:wd,
   filled:filled,topic:o.topic!==undefined?o.topic:(filled?planned:''),hw:o.hw!==undefined?o.hw:(filled?hw:''),
-  due:o.due||addSchoolDays(date,2),note:o.note!==undefined?o.note:note,sub:r5>0.94||!!S.subs[id],files:o.files||[],mt:o.mt||'cur',priv:o.priv||'',
+  due:o.due||addSchoolDays(date,2),note:o.note!==undefined?o.note:note,sub:r5>0.94||!!S.subs[id],files:o.files||[],video:o.video||'',mt:o.mt||'cur',priv:o.priv||'',
   by:o.by||(filled?sj.t:''),byAt:o.at||(filled?date+' '+BELLS[slot][1]:''),
   schedBy:o.schedBy||'Адмін Н.',schedAt:o.schedAt||addDays(date,-(3+Math.floor(r6*5))),
   conflict:wd===2&&slot===3&&code==='phy'&&!o.room};
@@ -438,6 +439,7 @@ var IC={
  course:'<path d="M4 5h16v14H4zM4 9h16M9 9v10"/>',
  wall:'<rect x="3" y="4" width="18" height="6"/><rect x="3" y="12" width="18" height="8"/>',
  news:'<path d="M4 5h14v14H6a2 2 0 0 1-2-2zM18 9h2v8a2 2 0 0 1-2 2M8 9h6M8 13h6"/>',
+ call:'<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>',
  cal:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>',
  settings:'<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/>',
  stats:'<path d="M4 20h16M7 20V10M12 20V5M17 20v-8"/>',
@@ -447,8 +449,8 @@ function icon(n){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentCol
 var NAVS={
  student:[['today','Сьогодні'],['week','Тиждень'],['grades','Оцінки'],['tasks','Завдання'],['attend','Відвідування'],['wall','Стіна класу'],['news','Новини'],['cal','Календар'],['chat','Чат']],
  parent:[['today','Сьогодні'],['week','Тиждень'],['grades','Оцінки'],['tasks','Завдання'],['attend','Відвідування'],['wall','Стіна класу'],['news','Новини'],['cal','Календар'],['chat','Чат']],
- teacher:[['today','Сьогодні'],['week','Розклад'],['klass','Журнал класу'],['check','Перевірка завдань'],['course','План курсу'],['wall','Стіна класу'],['news','Новини'],['cal','Календар'],['chat','Чат']],
- admin:[['overview','Огляд школи'],['week','Розклад'],['rooms','Кабінети'],['subs','Заміни'],['attend','Відвідування'],['stats','Статистика'],['wall','Стіна класу'],['news','Новини'],['cal','Календар'],['chat','Чат'],['settings','Налаштування']]
+ teacher:[['today','Сьогодні'],['week','Розклад'],['klass','Журнал класу'],['check','Перевірка завдань'],['course','План курсу'],['call','Виклик дитини'],['wall','Стіна класу'],['news','Новини'],['cal','Календар'],['chat','Чат']],
+ admin:[['overview','Огляд школи'],['week','Розклад'],['rooms','Кабінети'],['subs','Заміни'],['call','Виклик дитини'],['attend','Відвідування'],['stats','Статистика'],['wall','Стіна класу'],['news','Новини'],['cal','Календар'],['chat','Чат'],['settings','Налаштування']]
 };
 function nav(){return NAVS[S.role]}
 function ensureView(){var ok=nav().some(function(n){return n[0]===S.view});if(!ok)S.view=nav()[0][0]}
@@ -473,7 +475,7 @@ function render(keepScroll){
  var y=window.scrollY;
  app.innerHTML=shell();
  var v=document.getElementById('view');
- var fn={today:vToday,week:vWeek,grades:vGrades,tasks:vTasks,attend:vAttend,chat:vChat,klass:vKlass,overview:vOverview,rooms:vRooms,subs:vSubs,check:vCheck,course:vCourse,wall:vWall,news:vNews,cal:vCal,settings:vSettings,stats:vStats}[S.view];
+ var fn={today:vToday,week:vWeek,grades:vGrades,tasks:vTasks,attend:vAttend,chat:vChat,klass:vKlass,overview:vOverview,rooms:vRooms,subs:vSubs,check:vCheck,course:vCourse,call:vCall,wall:vWall,news:vNews,cal:vCal,settings:vSettings,stats:vStats}[S.view];
  v.innerHTML=fn();
  if(keepScroll)window.scrollTo(0,y);
  var st=document.getElementById('view').querySelector('[data-after]');
@@ -531,7 +533,8 @@ function vTodayKid(){
  var sub=FOCUS===TODAY?'Сьогодні '+dfull(TODAY).toLowerCase()+'. Уроків: '+list.length+'.':'Найближчий навчальний день — '+dfull(FOCUS).toLowerCase()+'. Уроків: '+list.length+'.';
  var delta=(a!=null&&pa!=null)?(a-pa):null;
  var last=gs.slice(-4).reverse();
- return '<div class="hello"><h2>'+hello+'</h2><p>'+sub+'</p></div>'
+ var callB=S.role==='parent'?S.calls.filter(function(c){return c.s===ME&&!c.ack}).map(function(c){return '<div class="card" style="border-color:var(--bad);margin-bottom:16px;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap"><div><b style="color:var(--bad)">Сповіщення від школи</b><div>'+esc(c.t)+'</div><div style="font-size:12.5px;color:var(--muted)">'+esc(c.at)+'</div></div><button class="btn pri" data-act="ack" data-id="'+c.id+'">Підтверджую</button></div>'}).join(''):'';
+ return callB+'<div class="hello"><h2>'+hello+'</h2><p>'+sub+'</p></div>'
  +'<div class="grid g3" style="margin-bottom:16px">'
  +'<div class="card stat"><span>Середній бал за 30 днів</span><b>'+fmt(a)+(delta!=null?'<em class="'+(delta>=0?'up':'down')+'">'+(delta>=0?'▲ ':'▼ ')+fmt(Math.abs(Math.round(delta*10)/10))+'</em>':'')+'</b></div>'
  +'<div class="card stat"><span>Відвідуваність</span><b>'+pct+'%</b><span>Запізнень: '+late+'</span></div>'
@@ -791,6 +794,7 @@ function lessonSheet(L){
   }
   if(adm)body+=adminForm(L);
  }
+ if(!edit&&L.video)body+='<div class="sec"><h3>Відеоконференція</h3><div class="box"><a href="'+esc(L.video)+'" target="_blank" rel="noopener noreferrer">Приєднатися до уроку онлайн ↗</a></div></div>';
  if(!edit&&L.files.length)body+='<div class="sec"><h3>Файли до уроку</h3><div class="chips">'+L.files.map(function(x){return chip('📎 '+x.n)}).join('')+'</div></div>';
  if(S.role==='student'&&L.hw&&L.past&&!edit)body+='<div class="sec"><h3>Моя відповідь на ДЗ</h3><div class="box"><input type="file" multiple data-f="up" data-id="'+L.id+'" aria-label="Завантажити файли відповіді">'+((S.up[L.id]||[]).length?'<div class="chips" style="margin-top:8px">'+S.up[L.id].map(function(n){return chip('📎 '+n,'ok')}).join('')+'</div>':'')+'</div></div>';
  var meta='<div class="sec"><h3>Хто що змінював</h3><div class="box meta"><span>Зміст уроку заповнив: <b>'+(L.by?esc(L.by)+', '+esc(L.byAt.replace('-','.').replace(/^(\d{4})\.(\d\d)-(\d\d)/,'$3.$2')):'ще ніхто')+'</b></span><span>Розклад востаннє змінив: <b>'+esc(L.schedBy)+', '+dlabel(L.schedAt)+'</b></span></div></div>';
@@ -812,6 +816,7 @@ function teacherForm(L){
  +'<label>Здати до<input type="date" name="due" value="'+L.due+'"></label>'
  +'<label>Коментар для учнів і батьків<textarea name="note">'+esc(L.note)+'</textarea></label>'
  +'<label>Тип роботи (для оцінок)<select name="mt">'+S.mt.map(function(m){return opt(m.id,m.n,m.id===L.mt)}).join('')+'</select></label>'
+ +'<label>Посилання на відеоурок<input type="url" name="video" value="'+esc(L.video)+'" placeholder="https://meet.google.com/…"></label>'
  +'<label>Файли до уроку<input type="file" name="files" multiple></label>'+(L.files.length?'<div class="chips">'+L.files.map(function(x){return chip('📎 '+x.n,'ok')}).join('')+'</div>':'')
  +'<label>Нотатка для себе (бачите тільки ви)<textarea name="priv">'+esc(L.priv)+'</textarea></label>'
  +'<div><button type="button" class="btn sm" data-act="plan">Підставити тему з плану курсу</button></div>'
@@ -1089,6 +1094,12 @@ function vCourse(){
  +'<section class="card"><h2>План курсу · '+esc(SUBJ[code].n)+'</h2>'+tops.map(function(t,i){return '<div class="row"><span><b style="color:var(--lt)">'+(i+1)+'.</b> '+esc(t)+'</span>'+(i<done?chip('Пройдено','ok'):i===done?'<button class="btn sm lime" data-act="plantopic" data-i="'+i+'">Поставити в наступний урок</button>':chip('Попереду'))+'</div>'}).join('')+'</section>';
 }
 
+/* ===== v0.3: виклик дитини (сповіщення батькам) ===== */
+function vCall(){
+ var form='<form class="card frm" id="callf" style="margin-bottom:16px"><h2>Покликати дитину</h2><div class="grid g2" style="gap:10px"><label>Учень<select name="s">'+STUDENTS.map(function(n,i){return opt(i,n+' · 7-А')}).join('')+'</select></label><label>Для чого<select name="why"><option>Покличте, будь ласка, дитину до виходу</option><option>Дитину забирають раніше</option><option>Потрібно підійти до вчителя</option></select></label></div><div><button class="btn pri" type="submit">Надіслати батькам</button></div></form>';
+ var rows=S.calls.slice().reverse().map(function(c){return '<tr><td>'+esc(c.at)+'</td><td>'+esc(STUDENTS[c.s])+'</td><td>'+esc(c.t)+'</td><td>'+(c.ack?chip('Підтверджено '+c.ack,'ok'):chip('Очікує підтвердження','warn'))+'</td></tr>'}).join('');
+ return form+'<section class="card"><h2>Історія сповіщень батькам</h2><div class="scroll"><table class="tbl"><thead><tr><th>Час</th><th>Учень</th><th>Текст</th><th>Статус</th></tr></thead><tbody>'+(rows||'<tr><td colspan="4" class="empty">Ще не надсилали</td></tr>')+'</tbody></table></div></section><p style="color:var(--muted);font-size:13px">Батьки бачать сповіщення в застосунку й підтверджують його одним натисканням: вчитель бачить, що повідомлення дійшло. Переключіться на роль «Батьки», щоб це побачити.</p>';
+}
 /* ===== v0.2: дії ===== */
 function act2(a,d,t){
  if(a==='edit'){S.edit=!S.edit;S.sel='';render(true);return true}
@@ -1131,6 +1142,7 @@ function act2(a,d,t){
   return true;
  }
  if(a==='print'){window.print();return true}
+ if(a==='ack'){var cl=S.calls.filter(function(x){return x.id===d.id})[0];if(cl){cl.ack=p2(NOW.getHours())+':'+p2(NOW.getMinutes());render(true);toast('Підтверджено')}return true}
  return false;
 }
 function actChange(t){
@@ -1144,6 +1156,7 @@ function actSubmit(e){
  var f=e.target;
  if(f.id==='subf'){e.preventDefault();var id=f.d.value+'-'+f.s.value,L=lesson(f.d.value,+f.s.value);if(!L){toast('У цей слот уроку немає');return true}S.subs[id]={by:f.by.value,reason:f.r.value};save();render(true);toast('Заміну додано');return true}
  if(f.id==='postf'){e.preventDefault();var k=f.dataset.kind,txt=f.t.value.trim();if(!txt)return true;S[k].unshift({id:'p'+Date.now(),a:S.role==='admin'?'Адміністрація':SUBJ[S.tsubj].t+' (ви)',d:TODAY,t:txt,likes:0,pin:!!(f.pin&&f.pin.checked)});render(true);toast('Опубліковано');return true}
+ if(f.id==='callf'){e.preventDefault();var sid=+f.s.value;S.calls.push({id:'c'+Date.now(),s:sid,t:f.why.value+': '+STUDENTS[sid]+' (7-А)',at:dlabel(TODAY)+', '+p2(NOW.getHours())+':'+p2(NOW.getMinutes()),ack:null});render(true);toast('Сповіщення надіслано батькам');return true}
  if(f.id==='evf'){e.preventDefault();S.evs.push({id:'e'+Date.now(),t:f.t.value.trim(),d:f.d.value,tm:f.tm.value,k:f.k.value});render(true);toast('Подію додано');return true}
  if(f.classList.contains('dictf')){e.preventDefault();var v=f.v.value.trim();if(v){S[f.dataset.k].push(v);render(true)}return true}
  return false;
@@ -1173,7 +1186,7 @@ document.addEventListener('click',function(e){
  else if(a==='contact'){S.chat=d.id;render(true)}
  else if(a==='export'){doExport(d.what);toast('Файл CSV збережено')}
  else if(a==='remind')toast('Нагадування надіслано: '+d.t);
- else if(a==='reset'){if(confirm('Скинути всі зміни, зроблені в демо?')){['lay','one','book','subs','chk','meet','up','perm','mt','absr','subr','wall','news','evs','ov','done','pe','msgs','edit','sel'].forEach(function(k){delete S[k]});seedState();save();render();toast('Демо скинуто')}}
+ else if(a==='reset'){if(confirm('Скинути всі зміни, зроблені в демо?')){['lay','one','book','subs','chk','meet','up','perm','mt','absr','subr','wall','news','evs','calls','ov','done','pe','msgs','edit','sel'].forEach(function(k){delete S[k]});seedState();save();render();toast('Демо скинуто')}}
  else if(a==='cell')openCell(d.id,+d.s);
  else if(a==='pclose'){closePop();render(true)}
  else if(a==='pset'){
@@ -1192,7 +1205,7 @@ function $all(s){return Array.prototype.slice.call(sheet.querySelectorAll(s))}
 function saveLesson(){
  var f=document.getElementById('lf');if(!f||!f.reportValidity())return;
  var id=f.dataset.id,o=ovFor(id);
- o.topic=f.topic.value.trim();o.hw=f.hw.value.trim();o.due=f.due.value;o.note=f.note.value.trim();o.mt=f.mt.value;o.priv=f.priv.value.trim();
+ o.topic=f.topic.value.trim();o.hw=f.hw.value.trim();o.due=f.due.value;o.note=f.note.value.trim();o.mt=f.mt.value;o.video=f.video.value.trim();o.priv=f.priv.value.trim();
  if(f.files.files.length)o.files=(o.files||[]).concat(Array.prototype.slice.call(f.files.files).map(function(x){return {n:x.name,s:x.size}}));
  o.by=SUBJ[S.tsubj].t+' (ви)';o.at=TODAY+' '+p2(NOW.getHours())+':'+p2(NOW.getMinutes());
  var sel=$all('select[data-f=att]');
