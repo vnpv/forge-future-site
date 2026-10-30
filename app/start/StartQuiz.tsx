@@ -177,6 +177,7 @@ export default function StartQuiz() {
           } catch {}
         }
         if (w.isVersionAtLeast("8.0")) w.checkHomeScreenStatus?.((s) => setHome(s));
+        document.body.classList.add("tg-app");
         setTg(w);
       } else if (++tries > 100) clearInterval(timer);
     }, 100);

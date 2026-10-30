@@ -279,3 +279,9 @@ body::before {
 }
 .ff-cta-stack--center .ff-cta-link { justify-content: center; }
 .ff-cta-link:hover { color: #f1ede4; }
+
+/* Усередині Telegram Mini App шапка й підвал сайту зайві: у застосунку своя навігація */
+body.tg-app > header,
+body.tg-app > footer {
+  display: none;
+}

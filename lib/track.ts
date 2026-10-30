@@ -41,8 +41,7 @@ export async function allRecords(): Promise<TrackRec[]> {
       }
     }),
   );
-  // партнер, що відкрив власний лінк (тест), не рахується як відвідувач
-  return recs.filter((r): r is TrackRec => !!r && r.uid !== r.ref);
+  return recs.filter((r): r is TrackRec => !!r);
 }
 
 export type StatRow = { ref: string; counts: number[]; last: string; new24: number };
@@ -50,7 +49,11 @@ export type StatRow = { ref: string; counts: number[]; last: string; new24: numb
 /** Зведення по ref: скільки людей дійшло до кожного етапу, остання активність, нових за 24 год. */
 export function summarize(recs: TrackRec[], now = Date.now()): StatRow[] {
   const g = new Map<string, TrackRec[]>();
-  for (const r of recs) g.set(r.ref || "", [...(g.get(r.ref || "") ?? []), r]);
+  // партнер, що відкрив власний лінк, це тест: окремий кошик, не в підсумку
+  for (const r of recs) {
+    const key = r.uid === r.ref ? "(тест)" : r.ref || "";
+    g.set(key, [...(g.get(key) ?? []), r]);
+  }
   return [...g.entries()].map(([ref, rs]) => ({
     ref,
     counts: STAGES.map((_, i) => rs.filter((r) => r.stage >= i).length),
