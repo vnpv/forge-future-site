@@ -9,11 +9,12 @@ export const STAGES = ["Відкрили", "Питання 1", "Питання 2
 
 export type TrackRec = { uid: string; ref: string; tg: boolean; first: string; last: string; stage: number };
 
-const path = (uid: string) => `track/u/${uid}.json`;
+/** Ключ: людина + реф. Та сама людина через інший лінк (інший партнер) рахується окремо; повторні кроки по тому ж лінку лише підвищують етап. */
+const path = (uid: string, ref: string) => `track/u/${uid}_${ref || "x"}.json`;
 
 export async function saveStage(p: { uid: string; ref: string; tg: boolean; stage: number }) {
   const now = new Date().toISOString();
-  const raw = await readText(path(p.uid), true).catch(() => null);
+  const raw = await readText(path(p.uid, p.ref), true).catch(() => null);
   let rec: TrackRec = { uid: p.uid, ref: p.ref, tg: p.tg, first: now, last: now, stage: -1 };
   if (raw) {
     try {
@@ -25,7 +26,7 @@ export async function saveStage(p: { uid: string; ref: string; tg: boolean; stag
   rec.last = now;
   if (!rec.ref && p.ref) rec.ref = p.ref;
   rec.tg = rec.tg || p.tg;
-  await writeText(path(p.uid), JSON.stringify(rec), "application/json");
+  await writeText(path(p.uid, p.ref), JSON.stringify(rec), "application/json");
   return true;
 }
 
