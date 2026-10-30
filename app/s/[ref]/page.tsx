@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { headers } from "next/headers";
 import { miniAppUrl } from "@/lib/telegram";
+import { countClick } from "@/lib/track";
+import { storageReady } from "@/app/focus/store";
 import Redirect from "./Redirect";
 
 export const metadata: Metadata = {
@@ -23,6 +26,13 @@ export default async function PartnerLink({ params }: { params: Promise<{ ref: s
   const { ref } = await params;
   const clean = /^[a-z0-9]{1,16}$/.test(ref) ? ref : "";
   const tgUrl = miniAppUrl(clean || undefined);
+  // Рахуємо справжні натискання: превʼю-боти месенджерів і пошукові роботи не рахуємо
+  const ua = (await headers()).get("user-agent") ?? "";
+  if (clean && storageReady() && ua && !/bot|crawl|spider|preview|facebookexternalhit|whatsapp|slack|embedly|vkshare|skype|curl|wget|python/i.test(ua)) {
+    try {
+      await countClick(clean);
+    } catch {}
+  }
   return (
     <main data-theme="practicum" className="flex min-h-[70vh] flex-col items-center justify-center gap-4 bg-[var(--color-background)] px-6 text-center text-[var(--color-foreground)]">
       <Redirect to={tgUrl} />

@@ -61,3 +61,39 @@ export function summarize(recs: TrackRec[], now = Date.now()): StatRow[] {
     new24: rs.filter((r) => now - Date.parse(r.first) < 86_400_000).length,
   }));
 }
+
+/** Натискання на партнерський лінк forge-future.com/s/<ref>: один файл на реф, лічильник за добами (Kyiv не критично, UTC). */
+export type ClickRec = { total: number; days: Record<string, number>; last: string };
+const clickPath = (ref: string) => `track/c/${ref}.json`;
+
+export async function countClick(ref: string) {
+  const now = new Date();
+  const day = now.toISOString().slice(0, 10);
+  let rec: ClickRec = { total: 0, days: {}, last: "" };
+  const raw = await readText(clickPath(ref), true).catch(() => null);
+  if (raw) {
+    try {
+      rec = JSON.parse(raw) as ClickRec;
+    } catch {}
+  }
+  rec.total += 1;
+  rec.days[day] = (rec.days[day] ?? 0) + 1;
+  rec.last = now.toISOString();
+  await writeText(clickPath(ref), JSON.stringify(rec), "application/json");
+}
+
+export async function allClicks(): Promise<Record<string, { total: number; today: number; last: string }>> {
+  const paths = await listPaths("track/c/");
+  const day = new Date().toISOString().slice(0, 10);
+  const out: Record<string, { total: number; today: number; last: string }> = {};
+  await Promise.all(
+    paths.map(async (p) => {
+      try {
+        const r = JSON.parse((await readText(p, false, 60_000)) ?? "") as ClickRec;
+        const ref = p.split("/").pop()!.replace(".json", "");
+        out[ref] = { total: r.total, today: r.days[day] ?? 0, last: r.last };
+      } catch {}
+    }),
+  );
+  return out;
+}
