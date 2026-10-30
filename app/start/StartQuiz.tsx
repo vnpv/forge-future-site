@@ -65,7 +65,7 @@ function ProgramView({ onBack }: { onBack: () => void }) {
             <span className="ff-display w-6 shrink-0 text-xl font-extrabold text-[var(--color-accent)]">{i + 1}</span>
             <span>
               <b className="block text-base">{w.title}</b>
-              <span className={muted}>{w.outcome}</span>
+              <span className={muted}>{w.items.join(". ")}.</span>
             </span>
           </li>
         ))}

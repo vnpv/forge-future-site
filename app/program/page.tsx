@@ -147,10 +147,14 @@ export default function ProgramPage() {
                 </span>
                 <div>
                   <h3 className="ff-display text-lg font-bold sm:text-xl">{w.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">
-                    <span className="font-medium text-[var(--color-foreground)]">Наприкінці тижня: </span>
-                    {w.outcome}
-                  </p>
+                  <ul className="mt-3 flex flex-col gap-1.5 text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">
+                    {w.items.map((it) => (
+                      <li key={it} className="flex gap-2">
+                        <span className="text-[var(--color-accent)]" aria-hidden>→</span>
+                        <span>{it}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             ))}
