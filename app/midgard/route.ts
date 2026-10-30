@@ -90,7 +90,7 @@ export async function GET(request: Request) {
     .replace("/*ME*/null", () => meJs)
     .replace("<title>", `<link rel="icon" href="${LOGO}"><title>`)
     // власнику й сисадміну — посилання на керування користувачами поруч із «Вийти»
-    .replace('<a class="logout" href="/midgard?logout=1">', (m) => (canManageUsers(me.role) ? `<a class="logout" href="/midgard/users">Користувачі</a> · ${m}` : m))
+    .replace('<a class="logout" href="/midgard?logout=1">', (m) => `<a class="logout" href="/midgard/diary">Електронний щоденник</a> · ${canManageUsers(me.role) ? `<a class="logout" href="/midgard/users">Користувачі</a> · ` : ""}${m}`)
     // нові ролі для сторінки, згенерованої з CEO OS dashboard.html (там лише admin/supervisor/director)
     .replace("ME.role === 'admin'", "['admin','owner','sysadmin'].includes(ME.role)")
     .replace("ROLE_NAME = {", "ROLE_NAME = {owner:'власник', sysadmin:'сисадмін', ");
