@@ -13,9 +13,9 @@ export default function HeroPhoto() {
           <Image src={founder.photoUrl} alt="" fill priority className="object-cover object-[center_12%]" sizes="46vw" />
         </div>
       </div>
-      <div className="pointer-events-none absolute inset-0 sm:hidden" aria-hidden>
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-[600px] sm:hidden" aria-hidden>
         <div className="ff-hero-photo-m absolute inset-0">
-          <Image src={founder.photoUrl} alt="" fill priority className="object-cover object-[75%_8%]" sizes="100vw" />
+          <Image src={founder.photoUrl} alt="" fill priority className="object-cover object-[85%_0%]" sizes="100vw" />
         </div>
       </div>
     </>
