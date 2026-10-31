@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import Section from "../components/Section";
+import MiniCourseStrip from "../components/MiniCourseStrip";
 import Container from "../components/Container";
 import JsonLd from "@/components/JsonLd";
 import InstagramShowcase from "../components/InstagramShowcase";
@@ -355,6 +356,12 @@ export default function ProgramPage() {
               <p className="mt-3 max-w-xl text-base leading-relaxed text-[var(--color-muted)]">{programFounderLine}</p>
             </div>
           </div>
+        </Container>
+      </Section>
+
+      <Section spacing="block" className="border-t border-white/10">
+        <Container>
+          <MiniCourseStrip channel="siteprog" title="Ще вагаєтесь? Спробуйте легший крок" />
         </Container>
       </Section>
 

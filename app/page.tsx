@@ -1,3 +1,4 @@
+import MiniCourseStrip from "./components/MiniCourseStrip";
 import Link from "next/link";
 import type { Metadata } from "next";
 import Section from "./components/Section";
@@ -89,6 +90,16 @@ export default function Home() {
               Уся програма →
             </Link>
           </div>
+        </Container>
+      </Section>
+
+      <Section spacing="block" className="border-t border-white/10">
+        <Container>
+          <MiniCourseStrip
+            channel="sitehome"
+            title="Не впевнені, з чого починати?"
+            lead="Для батьків підлітків 14-19, які на питання про майбутнє чують «не знаю»: міні-курс на 5 днів по 15 хвилин у Telegram. 399 грн, повернення за 7 днів."
+          />
         </Container>
       </Section>
 
