@@ -141,9 +141,6 @@ export default function MinicoursePage() {
                 Перестаньте питати «ким ти станеш?». За 5 днів по 15 хвилин ви складете карту інтересів дитини, перевірите один напрямок і поговорите про майбутнє без сварки.</p>
               <div className="ff-cta-stack gap-3">
                 <HeroCtas buy={cta} buyWaitlist={ctaWaitlist} free={freeLabel} />
-                <p className="max-w-md text-sm text-[var(--color-muted-2)]">
-                  Доступ 60 днів. Не побачите користі за 7 днів, повернемо гроші.
-                </p>
               </div>
             </div>
             <div className="flex flex-col items-center gap-4 md:items-end">
@@ -230,6 +227,7 @@ export default function MinicoursePage() {
           <div className="ff-cta-stack mt-8 gap-3">
             <MiniCta label={cta} waitlistLabel={ctaWaitlist} />
             <MiniCta label={freeLabel} waitlistLabel={freeLabel} free className="!border-white/15 !text-[var(--color-muted)]" />
+            <p className="text-sm text-[var(--color-muted-2)]">Доступ 60 днів. Не побачите користі за 7 днів, повернемо гроші.</p>
           </div>
         </Container>
       </Section>
@@ -292,6 +290,7 @@ export default function MinicoursePage() {
           <div className="ff-cta-stack gap-3">
             <MiniCta label={cta} waitlistLabel={ctaWaitlist} />
             <MiniCta label={freeLabel} waitlistLabel={freeLabel} free className="!border-white/15 !text-[var(--color-muted)]" />
+            <p className="text-sm text-[var(--color-muted-2)]">Доступ 60 днів. Не побачите користі за 7 днів, повернемо гроші.</p>
           </div>
           <p className="mt-8 max-w-2xl text-xs leading-relaxed text-[var(--color-muted-2)]">{minicourseDisclaimer}</p>
         </Container>
