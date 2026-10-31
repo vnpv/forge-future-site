@@ -62,6 +62,8 @@ export default function JuniorPage() {
             </div>
           </div>
 
+          <p className="apply-sub">Старт 15 грудня · 6 тижнів · $750</p>
+
           <a
             href={APPLY_JUNIOR_URL}
             target="_blank"
@@ -408,6 +410,7 @@ export default function JuniorPage() {
       <section className="apply" id="apply">
         <div className="wrap wrap-narrow">
           <h2 className="section-title">Записатися на знайомство</h2>
+          <p className="apply-sub">Старт 15 грудня · 6 тижнів · $750.</p>
           <p className="apply-sub">
             Заповниш коротку заявку в Telegram — ім&apos;я і вік дитини. Далі
             — 15-хвилинний дзвінок з дитиною і батьком, потім рішення.
