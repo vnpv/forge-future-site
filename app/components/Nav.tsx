@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Logo from "./Logo";
 import TelegramCta from "./TelegramCta";
 
@@ -16,6 +17,10 @@ const links: { href: string; label: string }[] = [
 ];
 
 export default function Nav() {
+  const path = usePathname() ?? "";
+  // Там, де внизу є липка кнопка, зелена кнопка в шапці з нею конкурувала б: ховаємо
+  // (/minicourse: липка лише на телефоні; /start: на всіх екранах)
+  const ctaHidden = path.startsWith("/start") ? "hidden" : path.startsWith("/minicourse") ? "max-sm:hidden" : "";
   return (
     <header className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#111214]/85 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3.5 sm:px-6">
@@ -33,9 +38,11 @@ export default function Nav() {
           ))}
         </nav>
 
-        <TelegramCta variant="primary" flow="program" className="ff-cta--sm" location="nav">
-          Розбір 20 хв
-        </TelegramCta>
+        <div className={ctaHidden}>
+          <TelegramCta variant="primary" flow="program" className="ff-cta--sm" location="nav">
+            Розбір 20 хв
+          </TelegramCta>
+        </div>
       </div>
     </header>
   );
