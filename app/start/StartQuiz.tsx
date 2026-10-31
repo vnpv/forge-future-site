@@ -512,17 +512,25 @@ export default function StartQuiz() {
             )}
           </div>
 
-          {(
+          <div className="mb-8 border-2 border-[var(--color-accent)] bg-[var(--color-surface)] p-5 shadow-[0_0_32px_rgba(94,224,208,0.18)]">
+            <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">Ще не готові до розмови?</p>
+            <p className="ff-display mb-2 text-xl font-extrabold leading-tight">Спершу 5 запитань за 2 хвилини</p>
+            <p className="mb-4 text-sm leading-relaxed text-[var(--color-muted)]">
+              Безкоштовно, у Telegram: перший начерк карти інтересів дитини. Далі, якщо захочете, повний курс за 399 грн.
+            </p>
             <a
-              href="/minicourse?c=sitestart"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mb-8 block border border-white/10 bg-[var(--color-surface)] p-4 text-sm leading-relaxed text-[var(--color-muted)]"
+              href="https://t.me/ivanpervoy_bot?start=ff_mcfree"
+              onClick={(e) => {
+                if (tg?.openTelegramLink) {
+                  e.preventDefault();
+                  tg.openTelegramLink("https://t.me/ivanpervoy_bot?start=ff_mcfree");
+                }
+              }}
+              className="flex w-full items-center justify-center gap-2 bg-[var(--color-accent)] px-6 py-4 text-sm font-bold text-[#06200f]"
             >
-              <b className="text-[var(--color-foreground)]">Ще не готові до розмови?</b> Міні-курс для батьків: 5 днів по 15 хвилин у Telegram, 399 грн.{" "}
-              <span className="underline">Дізнатися більше →</span>
+              Пройти 5 запитань →
             </a>
-          )}
+          </div>
 
           {junior ? (
             <>
