@@ -24,12 +24,15 @@ export default function MiniCta({
   label,
   waitlistLabel,
   free = false,
+  solid = false,
   className = "",
 }: {
   label: string;
   waitlistLabel: string;
   /** Вторинна кнопка: одразу безкоштовний пробний день у боті. */
   free?: boolean;
+  /** Безкоштовну кнопку показати як головну. */
+  solid?: boolean;
   className?: string;
 }) {
   const href = free
@@ -43,9 +46,9 @@ export default function MiniCta({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`${free ? "ff-cta-secondary" : "ff-cta"} ${className}`}
+      className={`${free && !solid ? "ff-cta-secondary" : "ff-cta"} ${className}`}
       onClick={() => {
-        if (META_PIXEL_ID) window.fbq?.("track", free ? "ViewContent" : "InitiateCheckout");
+        if (META_PIXEL_ID) window.fbq?.("track", free ? "Lead" : "InitiateCheckout");
       }}
     >
       {text}

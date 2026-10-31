@@ -1,25 +1,22 @@
 import type { Metadata } from "next";
 import Section from "../components/Section";
 import Container from "../components/Container";
+import Image from "next/image";
 import MiniCta from "./MiniCta";
+import Scenarios from "./Scenarios";
+import AuthorVideo from "./AuthorVideo";
 import StickyCta from "./StickyCta";
 import MetaPixel from "./MetaPixel";
 import LpMode from "./LpMode";
 import {
   minicourseAuthor,
-  minicourseCost,
   minicourseDisclaimer,
   minicourseFaq,
   minicourseFinal,
-  minicourseFor,
   minicourseHero,
-  minicourseHow,
-  minicourseNotFor,
   minicourseOffer,
   minicourseProgram,
   minicourseResult,
-  minicourseSample,
-  minicourseWhy,
 } from "@/lib/minicourse";
 
 export const metadata: Metadata = {
@@ -58,81 +55,111 @@ function Bullets({ items }: { items: string[] }) {
   );
 }
 
+const previews = [
+  { img: "/minicourse/day3.png", title: "Скрипт розмови", text: "Що казати першим і чого не казати" },
+  { img: "/minicourse/day4.png", title: "Експеримент на 48 годин", text: "Перевірити інтерес малою справою" },
+  { img: "/minicourse/day5.png", title: "Карта інтересів", text: "Одна сторінка: що цікавить і що перевірити далі" },
+];
+
 export default function MinicoursePage() {
-  const { cta, ctaWaitlist, ctaFree } = minicourseHero;
+  const { cta, ctaWaitlist } = minicourseHero;
+  const freeLabel = "Пройти безкоштовно за 2 хвилини";
   return (
     <div data-theme="practicum" className="bg-[var(--color-background)] pb-20 text-[var(--color-foreground)] sm:pb-0">
       <MetaPixel />
       <LpMode />
-      <StickyCta label={cta} waitlistLabel={ctaWaitlist} />
+      <StickyCta label={freeLabel} waitlistLabel={freeLabel} free />
 
-      {/* 1. ШАПКА = ОФЕР */}
+      {/* 1. ШАПКА: обіцянка, обличчя, безкоштовний вхід */}
       <Section spacing="hero">
         <Container>
-          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">
-            {minicourseHero.eyebrow}
+          <div className="grid items-center gap-10 md:grid-cols-[1.3fr_1fr]">
+            <div>
+              <p className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">
+                Для батьків підлітків · 5 днів у Telegram
+              </p>
+              <h1 className="ff-display mb-5 text-[clamp(2rem,7vw,3.6rem)] font-extrabold leading-[1.04] tracking-tight">
+                {minicourseHero.h1}
+              </h1>
+              <p className="mb-8 max-w-xl text-lg leading-relaxed text-[var(--color-muted)]">
+                Перестаньте питати «ким ти станеш?». Спершу 5 простих запитань про дитину: за 2 хвилини отримаєте перший
+                начерк її карти інтересів.
+              </p>
+              <div className="ff-cta-stack gap-3">
+                <MiniCta label={freeLabel} waitlistLabel={freeLabel} free solid />
+                <p className="max-w-md text-sm text-[var(--color-muted-2)]">
+                  Безкоштовно. Далі, якщо захочете, повний курс за {minicourseHero.facts[3].v}.
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col items-center gap-4 md:items-end">
+              <AuthorVideo />
+              <p className="max-w-[16rem] text-center text-sm text-[var(--color-muted)] md:text-right">
+                Іван Первой, автор курсу. Натисніть, щоб почути, про що це.
+              </p>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* 2. ІНТЕРАКТИВ: впізнайте свою ситуацію */}
+      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
+        <Container>
+          <H2>Що відбувається вдома? Торкніться свого</H2>
+          <Scenarios />
+        </Container>
+      </Section>
+
+      {/* 3. ЩО ВИ ОТРИМАЄТЕ: видимі матеріали */}
+      <Section spacing="block" className="border-t border-white/10">
+        <Container>
+          <H2>Ось що ви отримаєте на руки</H2>
+          <div className="grid gap-6 sm:grid-cols-3">
+            {previews.map((p) => (
+              <figure key={p.title} className="flex flex-col gap-3">
+                <div className="overflow-hidden border border-white/15 bg-white">
+                  <Image src={p.img} alt={p.title} width={595} height={842} className="h-auto w-full" unoptimized />
+                </div>
+                <figcaption>
+                  <b className="block text-base">{p.title}</b>
+                  <span className="text-sm text-[var(--color-muted)]">{p.text}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+          <p className="mt-6 max-w-2xl text-base leading-relaxed text-[var(--color-muted)]">
+            Друкуєте чи заповнюєте на екрані. Кожен документ приходить в той день курсу, коли він потрібен.
           </p>
-          <h1 className="ff-display mb-5 max-w-3xl text-[clamp(2rem,7vw,3.6rem)] font-extrabold leading-[1.04] tracking-tight">
-            {minicourseHero.h1}
-          </h1>
-          <p className="mb-8 max-w-2xl text-lg leading-relaxed text-[var(--color-muted)]">{minicourseHero.sub}</p>
-          <div className="ff-cta-stack gap-3">
-            <MiniCta label={cta} waitlistLabel={ctaWaitlist} />
-            <MiniCta label={ctaFree} waitlistLabel={ctaFree} free />
-            <p className="max-w-md text-sm text-[var(--color-muted-2)]">{minicourseHero.note}</p>
-          </div>
-          <dl className="mt-10 grid max-w-xl grid-cols-2 gap-x-8 gap-y-5 border-t border-white/12 pt-6 sm:grid-cols-4">
-            {minicourseHero.facts.map((f) => (
-              <div key={f.k}>
-                <dt className="text-[11px] font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">{f.k}</dt>
-                <dd className="mt-1 text-sm font-medium">{f.v}</dd>
-              </div>
-            ))}
-          </dl>
         </Container>
       </Section>
 
-      {/* 2. ДЛЯ КОГО */}
+      {/* 4. ПРОГРАМА: компактно, розкривається */}
       <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
         <Container>
-          <H2>{minicourseFor.h2}</H2>
-          <Bullets items={minicourseFor.items} />
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-[var(--color-muted)]">{minicourseFor.note}</p>
-        </Container>
-      </Section>
-
-      {/* 3. ЩО ЗА «НЕ ЗНАЮ» */}
-      <Section spacing="block" className="border-t border-white/10">
-        <Container>
-          <H2>{minicourseWhy.h2}</H2>
-          <Lead>{minicourseWhy.lead}</Lead>
-          <div className="grid gap-px border border-white/12 bg-white/12 md:grid-cols-3">
-            {minicourseWhy.items.map((it, i) => (
-              <div key={it.title} className="flex flex-col gap-3 bg-[var(--color-background)] p-6">
-                <span className="ff-display text-3xl font-extrabold text-[var(--color-accent)]">{String(i + 1).padStart(2, "0")}</span>
-                <h3 className="ff-display text-lg font-bold">{it.title}</h3>
-                <p className="text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">{it.text}</p>
-              </div>
+          <H2>5 днів по 15 хвилин</H2>
+          <div className="max-w-3xl border-t border-white/20">
+            {minicourseProgram.days.map((d, i) => (
+              <details key={d.title} className="group border-b border-white/20 py-4">
+                <summary className="flex cursor-pointer list-none items-center gap-4 text-base font-semibold sm:text-lg">
+                  <span className="ff-display w-8 text-2xl font-extrabold text-[var(--color-accent)]">{i + 1}</span>
+                  <span className="flex-1">{d.title}</span>
+                  <span className="text-[var(--color-accent)] transition-transform group-open:rotate-45" aria-hidden>
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 pl-12 text-base leading-relaxed text-[var(--color-muted)]">{d.text}</p>
+                <p className="mt-2 pl-12 text-sm font-medium text-[var(--color-accent)]">{d.out}</p>
+              </details>
             ))}
           </div>
         </Container>
       </Section>
 
-      {/* 4. ЦІНА БЕЗДІЯЛЬНОСТІ */}
-      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
-        <Container>
-          <H2>{minicourseCost.h2}</H2>
-          <Bullets items={minicourseCost.items} />
-          <p className="mt-6 max-w-2xl text-sm leading-relaxed text-[var(--color-muted-2)]">{minicourseCost.note}</p>
-        </Container>
-      </Section>
-
-      {/* 5. РЕЗУЛЬТАТ + ДО/ПІСЛЯ */}
+      {/* 5. ЧОМУ ВАРТО: до / після */}
       <Section spacing="block" className="border-t border-white/10">
         <Container>
-          <H2>{minicourseResult.h2}</H2>
-          <Bullets items={minicourseResult.items} />
-          <div className="mt-8 grid max-w-3xl gap-4 md:grid-cols-2">
+          <H2>Чому це варто 399 грн</H2>
+          <div className="grid max-w-3xl gap-4 md:grid-cols-2">
             <div className="border border-white/15 p-5">
               <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">Зараз</p>
               <ul className="flex flex-col gap-2 text-base text-[var(--color-muted)]">
@@ -150,122 +177,42 @@ export default function MinicoursePage() {
               </ul>
             </div>
           </div>
-          <div className="ff-cta-stack mt-8">
-            <MiniCta label={cta} waitlistLabel={ctaWaitlist} />
-          </div>
-        </Container>
-      </Section>
-
-      {/* 6. ПРОГРАМА */}
-      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
-        <Container>
-          <H2>{minicourseProgram.h2}</H2>
-          <div className="border-t border-white/20">
-            {minicourseProgram.days.map((d, i) => (
-              <div
-                key={d.title}
-                className="grid grid-cols-[52px_1fr] gap-4 border-b border-white/20 py-5 sm:grid-cols-[96px_1fr] sm:gap-6"
-              >
-                <span className="ff-display text-3xl font-extrabold leading-none text-[var(--color-accent)] sm:text-4xl">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div>
-                  <h3 className="ff-display text-lg font-bold sm:text-xl">{d.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">{d.text}</p>
-                  <p className="mt-2 text-sm font-medium text-[var(--color-accent)]">{d.out}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      {/* 7. ЗРАЗОК (безкоштовно: чому варто купити) */}
-      <Section spacing="block" className="border-t border-white/10">
-        <Container>
-          <H2>{minicourseSample.h2}</H2>
-          <Lead>{minicourseSample.lead}</Lead>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="border border-white/15 p-6">
-              <h3 className="ff-display mb-4 text-lg font-bold">{minicourseSample.questionsTitle}</h3>
-              <ol className="flex flex-col gap-3">
-                {minicourseSample.questions.map((q, i) => (
-                  <li key={q} className="flex gap-3 text-base">
-                    <span className="ff-display text-[var(--color-accent)]">{i + 1}</span>
-                    <span>{q}</span>
-                  </li>
-                ))}
-              </ol>
-              <p className="mt-5 text-sm leading-relaxed text-[var(--color-muted)]">{minicourseSample.questionsNote}</p>
-            </div>
-            <div className="border border-white/15 p-6">
-              <h3 className="ff-display mb-4 text-lg font-bold">{minicourseSample.swapTitle}</h3>
-              <ul className="flex flex-col gap-4">
-                {minicourseSample.swaps.map((s) => (
-                  <li key={s.from} className="text-base">
-                    <span className="text-[var(--color-muted-2)] line-through">{s.from}</span>
-                    <br />
-                    <span className="font-medium">→ {s.to}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div className="ff-cta-stack mt-8">
-            <MiniCta label={ctaFree} waitlistLabel={ctaFree} free />
-          </div>
-        </Container>
-      </Section>
-
-      {/* 8. ЯК ЦЕ ПРАЦЮЄ */}
-      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
-        <Container>
-          <H2>{minicourseHow.h2}</H2>
-          <div className="grid gap-px border border-white/12 bg-white/12 md:grid-cols-4">
-            {minicourseHow.steps.map((s) => (
-              <div key={s.n} className="flex flex-col gap-2 bg-[var(--color-surface)] p-5">
-                <span className="ff-display text-2xl font-extrabold text-[var(--color-accent)]">{s.n}</span>
-                <h3 className="ff-display text-base font-bold">{s.title}</h3>
-                <p className="text-sm leading-relaxed text-[var(--color-muted)]">{s.text}</p>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      {/* 9. КОМУ НЕ ПІДІЙДЕ */}
-      <Section spacing="block" className="border-t border-white/10">
-        <Container>
-          <H2>{minicourseNotFor.h2}</H2>
-          <Bullets items={minicourseNotFor.items} />
-        </Container>
-      </Section>
-
-      {/* 10. АВТОР (відгуків поки немає, блок пропущено) */}
-      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
-        <Container>
-          <H2>{minicourseAuthor.h2}</H2>
-          <p className="ff-display mb-2 text-xl font-bold">{minicourseAuthor.name}</p>
-          <p className="mb-4 max-w-2xl text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">{minicourseAuthor.text}</p>
-          <p className="max-w-2xl text-sm leading-relaxed text-[var(--color-muted-2)]">{minicourseAuthor.disclaimer}</p>
-        </Container>
-      </Section>
-
-      {/* 11. ОФЕР: ЩО ЗА 399 ГРН */}
-      <Section spacing="block" className="border-t border-white/10">
-        <Container>
-          <H2>{minicourseOffer.h2}</H2>
-          <Bullets items={minicourseOffer.items} />
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-[var(--color-muted)]">{minicourseOffer.note}</p>
+          <ul className="mt-5 flex max-w-2xl flex-col gap-2 text-base">
+            <li>✓ Доступ 60 днів, проходьте у своєму темпі</li>
+            <li>✓ Гарантія 7 днів: не побачили користі, повернемо гроші</li>
+            <li>✓ Спершу безкоштовна частина: перевірте, чи це ваше</li>
+          </ul>
           <div className="ff-cta-stack mt-8 gap-3">
+            <MiniCta label={freeLabel} waitlistLabel={freeLabel} free solid />
             <MiniCta label={cta} waitlistLabel={ctaWaitlist} />
-            <p className="max-w-md text-sm text-[var(--color-muted-2)]">{minicourseHero.note}</p>
           </div>
         </Container>
       </Section>
 
-      {/* 12. ПИТАННЯ Й ВІДПОВІДІ (найчитаніший блок) */}
+      {/* 6. АВТОР */}
       <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
+        <Container>
+          <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center">
+            <Image
+              src="/images/ivan-founder-800.webp"
+              alt="Іван Первой"
+              width={120}
+              height={120}
+              unoptimized
+              className="h-28 w-28 shrink-0 rounded-full object-cover"
+            />
+            <div>
+              <p className="ff-display mb-2 text-xl font-bold">{minicourseAuthor.name}, автор</p>
+              <p className="mb-3 max-w-2xl text-base leading-relaxed text-[var(--color-muted)]">{minicourseAuthor.text}</p>
+              <p className="max-w-2xl text-sm leading-relaxed text-[var(--color-muted-2)]">{minicourseAuthor.disclaimer}</p>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* 7. ПИТАННЯ Й ВІДПОВІДІ */}
+      <Section spacing="block" className="border-t border-white/10">
         <Container>
           <H2>Питання й відповіді</H2>
           <div className="max-w-3xl border-t border-white/20">
@@ -284,15 +231,14 @@ export default function MinicoursePage() {
         </Container>
       </Section>
 
-      {/* 13. ФІНАЛ */}
-      <Section spacing="end" className="border-t border-white/10">
+      {/* 8. ФІНАЛ */}
+      <Section spacing="end" className="border-t border-white/10 bg-[var(--color-surface)]">
         <Container>
           <h2 className="ff-display mb-6 max-w-3xl text-[clamp(1.5rem,4.6vw,2.4rem)] font-extrabold leading-[1.1] tracking-tight">
             {minicourseFinal.h2}
           </h2>
           <div className="ff-cta-stack gap-3">
-            <MiniCta label={cta} waitlistLabel={ctaWaitlist} />
-            <MiniCta label={ctaFree} waitlistLabel={ctaFree} free />
+            <MiniCta label={freeLabel} waitlistLabel={freeLabel} free solid />
           </div>
           <p className="mt-8 max-w-2xl text-xs leading-relaxed text-[var(--color-muted-2)]">{minicourseDisclaimer}</p>
         </Container>
