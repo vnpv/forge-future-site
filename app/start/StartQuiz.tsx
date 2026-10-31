@@ -195,7 +195,7 @@ function Doubts({ list = doubts }: { list?: { q: string; a: string }[] }) {
 }
 
 export default function StartQuiz() {
-  const [step, setStep] = useState(0); // 0 вступ, 1..4 питання, 5 результат
+  const [step, setStep] = useState(1); // 1..4 питання, 5 результат (вступного екрана немає: одразу перше питання)
   const [answers, setAnswers] = useState<number[]>([]);
   const [ref, setRef] = useState("");
   const [copied, setCopied] = useState(false);
@@ -214,11 +214,6 @@ export default function StartQuiz() {
     } catch {}
     setRef(r);
   }, []);
-
-  // Трафік з реклами (ref rlad): без вступного екрана, одразу перше питання. Вступ говорить про іншу тему, ніж оголошення, і людей відсікало.
-  useEffect(() => {
-    if (ref === "rlad") setStep((s) => (s === 0 ? 1 : s));
-  }, [ref]);
 
   /** Telegram Mini App: SDK вантажиться окремо, чекаємо на нього до 3 с. Поза Telegram initData порожній. */
   useEffect(() => {
@@ -396,24 +391,6 @@ export default function StartQuiz() {
 
   return (
     <main className={`mx-auto w-full max-w-xl px-4 py-8 sm:py-12 ${showWebSticky ? "pb-28" : ""}`}>
-      {step === 0 && (
-        <section>
-          <p className="mb-3 text-sm font-semibold text-[var(--color-accent)]">Forge Future · для батьків дітей 10-19</p>
-          <h1 className="ff-display mb-4 text-[clamp(1.7rem,7vw,2.4rem)] font-extrabold leading-[1.1] tracking-tight">
-            Дитина нічого не хоче. І всі кажуть: це вік.
-          </h1>
-          <p className="mb-6 text-base leading-relaxed text-[var(--color-muted)]">
-            4 питання, 1 хвилина. Одразу побачите, що відбувається з вашою дитиною, і отримаєте 3 кроки на цей тиждень. Безкоштовно.
-          </p>
-          <button className="ff-cta w-full" onClick={() => setStep(1)}>Почати</button>
-          {canAddHome && (
-            <button className="mt-4 w-full text-center text-sm text-[var(--color-muted)] underline" onClick={() => tg?.addToHomeScreen?.()}>
-              Додати на екран телефона
-            </button>
-          )}
-        </section>
-      )}
-
       {step >= 1 && step <= qs.length && (
         <section>
           <p className="mb-3 text-sm text-[var(--color-muted-2)]">
