@@ -85,17 +85,6 @@ export default function MobileTabs() {
     </Link>
   );
 
-  /** Два основні продукти: приподняті, з обводкою; активний залитий */
-  const big = (href: string, label: string, d: React.ReactNode) => (
-    <Link
-      href={href}
-      className={`-mt-3 mb-1 mx-0.5 flex flex-[1.15] flex-col items-center gap-1 border py-2 text-[11px] font-semibold ${on(href) ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "border-white/20 bg-[#111214] text-[#f1ede4]"}`}
-    >
-      <Svg d={d} />
-      {label}
-    </Link>
-  );
-
   return (
     <>
       {menu && (
@@ -130,8 +119,8 @@ export default function MobileTabs() {
         <div className="mx-auto flex max-w-md items-end px-2">
           {tab("/", "Головна", icon.home)}
           {tab("/minicourse?c=sitetabs", "Міні-курс", icon.mini)}
-          {big("/junior", "Junior", icon.junior)}
-          {big("/program", "Практикум", icon.program)}
+          {tab("/junior", "Junior", icon.junior)}
+          {tab("/program", "Практикум", icon.program)}
           <button
             type="button"
             onClick={() => setMenu((m) => !m)}
