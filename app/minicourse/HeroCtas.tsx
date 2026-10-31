@@ -8,7 +8,9 @@ export default function HeroCtas({ buy, buyWaitlist, free }: { buy: string; buyW
   return (
     <>
       <MiniCta label={free} waitlistLabel={free} free solid />
-      <MiniCta label={buy} waitlistLabel={buyWaitlist} secondary className="max-sm:hidden !border-white/15 !text-[var(--color-muted)]" />
+      <div className="max-sm:hidden">
+        <MiniCta label={buy} waitlistLabel={buyWaitlist} secondary className="w-full !border-white/15 !text-[var(--color-muted)]" />
+      </div>
     </>
   );
 }
