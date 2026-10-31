@@ -5,10 +5,10 @@ import Logo from "./Logo";
 import TelegramCta from "./TelegramCta";
 
 /** Десктоп: посилання в шапці. На телефоні навігація живе в нижніх вкладках (MobileTabs), шапка лишається для іншого. */
-const links: { href: string; label: string; accent?: boolean }[] = [
+const links: { href: string; label: string }[] = [
   { href: "/program", label: "Практикум" },
   { href: "/junior", label: "Junior" },
-  { href: "/minicourse?c=sitenav", label: "Міні-курс", accent: true },
+  { href: "/minicourse?c=sitenav", label: "Міні-курс" },
   { href: "/events", label: "Вечори" },
   { href: "/blog", label: "Блог" },
   { href: "/about", label: "Про нас" },
@@ -26,11 +26,7 @@ export default function Nav() {
             <Link
               key={l.href}
               href={l.href}
-              className={
-                l.accent
-                  ? "border border-[var(--color-accent)]/60 px-2.5 py-1 text-sm font-semibold text-[var(--color-accent)] transition-colors hover:bg-[var(--color-accent)]/10"
-                  : "text-sm text-[#b9b5ab] transition-colors hover:text-[#f1ede4]"
-              }
+              className="text-sm text-[#b9b5ab] transition-colors hover:text-[#f1ede4]"
             >
               {l.label}
             </Link>
