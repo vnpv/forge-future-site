@@ -31,7 +31,6 @@ export function telegramBotUrl(start: string): string {
 }
 
 export const APPLY_OPEN_EVENING_URL = telegramBotUrl(TELEGRAM_START_OPEN_EVENING);
-export const APPLY_JUNIOR_URL = telegramBotUrl(TELEGRAM_START_JUNIOR);
 export const TELEGRAM_COMMUNITY_BOT_URL = telegramBotUrl(TELEGRAM_START_COMMUNITY);
 
 /** Мініаплікація квізу для батьків: коротка назва з BotFather (/newapp) → t.me/<бот>/<назва> */
@@ -44,3 +43,6 @@ export function miniAppUrl(ref?: string): string {
 
 /** Усі кнопки «Записатися на розбір» на сайті ведуть у квіз-застосунок; ref web = канал «сайт». */
 export const APPLY_PROGRAM_URL = miniAppUrl("web");
+
+/** Junior: та сама форма, що й «Розбір 20 хвилин» (квіз сам визначає гілку 10-13 за віком). */
+export const APPLY_JUNIOR_URL = APPLY_PROGRAM_URL;
