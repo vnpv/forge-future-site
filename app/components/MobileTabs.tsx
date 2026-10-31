@@ -19,6 +19,7 @@ const icon = {
   home: <path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" />,
   program: <path d="M12 3l9 5-9 5-9-5 9-5zm-6 8.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5" />,
   junior: <path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.5 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z" />,
+  mini: <path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M18 6l-2.5 2.5M8.5 15.5L6 18" />,
   more: <path d="M4 7h16M4 12h16M4 17h16" />,
 };
 
@@ -69,7 +70,7 @@ export default function MobileTabs() {
   const tab = (href: string, label: string, d: React.ReactNode) => (
     <Link
       href={href}
-      className={`flex flex-1 flex-col items-center gap-1 py-2 text-[11px] font-medium ${on(href) ? "text-[var(--color-accent)]" : "text-[#b9b5ab]"}`}
+      className={`flex flex-1 flex-col items-center gap-1 border-t-2 py-2 text-[11px] font-medium ${on(href) ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)]" : "border-transparent text-[#b9b5ab]"}`}
     >
       <Svg d={d} />
       {label}
@@ -112,9 +113,9 @@ export default function MobileTabs() {
           {tab("/program", "Практикум", icon.program)}
           <Link
             href="/minicourse?c=sitetabs"
-            className="-mt-4 mb-1.5 flex flex-1 flex-col items-center gap-0.5 border border-[var(--color-accent)] bg-[var(--color-accent)] px-1 py-2.5 text-[11px] font-bold text-[#06200f]"
+            className="-mt-3 mb-1 flex flex-1 flex-col items-center gap-1 border border-[var(--color-accent)]/60 bg-[#111214] py-2 text-[11px] font-semibold text-[var(--color-accent)]"
           >
-            <span className="text-base leading-none">✦</span>
+            <Svg d={icon.mini} />
             Міні-курс
           </Link>
           {tab("/junior", "Junior", icon.junior)}
