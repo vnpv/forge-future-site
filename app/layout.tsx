@@ -3,6 +3,7 @@ import { Onest, Unbounded } from "next/font/google";
 import "./globals.css";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
+import MobileTabs from "./components/MobileTabs";
 import JsonLd from "@/components/JsonLd";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import VercelAnalytics from "./components/VercelAnalytics";
@@ -74,6 +75,7 @@ export default function RootLayout({
         <Nav />
         <main className="relative z-[1] flex-1">{children}</main>
         <Footer />
+        <MobileTabs />
       </body>
     </html>
   );

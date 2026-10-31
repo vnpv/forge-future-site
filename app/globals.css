@@ -290,3 +290,10 @@ body.tg-app > footer {
 body.lp > header {
   display: none;
 }
+
+/* Нижні вкладки (телефон): запас знизу, щоб вони не закривали футер; у Telegram Mini App їх немає */
+@media (max-width: 1023px) {
+  body.ff-tabs > footer { padding-bottom: 6.5rem; }
+}
+body.tg-app .ff-tabs-ui,
+body.lp .ff-tabs-ui { display: none; }
