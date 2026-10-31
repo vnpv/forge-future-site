@@ -37,7 +37,7 @@ export default function Nav() {
               href={l.href}
               className={
                 "accent" in l
-                  ? "border border-[var(--color-accent)]/60 px-2.5 py-1 text-sm font-semibold text-[var(--color-accent)] transition-colors hover:bg-[var(--color-accent)]/10"
+                  ? "whitespace-nowrap border border-[var(--color-accent)]/60 px-2 py-1 text-[13px] font-semibold lg:px-2.5 lg:text-sm text-[var(--color-accent)] transition-colors hover:bg-[var(--color-accent)]/10"
                   : "text-sm text-[#b9b5ab] transition-colors hover:text-[#f1ede4]"
               }
             >
@@ -59,14 +59,14 @@ export default function Nav() {
           </TelegramCta>
         </div>
 
-        <nav className="flex items-center gap-4 lg:hidden">
+        <nav className="flex items-center gap-3 lg:hidden">
           {primaryLinks.map((l) => (
             <Link
               key={l.href}
               href={l.href}
               className={
                 "accent" in l
-                  ? "border border-[var(--color-accent)]/60 px-2.5 py-1 text-sm font-semibold text-[var(--color-accent)] transition-colors hover:bg-[var(--color-accent)]/10"
+                  ? "whitespace-nowrap border border-[var(--color-accent)]/60 px-2 py-1 text-[13px] font-semibold lg:px-2.5 lg:text-sm text-[var(--color-accent)] transition-colors hover:bg-[var(--color-accent)]/10"
                   : "text-sm text-[#b9b5ab] transition-colors hover:text-[#f1ede4]"
               }
             >
