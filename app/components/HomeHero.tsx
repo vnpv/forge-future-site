@@ -30,7 +30,7 @@ export default function HomeHero() {
       </div>
       <div className="ff-hero relative max-w-3xl">
         <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)] sm:mb-5">
-          Forge Future · Практикум 14-19 · Студія 10-13
+          Forge Future · Практикум 14-19 · Junior 10-13
         </p>
 
         <h1 className="ff-display ff-reveal mb-5 text-[clamp(1.9rem,5.4vw,3.4rem)] font-extrabold leading-[1.05] tracking-tight text-white sm:mb-6">

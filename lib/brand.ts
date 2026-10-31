@@ -4,7 +4,7 @@ export const BRAND = {
   name: "Forge Future",
   nameShort: "FF",
   tagline: "Середовище для власних проєктів",
-  nickname: "Практикум і Студія для підлітків",
+  nickname: "Практикум і Junior для підлітків",
   /** Favicon: app/favicon.ico (трикутник вгору, Next.js підхоплює автоматично) */
   favicon: "/favicon.ico",
   colors: {

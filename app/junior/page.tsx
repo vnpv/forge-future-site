@@ -1,32 +1,32 @@
 import Image from "next/image";
 import type { Metadata } from "next";
-import "./studio.css";
-import { APPLY_STUDIO_URL } from "@/lib/telegram";
+import "./junior.css";
+import { APPLY_JUNIOR_URL } from "@/lib/telegram";
 import { pageAlternates } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Студія для дітей 10–13 років — 6 тижнів, 6 власних проєктів | Forge Future",
+  title: "Junior для дітей 10–13 років — 6 тижнів, 6 власних проєктів | Forge Future",
   description:
-    "Онлайн-студія Forge Future для дітей 10–13 років. За 6 тижнів дитина робить шість власних речей руками і штучним інтелектом — і показує їх людям. Запис на 15-хвилинне знайомство.",
-  alternates: pageAlternates("/studio"),
+    "Junior від Forge Future: онлайн-програма для дітей 10–13 років. За 6 тижнів дитина робить шість власних речей руками і штучним інтелектом — і показує їх людям. Запис на 15-хвилинне знайомство.",
+  alternates: pageAlternates("/junior"),
   robots: { index: false, follow: false },
   openGraph: {
     type: "website",
-    title: "Студія — 6 тижнів, 6 власних речей | Forge Future",
+    title: "Junior — 6 тижнів, 6 власних речей | Forge Future",
     description:
-      "Онлайн-студія для 10–13 років. Кожен тиждень — нова штука, зроблена руками і штучним інтелектом. І показана людям.",
+      "Junior: онлайн-програма для 10–13 років. Кожен тиждень — нова штука, зроблена руками і штучним інтелектом. І показана людям.",
     locale: "uk_UA",
   },
 };
 
-export default function StudioPage() {
+export default function JuniorPage() {
   return (
-    <div className="studio-page">
+    <div className="junior-page">
       {/* ============ ШАР 1 — ГОЛОС ДИТИНИ (білий, щільний) ============ */}
 
       <header className="hero">
         <div className="wrap">
-          <p className="kicker">FORGE FUTURE · СТУДІЯ · 10–13 РОКІВ</p>
+          <p className="kicker">FORGE FUTURE · JUNIOR · 10–13 РОКІВ</p>
 
           <h1 className="hero-title">
             <span className="reveal-line">Шість тижнів.</span>
@@ -36,7 +36,7 @@ export default function StudioPage() {
           </h1>
 
           <p className="hero-sub">
-            Онлайн-студія для 10–13 років. Кожен тиждень — нова штука,
+            Junior: онлайн-програма для 10–13 років. Кожен тиждень — нова штука,
             зроблена руками і штучним інтелектом. І показана людям.
           </p>
 
@@ -63,7 +63,7 @@ export default function StudioPage() {
           </div>
 
           <a
-            href={APPLY_STUDIO_URL}
+            href={APPLY_JUNIOR_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary"
@@ -223,7 +223,7 @@ export default function StudioPage() {
                 Кожна зустріч закінчується хвилинними показами. Показувати
                 недороблене — нормально, це робочий стан. Зворотний зв&apos;язок
                 тільки у двох формулюваннях: «що спрацювало» і «що б я
-                спробував». Оцінкових слів у студії немає. Говорити швидше,
+                спробував». Оцінкових слів у Junior немає. Говорити швидше,
                 ніж встигаєш подумати, збиватися, повторювати слово —
                 нормально: тут оцінюють не те, як ти говориш, а що ти зробив.
                 За шість тижнів у дитини близько дванадцяти публічних
@@ -262,7 +262,7 @@ export default function StudioPage() {
             <h2 className="section-title-dark">Критерії переходу в практикум</h2>
             <p className="criteria-intro">
               Відкрито і сухо — як список фактів, що вимірюються під час
-              студії:
+              Junior:
             </p>
 
             <ul className="criteria-list">
@@ -290,7 +290,7 @@ export default function StudioPage() {
             </p>
 
             <p className="honest-callout">
-              Приблизно половина учасників після студії переходить у
+              Приблизно половина учасників після Junior переходить у
               практикум, решта — пізніше або ніколи, і це нормальний
               результат: справа не в підготовці, а в календарі дорослішання.
             </p>
@@ -319,7 +319,7 @@ export default function StudioPage() {
                 мислення на все життя. Свій перший мільйон заробив у 36 — і
                 тепер будує середовище, щоб підлітки зробили це набагато
                 раніше. Батько Андрія (8) і Павлика (5): усе, що потрапляє в
-                програму студії, спершу перевіряється вдома.
+                програму Junior, спершу перевіряється вдома.
               </p>
             </div>
           </div>
@@ -414,7 +414,7 @@ export default function StudioPage() {
           </p>
 
           <a
-            href={APPLY_STUDIO_URL}
+            href={APPLY_JUNIOR_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-primary"

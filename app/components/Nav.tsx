@@ -8,7 +8,7 @@ import TelegramCta from "./TelegramCta";
 /** Завжди на видноті, навіть на мобільному - два продукти */
 const primaryLinks = [
   { href: "/program", label: "Практикум" },
-  { href: "/studio", label: "Студія" },
+  { href: "/junior", label: "Junior" },
 ];
 
 /** На мобільному - тільки в бургері; на десктопі йдуть слідом за primaryLinks */

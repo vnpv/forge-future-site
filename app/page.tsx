@@ -98,7 +98,7 @@ export default function Home() {
         </Container>
       </Section>
 
-      {/* Два шляхи далі - огляд, без дубля деталей з /studio і /program */}
+      {/* Два шляхи далі - огляд, без дубля деталей з /junior і /program */}
       <Section spacing="alt" className="ff-section-alt">
         <Container>
           <h2 className="ff-display mb-2 text-2xl font-extrabold sm:text-3xl">
@@ -109,20 +109,20 @@ export default function Home() {
           </p>
           <div className="grid gap-px border-2 border-white/[0.1] bg-white/[0.1] sm:grid-cols-2">
             <Link
-              href={homeTwoPaths.studio.href}
+              href={homeTwoPaths.junior.href}
               className="group bg-[#111214] p-6 transition-colors hover:bg-white/[0.03] sm:p-7"
             >
               <p className="mb-1 text-xs font-semibold uppercase tracking-wide text-[#8e8a80]">
-                {homeTwoPaths.studio.age}
+                {homeTwoPaths.junior.age}
               </p>
               <h3 className="ff-display mb-2 text-xl font-bold text-white">
-                {homeTwoPaths.studio.label}
+                {homeTwoPaths.junior.label}
               </h3>
               <p className="text-sm leading-relaxed text-[#b9b5ab]">
-                {homeTwoPaths.studio.desc}
+                {homeTwoPaths.junior.desc}
               </p>
               <p className="mt-4 text-sm font-medium text-[#5ee0d0] group-hover:underline">
-                Дивитись Студію →
+                Дивитись Junior →
               </p>
             </Link>
             <Link

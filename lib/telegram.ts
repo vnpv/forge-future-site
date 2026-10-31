@@ -8,8 +8,8 @@ export const TELEGRAM_START_OPEN_EVENING = "ff_vechir";
 /** 6-тижнева програма (Практикум, 14-19) */
 export const TELEGRAM_START_PROGRAM = "ff_program";
 
-/** Студія, 10-13 */
-export const TELEGRAM_START_STUDIO = "ff_studio";
+/** Junior, 10-13 */
+export const TELEGRAM_START_JUNIOR = "ff_junior";
 
 /** Закрите ком'юніті — пояснення в боті (без прямого інвайту в групу) */
 export const TELEGRAM_START_COMMUNITY = "ff_spilnota";
@@ -31,7 +31,7 @@ export function telegramBotUrl(start: string): string {
 }
 
 export const APPLY_OPEN_EVENING_URL = telegramBotUrl(TELEGRAM_START_OPEN_EVENING);
-export const APPLY_STUDIO_URL = telegramBotUrl(TELEGRAM_START_STUDIO);
+export const APPLY_JUNIOR_URL = telegramBotUrl(TELEGRAM_START_JUNIOR);
 export const TELEGRAM_COMMUNITY_BOT_URL = telegramBotUrl(TELEGRAM_START_COMMUNITY);
 
 /** Мініаплікація квізу для батьків: коротка назва з BotFather (/newapp) → t.me/<бот>/<назва> */

@@ -405,8 +405,8 @@ export default function ProgramPage() {
             <p className="mt-5 text-sm text-[var(--color-muted-2)]">{programFinal.note}</p>
             <p className="mt-8 text-sm text-[var(--color-muted-2)]">
               Дитині 10-13? Для цього віку окремий продукт,{" "}
-              <Link href="/studio" className="font-medium text-[var(--color-foreground)] underline-offset-2 hover:underline">
-                Студія
+              <Link href="/junior" className="font-medium text-[var(--color-foreground)] underline-offset-2 hover:underline">
+                Junior
               </Link>
               .
             </p>

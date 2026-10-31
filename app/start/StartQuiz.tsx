@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { botLink, cleanRef, fearLines, profiles, questions, SHARE_TEXT } from "@/lib/start-quiz";
+import { botLink, cleanRef, fearLines, isJuniorAge, juniorFearLines, juniorProfiles, juniorQuestions, profiles, questions, SHARE_TEXT } from "@/lib/start-quiz";
 import { miniAppUrl } from "@/lib/telegram";
 import Booking from "./Booking";
 import { programFor, programGuarantees, programVisibility, programWeeksV2 } from "@/lib/program-page";
@@ -37,6 +37,22 @@ const doubts: { q: string; a: string }[] = [
   { q: "«Платили за курси, результату не було»", a: "Тут результат видно щотижня: один результат на тиждень і наприкінці показ проєктів. Не лекції, а власна справа." },
   { q: "«Не бачу, що відбувається»", a: "Щотижня ви отримуєте апдейт на одну сторінку: що зроблено і що далі." },
   { q: "«Це не для нашого підлітка»", a: "Саме для цього розбір: за 20 хвилин скажу чесно, чи це підходить, і що спробувати першим, навіть якщо практикум не підійде." },
+];
+
+const juniorDoubts: { q: string; a: string }[] = [
+  { q: "«Він ще замалий для такого»", a: "Junior не про бізнес. Щотижня дитина робить одну річ руками і з штучним інтелектом: аватар, комікс, бот, огляд. Обсяг малий, 15-20 хвилин блоками." },
+  { q: "«Це ще більше часу за екраном»", a: "ШІ тут інструмент, а не розвага: результат є річчю, яку дитина показує людям. Домовленості про час за екраном ми проговорюємо з вами на розборі." },
+  { q: "«Дитина соромʼязлива»", a: "Кожна зустріч закінчується хвилинними показами. Недороблене показувати нормально. Відгук лише у двох формулюваннях: «що спрацювало» і «що б я спробував». Оцінок немає." },
+  { q: "«Були гуртки, інтерес згас»", a: "Формат короткий: тиждень = одна готова річ. Не підійшло, ми чесно скажемо це на розборі, ще до оплати." },
+];
+
+const juniorWeeks: { title: string; item: string }[] = [
+  { title: "Зроби за вечір", item: "аватар для Дискорда або скін для гри і перший показ групі" },
+  { title: "Розріж на шматки", item: "комікс із трьох сцен про персонажа з улюбленої гри" },
+  { title: "Зроби так, щоб працювало", item: "маленький бот чи інструмент, який можна дати другові" },
+  { title: "Твоя ідея", item: "сайт-гайд чи огляд про те, що цікаво саме дитині" },
+  { title: "Щоб почули", item: "огляд гри чи фільму власним голосом або озвучена історія" },
+  { title: "Покажи", item: "власний проєкт і фінальний показ дорослому, якого дитина запросила сама" },
 ];
 
 function Card({ title, children }: { title: string; children: React.ReactNode }) {
@@ -120,11 +136,54 @@ function ProgramView({ onBack }: { onBack: () => void }) {
   );
 }
 
-function Doubts() {
+function JuniorProgramView({ onBack }: { onBack: () => void }) {
+  const muted = "text-sm leading-relaxed text-[var(--color-muted)]";
+  return (
+    <section>
+      <p className="mb-3 text-sm font-semibold text-[var(--color-accent)]">Junior Forge Future</p>
+      <h2 className="ff-display mb-2 text-[clamp(1.5rem,6vw,2.1rem)] font-extrabold leading-tight">Що це за програма</h2>
+      <p className="mb-6 text-base leading-relaxed text-[var(--color-muted)]">
+        Онлайн-програма для дітей 10-13 років: 6 тижнів, 6 власних речей, перші безпечні публічні покази. Веде Іван особисто.
+      </p>
+
+      <h3 className="mb-3 text-sm font-bold uppercase tracking-wide">6 тижнів: що робить дитина</h3>
+      <ol className="mb-6 flex flex-col gap-3">
+        {juniorWeeks.map((w, i) => (
+          <li key={w.title} className="flex gap-3 border border-white/10 bg-[var(--color-surface)] p-4">
+            <span className="ff-display w-6 shrink-0 text-xl font-extrabold text-[var(--color-accent)]">{i + 1}</span>
+            <span>
+              <b className="block text-base">{w.title}</b>
+              <span className={muted}>{w.item}.</span>
+            </span>
+          </li>
+        ))}
+      </ol>
+
+      <Card title="Що тренуємо">
+        <ul className="flex flex-col gap-1">
+          {["Доводити малі справи до кінця", "Ділити велике на шматки й бачити перший", "Показувати недороблене без страху оцінки", "Обирати самому: з трьох варіантів, з двох, а потім тільки своє"].map((t) => (
+            <li key={t} className="text-base">· {t}</li>
+          ))}
+        </ul>
+      </Card>
+
+      <Card title="Вартість і старт">
+        <p className={muted}>Найближчий набір і вартість я назву на розборі, коли ми з вами подивимось, чи це підходить дитині. Розбір 20 хвилин безкоштовний.</p>
+      </Card>
+
+      <button className="ff-cta mb-3 w-full" onClick={onBack}>Обрати час розбору</button>
+      <a className="block text-center text-sm underline text-[var(--color-muted)]" href="https://forge-future.com/junior" target="_blank" rel="noopener noreferrer">
+        Усе на сайті
+      </a>
+    </section>
+  );
+}
+
+function Doubts({ list = doubts }: { list?: { q: string; a: string }[] }) {
   return (
     <div className="mb-5 border-t border-white/10 pt-3">
       <p className="mb-2 text-sm font-bold">Що найчастіше зупиняє батьків</p>
-      {doubts.map((d) => (
+      {list.map((d) => (
         <details key={d.q} className="border-b border-white/10 py-2">
           <summary className="cursor-pointer text-base">{d.q}</summary>
           <p className="mt-2 text-sm leading-relaxed text-[var(--color-muted)]">{d.a}</p>
@@ -184,8 +243,10 @@ export default function StartQuiz() {
     return () => clearInterval(timer);
   }, []);
 
-  const done = step > questions.length;
-  const profile = useMemo(() => (done ? profiles[answers[1]] : null), [done, answers]);
+  const junior = isJuniorAge(answers[0]);
+  const qs = junior ? juniorQuestions : questions;
+  const done = step > qs.length;
+  const profile = useMemo(() => (done ? (junior ? juniorProfiles : profiles)[answers[1]] : null), [done, answers, junior]);
   const shareUrl = useMemo(() => {
     if (tg) return miniAppUrl(ref);
     const base = "https://forge-future.com/start";
@@ -315,12 +376,12 @@ export default function StartQuiz() {
     <main className="mx-auto w-full max-w-xl px-4 py-8 sm:py-12">
       {step === 0 && (
         <section>
-          <p className="mb-3 text-sm font-semibold text-[var(--color-accent)]">Forge Future · для батьків підлітків 14-19</p>
+          <p className="mb-3 text-sm font-semibold text-[var(--color-accent)]">Forge Future · для батьків дітей 10-19</p>
           <h1 className="ff-display mb-4 text-[clamp(1.7rem,7vw,2.4rem)] font-extrabold leading-[1.1] tracking-tight">
-            Підліток нічого не хоче. І всі кажуть: це вік.
+            Дитина нічого не хоче. І всі кажуть: це вік.
           </h1>
           <p className="mb-6 text-base leading-relaxed text-[var(--color-muted)]">
-            4 питання, 1 хвилина. Одразу побачите, що відбувається з вашим підлітком, і отримаєте 3 кроки на цей тиждень. Безкоштовно.
+            4 питання, 1 хвилина. Одразу побачите, що відбувається з вашою дитиною, і отримаєте 3 кроки на цей тиждень. Безкоштовно.
           </p>
           <button className="ff-cta w-full" onClick={() => setStep(1)}>Почати</button>
           {canAddHome && (
@@ -331,19 +392,19 @@ export default function StartQuiz() {
         </section>
       )}
 
-      {step >= 1 && step <= questions.length && (
+      {step >= 1 && step <= qs.length && (
         <section>
           <p className="mb-3 text-sm text-[var(--color-muted-2)]">
-            Питання {step} з {questions.length}
+            Питання {step} з {qs.length}
           </p>
           <div className="mb-6 h-1 w-full bg-[var(--color-surface-2)]">
-            <div className="h-1 bg-[var(--color-accent)]" style={{ width: `${((step - 1) / questions.length) * 100}%` }} />
+            <div className="h-1 bg-[var(--color-accent)]" style={{ width: `${((step - 1) / qs.length) * 100}%` }} />
           </div>
           <h2 className="ff-display mb-5 text-[clamp(1.3rem,5.5vw,1.8rem)] font-extrabold leading-tight">
-            {questions[step - 1].title}
+            {qs[step - 1].title}
           </h2>
           <div className="flex flex-col gap-3">
-            {questions[step - 1].options.map((o, i) => (
+            {qs[step - 1].options.map((o, i) => (
               <button
                 key={o.label}
                 onClick={() => pick(i)}
@@ -388,14 +449,13 @@ export default function StartQuiz() {
         </section>
       )}
 
-      {done && !sent && !booked && program && (
-        <ProgramView
-          onBack={() => {
-            setProgram(false);
-            setTimeout(() => document.getElementById("booking")?.scrollIntoView({ block: "center" }), 100);
-          }}
-        />
-      )}
+      {done && !sent && !booked && program && (() => {
+        const back = () => {
+          setProgram(false);
+          setTimeout(() => document.getElementById("booking")?.scrollIntoView({ block: "center" }), 100);
+        };
+        return junior ? <JuniorProgramView onBack={back} /> : <ProgramView onBack={back} />;
+      })()}
 
       {done && profile && !sent && !booked && !program && (
         <section>
@@ -412,7 +472,7 @@ export default function StartQuiz() {
               </li>
             ))}
           </ol>
-          <p className="mb-2 text-base leading-relaxed">{fearLines[answers[3]]}</p>
+          <p className="mb-2 text-base leading-relaxed">{(junior ? juniorFearLines : fearLines)[answers[3]]}</p>
           <p className="mb-8 text-sm text-[var(--color-muted-2)]">Це спостереження, а не діагноз.</p>
 
           <div className="mb-8 border border-[var(--color-accent)]/40 bg-[var(--color-surface)] p-5">
@@ -420,7 +480,7 @@ export default function StartQuiz() {
             <p className="mb-4 text-base leading-relaxed text-[var(--color-muted)]">
               Я питаю, ви розповідаєте. Наприкінці кажу, що бачу, і пропоную наступний крок. Безкоштовно.
             </p>
-            <Doubts />
+            <Doubts list={junior ? juniorDoubts : doubts} />
             <button className="ff-cta-secondary mb-5 w-full" onClick={() => setProgram(true)}>
               Детальніше про програму →
             </button>
@@ -444,14 +504,28 @@ export default function StartQuiz() {
             )}
           </div>
 
-          <h3 className="ff-display mb-3 text-xl font-extrabold">Практикум Forge Future</h3>
-          <ul className="mb-6 flex flex-col gap-2 text-base leading-relaxed">
-            <li>Для підлітка, який ще не знає, чого хоче: знайти напрямок і довести його до першого результату.</li>
-            <li>6 тижнів, група до 10 підлітків 14-19, старт 1 грудня.</li>
-            <li>Підліток обирає і робить власний бізнес-проєкт. Веду особисто я.</li>
-            <li>Щотижня ви отримуєте апдейт на одну сторінку: що зроблено і що далі.</li>
-            <li>Не підійшло після першого тижня: повертаємо передоплату.</li>
-          </ul>
+          {junior ? (
+            <>
+              <h3 className="ff-display mb-3 text-xl font-extrabold">Junior Forge Future</h3>
+              <ul className="mb-6 flex flex-col gap-2 text-base leading-relaxed">
+                <li>Для дитини 10-13 років, яка ще не знає, що її зачепить: пробувати різне й доводити до кінця.</li>
+                <li>6 тижнів, 6 власних речей, щотижня коротка зустріч і хвилинні покази.</li>
+                <li>Штучний інтелект як інструмент: дитина за вечір робить те, що бачать інші.</li>
+                <li>Веду особисто я. Відгук у двох формулюваннях: «що спрацювало» і «що б я спробував».</li>
+              </ul>
+            </>
+          ) : (
+            <>
+              <h3 className="ff-display mb-3 text-xl font-extrabold">Практикум Forge Future</h3>
+              <ul className="mb-6 flex flex-col gap-2 text-base leading-relaxed">
+                <li>Для підлітка, який ще не знає, чого хоче: знайти напрямок і довести його до першого результату.</li>
+                <li>6 тижнів, група до 10 підлітків 14-19, старт 1 грудня.</li>
+                <li>Підліток обирає і робить власний бізнес-проєкт. Веду особисто я.</li>
+                <li>Щотижня ви отримуєте апдейт на одну сторінку: що зроблено і що далі.</li>
+                <li>Не підійшло після першого тижня: повертаємо передоплату.</li>
+              </ul>
+            </>
+          )}
 
           <div className="mb-8 flex items-center gap-4 border border-white/10 bg-[var(--color-surface)] p-4">
             <Image src="/images/ivan-founder-800.webp" alt="Іван Первой" width={72} height={72} unoptimized className="h-[72px] w-[72px] rounded-full object-cover" />

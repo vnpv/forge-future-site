@@ -49,7 +49,7 @@
   mask-composite: intersect;
 }
 
-/** Дисплейний шрифт для великих заголовків Студії/Практикуму (Unbounded) */
+/** Дисплейний шрифт для великих заголовків Junior/Практикуму (Unbounded) */
 .ff-display {
   font-family: var(--font-unbounded), sans-serif;
 }
@@ -90,7 +90,7 @@ body {
 
 /**
  * Хайлайтер під "В кінці тижня в тебе є" - той самий прийом, що й
- * .week-result у Студії (studio.css), тільки в гарячому кольорі
+ * .week-result у Junior (junior.css), тільки в гарячому кольорі
  * Практикуму замість жовтого.
  */
 [data-theme="practicum"] .ff-week-highlight {
@@ -119,8 +119,8 @@ body {
 }
 
 /**
- * Ефект появи заголовка (той самий рух, що й на /studio: підйом + fade).
- * Один блок замість покрокового reveal-line у Студії, бо тут H1 - це
+ * Ефект появи заголовка (той самий рух, що й на /junior: підйом + fade).
+ * Один блок замість покрокового reveal-line у Junior, бо тут H1 - це
  * один рядок тексту з lib/page-seo.ts, не заздалегідь розбитий на рядки.
  * prefers-reduced-motion уже нейтралізує animation-duration вище.
  */

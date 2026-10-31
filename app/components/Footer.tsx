@@ -9,7 +9,7 @@ import { FOOTER_LINE } from "@/lib/content";
 
 const links = [
   { href: "/program", label: "Практикум" },
-  { href: "/studio", label: "Студія" },
+  { href: "/junior", label: "Junior" },
   { href: "/events", label: "Вечори" },
   { href: "/blog", label: "Блог" },
   { href: "/about", label: "Про нас" },

@@ -15,6 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/program",
     "/about",
     "/faq",
+    "/junior",
   ];
 
   const priorityFor = (path: string) =>

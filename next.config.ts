@@ -4,7 +4,11 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ["better-sqlite3"],
   async redirects() {
     // Сторінку «Для батьків» об'єднано з /program (єдина логіка і факти)
-    return [{ source: "/for-parents", destination: "/program", permanent: true }];
+    return [
+      { source: "/for-parents", destination: "/program", permanent: true },
+      // Студію перейменовано на Junior
+      { source: "/studio", destination: "/junior", permanent: true },
+    ];
   },
   async headers() {
     // Дашборд MIDGARD (app/midgard/route.ts) — не індексувати

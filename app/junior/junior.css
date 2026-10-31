@@ -1,5 +1,5 @@
 /*
- * Стилі Студії (/studio, 10-13). Структура окрема, палітра спільна з рештою
+ * Стилі Junior (/junior, 10-13). Структура окрема, палітра спільна з рештою
  * сайту (темний фон, кремовий текст, бірюзовий акцент). Усе, що раніше жило у site-chrome-header/
  * footer, тепер прибрано - хедер і футер це той самий Nav/Footer, що й
  * на решті сайту (єдина причина, чому вони раніше "стрибали" між сторінками).
@@ -7,7 +7,7 @@
  * а не тягнуть Google Fonts вдруге.
  */
 
-.studio-page {
+.junior-page {
   /* Єдина палітра сайту (23.10.2026): темний фон, кремовий текст, бірюзовий акцент.
      Імена змінних збережено, значення інвертовано: --white = фон, --black = текст. */
   --white: #111214;
@@ -34,11 +34,11 @@
   line-height: 1.6;
 }
 
-.studio-page a { color: inherit; }
+.junior-page a { color: inherit; }
 
-.studio-page img { max-width: 100%; display: block; }
+.junior-page img { max-width: 100%; display: block; }
 
-.studio-page button { font-family: inherit; }
+.junior-page button { font-family: inherit; }
 
 /* Той самий max-width + padding, що й у Container.tsx (max-w-6xl px-4 sm:px-6) */
 .wrap {
@@ -100,7 +100,7 @@
   color: var(--dark-text);
 }
 
-.studio-page p { max-width: var(--measure); }
+.junior-page p { max-width: var(--measure); }
 
 /* ===== Кнопки ===== */
 
