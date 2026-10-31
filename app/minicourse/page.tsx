@@ -251,6 +251,14 @@ export default function MinicoursePage() {
             <div>
               <p className="ff-display mb-2 text-xl font-bold">{minicourseAuthor.name}, автор</p>
               <p className="mb-3 max-w-2xl text-base leading-relaxed text-[var(--color-muted)]">{minicourseAuthor.text}</p>
+              <dl className="mb-4 grid max-w-xl grid-cols-3 gap-4 border-y border-white/12 py-4">
+                {minicourseAuthor.facts.map((f) => (
+                  <div key={f.k}>
+                    <dt className="ff-display text-lg font-extrabold text-[var(--color-accent)]">{f.k}</dt>
+                    <dd className="mt-1 text-sm text-[var(--color-muted)]">{f.v}</dd>
+                  </div>
+                ))}
+              </dl>
               <p className="max-w-2xl text-sm leading-relaxed text-[var(--color-muted-2)]">{minicourseAuthor.disclaimer}</p>
             </div>
           </div>
