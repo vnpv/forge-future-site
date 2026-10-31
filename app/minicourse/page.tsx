@@ -120,12 +120,12 @@ const days: DayCard[] = [
 
 export default function MinicoursePage() {
   const { cta, ctaWaitlist } = minicourseHero;
-  const freeLabel = "Пройти безкоштовно за 2 хвилини";
+  const freeLabel = "Спершу безкоштовно: 5 запитань за 2 хвилини";
   return (
     <div data-theme="practicum" className="bg-[var(--color-background)] pb-20 text-[var(--color-foreground)] sm:pb-0">
       <MetaPixel />
       <LpMode />
-      <StickyCta label={freeLabel} waitlistLabel={freeLabel} free />
+      <StickyCta label={cta} waitlistLabel={ctaWaitlist} />
 
       {/* 1. ШАПКА: обіцянка, обличчя, безкоштовний вхід */}
       <Section spacing="hero">
@@ -139,13 +139,12 @@ export default function MinicoursePage() {
                 {minicourseHero.h1}
               </h1>
               <p className="mb-8 max-w-xl text-lg leading-relaxed text-[var(--color-muted)]">
-                Перестаньте питати «ким ти станеш?». Спершу 5 простих запитань про дитину: за 2 хвилини отримаєте перший
-                начерк її карти інтересів.
-              </p>
+                Перестаньте питати «ким ти станеш?». За 5 днів по 15 хвилин ви складете карту інтересів дитини, перевірите один напрямок і поговорите про майбутнє без сварки.</p>
               <div className="ff-cta-stack gap-3">
-                <MiniCta label={freeLabel} waitlistLabel={freeLabel} free solid />
+                <MiniCta label={cta} waitlistLabel={ctaWaitlist} />
+                <MiniCta label={freeLabel} waitlistLabel={freeLabel} free />
                 <p className="max-w-md text-sm text-[var(--color-muted-2)]">
-                  Безкоштовно. Далі, якщо захочете, повний курс за {minicourseHero.facts[3].v}.
+                  Доступ 60 днів. Не побачите користі за 7 днів, повернемо гроші.
                 </p>
               </div>
             </div>
@@ -231,8 +230,8 @@ export default function MinicoursePage() {
             <li>✓ Спершу безкоштовна частина: перевірте, чи це ваше</li>
           </ul>
           <div className="ff-cta-stack mt-8 gap-3">
-            <MiniCta label={freeLabel} waitlistLabel={freeLabel} free solid />
             <MiniCta label={cta} waitlistLabel={ctaWaitlist} />
+            <MiniCta label={freeLabel} waitlistLabel={freeLabel} free />
           </div>
         </Container>
       </Section>
@@ -285,7 +284,8 @@ export default function MinicoursePage() {
             {minicourseFinal.h2}
           </h2>
           <div className="ff-cta-stack gap-3">
-            <MiniCta label={freeLabel} waitlistLabel={freeLabel} free solid />
+            <MiniCta label={cta} waitlistLabel={ctaWaitlist} />
+            <MiniCta label={freeLabel} waitlistLabel={freeLabel} free />
           </div>
           <p className="mt-8 max-w-2xl text-xs leading-relaxed text-[var(--color-muted-2)]">{minicourseDisclaimer}</p>
         </Container>
