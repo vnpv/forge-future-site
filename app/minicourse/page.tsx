@@ -126,7 +126,7 @@ export default function MinicoursePage() {
     <div data-theme="practicum" className="bg-[var(--color-background)] pb-20 text-[var(--color-foreground)] sm:pb-0">
       <MetaPixel />
       <LpMode />
-      <StickyCta label={cta} waitlistLabel={ctaWaitlist} freeLabel={freeLabel} />
+      <StickyCta label={cta} waitlistLabel={ctaWaitlist} />
 
       {/* 1. ШАПКА: обіцянка, обличчя, безкоштовний вхід */}
       <Section spacing="hero">
@@ -231,7 +231,7 @@ export default function MinicoursePage() {
           </ul>
           <div className="ff-cta-stack mt-8 gap-3">
             <MiniCta label={cta} waitlistLabel={ctaWaitlist} />
-            <MiniCta label={freeLabel} waitlistLabel={freeLabel} free />
+            <MiniCta label={freeLabel} waitlistLabel={freeLabel} free className="!border-white/15 !text-[var(--color-muted)]" />
           </div>
         </Container>
       </Section>
@@ -293,7 +293,7 @@ export default function MinicoursePage() {
           </h2>
           <div className="ff-cta-stack gap-3">
             <MiniCta label={cta} waitlistLabel={ctaWaitlist} />
-            <MiniCta label={freeLabel} waitlistLabel={freeLabel} free />
+            <MiniCta label={freeLabel} waitlistLabel={freeLabel} free className="!border-white/15 !text-[var(--color-muted)]" />
           </div>
           <p className="mt-8 max-w-2xl text-xs leading-relaxed text-[var(--color-muted-2)]">{minicourseDisclaimer}</p>
         </Container>
