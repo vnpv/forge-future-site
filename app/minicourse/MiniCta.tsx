@@ -1,6 +1,11 @@
 "use client";
 
-import { META_PIXEL_ID, MINICOURSE_PAY_URL, minicoursePayReady, minicourseBotUrl } from "@/lib/minicourse";
+import {
+  META_PIXEL_ID,
+  MINICOURSE_PAY_URL,
+  minicoursePayReady,
+  minicourseBotUrl,
+} from "@/lib/minicourse";
 
 declare global {
   interface Window {
@@ -18,22 +23,29 @@ function channelFromUrl(): string | undefined {
 export default function MiniCta({
   label,
   waitlistLabel,
+  free = false,
   className = "",
 }: {
   label: string;
   waitlistLabel: string;
+  /** Вторинна кнопка: одразу безкоштовний пробний день у боті. */
+  free?: boolean;
   className?: string;
 }) {
-  const href = minicoursePayReady ? MINICOURSE_PAY_URL : minicourseBotUrl(channelFromUrl());
-  const text = minicoursePayReady ? label : waitlistLabel;
+  const href = free
+    ? minicourseBotUrl(channelFromUrl(), true)
+    : minicoursePayReady
+      ? MINICOURSE_PAY_URL
+      : minicourseBotUrl(channelFromUrl());
+  const text = free ? label : minicoursePayReady ? label : waitlistLabel;
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`ff-cta ${className}`}
+      className={`${free ? "ff-cta-secondary" : "ff-cta"} ${className}`}
       onClick={() => {
-        if (META_PIXEL_ID) window.fbq?.("track", "InitiateCheckout");
+        if (META_PIXEL_ID) window.fbq?.("track", free ? "ViewContent" : "InitiateCheckout");
       }}
     >
       {text}
