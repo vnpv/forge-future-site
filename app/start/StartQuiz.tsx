@@ -492,7 +492,10 @@ export default function StartQuiz() {
                 ref_={ref}
                 code={profile.id + answers.join("")}
                 initData={tg?.initData ?? ""}
-                onBooked={(label, meet, bid) => setBooked({ label, meet, bid })}
+                onBooked={(label, meet, bid) => {
+                  (window as unknown as { fbq?: (...a: unknown[]) => void }).fbq?.("track", "Lead");
+                  setBooked({ label, meet, bid });
+                }}
               />
             ) : days === null ? (
               <p className="text-sm text-[var(--color-muted)]">Завантажую вільний час…</p>
