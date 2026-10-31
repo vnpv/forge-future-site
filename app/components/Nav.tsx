@@ -37,7 +37,7 @@ export default function Nav() {
           ))}
         </nav>
 
-        <TelegramCta variant="primary" flow="program" className="px-4 py-2.5 text-xs" location="nav">
+        <TelegramCta variant="primary" flow="program" className="ff-cta--sm" location="nav">
           Розбір 20 хв
         </TelegramCta>
       </div>

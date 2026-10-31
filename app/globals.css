@@ -297,3 +297,4 @@ body.lp > header {
 }
 body.tg-app .ff-tabs-ui,
 body.lp .ff-tabs-ui { display: none; }
+.ff-cta.ff-cta--sm { padding: 0.6rem 1rem; font-size: 0.75rem; }
