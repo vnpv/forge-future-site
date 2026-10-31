@@ -120,7 +120,7 @@ const days: DayCard[] = [
 
 export default function MinicoursePage() {
   const { cta, ctaWaitlist } = minicourseHero;
-  const freeLabel = "Спершу безкоштовно: 5 запитань за 2 хвилини";
+  const freeLabel = "5 запитань за 2 хвилини";
   return (
     <div data-theme="practicum" className="bg-[var(--color-background)] pb-20 text-[var(--color-foreground)] sm:pb-0">
       <MetaPixel />
