@@ -9,6 +9,7 @@ import TelegramCta from "./TelegramCta";
 const primaryLinks = [
   { href: "/program", label: "Практикум" },
   { href: "/junior", label: "Junior" },
+  { href: "/minicourse?c=sitenav", label: "Міні-курс", accent: true },
 ];
 
 /** На мобільному - тільки в бургері; на десктопі йдуть слідом за primaryLinks */
@@ -19,7 +20,7 @@ const secondaryLinks = [
   { href: "/faq", label: "FAQ" },
 ];
 
-const links = [...primaryLinks, ...secondaryLinks];
+const links: { href: string; label: string; accent?: boolean }[] = [...primaryLinks, ...secondaryLinks];
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
@@ -34,7 +35,11 @@ export default function Nav() {
             <Link
               key={l.href}
               href={l.href}
-              className="text-sm text-[#b9b5ab] transition-colors hover:text-[#f1ede4]"
+              className={
+                "accent" in l
+                  ? "border border-[var(--color-accent)]/60 px-2.5 py-1 text-sm font-semibold text-[var(--color-accent)] transition-colors hover:bg-[var(--color-accent)]/10"
+                  : "text-sm text-[#b9b5ab] transition-colors hover:text-[#f1ede4]"
+              }
             >
               {l.label}
             </Link>
@@ -59,7 +64,11 @@ export default function Nav() {
             <Link
               key={l.href}
               href={l.href}
-              className="text-sm text-[#b9b5ab] transition-colors hover:text-[#f1ede4]"
+              className={
+                "accent" in l
+                  ? "border border-[var(--color-accent)]/60 px-2.5 py-1 text-sm font-semibold text-[var(--color-accent)] transition-colors hover:bg-[var(--color-accent)]/10"
+                  : "text-sm text-[#b9b5ab] transition-colors hover:text-[#f1ede4]"
+              }
             >
               {l.label}
             </Link>

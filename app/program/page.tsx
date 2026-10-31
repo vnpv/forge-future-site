@@ -107,6 +107,12 @@ export default function ProgramPage() {
         </Container>
       </Section>
 
+      <Section spacing="block" className="border-t border-white/10">
+        <Container>
+          <MiniCourseStrip channel="siteprog" />
+        </Container>
+      </Section>
+
       {/* 3. ІНШИЙ ПІДХІД */}
       <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
         <Container>
@@ -361,7 +367,7 @@ export default function ProgramPage() {
 
       <Section spacing="block" className="border-t border-white/10">
         <Container>
-          <MiniCourseStrip channel="siteprog" title="Ще вагаєтесь? Спробуйте легший крок" />
+          <MiniCourseStrip channel="siteprog2" title="Ще вагаєтесь? Спробуйте легший крок" />
         </Container>
       </Section>
 
