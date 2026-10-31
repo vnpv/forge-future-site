@@ -55,10 +55,18 @@ function Bullets({ items }: { items: string[] }) {
   );
 }
 
-const previews = [
-  { img: "/minicourse/day3.png", title: "Скрипт розмови", text: "Що казати першим і чого не казати" },
-  { img: "/minicourse/day4.png", title: "Експеримент на 48 годин", text: "Перевірити інтерес малою справою" },
-  { img: "/minicourse/day5.png", title: "Карта інтересів", text: "Одна сторінка: що цікавить і що перевірити далі" },
+const sampleSigns = [
+  "Повертається до цього сама, без нагадувань",
+  "Розповідає з подробицями, а не «ну, норм»",
+  "Продовжує, коли виходить погано",
+  "Шукає, як зробити краще, без вашого прохання",
+  "Готова показати результат іншим",
+];
+
+const sampleSwaps = [
+  { from: "«Це несерйозно»", to: "«Що в цьому для тебе серйозне?»" },
+  { from: "«Іди туди, де будуть гроші»", to: "«Як це може приносити гроші? Давай порахуємо разом»" },
+  { from: "«Спочатку вуз, потім побачиш»", to: "«Що ти можеш спробувати вже зараз?»" },
 ];
 
 export default function MinicoursePage() {
@@ -110,26 +118,63 @@ export default function MinicoursePage() {
         </Container>
       </Section>
 
-      {/* 3. ЩО ВИ ОТРИМАЄТЕ: видимі матеріали */}
+      {/* 3. ЩО ВИ ОТРИМАЄТЕ: справжній зміст, а не порожні бланки */}
       <Section spacing="block" className="border-t border-white/10">
         <Container>
-          <H2>Ось що ви отримаєте на руки</H2>
-          <div className="grid gap-6 sm:grid-cols-3">
-            {previews.map((p) => (
-              <figure key={p.title} className="flex flex-col gap-3">
-                <div className="overflow-hidden border border-white/15 bg-white">
-                  <Image src={p.img} alt={p.title} width={595} height={842} className="h-auto w-full" unoptimized />
-                </div>
-                <figcaption>
-                  <b className="block text-base">{p.title}</b>
-                  <span className="text-sm text-[var(--color-muted)]">{p.text}</span>
-                </figcaption>
-              </figure>
-            ))}
+          <H2>Що всередині: ось справжні шматки курсу</H2>
+          <div className="grid gap-5 md:grid-cols-3">
+            <div className="flex flex-col border border-white/15 bg-[var(--color-surface)] p-6">
+              <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-[var(--color-accent)]">День 3 · скрипт розмови</p>
+              <h3 className="ff-display mb-4 text-xl font-bold">Замість → скажіть</h3>
+              <ul className="flex flex-col gap-4">
+                {sampleSwaps.map((x) => (
+                  <li key={x.from} className="text-base leading-snug">
+                    <span className="text-[var(--color-muted-2)] line-through">{x.from}</span>
+                    <br />
+                    <span className="font-semibold">→ {x.to}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="flex flex-col border border-white/15 bg-[var(--color-surface)] p-6">
+              <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-[var(--color-accent)]">День 2 · перевірка</p>
+              <h3 className="ff-display mb-4 text-xl font-bold">5 ознак справжнього інтересу</h3>
+              <ol className="flex flex-col gap-3">
+                {sampleSigns.map((x, i) => (
+                  <li key={x} className="flex gap-3 text-base leading-snug">
+                    <span className="ff-display font-extrabold text-[var(--color-accent)]">{i + 1}</span>
+                    <span>{x}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+            <div className="flex flex-col border border-white/15 bg-[var(--color-surface)] p-6">
+              <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-[var(--color-accent)]">День 5 · підсумок</p>
+              <h3 className="ff-display mb-4 text-xl font-bold">Карта інтересів (приклад)</h3>
+              <table className="w-full text-left text-sm">
+                <thead className="text-[var(--color-muted-2)]">
+                  <tr>
+                    <th className="pb-2 pr-2 font-medium">Напрямок</th>
+                    <th className="pb-2 pr-2 font-medium">Ознак із 5</th>
+                    <th className="pb-2 font-medium">Що перевірити</th>
+                  </tr>
+                </thead>
+                <tbody className="align-top">
+                  <tr className="border-t border-white/15">
+                    <td className="py-2 pr-2 font-semibold">Відеомонтаж</td>
+                    <td className="py-2 pr-2">4</td>
+                    <td className="py-2">Змонтувати ролік на 30 с за вихідні</td>
+                  </tr>
+                  <tr className="border-t border-white/15">
+                    <td className="py-2 pr-2 font-semibold">Ігровий дизайн</td>
+                    <td className="py-2 pr-2">2</td>
+                    <td className="py-2">Поговорити з тим, хто це робить</td>
+                  </tr>
+                </tbody>
+              </table>
+              <p className="mt-4 text-sm text-[var(--color-muted)]">Один напрямок, який ви перевіряєте далі, і конкретна дія.</p>
+            </div>
           </div>
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-[var(--color-muted)]">
-            Друкуєте чи заповнюєте на екрані. Кожен документ приходить в той день курсу, коли він потрібен.
-          </p>
         </Container>
       </Section>
 
