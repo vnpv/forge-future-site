@@ -285,3 +285,8 @@ body.tg-app > header,
 body.tg-app > footer {
   display: none;
 }
+
+/* Рекламний лендинг міні-курсу: без верхньої навігації, футер лишається (юридичні посилання) */
+body.lp > header {
+  display: none;
+}
