@@ -14,7 +14,7 @@ export const MINICOURSE_REFUND_DAYS = 7;
 export const MINICOURSE_PAY_URL = process.env.NEXT_PUBLIC_MINICOURSE_PAY_URL ?? "";
 
 /** Meta Pixel. Поки порожній, піксель не вантажиться. */
-export const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "";
+export const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "1725707928967826";
 
 /** Оплата через бота (monobank): кнопка веде в бот, але текст уже «Почати курс», не «список очікування». */
 export const MINICOURSE_PAY_VIA_BOT = process.env.NEXT_PUBLIC_MINICOURSE_PAY_VIA_BOT === "1";
