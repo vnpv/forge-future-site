@@ -1,3 +1,4 @@
+import HeroPhoto from "../components/HeroPhoto";
 import MiniCourseStrip from "../components/MiniCourseStrip";
 import Image from "next/image";
 import type { Metadata } from "next";
@@ -26,6 +27,7 @@ export default function JuniorPage() {
       {/* ============ ШАР 1 — ГОЛОС ДИТИНИ (білий, щільний) ============ */}
 
       <header className="hero">
+        <HeroPhoto src="/images/ivan-junior-900.webp" desktopPos="object-[center_25%]" mobilePos="object-[85%_0%]" />
         <div className="wrap">
           <p className="kicker">FORGE FUTURE · JUNIOR · 10–13 РОКІВ</p>
 
@@ -73,7 +75,7 @@ export default function JuniorPage() {
           >
             Записатися на знайомство
           </a>
-          <p className="hero-meta">8 місць у групі · старт 9 жовтня 2026</p>
+          <p className="hero-meta">Старт 15 грудня 2026</p>
         </div>
       </header>
 

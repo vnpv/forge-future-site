@@ -1,3 +1,4 @@
+import HeroPhoto from "../components/HeroPhoto";
 import Link from "next/link";
 import type { Metadata } from "next";
 import Section from "../components/Section";
@@ -19,7 +20,8 @@ export const metadata: Metadata = {
 export default function BlogPage() {
   return (
     <>
-      <Section spacing="hero">
+      <Section spacing="hero" className="relative isolate overflow-hidden">
+        <HeroPhoto src="/images/ivan-blog-900.webp" desktopPos="object-[center_10%]" />
         <PageHeader
           label={schoolOfFutureDiamonds.name}
           title={pageSeo.blog.h1}

@@ -1,3 +1,4 @@
+import HeroPhoto from "../components/HeroPhoto";
 import Link from "next/link";
 import type { Metadata } from "next";
 import Section from "../components/Section";
@@ -59,7 +60,8 @@ export default function EventsPage() {
   return (
     <>
       <JsonLd data={eventSchema} />
-      <Section spacing="hero">
+      <Section spacing="hero" className="relative isolate overflow-hidden">
+        <HeroPhoto src="/images/ivan-events-900.webp" desktopPos="object-[center_10%]" />
         <PageHeader
           label={schoolOfFutureDiamonds.name}
           title={pageSeo.events.h1}

@@ -147,7 +147,14 @@
 /* ===== ШАР 1: HERO ===== */
 
 .hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   padding: 56px 0 40px;
+}
+/* на десктопі текст ліворуч, фото справа: контент не заходить на фото */
+@media (min-width: 640px) {
+  .hero .wrap > * { max-width: min(100%, 34rem); }
 }
 
 .tiles {

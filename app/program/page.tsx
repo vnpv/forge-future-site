@@ -70,8 +70,8 @@ export default function ProgramPage() {
       <JsonLd data={reelVideoSchema} />
 
       {/* 1. HERO */}
-      <Section spacing="hero" className="relative overflow-hidden">
-        <HeroPhoto />
+      <Section spacing="hero" className="relative isolate overflow-hidden">
+        <HeroPhoto src="/images/ivan-program-900.webp" desktopPos="object-[center_10%]" />
         <Container className="relative">
           <p className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">
             {programHero.eyebrow}

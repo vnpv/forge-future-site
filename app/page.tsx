@@ -53,7 +53,7 @@ export default function Home() {
     <>
       <Section
         spacing="none"
-        className="relative overflow-hidden pt-10 pb-2 sm:pt-14 sm:pb-4 ff-hero-glow"
+        className="relative isolate overflow-hidden pt-10 pb-2 sm:pt-14 sm:pb-4 ff-hero-glow"
       >
         <HeroPhoto />
         <Container className="relative">

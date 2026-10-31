@@ -1,3 +1,4 @@
+import HeroPhoto from "../components/HeroPhoto";
 import Link from "next/link";
 import type { Metadata } from "next";
 import Section from "../components/Section";
@@ -33,7 +34,8 @@ export default function FaqPage() {
   return (
     <>
       <JsonLd data={faqSchema} />
-      <Section spacing="hero">
+      <Section spacing="hero" className="relative isolate overflow-hidden">
+        <HeroPhoto src="/images/ivan-faq-900.webp" desktopPos="object-[center_12%]" />
         <PageHeader
           label={schoolOfFutureDiamonds.name}
           title={pageSeo.faq.h1}
