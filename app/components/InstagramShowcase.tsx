@@ -1,5 +1,6 @@
 "use client";
 
+import TelegramCta from "./TelegramCta";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   INSTAGRAM_PROFILE_URL,
@@ -278,7 +279,7 @@ function PostCarousel() {
   );
 }
 
-export default function InstagramShowcase({ ctaHref, ctaLabel }: { ctaHref: string; ctaLabel: string }) {
+export default function InstagramShowcase({ ctaLabel }: { ctaHref?: string; ctaLabel: string }) {
   const post = instagramPosts;
   return (
     <div>
@@ -324,14 +325,9 @@ export default function InstagramShowcase({ ctaHref, ctaLabel }: { ctaHref: stri
           Впізнали свою ситуацію? Розбір на 20 хвилин безкоштовний: ви розповідаєте про дитину, я кажу, що бачу.
         </p>
         <div className="ff-cta-stack ff-cta-stack--center">
-          <a
-            href={ctaHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ff-cta"
-          >
+          <TelegramCta flow="program" location="instagram_showcase">
             {ctaLabel}
-          </a>
+          </TelegramCta>
           <a
             href={INSTAGRAM_PROFILE_URL}
             target="_blank"

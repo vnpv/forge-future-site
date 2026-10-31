@@ -3,7 +3,7 @@ import MiniCourseStrip from "../components/MiniCourseStrip";
 import Image from "next/image";
 import type { Metadata } from "next";
 import "./junior.css";
-import { APPLY_JUNIOR_URL } from "@/lib/telegram";
+import TelegramCta from "../components/TelegramCta";
 import { pageAlternates } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -68,9 +68,9 @@ export default function JuniorPage() {
           <p className="apply-sub">Старт 15 грудня · 6 тижнів · $750</p>
 
           <div className="ff-cta-stack">
-            <a href={APPLY_JUNIOR_URL} target="_blank" rel="noopener noreferrer" className="ff-cta">
-              Записатися на знайомство
-            </a>
+            <TelegramCta flow="program" location="junior_hero">
+              Записатися на розбір 20 хвилин
+            </TelegramCta>
           </div>
           <p className="hero-meta">Старт 15 грудня 2026</p>
         </div>
@@ -413,7 +413,7 @@ export default function JuniorPage() {
 
       <section className="apply" id="apply">
         <div className="wrap wrap-narrow">
-          <h2 className="section-title">Записатися на знайомство</h2>
+          <h2 className="section-title">Записатися на розбір</h2>
           <p className="apply-sub">Старт 15 грудня · 6 тижнів · $750.</p>
           <p className="apply-sub">
             Заповниш коротку заявку в Telegram — ім&apos;я і вік дитини. Далі
@@ -421,9 +421,9 @@ export default function JuniorPage() {
           </p>
 
           <div className="ff-cta-stack">
-            <a href={APPLY_JUNIOR_URL} target="_blank" rel="noopener noreferrer" className="ff-cta">
-              Записатися в Telegram
-            </a>
+            <TelegramCta flow="program" location="junior_apply">
+              Записатися на розбір 20 хвилин
+            </TelegramCta>
           </div>
 
           <p className="contact-line">

@@ -1,3 +1,4 @@
+import TelegramCta from "../components/TelegramCta";
 import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -40,14 +41,9 @@ export const metadata: Metadata = {
 
 function Cta({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <a
-      href={APPLY_PROGRAM_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`ff-cta ${className}`}
-    >
+    <TelegramCta flow="program" location="program" className={className}>
       {children}
-    </a>
+    </TelegramCta>
   );
 }
 

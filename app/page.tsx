@@ -92,7 +92,7 @@ export default function Home() {
           </div>
           <div className="ff-cta-stack mt-8">
             <TelegramCta flow="program" location="home_steps">
-              Записатися на розбір
+              Записатися на розбір 20 хвилин
             </TelegramCta>
             <Link href="/program" className="ff-cta-link">
               Уся програма →
