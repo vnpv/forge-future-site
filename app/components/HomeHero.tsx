@@ -1,7 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import TelegramCta from "./TelegramCta";
-import { founder, PROGRAM_START_DATE } from "@/lib/content";
+import { PROGRAM_START_DATE } from "@/lib/content";
 import { pageSeo } from "@/lib/page-seo";
 
 const facts = [
@@ -16,18 +15,6 @@ export default function HomeHero() {
 
   return (
     <div className="relative">
-      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[46%] lg:block" aria-hidden>
-        <div className="ff-hero-photo absolute inset-0">
-          <Image
-            src={founder.photoUrl}
-            alt=""
-            fill
-            priority
-            className="object-cover object-[center_12%]"
-            sizes="46vw"
-          />
-        </div>
-      </div>
       <div className="ff-hero relative max-w-3xl">
         <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)] sm:mb-5">
           Forge Future · Практикум 14-19 · Junior 10-13

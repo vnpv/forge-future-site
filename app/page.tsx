@@ -1,3 +1,4 @@
+import HeroPhoto from "./components/HeroPhoto";
 import MiniCourseStrip from "./components/MiniCourseStrip";
 import Link from "next/link";
 import type { Metadata } from "next";
@@ -54,6 +55,7 @@ export default function Home() {
         spacing="none"
         className="relative overflow-hidden pt-10 pb-2 sm:pt-14 sm:pb-4 ff-hero-glow"
       >
+        <HeroPhoto />
         <Container className="relative">
           <HomeHero />
         </Container>

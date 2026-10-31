@@ -303,3 +303,17 @@ body.tg-app .ff-tabs-ui { display: none; }
   body.ff-tabs.ff-tabs-hidden .ff-sticky { bottom: 0; }
 }
 .ff-cta.ff-cta--sm { padding: 0.6rem 1rem; font-size: 0.75rem; }
+
+/* Фото в hero на телефоні: легкий фон за текстом, тане донизу й вліво */
+.ff-hero-photo-m {
+  opacity: 0.3;
+  filter: grayscale(1) brightness(0.8) contrast(1.05);
+  -webkit-mask-image:
+    linear-gradient(to bottom, #000 0%, #000 35%, rgba(0, 0, 0, 0) 85%),
+    linear-gradient(to right, rgba(0, 0, 0, 0.35) 0%, #000 60%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to bottom, #000 0%, #000 35%, rgba(0, 0, 0, 0) 85%),
+    linear-gradient(to right, rgba(0, 0, 0, 0.35) 0%, #000 60%);
+  mask-composite: intersect;
+}

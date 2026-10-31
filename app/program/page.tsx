@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import Section from "../components/Section";
+import HeroPhoto from "../components/HeroPhoto";
 import MiniCourseStrip from "../components/MiniCourseStrip";
 import Container from "../components/Container";
 import JsonLd from "@/components/JsonLd";
@@ -70,18 +71,7 @@ export default function ProgramPage() {
 
       {/* 1. HERO */}
       <Section spacing="hero" className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 hidden sm:block" aria-hidden>
-          <div className="ff-hero-photo absolute right-0 top-0 h-full w-[46%]">
-            <Image
-              src={founder.photoUrl}
-              alt=""
-              fill
-              priority
-              className="object-cover object-[center_12%]"
-              sizes="46vw"
-            />
-          </div>
-        </div>
+        <HeroPhoto />
         <Container className="relative">
           <p className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">
             {programHero.eyebrow}
