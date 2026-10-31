@@ -6,9 +6,9 @@ import TelegramCta from "./TelegramCta";
 
 /** Десктоп: посилання в шапці. На телефоні навігація живе в нижніх вкладках (MobileTabs), шапка лишається для іншого. */
 const links: { href: string; label: string }[] = [
-  { href: "/program", label: "Практикум" },
-  { href: "/junior", label: "Junior" },
   { href: "/minicourse?c=sitenav", label: "Міні-курс" },
+  { href: "/junior", label: "Junior" },
+  { href: "/program", label: "Практикум" },
   { href: "/events", label: "Вечори" },
   { href: "/blog", label: "Блог" },
   { href: "/about", label: "Про нас" },

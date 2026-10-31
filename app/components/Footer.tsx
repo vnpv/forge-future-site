@@ -8,9 +8,9 @@ import { BRAND } from "@/lib/brand";
 import { FOOTER_LINE } from "@/lib/content";
 
 const links = [
-  { href: "/program", label: "Практикум" },
-  { href: "/junior", label: "Junior" },
   { href: "/minicourse?c=sitefoot", label: "Міні-курс" },
+  { href: "/junior", label: "Junior" },
+  { href: "/program", label: "Практикум" },
   { href: "/events", label: "Вечори" },
   { href: "/blog", label: "Блог" },
   { href: "/about", label: "Про нас" },

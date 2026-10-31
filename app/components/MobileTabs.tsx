@@ -71,11 +71,25 @@ export default function MobileTabs() {
 
   if (!enabled) return null;
 
-  const on = (href: string) => (href === "/" ? path === "/" : path.startsWith(href));
+  const on = (href: string) => {
+    const h = href.split("?")[0];
+    return h === "/" ? path === "/" : path.startsWith(h);
+  };
   const tab = (href: string, label: string, d: React.ReactNode) => (
     <Link
       href={href}
       className={`flex flex-1 flex-col items-center gap-1 border-t-2 py-2 text-[11px] font-medium ${on(href) ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)]" : "border-transparent text-[#b9b5ab]"}`}
+    >
+      <Svg d={d} />
+      {label}
+    </Link>
+  );
+
+  /** Два основні продукти: приподняті, з обводкою; активний залитий */
+  const big = (href: string, label: string, d: React.ReactNode) => (
+    <Link
+      href={href}
+      className={`-mt-3 mb-1 mx-0.5 flex flex-[1.15] flex-col items-center gap-1 border py-2 text-[11px] font-semibold ${on(href) ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "border-white/20 bg-[#111214] text-[#f1ede4]"}`}
     >
       <Svg d={d} />
       {label}
@@ -115,15 +129,9 @@ export default function MobileTabs() {
       >
         <div className="mx-auto flex max-w-md items-end px-2">
           {tab("/", "Головна", icon.home)}
-          {tab("/program", "Практикум", icon.program)}
-          <Link
-            href="/minicourse?c=sitetabs"
-            className={`-mt-3 mb-1 flex flex-1 flex-col items-center gap-1 border py-2 text-[11px] font-semibold text-[var(--color-accent)] ${path.startsWith("/minicourse") ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15" : "border-[var(--color-accent)]/60 bg-[#111214]"}`}
-          >
-            <Svg d={icon.mini} />
-            Міні-курс
-          </Link>
-          {tab("/junior", "Junior", icon.junior)}
+          {tab("/minicourse?c=sitetabs", "Міні-курс", icon.mini)}
+          {big("/junior", "Junior", icon.junior)}
+          {big("/program", "Практикум", icon.program)}
           <button
             type="button"
             onClick={() => setMenu((m) => !m)}
