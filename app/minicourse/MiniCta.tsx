@@ -58,6 +58,7 @@ export default function MiniCta({
   waitlistLabel,
   free = false,
   solid = false,
+  secondary = false,
   className = "",
 }: {
   label: string;
@@ -66,6 +67,8 @@ export default function MiniCta({
   free?: boolean;
   /** Безкоштовну кнопку показати як головну. */
   solid?: boolean;
+  /** Платну кнопку показати другорядною (для трафіку з реклами, де обіцяно безкоштовний крок). */
+  secondary?: boolean;
   className?: string;
 }) {
   const [key, setKey] = useState("");
@@ -96,7 +99,7 @@ export default function MiniCta({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`${free && !solid ? "ff-cta-secondary" : "ff-cta"} ${className}`}
+      className={`${(free && !solid) || secondary ? "ff-cta-secondary" : "ff-cta"} ${className}`}
       onClick={() => {
         if (key) sendClick(key);
         if (META_PIXEL_ID) window.fbq?.("track", free ? "Lead" : "InitiateCheckout");

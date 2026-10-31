@@ -3,6 +3,7 @@ import Section from "../components/Section";
 import Container from "../components/Container";
 import Image from "next/image";
 import MiniCta from "./MiniCta";
+import HeroCtas from "./HeroCtas";
 import Scenarios from "./Scenarios";
 import AuthorVideo from "./AuthorVideo";
 import StickyCta from "./StickyCta";
@@ -125,7 +126,7 @@ export default function MinicoursePage() {
     <div data-theme="practicum" className="bg-[var(--color-background)] pb-20 text-[var(--color-foreground)] sm:pb-0">
       <MetaPixel />
       <LpMode />
-      <StickyCta label={cta} waitlistLabel={ctaWaitlist} />
+      <StickyCta label={cta} waitlistLabel={ctaWaitlist} freeLabel={freeLabel} />
 
       {/* 1. ШАПКА: обіцянка, обличчя, безкоштовний вхід */}
       <Section spacing="hero">
@@ -141,8 +142,7 @@ export default function MinicoursePage() {
               <p className="mb-8 max-w-xl text-lg leading-relaxed text-[var(--color-muted)]">
                 Перестаньте питати «ким ти станеш?». За 5 днів по 15 хвилин ви складете карту інтересів дитини, перевірите один напрямок і поговорите про майбутнє без сварки.</p>
               <div className="ff-cta-stack gap-3">
-                <MiniCta label={cta} waitlistLabel={ctaWaitlist} />
-                <MiniCta label={freeLabel} waitlistLabel={freeLabel} free />
+                <HeroCtas buy={cta} buyWaitlist={ctaWaitlist} free={freeLabel} />
                 <p className="max-w-md text-sm text-[var(--color-muted-2)]">
                   Доступ 60 днів. Не побачите користі за 7 днів, повернемо гроші.
                 </p>
