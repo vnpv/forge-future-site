@@ -15,7 +15,6 @@ import {
   minicourseFinal,
   minicourseHero,
   minicourseOffer,
-  minicourseProgram,
   minicourseResult,
 } from "@/lib/minicourse";
 
@@ -55,18 +54,68 @@ function Bullets({ items }: { items: string[] }) {
   );
 }
 
-const sampleSigns = [
-  "Повертається до цього сама, без нагадувань",
-  "Розповідає з подробицями, а не «ну, норм»",
-  "Продовжує, коли виходить погано",
-  "Шукає, як зробити краще, без вашого прохання",
-  "Готова показати результат іншим",
-];
+type DayCard = {
+  title: string;
+  gain: string;
+  label: string;
+  lines: { text: string; strike?: string }[];
+};
 
-const sampleSwaps = [
-  { from: "«Це несерйозно»", to: "«Що в цьому для тебе серйозне?»" },
-  { from: "«Іди туди, де будуть гроші»", to: "«Як це може приносити гроші? Давай порахуємо разом»" },
-  { from: "«Спочатку вуз, потім побачиш»", to: "«Що ти можеш спробувати вже зараз?»" },
+const days: DayCard[] = [
+  {
+    title: "Чому «не знаю» — це не лінь",
+    gain: "Ви перестанете сваритися і зрозумієте, що за цим стоїть.",
+    label: "За «не знаю» ховається одне з трьох",
+    lines: [
+      { text: "Дитина ховає «несерйозне»: відео, ігри, мемки, бо чула «це не професія»" },
+      { text: "Вона ще не пробувала: не можна захотіти те, чого не бачив зблизька" },
+      { text: "Варіантів забагато: коли можна все, вибрати складно" },
+      { text: "Плюс 5 запитань замість «ким ти станеш?», які не звучать як допит" },
+    ],
+  },
+  {
+    title: "5 ознак справжнього інтересу",
+    gain: "Відрізните інтерес від захоплення на тиждень, і не підете на дорогий курс навмання.",
+    label: "Що видно збоку, без допиту",
+    lines: [
+      { text: "1. Повертається до цього сама, без нагадувань" },
+      { text: "2. Розповідає з подробицями, а не «ну, норм»" },
+      { text: "3. Продовжує, коли виходить погано" },
+      { text: "4. Шукає, як зробити краще, без вашого прохання" },
+      { text: "5. Готова показати результат іншим" },
+    ],
+  },
+  {
+    title: "Розмова без сварки",
+    gain: "Отримаєте слова, після яких дитина не замикається.",
+    label: "Замість → скажіть",
+    lines: [
+      { strike: "«Це несерйозно»", text: "«Що в цьому для тебе серйозне?»" },
+      { strike: "«Іди туди, де будуть гроші»", text: "«Як це може приносити гроші? Давай порахуємо разом»" },
+      { strike: "«Спочатку вуз, потім побачиш»", text: "«Що ти можеш спробувати вже зараз?»" },
+    ],
+  },
+  {
+    title: "Експеримент на 48 годин",
+    gain: "Перевірите інтерес малою справою за два дні, а не роками роздумів.",
+    label: "Правила, щоб експеримент спрацював",
+    lines: [
+      { text: "Маленький: не більше двох годин за два дні" },
+      { text: "Реальний: не «подумати про монтаж», а змонтувати одне відео" },
+      { text: "З нього є що показати: відео, сторінка, прототип чи розмова з людиною з цієї сфери" },
+      { text: "Робить дитина, не ви: ваша роль це час і жодних оцінок" },
+    ],
+  },
+  {
+    title: "Карта інтересів і наступний крок",
+    gain: "Одна сторінка: що цікавить, що перевірено і що робити далі.",
+    label: "Приклад заповненої карти",
+    lines: [
+      { text: "Відеомонтаж: 4 ознаки з 5. Далі: змонтувати ролік на 30 с за вихідні" },
+      { text: "Ігровий дизайн: 2 ознаки. Далі: поговорити з тим, хто це робить" },
+      { text: "Якщо ясного напрямку немає, це теж результат: беремо інший і повторюємо експеримент" },
+    ],
+  },
 ];
 
 export default function MinicoursePage() {
@@ -118,90 +167,43 @@ export default function MinicoursePage() {
         </Container>
       </Section>
 
-      {/* 3. ЩО ВИ ОТРИМАЄТЕ: справжній зміст, а не порожні бланки */}
+      {/* 3. ПО ДНЯХ: що ви отримаєте щодня і справжній шматок */}
       <Section spacing="block" className="border-t border-white/10">
         <Container>
-          <H2>Що всередині: ось справжні шматки курсу</H2>
-          <div className="grid gap-5 md:grid-cols-3">
-            <div className="flex flex-col border border-white/15 bg-[var(--color-surface)] p-6">
-              <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-[var(--color-accent)]">День 3 · скрипт розмови</p>
-              <h3 className="ff-display mb-4 text-xl font-bold">Замість → скажіть</h3>
-              <ul className="flex flex-col gap-4">
-                {sampleSwaps.map((x) => (
-                  <li key={x.from} className="text-base leading-snug">
-                    <span className="text-[var(--color-muted-2)] line-through">{x.from}</span>
-                    <br />
-                    <span className="font-semibold">→ {x.to}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="flex flex-col border border-white/15 bg-[var(--color-surface)] p-6">
-              <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-[var(--color-accent)]">День 2 · перевірка</p>
-              <h3 className="ff-display mb-4 text-xl font-bold">5 ознак справжнього інтересу</h3>
-              <ol className="flex flex-col gap-3">
-                {sampleSigns.map((x, i) => (
-                  <li key={x} className="flex gap-3 text-base leading-snug">
-                    <span className="ff-display font-extrabold text-[var(--color-accent)]">{i + 1}</span>
-                    <span>{x}</span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-            <div className="flex flex-col border border-white/15 bg-[var(--color-surface)] p-6">
-              <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-[var(--color-accent)]">День 5 · підсумок</p>
-              <h3 className="ff-display mb-4 text-xl font-bold">Карта інтересів (приклад)</h3>
-              <table className="w-full text-left text-sm">
-                <thead className="text-[var(--color-muted-2)]">
-                  <tr>
-                    <th className="pb-2 pr-2 font-medium">Напрямок</th>
-                    <th className="pb-2 pr-2 font-medium">Ознак із 5</th>
-                    <th className="pb-2 font-medium">Що перевірити</th>
-                  </tr>
-                </thead>
-                <tbody className="align-top">
-                  <tr className="border-t border-white/15">
-                    <td className="py-2 pr-2 font-semibold">Відеомонтаж</td>
-                    <td className="py-2 pr-2">4</td>
-                    <td className="py-2">Змонтувати ролік на 30 с за вихідні</td>
-                  </tr>
-                  <tr className="border-t border-white/15">
-                    <td className="py-2 pr-2 font-semibold">Ігровий дизайн</td>
-                    <td className="py-2 pr-2">2</td>
-                    <td className="py-2">Поговорити з тим, хто це робить</td>
-                  </tr>
-                </tbody>
-              </table>
-              <p className="mt-4 text-sm text-[var(--color-muted)]">Один напрямок, який ви перевіряєте далі, і конкретна дія.</p>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      {/* 4. ПРОГРАМА: компактно, розкривається */}
-      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
-        <Container>
-          <H2>5 днів по 15 хвилин</H2>
-          <div className="max-w-3xl border-t border-white/20">
-            {minicourseProgram.days.map((d, i) => (
-              <details key={d.title} className="group border-b border-white/20 py-4">
-                <summary className="flex cursor-pointer list-none items-center gap-4 text-base font-semibold sm:text-lg">
-                  <span className="ff-display w-8 text-2xl font-extrabold text-[var(--color-accent)]">{i + 1}</span>
-                  <span className="flex-1">{d.title}</span>
-                  <span className="text-[var(--color-accent)] transition-transform group-open:rotate-45" aria-hidden>
-                    +
-                  </span>
-                </summary>
-                <p className="mt-3 pl-12 text-base leading-relaxed text-[var(--color-muted)]">{d.text}</p>
-                <p className="mt-2 pl-12 text-sm font-medium text-[var(--color-accent)]">{d.out}</p>
-              </details>
+          <H2>5 днів по 15 хвилин. Ось що ви отримуєте щодня</H2>
+          <ol className="flex max-w-3xl flex-col gap-5">
+            {days.map((d, i) => (
+              <li key={d.title} className="border border-white/15 bg-[var(--color-surface)] p-5 sm:p-6">
+                <div className="mb-3 flex items-center gap-4">
+                  <span className="ff-display text-4xl font-extrabold leading-none text-[var(--color-accent)]">{i + 1}</span>
+                  <h3 className="ff-display text-lg font-bold leading-tight sm:text-xl">{d.title}</h3>
+                </div>
+                <p className="mb-4 text-base font-medium leading-snug sm:text-lg">{d.gain}</p>
+                <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-[var(--color-accent)]">{d.label}</p>
+                <ul className="flex flex-col gap-2.5">
+                  {d.lines.map((l) => (
+                    <li key={l.text} className="text-base leading-snug text-[var(--color-muted)]">
+                      {l.strike && (
+                        <>
+                          <span className="text-[var(--color-muted-2)] line-through">{l.strike}</span>
+                          <br />
+                        </>
+                      )}
+                      <span className={l.strike ? "font-semibold text-[var(--color-foreground)]" : ""}>
+                        {l.strike ? "→ " : ""}
+                        {l.text}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </li>
             ))}
-          </div>
+          </ol>
         </Container>
       </Section>
 
       {/* 5. ЧОМУ ВАРТО: до / після */}
-      <Section spacing="block" className="border-t border-white/10">
+      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
         <Container>
           <H2>Чому це варто 399 грн</H2>
           <div className="grid max-w-3xl gap-4 md:grid-cols-2">
@@ -236,7 +238,7 @@ export default function MinicoursePage() {
       </Section>
 
       {/* 6. АВТОР */}
-      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
+      <Section spacing="block" className="border-t border-white/10">
         <Container>
           <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center">
             <Image
