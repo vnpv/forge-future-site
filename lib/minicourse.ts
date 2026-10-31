@@ -16,7 +16,9 @@ export const MINICOURSE_PAY_URL = process.env.NEXT_PUBLIC_MINICOURSE_PAY_URL ?? 
 /** Meta Pixel. Поки порожній, піксель не вантажиться. */
 export const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "";
 
-export const minicoursePayReady = MINICOURSE_PAY_URL.length > 0;
+/** Оплата через бота (monobank): кнопка веде в бот, але текст уже «Почати курс», не «список очікування». */
+export const MINICOURSE_PAY_VIA_BOT = process.env.NEXT_PUBLIC_MINICOURSE_PAY_VIA_BOT === "1";
+export const minicoursePayReady = MINICOURSE_PAY_URL.length > 0 || MINICOURSE_PAY_VIA_BOT;
 
 /** Старт-параметр бота: ff_mc (основний), ff_mc-<канал> (джерело), ff_mcfree (одразу пробний день). */
 export function minicourseBotUrl(channel?: string, free = false): string {

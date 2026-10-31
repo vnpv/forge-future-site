@@ -34,7 +34,7 @@ export default function MiniCta({
 }) {
   const href = free
     ? minicourseBotUrl(channelFromUrl(), true)
-    : minicoursePayReady
+    : MINICOURSE_PAY_URL
       ? MINICOURSE_PAY_URL
       : minicourseBotUrl(channelFromUrl());
   const text = free ? label : minicoursePayReady ? label : waitlistLabel;
