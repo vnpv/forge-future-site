@@ -358,6 +358,22 @@ export default function StartQuiz() {
     }).catch(() => {});
   }, [tgChecked, stage, sentStage, tg, ref]);
 
+  // На сайті (поза Telegram) нативної нижньої кнопки немає, тому показуємо свою липку. У Mini App вона не потрібна: там кнопка Telegram.
+  const showWebSticky = tgChecked && !tg && done && !sent && !booked && days !== null;
+  function goWebSticky() {
+    if (program) {
+      setProgram(false);
+      setTimeout(() => document.getElementById("booking")?.scrollIntoView({ behavior: "smooth", block: "center" }), 100);
+      return;
+    }
+    if (canBook) {
+      document.getElementById("booking")?.scrollIntoView({ behavior: "smooth", block: "center" });
+      return;
+    }
+    window.open(botLink(ref, answers), "_blank", "noopener,noreferrer");
+    setSent(true);
+  }
+
   const canAddHome = Boolean(tg?.addToHomeScreen) && home !== "added" && home !== "unsupported";
 
   function pick(i: number) {
@@ -374,7 +390,7 @@ export default function StartQuiz() {
   }
 
   return (
-    <main className="mx-auto w-full max-w-xl px-4 py-8 sm:py-12">
+    <main className={`mx-auto w-full max-w-xl px-4 py-8 sm:py-12 ${showWebSticky ? "pb-28" : ""}`}>
       {step === 0 && (
         <section>
           <p className="mb-3 text-sm font-semibold text-[var(--color-accent)]">Forge Future · для батьків дітей 10-19</p>
@@ -573,6 +589,15 @@ export default function StartQuiz() {
             .
           </p>
         </section>
+      )}
+      {showWebSticky && (
+        <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/12 bg-[var(--color-background)]/95 px-4 py-3 backdrop-blur">
+          <div className="mx-auto max-w-xl">
+            <button className="ff-cta w-full" onClick={goWebSticky}>
+              {program || canBook ? "Обрати час розбору" : "Записатися на розбір"}
+            </button>
+          </div>
+        </div>
       )}
     </main>
   );
