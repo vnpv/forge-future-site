@@ -19,9 +19,13 @@ export const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID ?? "172570792
 export const MINICOURSE_PAY_VIA_BOT = process.env.NEXT_PUBLIC_MINICOURSE_PAY_VIA_BOT === "1";
 export const minicoursePayReady = MINICOURSE_PAY_URL.length > 0 || MINICOURSE_PAY_VIA_BOT;
 
-/** Старт-параметр бота: ff_mc (основний), ff_mc-<канал> (джерело), ff_mcfree (одразу пробний день). */
-export function minicourseBotUrl(channel?: string, free = false): string {
-  const start = free ? "ff_mcfree" : channel ? `ff_mc-${channel}` : "ff_mc";
+/**
+ * Старт-параметр бота: ff_mc, ff_mc-<канал>[-<ключ кліка>], ff_mcfree[-<канал>-<ключ кліка>].
+ * Ключ кліка зв'язує лендинг з ботом для Conversions API (див. /api/mc-click).
+ */
+export function minicourseBotUrl(channel?: string, free = false, key?: string): string {
+  const base = free ? "ff_mcfree" : "ff_mc";
+  const start = key ? `${base}-${channel || "x"}-${key}` : channel && !free ? `ff_mc-${channel}` : base;
   return `https://t.me/${TELEGRAM_BOT_USERNAME}?start=${start}`;
 }
 
