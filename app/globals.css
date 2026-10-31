@@ -295,6 +295,11 @@ body.lp > header {
 @media (max-width: 1023px) {
   body.ff-tabs > footer { padding-bottom: 6.5rem; }
 }
-body.tg-app .ff-tabs-ui,
-body.lp .ff-tabs-ui { display: none; }
+body.tg-app .ff-tabs-ui { display: none; }
+/* Липка кнопка /minicourse стоїть над вкладками і опускається, коли вони ховаються */
+.ff-sticky { transition: bottom .2s; }
+@media (max-width: 1023px) {
+  body.ff-tabs .ff-sticky { bottom: calc(4.6rem + env(safe-area-inset-bottom)); }
+  body.ff-tabs.ff-tabs-hidden .ff-sticky { bottom: 0; }
+}
 .ff-cta.ff-cta--sm { padding: 0.6rem 1rem; font-size: 0.75rem; }

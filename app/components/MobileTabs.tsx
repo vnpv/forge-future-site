@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import TelegramCta, { TelegramCommunityLink, TelegramIvanChannelLink } from "./TelegramCta";
 
-/** Сторінки з таб-баром. Воронки (/start, /minicourse) мають свої липкі кнопки і сюди не входять. */
-const SHOW_ON = ["/", "/program", "/junior", "/events", "/blog", "/about", "/faq"];
+/** Сторінки з таб-баром. Воронка /start має свою липку кнопку і сюди не входить; липка кнопка /minicourse піднімається над вкладками. */
+const SHOW_ON = ["/", "/program", "/junior", "/minicourse", "/events", "/blog", "/about", "/faq"];
 
 const MORE = [
   { href: "/events", label: "Вечори" },
@@ -48,19 +48,24 @@ export default function MobileTabs() {
   useEffect(() => {
     if (!enabled) return;
     document.body.classList.add("ff-tabs");
+    document.body.classList.remove("ff-tabs-hidden");
     last.current = window.scrollY;
     const onScroll = () => {
       const y = window.scrollY;
       const d = y - last.current;
-      if (y < 80) setHidden(false);
-      else if (d > 8) setHidden(true);
-      else if (d < -8) setHidden(false);
+      const set = (h: boolean) => {
+        setHidden(h);
+        document.body.classList.toggle("ff-tabs-hidden", h);
+      };
+      if (y < 80) set(false);
+      else if (d > 8) set(true);
+      else if (d < -8) set(false);
       if (Math.abs(d) > 8) last.current = y;
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll);
-      document.body.classList.remove("ff-tabs");
+      document.body.classList.remove("ff-tabs", "ff-tabs-hidden");
     };
   }, [enabled]);
 
@@ -113,7 +118,7 @@ export default function MobileTabs() {
           {tab("/program", "Практикум", icon.program)}
           <Link
             href="/minicourse?c=sitetabs"
-            className="-mt-3 mb-1 flex flex-1 flex-col items-center gap-1 border border-[var(--color-accent)]/60 bg-[#111214] py-2 text-[11px] font-semibold text-[var(--color-accent)]"
+            className={`-mt-3 mb-1 flex flex-1 flex-col items-center gap-1 border py-2 text-[11px] font-semibold text-[var(--color-accent)] ${path.startsWith("/minicourse") ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15" : "border-[var(--color-accent)]/60 bg-[#111214]"}`}
           >
             <Svg d={icon.mini} />
             Міні-курс

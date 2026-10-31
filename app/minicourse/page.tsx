@@ -8,7 +8,6 @@ import Scenarios from "./Scenarios";
 import AuthorVideo from "./AuthorVideo";
 import StickyCta from "./StickyCta";
 import MetaPixel from "./MetaPixel";
-import LpMode from "./LpMode";
 import {
   minicourseAuthor,
   minicourseDisclaimer,
@@ -125,7 +124,6 @@ export default function MinicoursePage() {
   return (
     <div data-theme="practicum" className="bg-[var(--color-background)] pb-20 text-[var(--color-foreground)] sm:pb-0">
       <MetaPixel />
-      <LpMode />
       <StickyCta label={cta} waitlistLabel={ctaWaitlist} />
 
       {/* 1. ШАПКА: обіцянка, обличчя, безкоштовний вхід */}
