@@ -467,7 +467,7 @@ export default function StartQuiz() {
             </a>
           )}
           <a className="ff-cta-secondary mb-3 w-full" href="https://forge-future.com/program" target="_blank" rel="noopener noreferrer">Детальніше про програму</a>
-          {!junior && (
+          {(
             <p className="mb-3 mt-4 text-sm leading-relaxed text-[var(--color-muted)]">
               Поки чекаєте розбору: міні-курс для батьків, 5 днів по 15 хвилин. Ви прийдете на розмову вже з картою інтересів.{" "}
               <a className="underline" href="/minicourse?c=siteafter" target="_blank" rel="noopener noreferrer">Подивитись →</a>
@@ -535,7 +535,7 @@ export default function StartQuiz() {
             )}
           </div>
 
-          {!junior && (
+          {(
             <a
               href="/minicourse?c=sitestart"
               target="_blank"

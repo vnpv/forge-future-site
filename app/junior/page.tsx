@@ -1,3 +1,4 @@
+import MiniCourseStrip from "../components/MiniCourseStrip";
 import Image from "next/image";
 import type { Metadata } from "next";
 import "./junior.css";
@@ -405,6 +406,14 @@ export default function JuniorPage() {
             </details>
           </div>
         </div>
+      </section>
+
+      <section className="wrap" style={{ paddingBlock: "2.5rem" }}>
+        <MiniCourseStrip
+          channel="sitejunior"
+          title="Не впевнені, чи Junior підходить? Почніть з міні-курсу"
+          lead="Для батьків дітей 10–13, які ще не знають, що їх зачепить: 5 днів по 15 хвилин у Telegram, карта інтересів і один експеримент. Без дзвінків і зобов'язань."
+        />
       </section>
 
       <section className="apply" id="apply">
