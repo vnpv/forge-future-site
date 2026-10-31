@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
   if (!secret || req.headers.get("x-key") !== secret) return NextResponse.json({ ok: false }, { status: 401 });
   if (!storageReady()) return NextResponse.json({ ok: false, error: "no storage" }, { status: 503 });
   const body = await req.text();
-  if (body.length > 1_500_000) return NextResponse.json({ ok: false, error: "too big" }, { status: 413 });
+  if (body.length > 4_000_000) return NextResponse.json({ ok: false, error: "too big" }, { status: 413 });
   try {
     JSON.parse(body);
     await writeText("mcadmin/snapshot.json", body, "application/json");
