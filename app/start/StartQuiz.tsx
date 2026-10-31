@@ -215,6 +215,11 @@ export default function StartQuiz() {
     setRef(r);
   }, []);
 
+  // Трафік з реклами (ref rlad): без вступного екрана, одразу перше питання. Вступ говорить про іншу тему, ніж оголошення, і людей відсікало.
+  useEffect(() => {
+    if (ref === "rlad") setStep((s) => (s === 0 ? 1 : s));
+  }, [ref]);
+
   /** Telegram Mini App: SDK вантажиться окремо, чекаємо на нього до 3 с. Поза Telegram initData порожній. */
   useEffect(() => {
     let tries = 0;
