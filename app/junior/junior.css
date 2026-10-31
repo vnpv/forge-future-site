@@ -86,9 +86,9 @@
 .section-title {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(1.8rem, 5vw, 2.6rem);
-  line-height: 1;
-  margin: 0 0 32px;
+  font-size: clamp(1.5rem, 4.5vw, 2.1rem);
+  line-height: 1.1;
+  margin: 0 0 28px;
 }
 
 .section-title-dark {
@@ -104,30 +104,8 @@
 
 /* ===== Кнопки ===== */
 
-.btn-primary {
-  display: block;
-  width: 100%;
-  max-width: 30rem;
-  text-align: center;
-  box-sizing: border-box;
-  background: var(--blue);
-  color: var(--white);
-  font-family: var(--font-text);
-  font-weight: 500;
-  font-size: 1rem;
-  text-decoration: none;
-  border: none;
-  padding: 16px 28px;
-  cursor: pointer;
-  transition: transform 0.15s ease;
-}
-
-.btn-primary:hover { transform: translateY(-1px); }
-.btn-primary:active { transform: translateY(0); }
-.btn-primary:focus-visible {
-  outline: 3px solid var(--black);
-  outline-offset: 3px;
-}
+.junior-page a.ff-cta { color: #06200f; }
+.junior-page .ff-cta-stack { margin-bottom: 8px; }
 
 /* ===== Плейсхолдери для незаповнених змінних ===== */
 
@@ -161,8 +139,8 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2px;
-  background: var(--black);
-  border: 2px solid var(--black);
+  background: rgb(255 255 255 / 0.12);
+  border: 1px solid rgb(255 255 255 / 0.12);
   margin-bottom: 32px;
 }
 
@@ -201,10 +179,10 @@
   grid-template-columns: auto 1fr;
   gap: 16px;
   padding: 28px 0;
-  border-top: 2px solid var(--black);
+  border-top: 1px solid rgb(255 255 255 / 0.12);
 }
 
-.week:last-child { border-bottom: 2px solid var(--black); }
+.week:last-child { border-bottom: 1px solid rgb(255 255 255 / 0.12); }
 
 .week-num {
   font-family: var(--font-display);
@@ -227,10 +205,7 @@
   margin: 0 0 8px;
 }
 
-.week-result-highlight {
-  background: linear-gradient(to bottom, transparent 62%, var(--yellow) 62%);
-  display: inline;
-}
+.week-result-highlight { font-weight: 700; }
 
 .week-training {
   font-size: 0.85rem;
@@ -241,7 +216,7 @@
 /* ===== ШАР 2: ЧОРНА ЗОНА (голос батька) ===== */
 
 .layer-dark {
-  background: var(--dark-bg);
+  background: #17181b;
   color: var(--dark-text);
   padding: 72px 0;
 }
@@ -281,14 +256,14 @@
   list-style: none;
   padding: 0;
   margin: 24px 0;
-  border-top: 1px solid #2A2A2C;
+  border-top: 1px solid rgb(255 255 255 / 0.12);
 }
 
 .criteria-list li {
   display: flex;
   gap: 12px;
   padding: 14px 0;
-  border-bottom: 1px solid #2A2A2C;
+  border-bottom: 1px solid rgb(255 255 255 / 0.12);
   color: var(--dark-text);
   font-size: 0.95rem;
 }
@@ -309,9 +284,10 @@
 /* ===== ШАР 3: СВІТЛА ЗАКРИВАЮЧА ЗОНА ===== */
 
 .leader, .practice, .faq, .apply {
-  padding: 64px 0;
-  border-top: 2px solid var(--black);
+  padding: 56px 0;
+  border-top: 1px solid rgb(255 255 255 / 0.1);
 }
+.practice, .layer-dark { background: #17181b; }
 
 .leader-card {
   display: flex;
@@ -323,8 +299,8 @@
   width: 96px;
   height: 96px;
   object-fit: cover;
-  border: 2px solid var(--black);
   flex-shrink: 0;
+  border-radius: 50%;
 }
 
 .leader-name {
@@ -345,7 +321,7 @@
   grid-template-columns: 1fr;
   gap: 4px;
   padding: 16px 0;
-  border-bottom: 1px solid var(--gray-300);
+  border-bottom: 1px solid rgb(255 255 255 / 0.1);
 }
 
 .fact dt {
@@ -366,10 +342,10 @@
   color: var(--gray-600);
 }
 
-.accordion { border-top: 2px solid var(--black); }
+.accordion { border-top: 1px solid rgb(255 255 255 / 0.12); }
 
 .faq-item {
-  border-bottom: 2px solid var(--black);
+  border-bottom: 1px solid rgb(255 255 255 / 0.12);
   padding: 18px 0;
 }
 

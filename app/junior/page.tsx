@@ -67,14 +67,11 @@ export default function JuniorPage() {
 
           <p className="apply-sub">Старт 15 грудня · 6 тижнів · $750</p>
 
-          <a
-            href={APPLY_JUNIOR_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary"
-          >
-            Записатися на знайомство
-          </a>
+          <div className="ff-cta-stack">
+            <a href={APPLY_JUNIOR_URL} target="_blank" rel="noopener noreferrer" className="ff-cta">
+              Записатися на знайомство
+            </a>
+          </div>
           <p className="hero-meta">Старт 15 грудня 2026</p>
         </div>
       </header>
@@ -349,15 +346,11 @@ export default function JuniorPage() {
             </div>
             <div className="fact">
               <dt>Старт</dt>
-              <dd>9 жовтня 2026</dd>
+              <dd>15 грудня 2026</dd>
             </div>
             <div className="fact">
               <dt>Вартість</dt>
               <dd>$750</dd>
-            </div>
-            <div className="fact">
-              <dt>Набір</dt>
-              <dd>до 1 жовтня 2026</dd>
             </div>
           </dl>
           <p className="practice-note">Групи 10–13 і 14+ не змішуються.</p>
@@ -427,14 +420,11 @@ export default function JuniorPage() {
             — 15-хвилинний дзвінок з дитиною і батьком, потім рішення.
           </p>
 
-          <a
-            href={APPLY_JUNIOR_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary"
-          >
-            Записатися в Telegram
-          </a>
+          <div className="ff-cta-stack">
+            <a href={APPLY_JUNIOR_URL} target="_blank" rel="noopener noreferrer" className="ff-cta">
+              Записатися в Telegram
+            </a>
+          </div>
 
           <p className="contact-line">
             Питання:{" "}
