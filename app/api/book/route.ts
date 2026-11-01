@@ -69,8 +69,8 @@ export async function POST(req: NextRequest) {
         ? `Партнер: ${esc(await partnerLabel(ref))} (10%), id <code>${ref}</code>`
         : "";
   // Mac міг спати: тоді NotePlan-зайнятість на сайті застаріла, і слот міг перетнутись з чимось, чого сайт не бачив
-  const age = await notePlanAgeHours();
-  const stale = age === null || age > 3 ? `⚠️ Дані NotePlan на сайті ${age === null ? "відсутні" : `не оновлювались ${Math.round(age)} год`} (Mac спить?). Перевір, чи немає накладки.` : "";
+  const npAge = await notePlanAgeHours();
+  const stale = npAge === null || npAge > 3 ? `⚠️ Дані NotePlan на сайті ${npAge === null ? "відсутні" : `не оновлювались ${Math.round(npAge)} год`} (Mac спить?). Перевір, чи немає накладки.` : "";
   await notifyIvan(
     [`📅 <b>Розбір заброньовано</b>: ${label} (Київ)`, stale, `Дитина: ${name}, ${age}`, `Email: ${email}`, tg ? "" : `Контакт: ${contact}`, who, `Квіз: ${code || "-"}`, channel, ev.meet ? `Meet: ${ev.meet}` : ""]
       .filter(Boolean)
