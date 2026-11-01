@@ -24,15 +24,34 @@ async function notePlanBusy(): Promise<Interval[]> {
 }
 
 export async function saveNotePlanBusy(busy: { s: string; e: string }[]) {
-  const body = JSON.stringify({ updated: new Date().toISOString(), busy });
+  const now = new Date().toISOString();
   const prev = await readText(BUSY_FILE, true).catch(() => null);
+  let updated = now;
   if (prev) {
     try {
-      if (JSON.stringify(JSON.parse(prev).busy) === JSON.stringify(busy)) return false; // без змін: не палимо ліміт записів Blob
+      const p = JSON.parse(prev) as { busy?: unknown; updated?: string; checked?: string };
+      const same = JSON.stringify(p.busy) === JSON.stringify(busy);
+      const checked = Date.parse(p.checked ?? p.updated ?? "") || 0;
+      // без змін: не палимо ліміт записів Blob, але раз на годину оновлюємо «перевірено», щоб було видно, що Mac живий
+      if (same && Date.now() - checked < 60 * 60_000) return false;
+      if (same) updated = p.updated ?? now;
     } catch {}
   }
-  await writeText(BUSY_FILE, body, "application/json");
+  await writeText(BUSY_FILE, JSON.stringify({ updated, checked: now, busy }), "application/json");
   return true;
+}
+
+/** Скільки годин тому Mac востаннє звітував про NotePlan (null: даних немає). Для попередження Івану при бронюванні. */
+export async function notePlanAgeHours(): Promise<number | null> {
+  try {
+    const raw = await readText(BUSY_FILE, true);
+    if (!raw) return null;
+    const j = JSON.parse(raw) as { updated?: string; checked?: string };
+    const t = Date.parse(j.checked ?? j.updated ?? "");
+    return t ? (Date.now() - t) / 3_600_000 : null;
+  } catch {
+    return null;
+  }
 }
 
 function clash(s: number, e: number, busy: Interval[]) {

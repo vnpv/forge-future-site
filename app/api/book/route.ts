@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createEvent, googleConfigured } from "@/lib/booking/google";
-import { freeSlots, SLOT_MIN } from "@/lib/booking/slots";
+import { freeSlots, notePlanAgeHours, SLOT_MIN } from "@/lib/booking/slots";
 import { notifyIvan, partnerLabel, sendTelegram, verifyInitData } from "@/lib/booking/telegram";
 import { kyivToUtc } from "@/lib/booking/time";
 import { storageReady, writeText } from "@/app/focus/store";
@@ -68,8 +68,11 @@ export async function POST(req: NextRequest) {
       : ref
         ? `Партнер: ${esc(await partnerLabel(ref))} (10%), id <code>${ref}</code>`
         : "";
+  // Mac міг спати: тоді NotePlan-зайнятість на сайті застаріла, і слот міг перетнутись з чимось, чого сайт не бачив
+  const age = await notePlanAgeHours();
+  const stale = age === null || age > 3 ? `⚠️ Дані NotePlan на сайті ${age === null ? "відсутні" : `не оновлювались ${Math.round(age)} год`} (Mac спить?). Перевір, чи немає накладки.` : "";
   await notifyIvan(
-    [`📅 <b>Розбір заброньовано</b>: ${label} (Київ)`, `Дитина: ${name}, ${age}`, `Email: ${email}`, tg ? "" : `Контакт: ${contact}`, who, `Квіз: ${code || "-"}`, channel, ev.meet ? `Meet: ${ev.meet}` : ""]
+    [`📅 <b>Розбір заброньовано</b>: ${label} (Київ)`, stale, `Дитина: ${name}, ${age}`, `Email: ${email}`, tg ? "" : `Контакт: ${contact}`, who, `Квіз: ${code || "-"}`, channel, ev.meet ? `Meet: ${ev.meet}` : ""]
       .filter(Boolean)
       .join("\n"),
   );
