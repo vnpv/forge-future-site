@@ -9,10 +9,10 @@ type Props = {
   className?: string;
 };
 
-/** Легкий старт для тих, хто ще не готовий до розбору чи практикуму: помітна картка з власною кнопкою. */
+/** Легкий старт для тих, хто ще не готовий до розбору чи менторської програми: помітна картка з власною кнопкою. */
 export default function MiniCourseStrip({
   channel,
-  title = "Не знаєте, з чого почати? Почніть з міні-курсу",
+  title = "Не знаєте, з чого почати? Почніть з практикуму",
   lead = "Для батьків підлітків, які на питання про майбутнє відповідають «не знаю». Без дзвінків і зобов'язань.",
   className = "",
 }: Props) {
@@ -37,7 +37,7 @@ export default function MiniCourseStrip({
           href={`/minicourse?c=${channel}`}
           className="ff-cta-secondary shrink-0 border-[var(--color-accent)] text-[var(--color-accent)] hover:bg-[var(--color-accent)]/10"
         >
-          Почати з міні-курсу →
+          Почати з практикуму →
         </Link>
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { storageReady, writeText } from "@/app/focus/store";
 
-/** Бот міні-курсу (Mac Івана) шле сюди знімок стану: панель /mc-admin його лише читає. Доступ за секретом. */
+/** Бот практикуму (Mac Івана) шле сюди знімок стану: панель /mc-admin його лише читає. Доступ за секретом. */
 export async function POST(req: NextRequest) {
   const secret = process.env.BUSY_PUSH_SECRET;
   if (!secret || req.headers.get("x-key") !== secret) return NextResponse.json({ ok: false }, { status: 401 });

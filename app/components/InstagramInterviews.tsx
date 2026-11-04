@@ -60,14 +60,14 @@ export default function InstagramInterviews() {
 
       <div className="mt-10 flex flex-col items-center gap-3 text-center sm:items-start sm:text-left">
         <p className="max-w-xl text-base text-[var(--color-muted)]">
-          А те, що я пишу про сам практикум для батьків підлітків (рілс і три пости), зібрано на сторінці практикуму.
+          А те, що я пишу про саму менторську програму для батьків підлітків (рілс і три пости), зібрано на сторінці менторської програми.
         </p>
         <div className="ff-cta-stack">
           <Link
             href="/program#instagram"
             className="ff-cta"
           >
-            Дивитись на сторінці практикуму
+            Дивитись на сторінці менторської програми
           </Link>
           <a
             href={INSTAGRAM_PROFILE_URL}

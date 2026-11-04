@@ -4,7 +4,7 @@ import { TELEGRAM_BOT_USERNAME } from "@/lib/telegram";
 
 export type Option = { label: string };
 
-/** Перші 4 варіанти віку (10-13) ведуть у гілку Junior, решта - у Практикум. */
+/** Перші 4 варіанти віку (10-13) ведуть у гілку Інтенсив, решта - у Менторську програму. */
 export const JUNIOR_AGE_OPTIONS = 4;
 export const isJuniorAge = (ageIdx: number | undefined) => ageIdx !== undefined && ageIdx >= 0 && ageIdx < JUNIOR_AGE_OPTIONS;
 export type Question = { id: string; title: string; options: Option[] };
@@ -109,7 +109,7 @@ export const fearLines = [
   "Починати мало кому допомагають. Допомагає, коли перший крок дуже малий і поруч є людина.",
 ];
 
-/** Питання для батьків дітей 10-13 (Junior): перше питання (вік) спільне, решта своя. */
+/** Питання для батьків дітей 10-13 (Інтенсив): перше питання (вік) спільне, решта своя. */
 export const juniorQuestions: Question[] = [
   questions[0],
   {
@@ -144,7 +144,7 @@ export const juniorQuestions: Question[] = [
   },
 ];
 
-/** Профіль Junior визначає відповідь на питання «що вдома» (індекс 0-3). */
+/** Профіль Інтенсив визначає відповідь на питання «що вдома» (індекс 0-3). */
 export const juniorProfiles: Profile[] = [
   {
     id: "e",

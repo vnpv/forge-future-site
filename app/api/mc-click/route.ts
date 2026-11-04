@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { readText, storageReady, writeText } from "@/app/focus/store";
 
 /**
- * Клік з реклами на лендинг міні-курсу: зберігаємо ідентифікатори Meta (fbp, fbc) під коротким ключем.
+ * Клік з реклами на лендинг практикуму: зберігаємо ідентифікатори Meta (fbp, fbc) під коротким ключем.
  * Ключ іде в start-параметр бота; після оплати бот бере ці дані й надсилає Purchase у Conversions API,
  * щоб Meta пов'язала покупку в Telegram із кліком по рекламі. Без IP і без особистих даних.
  */

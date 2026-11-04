@@ -17,7 +17,7 @@ const onest = Onest({
   weight: ["400", "500", "600", "700"],
 });
 
-/** Дисплейний шрифт "Junior"/"Практикуму" - для великих заголовків цих двох продуктів */
+/** Дисплейний шрифт "Інтенсив"/"Менторської програми" - для великих заголовків цих двох продуктів */
 const unbounded = Unbounded({
   variable: "--font-unbounded",
   subsets: ["latin", "cyrillic"],
@@ -27,7 +27,7 @@ const unbounded = Unbounded({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} | Практикум для підлітків 14-19`,
+    default: `${SITE_NAME} | Менторська програма «Перша справа» для підлітків 14-19`,
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     locale: "uk_UA",
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: `${SITE_NAME} | Практикум для підлітків 14-19`,
+    title: `${SITE_NAME} | Менторська програма «Перша справа» для підлітків 14-19`,
     description: SITE_DESCRIPTION,
     images: [
       {

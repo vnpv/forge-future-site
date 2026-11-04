@@ -189,7 +189,7 @@ export default function ProgramPage() {
         </Container>
       </Section>
 
-      {/* 6. КУРС VS ПРАКТИКУМ */}
+      {/* 6. КУРС VS МЕНТОРСЬКА ПРОГРАМА */}
       <Section spacing="block" className="border-t border-white/10">
         <Container>
           <H2>{programVs.h2}</H2>
@@ -405,7 +405,7 @@ export default function ProgramPage() {
             <p className="mt-8 text-sm text-[var(--color-muted-2)]">
               Дитині 10-13? Для цього віку окремий продукт,{" "}
               <Link href="/junior" className="font-medium text-[var(--color-foreground)] underline-offset-2 hover:underline">
-                Junior
+                Інтенсив
               </Link>
               .
             </p>

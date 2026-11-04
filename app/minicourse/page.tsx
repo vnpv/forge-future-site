@@ -19,9 +19,9 @@ import {
 } from "@/lib/minicourse";
 
 export const metadata: Metadata = {
-  title: "Підліток не знає, чого хоче? Курс для батьків за 5 днів",
+  title: "Підліток не знає, чого хоче? Практикум для батьків за 5 днів",
   description:
-    "5 днів по 15 хвилин: карта інтересів підлітка, скрипт розмови без сварки й експеримент на 48 годин. Курс для батьків дітей і підлітків 10-19.",
+    "5 днів по 15 хвилин: карта інтересів підлітка, скрипт розмови без сварки й експеримент на 48 годин. Практикум для батьків дітей і підлітків 10-19.",
   alternates: { canonical: "/minicourse" },
   // Рекламний лендинг: тримаємо поза пошуком, трафік іде з реклами.
   robots: { index: false, follow: false },
@@ -146,7 +146,7 @@ export default function MinicoursePage() {
             <div className="flex flex-col items-center gap-4 md:items-end">
               <AuthorVideo />
               <p className="max-w-[16rem] text-center text-sm text-[var(--color-muted)] md:text-right">
-                Іван Первой, автор курсу. Натисніть, щоб почути, про що це.
+                Іван Первой, автор практикуму. Натисніть, щоб почути, про що це.
               </p>
             </div>
           </div>

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { readText } from "@/app/focus/store";
 
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "Міні-курс: панель", robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: "Практикум: панель", robots: { index: false, follow: false } };
 
 type Msg = { who: "p" | "i"; text: string; ts: string };
 type Line = { d: "in" | "out"; t: string; ts: string };
@@ -118,7 +118,7 @@ export default async function McAdmin({ searchParams }: { searchParams: Promise<
 
   return shell(
     <>
-      <h1 style={{ fontSize: 20, marginBottom: 2 }}>Міні-курс: панель</h1>
+      <h1 style={{ fontSize: 20, marginBottom: 2 }}>Практикум: панель</h1>
       <p style={{ ...muted, marginBottom: 12 }}>Оновлено {fmt(snap.ts)} (Київ). Натисни етап, щоб побачити людей, потім людину, щоб відкрити її чат.</p>
 
       <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>

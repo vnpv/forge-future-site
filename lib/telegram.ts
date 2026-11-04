@@ -5,10 +5,10 @@ export const TELEGRAM_BOT_USERNAME = "ivanpervoy_bot";
 /** Відкритий вечір */
 export const TELEGRAM_START_OPEN_EVENING = "ff_vechir";
 
-/** 6-тижнева програма (Практикум, 14-19) */
+/** 6-тижнева програма (Менторська програма, 14-19) */
 export const TELEGRAM_START_PROGRAM = "ff_program";
 
-/** Junior, 10-13 */
+/** Інтенсив, 10-13 */
 export const TELEGRAM_START_JUNIOR = "ff_junior";
 
 /** Закрите ком'юніті — пояснення в боті (без прямого інвайту в групу) */
@@ -44,5 +44,5 @@ export function miniAppUrl(ref?: string): string {
 /** Усі кнопки «Записатися на розбір» на сайті ведуть у квіз-застосунок; ref web = канал «сайт». */
 export const APPLY_PROGRAM_URL = miniAppUrl("web");
 
-/** Junior: та сама форма, що й «Розбір 20 хвилин» (квіз сам визначає гілку 10-13 за віком). */
+/** Інтенсив: та сама форма, що й «Розбір 20 хвилин» (квіз сам визначає гілку 10-13 за віком). */
 export const APPLY_JUNIOR_URL = APPLY_PROGRAM_URL;

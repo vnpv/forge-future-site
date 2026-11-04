@@ -57,7 +57,7 @@ export default function Scenarios() {
           <p className="text-base leading-relaxed sm:text-lg">{it.why}</p>
         </div>
         <div className="bg-[var(--color-background)] p-6">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-[var(--color-accent)]">Що ви зробите в курсі</p>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-[var(--color-accent)]">Що ви зробите в практикумі</p>
           <p className="text-base leading-relaxed sm:text-lg">{it.fix}</p>
         </div>
       </div>

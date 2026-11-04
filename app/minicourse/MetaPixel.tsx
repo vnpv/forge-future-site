@@ -1,7 +1,7 @@
 import Script from "next/script";
 import { META_PIXEL_ID } from "@/lib/minicourse";
 
-/** Meta Pixel тільки на сторінках мініфкурсу. Порожній ID = нічого не вантажимо. */
+/** Meta Pixel тільки на сторінках практикуму. Порожній ID = нічого не вантажимо. */
 export default function MetaPixel() {
   if (!META_PIXEL_ID) return null;
   return (

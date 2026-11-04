@@ -36,11 +36,11 @@ const doubts: { q: string; a: string }[] = [
   { q: "«Дитина не захоче»", a: "Підліток сам обирає свій бізнес-проєкт. На початку, за згодою, 10 хвилин розмови з ним. Не підійшло після першого тижня: повертаємо передоплату." },
   { q: "«Платили за курси, результату не було»", a: "Тут результат видно щотижня: один результат на тиждень і наприкінці показ проєктів. Не лекції, а власна справа." },
   { q: "«Не бачу, що відбувається»", a: "Щотижня ви отримуєте апдейт на одну сторінку: що зроблено і що далі." },
-  { q: "«Це не для нашого підлітка»", a: "Саме для цього розбір: за 20 хвилин скажу чесно, чи це підходить, і що спробувати першим, навіть якщо практикум не підійде." },
+  { q: "«Це не для нашого підлітка»", a: "Саме для цього розбір: за 20 хвилин скажу чесно, чи це підходить, і що спробувати першим, навіть якщо менторська програма не підійде." },
 ];
 
 const juniorDoubts: { q: string; a: string }[] = [
-  { q: "«Він ще замалий для такого»", a: "Junior не про бізнес. Щотижня дитина робить одну річ руками і з штучним інтелектом: аватар, комікс, бот, огляд. Обсяг малий, 15-20 хвилин блоками." },
+  { q: "«Він ще замалий для такого»", a: "Інтенсив не про бізнес. Щотижня дитина робить одну річ руками і з штучним інтелектом: аватар, комікс, бот, огляд. Обсяг малий, 15-20 хвилин блоками." },
   { q: "«Це ще більше часу за екраном»", a: "ШІ тут інструмент, а не розвага: результат є річчю, яку дитина показує людям. Домовленості про час за екраном ми проговорюємо з вами на розборі." },
   { q: "«Дитина соромʼязлива»", a: "Кожна зустріч закінчується хвилинними показами. Недороблене показувати нормально. Відгук лише у двох формулюваннях: «що спрацювало» і «що б я спробував». Оцінок немає." },
   { q: "«Були гуртки, інтерес згас»", a: "Формат короткий: тиждень = одна готова річ. Не підійшло, ми чесно скажемо це на розборі, ще до оплати." },
@@ -68,7 +68,7 @@ function ProgramView({ onBack }: { onBack: () => void }) {
   const muted = "text-sm leading-relaxed text-[var(--color-muted)]";
   return (
     <section>
-      <p className="mb-3 text-sm font-semibold text-[var(--color-accent)]">Практикум Forge Future</p>
+      <p className="mb-3 text-sm font-semibold text-[var(--color-accent)]">Менторська програма Forge Future</p>
       <h2 className="ff-display mb-2 text-[clamp(1.5rem,6vw,2.1rem)] font-extrabold leading-tight">Що це за програма</h2>
       <p className="mb-6 text-base leading-relaxed text-[var(--color-muted)]">
         6 тижнів, група до 10 підлітків 14-19, старт 1 грудня. Підліток знаходить напрямок і робить власний бізнес-проєкт, веде Іван особисто.
@@ -140,7 +140,7 @@ function JuniorProgramView({ onBack }: { onBack: () => void }) {
   const muted = "text-sm leading-relaxed text-[var(--color-muted)]";
   return (
     <section>
-      <p className="mb-3 text-sm font-semibold text-[var(--color-accent)]">Junior Forge Future</p>
+      <p className="mb-3 text-sm font-semibold text-[var(--color-accent)]">Інтенсив Forge Future</p>
       <h2 className="ff-display mb-2 text-[clamp(1.5rem,6vw,2.1rem)] font-extrabold leading-tight">Що це за програма</h2>
       <p className="mb-6 text-base leading-relaxed text-[var(--color-muted)]">
         Онлайн-програма для дітей 10-13 років: 6 тижнів, 6 власних речей, перші безпечні публічні покази. Веде Іван особисто.
@@ -446,7 +446,7 @@ export default function StartQuiz() {
           <a className="ff-cta-secondary mb-3 w-full" href="https://forge-future.com/program" target="_blank" rel="noopener noreferrer">Детальніше про програму</a>
           {(
             <p className="mb-3 mt-4 text-sm leading-relaxed text-[var(--color-muted)]">
-              Поки чекаєте розбору: міні-курс для батьків, 5 днів по 15 хвилин. Ви прийдете на розмову вже з картою інтересів.{" "}
+              Поки чекаєте розбору: практикум для батьків, 5 днів по 15 хвилин. Ви прийдете на розмову вже з картою інтересів.{" "}
               <a className="underline" href="/minicourse?c=siteafter" target="_blank" rel="noopener noreferrer">Подивитись →</a>
             </p>
           )}
@@ -516,7 +516,7 @@ export default function StartQuiz() {
             <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">Ще не готові до розмови?</p>
             <p className="ff-display mb-2 text-xl font-extrabold leading-tight">Спершу 5 запитань за 2 хвилини</p>
             <p className="mb-4 text-sm leading-relaxed text-[var(--color-muted)]">
-              Безкоштовно, у Telegram: перший начерк карти інтересів дитини. Далі, якщо захочете, повний курс за 399 грн.
+              Безкоштовно, у Telegram: перший начерк карти інтересів дитини. Далі, якщо захочете, повний практикум за 399 грн.
             </p>
             <a
               href="https://t.me/ivanpervoy_bot?start=ff_mcfree"
@@ -534,7 +534,7 @@ export default function StartQuiz() {
 
           {junior ? (
             <>
-              <h3 className="ff-display mb-3 text-xl font-extrabold">Junior Forge Future</h3>
+              <h3 className="ff-display mb-3 text-xl font-extrabold">Інтенсив Forge Future</h3>
               <ul className="mb-6 flex flex-col gap-2 text-base leading-relaxed">
                 <li>Для дитини 10-13 років, яка ще не знає, що її зачепить: пробувати різне й доводити до кінця.</li>
                 <li>6 тижнів, старт 15 грудня, $750. Щотижня коротка зустріч, 6 власних речей і хвилинні покази.</li>
@@ -544,7 +544,7 @@ export default function StartQuiz() {
             </>
           ) : (
             <>
-              <h3 className="ff-display mb-3 text-xl font-extrabold">Практикум Forge Future</h3>
+              <h3 className="ff-display mb-3 text-xl font-extrabold">Менторська програма Forge Future</h3>
               <ul className="mb-6 flex flex-col gap-2 text-base leading-relaxed">
                 <li>Для підлітка, який ще не знає, чого хоче: знайти напрямок і довести його до першого результату.</li>
                 <li>6 тижнів, група до 10 підлітків 14-19, старт 1 грудня.</li>

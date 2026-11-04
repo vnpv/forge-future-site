@@ -5,7 +5,7 @@ import { pageSeo } from "@/lib/page-seo";
 
 const facts = [
   { k: "Група", v: "до 10 підлітків" },
-  { k: "Практикум", v: "6 тижнів" },
+  { k: "Менторська програма", v: "6 тижнів" },
   { k: "Старт", v: PROGRAM_START_DATE },
   { k: "Веде", v: "Іван Первой особисто" },
 ] as const;
@@ -17,7 +17,7 @@ export default function HomeHero() {
     <div className="relative">
       <div className="ff-hero relative max-w-3xl">
         <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)] sm:mb-5">
-          Forge Future · Практикум 14-19 · Junior 10-13
+          Forge Future · Менторська програма «Перша справа» 14-19 · Інтенсив 10-13
         </p>
 
         <h1 className="ff-display ff-reveal mb-5 text-[clamp(1.9rem,5.4vw,3.4rem)] font-extrabold leading-[1.05] tracking-tight text-white sm:mb-6">
@@ -31,7 +31,7 @@ export default function HomeHero() {
             Записатися на розбір 20 хвилин
           </TelegramCta>
           <Link href="/program" className="ff-cta-link">
-            Про практикум →
+            Про менторську програму →
           </Link>
         </div>
         <p className="mb-8 max-w-md text-sm text-[#8e8a80]">

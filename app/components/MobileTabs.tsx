@@ -78,7 +78,7 @@ export default function MobileTabs() {
   const tab = (href: string, label: string, d: React.ReactNode) => (
     <Link
       href={href}
-      className={`flex flex-1 flex-col items-center gap-1 border-t-2 py-2 text-[11px] font-medium ${on(href) ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)]" : "border-transparent text-[#b9b5ab]"}`}
+      className={`flex flex-1 flex-col items-center gap-1 border-t-2 py-2 text-center text-[11px] font-medium leading-tight ${on(href) ? "border-[var(--color-accent)] bg-[var(--color-accent)]/10 text-[var(--color-accent)]" : "border-transparent text-[#b9b5ab]"}`}
     >
       <Svg d={d} />
       {label}
@@ -118,9 +118,9 @@ export default function MobileTabs() {
       >
         <div className="mx-auto flex max-w-md items-end px-2">
           {tab("/", "Головна", icon.home)}
-          {tab("/minicourse?c=sitetabs", "Міні-курс", icon.mini)}
-          {tab("/junior", "Junior", icon.junior)}
-          {tab("/program", "Практикум", icon.program)}
+          {tab("/minicourse?c=sitetabs", "Практикум", icon.mini)}
+          {tab("/junior", "Інтенсив", icon.junior)}
+          {tab("/program", "Менторська програма", icon.program)}
           <button
             type="button"
             onClick={() => setMenu((m) => !m)}

@@ -37,7 +37,7 @@ export const metadata: Metadata = {
         url: `/images/og-forge-future-1200x630.webp?v=${OG_IMAGE_VERSION}`,
         width: 1200,
         height: 630,
-        alt: "Forge Future - практикум для підлітків",
+        alt: "Forge Future - менторська програма для підлітків",
       },
     ],
   },
@@ -80,7 +80,7 @@ export default function Home() {
             {[
               { n: "01", t: "Розбір 20 хвилин", d: "Ви розповідаєте про дитину, я ставлю питання. Наприкінці скажу, що бачу, і запропоную крок." },
               { n: "02", t: "Місце за вами 48 годин", d: "Час подумати і порадитись із дитиною. Група не більше 10." },
-              { n: "03", t: "6 тижнів практикуму", d: "Власний бізнес-проєкт підлітка, один результат на тиждень, щотижневий апдейт вам." },
+              { n: "03", t: "6 тижнів менторської програми", d: "Власний бізнес-проєкт підлітка, один результат на тиждень, щотижневий апдейт вам." },
               { n: "04", t: "Demo Day", d: "Підліток сам презентує проєкт. Лишається запис і сторінка проєкту." },
             ].map((x) => (
               <div key={x.n} className="flex flex-col gap-2 bg-[#111214] p-6">
@@ -131,7 +131,7 @@ export default function Home() {
                 {homeTwoPaths.junior.desc}
               </p>
               <p className="mt-4 text-sm font-medium text-[#5ee0d0] group-hover:underline">
-                Дивитись Junior →
+                Дивитись інтенсив →
               </p>
             </Link>
             <Link
@@ -148,7 +148,7 @@ export default function Home() {
                 {homeTwoPaths.practicum.desc}
               </p>
               <p className="mt-4 text-sm font-medium text-[#5ee0d0] group-hover:underline">
-                Дивитись Практикум →
+                Дивитись програму →
               </p>
             </Link>
           </div>

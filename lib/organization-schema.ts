@@ -20,7 +20,7 @@ export const organizationSchema = {
   ],
   areaServed: { "@type": "Country", name: "Ukraine" },
   knowsAbout: [
-    "практикум для підлітків",
+    "менторська програма для підлітків",
     "альтернативне навчання",
     "власні проєкти для підлітків",
     "менторство",
