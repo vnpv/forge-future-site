@@ -24,6 +24,7 @@ import {
   programPricing,
   programRhythm,
   programShift,
+  programSkills,
   programVisibility,
   programVs,
   programWeeksV2,
@@ -124,7 +125,30 @@ export default function ProgramPage() {
         </Container>
       </Section>
 
-      {/* 4. ШІСТЬ ТИЖНІВ */}
+      {/* 3b. 10 НАВИЧОК */}
+      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]" id="skills">
+        <Container>
+          <H2>{programSkills.h2}</H2>
+          <Lead>{programSkills.lead}</Lead>
+          <div className="grid gap-px border border-white/12 bg-white/12 md:grid-cols-3">
+            {programSkills.groups.map((g) => (
+              <div key={g.title} className="flex flex-col gap-4 bg-[var(--color-surface)] p-6">
+                <h3 className="ff-display text-lg font-bold text-[var(--color-accent)]">{g.title}</h3>
+                <ul className="flex flex-col gap-3">
+                  {g.skills.map((sk) => (
+                    <li key={sk.name}>
+                      <p className="text-base font-bold">{sk.name}</p>
+                      <p className="text-sm leading-relaxed text-[var(--color-muted)]">{sk.text}</p>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      {/* 4. ВІСІМ ТИЖНІВ */}
       <Section spacing="block" className="border-t border-white/10">
         <Container>
           <H2>{programRhythm.h2}</H2>
@@ -140,6 +164,9 @@ export default function ProgramPage() {
                 </span>
                 <div>
                   <h3 className="ff-display text-lg font-bold sm:text-xl">{w.title}</h3>
+                  <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-[var(--color-accent)] sm:text-sm">
+                    Навички: {w.skills}
+                  </p>
                   <ul className="mt-3 flex flex-col gap-1.5 text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">
                     {w.items.map((it) => (
                       <li key={it} className="flex gap-2">

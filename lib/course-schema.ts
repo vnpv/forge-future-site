@@ -4,7 +4,7 @@ import { SITE_NAME, SITE_URL } from "./site";
 export const programCourseSchema = {
   "@context": "https://schema.org",
   "@type": "Course",
-  name: "6-тижнева програма Forge Future",
+  name: "Менторська програма «Перша справа»: 10 навичок за 2 місяці",
   description:
     "Альтернатива школі: інтенсив від ідеї до демо-дня для амбітної молоді. Мала група, власний проєкт.",
   url: `${SITE_URL}/program`,
@@ -16,7 +16,7 @@ export const programCourseSchema = {
   courseMode: "onsite",
   inLanguage: "uk",
   educationalLevel: "підлітки",
-  timeRequired: "P6W",
+  timeRequired: "P8W",
   audience: {
     "@type": "EducationalAudience",
     educationalRole: "student",

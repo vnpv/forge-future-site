@@ -271,7 +271,7 @@ export default function AboutPage() {
             <li>
               →{" "}
               <Link href="/program" className="text-[#5ee0d0] hover:underline">
-                6-тижнева програма
+                2-місячна програма
               </Link>{" "}
               до 10 підлітків у потоці
             </li>

@@ -71,10 +71,10 @@ function ProgramView({ onBack }: { onBack: () => void }) {
       <p className="mb-3 text-sm font-semibold text-[var(--color-accent)]">Менторська програма Forge Future</p>
       <h2 className="ff-display mb-2 text-[clamp(1.5rem,6vw,2.1rem)] font-extrabold leading-tight">Що це за програма</h2>
       <p className="mb-6 text-base leading-relaxed text-[var(--color-muted)]">
-        6 тижнів, група до 10 підлітків 14-19, старт 1 грудня. Підліток знаходить напрямок і робить власний бізнес-проєкт, веде Іван особисто.
+        2 місяці (8 тижнів), група до 10 підлітків 14-19, старт 1 грудня. Підліток тренує 10 навичок на власній справі, веде Іван особисто.
       </p>
 
-      <h3 className="mb-3 text-sm font-bold uppercase tracking-wide">6 тижнів: що робить підліток</h3>
+      <h3 className="mb-3 text-sm font-bold uppercase tracking-wide">8 тижнів: що робить підліток</h3>
       <ol className="mb-6 flex flex-col gap-3">
         {programWeeksV2.map((w, i) => (
           <li key={w.title} className="flex gap-3 border border-white/10 bg-[var(--color-surface)] p-4">
@@ -547,8 +547,8 @@ export default function StartQuiz() {
               <h3 className="ff-display mb-3 text-xl font-extrabold">Менторська програма Forge Future</h3>
               <ul className="mb-6 flex flex-col gap-2 text-base leading-relaxed">
                 <li>Для підлітка, який ще не знає, чого хоче: знайти напрямок і довести його до першого результату.</li>
-                <li>6 тижнів, група до 10 підлітків 14-19, старт 1 грудня.</li>
-                <li>Підліток обирає і робить власний бізнес-проєкт. Веду особисто я.</li>
+                <li>2 місяці (8 тижнів), група до 10 підлітків 14-19, старт 1 грудня.</li>
+                <li>Підліток обирає власну справу і тренує на ній 10 навичок: від фінансів і AI до публічних виступів. Веду особисто я.</li>
                 <li>Щотижня ви отримуєте апдейт на одну сторінку: що зроблено і що далі.</li>
                 <li>Не підійшло після першого тижня: повертаємо передоплату.</li>
               </ul>
