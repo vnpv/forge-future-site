@@ -202,6 +202,32 @@ const COMMENTS = (cfg: { b: string; as: string; admin: boolean }) => `<script>(f
   if(document.readyState==='complete') setTimeout(init,300); else window.addEventListener('load',function(){ setTimeout(init,300); });
 })();</script>`;
 
+
+/** Єдина світла тема воркбуків Forge Future: читабельна палітра + логотип-трикутник. Накладається поверх власних стилів воркбука (поки що лише для власника). */
+const THEME = `<style id="ff-theme">
+:root{--bg:#eceee3;--bg2:#ffffff;--panel:#ffffff;--panel2:#f3f4ec;--line:#d9dccb;--lime:#dfff3c;--lime-dim:#a9c92a;--lime-soft:#f3fbc9;--white:#161a10;--ink:#161a10;--mid:#4f5446;--dim:#80866f;--olive:#2e3a12;--red:#cf3b3b;--green:#1d8f4a;--yellow:#a2730a;color-scheme:light}
+html,body{background:var(--bg)!important;color:var(--ink)!important;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+body::before,body::after{display:none!important}
+header.top{background:#fff!important;border-bottom:1px solid var(--line)!important;box-shadow:0 1px 0 var(--line)}
+.logo-mark{font-size:0!important;color:transparent!important;width:38px!important;height:38px!important;border-radius:9px!important;transform:none!important;box-shadow:none!important;background:#111214 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cpath d='M20 9 31.5 29H8.5Z' fill='%235EE0D0'/%3E%3C/svg%3E") center/100% 100% no-repeat!important}
+.logo-text,.task-title,.block-title,h1,h2{color:var(--ink)}
+.task-title{font-size:24px;line-height:1.25}
+.task-lead,.logo-sub,.hint,.field-hint{color:var(--mid)!important;font-size:15px;line-height:1.7}
+.tabs-nav .tab-btn,.tab-btn{background:transparent!important;border:1px solid transparent!important;border-bottom:3px solid transparent!important;color:var(--mid)!important;border-radius:8px 8px 0 0!important;font-size:13.5px}
+.tab-btn:hover{background:var(--lime-soft)!important;color:var(--ink)!important}
+.tab-btn.active{background:var(--lime-soft)!important;border-color:var(--line)!important;border-bottom:3px solid var(--ink)!important;color:var(--ink)!important}
+.tab-btn .num,.tab-btn.active .num{color:var(--ink)!important}
+main{background:var(--bg2)!important;border:1px solid var(--line)!important;border-radius:16px!important;box-shadow:0 12px 30px rgba(34,42,16,.06)}
+.block,.panel .block{background:#fbfbf6!important;border:1px solid var(--line)!important;border-radius:14px!important}
+.block-title{display:inline-block;background:var(--lime)!important;color:#14140f!important;padding:5px 10px;border-radius:6px}
+textarea,input[type=text],input[type=date],input[type=number],input[type=email],select{background:#fff!important;color:var(--ink)!important;border:1.5px solid var(--line)!important;border-radius:10px!important;font-size:15.5px!important;line-height:1.65}
+textarea:focus,input:focus,select:focus{border-color:var(--ink)!important;box-shadow:0 0 0 3px rgba(223,255,60,.85)!important;outline:none!important}
+th{background:var(--lime-soft)!important;color:var(--olive)!important}
+td,th{border-color:var(--line)!important}
+.btn,button.btn{border-color:var(--line)}
+.btn:hover{background:var(--lime)!important;color:#14140f!important;border-color:var(--ink)!important}
+</style>`;
+
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const b = url.searchParams.get("b") ?? "";
@@ -236,5 +262,6 @@ export async function GET(request: Request) {
   const withComments = as ? me.role === "admin" : me.role === "student" && v === "main";
   const shim = SHIM({ b, v, as, u: userKey(me.email) }) + (withComments ? COMMENTS({ b, as, admin: Boolean(as) }) : "");
   const page = html.includes("<head>") ? html.replace("<head>", () => "<head>" + shim) : shim + html;
-  return new Response(page, { headers: { ...NOINDEX, "Content-Type": "text/html; charset=utf-8" } });
+  const themed = me.role === "admin" && !as && page.includes("</head>") ? page.replace("</head>", () => THEME + "</head>") : page;
+  return new Response(themed, { headers: { ...NOINDEX, "Content-Type": "text/html; charset=utf-8" } });
 }
