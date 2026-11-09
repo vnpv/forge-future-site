@@ -205,7 +205,7 @@ const COMMENTS = (cfg: { b: string; as: string; admin: boolean }) => `<script>(f
 
 /** Єдина світла тема воркбуків Forge Future: читабельна палітра + логотип-трикутник. Накладається поверх власних стилів воркбука (поки що лише для власника). */
 const THEME = `<style id="ff-theme">
-:root{--bg:#eceee3;--bg2:#ffffff;--panel:#ffffff;--panel2:#f3f4ec;--line:#d9dccb;--lime:#dfff3c;--lime-dim:#a9c92a;--lime-soft:#f3fbc9;--white:#161a10;--ink:#161a10;--mid:#4f5446;--dim:#80866f;--olive:#2e3a12;--red:#cf3b3b;--green:#1d8f4a;--yellow:#a2730a;color-scheme:light}
+html:root:root:root{--bg:#eceee3;--bg2:#ffffff;--panel:#ffffff;--panel2:#f3f4ec;--line:#d9dccb;--lime:#dfff3c;--lime-dim:#a9c92a;--lime-soft:#f3fbc9;--white:#161a10;--ink:#161a10;--mid:#4f5446;--dim:#80866f;--olive:#2e3a12;--red:#cf3b3b;--green:#1d8f4a;--yellow:#a2730a;color-scheme:light}
 html,body{background:var(--bg)!important;color:var(--ink)!important;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
 body::before,body::after{display:none!important}
 header.top{background:#fff!important;border-bottom:1px solid var(--line)!important;box-shadow:0 1px 0 var(--line)}
@@ -226,6 +226,13 @@ th{background:var(--lime-soft)!important;color:var(--olive)!important}
 td,th{border-color:var(--line)!important}
 .btn,button.btn{border-color:var(--line)}
 .btn:hover{background:var(--lime)!important;color:#14140f!important;border-color:var(--ink)!important}
+.task-num-big{color:#14140f!important}
+.formula-box,.sentence-box,.hint-box,.type-badge{background:var(--lime-soft)!important;color:var(--ink)!important;border-color:var(--line)!important}
+.panel,.panel.active{color:var(--ink)}
+.field-label,label{color:var(--ink)}
+.progress-bar{background:var(--panel2)!important;border-color:var(--line)!important}
+.progress-fill{background:linear-gradient(90deg,var(--lime-dim),var(--lime))!important}
+.save-status,.progress-label{color:var(--mid)!important}
 </style>`;
 
 export async function GET(request: Request) {
