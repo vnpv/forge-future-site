@@ -94,31 +94,6 @@ export default function ProgramPage() {
         </Container>
       </Section>
 
-      {/* 3. ІНШИЙ ПІДХІД */}
-      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
-        <Container>
-          <H2>{programShift.h2}</H2>
-          <Lead>{programShift.lead}</Lead>
-          <div className="grid gap-px border border-white/12 bg-white/12 md:grid-cols-3">
-            {programShift.steps.map((s) => (
-              <div key={s.n} className="flex flex-col gap-3 bg-[var(--color-surface)] p-6">
-                <span className="ff-display text-3xl font-extrabold text-[var(--color-accent)]">{s.n}</span>
-                <h3 className="ff-display text-lg font-bold">{s.title}</h3>
-                <p className="text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">{s.text}</p>
-              </div>
-            ))}
-          </div>
-          <p className="mt-8 max-w-2xl text-base leading-relaxed text-[var(--color-muted)]">{programShift.note}</p>
-        </Container>
-      </Section>
-
-      {/* Instagram: рілс і пости прямо на сторінці */}
-      <Section spacing="block" className="border-t border-white/10" id="instagram">
-        <Container>
-          <InstagramShowcase ctaHref={APPLY_PROGRAM_URL} ctaLabel={programHero.cta} />
-        </Container>
-      </Section>
-
       {/* 3b. 10 НАВИЧОК */}
       <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]" id="skills">
         <Container>
@@ -176,87 +151,10 @@ export default function ProgramPage() {
         </Container>
       </Section>
 
-      {/* 5. ВИ БАЧИТЕ, ЩО ВІДБУВАЄТЬСЯ */}
-      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
+      {/* Instagram: рілс і пости прямо на сторінці */}
+      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]" id="instagram">
         <Container>
-          <H2>{programVisibility.h2}</H2>
-          <Lead>{programVisibility.lead}</Lead>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="border border-white/15 p-6">
-              <h3 className="ff-display mb-4 text-lg font-bold">{programVisibility.weekly.title}</h3>
-              <ul className="mb-5 flex flex-col gap-2.5">
-                {programVisibility.weekly.items.map((it) => (
-                  <li key={it} className="flex gap-3 text-base">
-                    <span className="text-[var(--color-accent)]" aria-hidden>
-                      →
-                    </span>
-                    {it}
-                  </li>
-                ))}
-              </ul>
-              <p className="text-sm leading-relaxed text-[var(--color-muted)]">{programVisibility.weekly.note}</p>
-              <a
-                href={programVisibility.weekly.sampleHref}
-                className="mt-5 inline-block text-sm font-semibold text-[var(--color-accent)] underline-offset-4 hover:underline"
-              >
-                {programVisibility.weekly.sampleLabel}
-              </a>
-            </div>
-            <div className="border border-[var(--color-accent)]/50 p-6">
-              <h3 className="ff-display mb-4 text-lg font-bold">{programVisibility.demoDay.title}</h3>
-              <p className="text-base leading-relaxed text-[var(--color-muted)]">{programVisibility.demoDay.text}</p>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      {/* 6. КУРС VS МЕНТОРСЬКА ПРОГРАМА */}
-      <Section spacing="block" className="border-t border-white/10">
-        <Container>
-          <H2>{programVs.h2}</H2>
-          <div className="mt-8 overflow-x-auto">
-            <table className="w-full min-w-[560px] border-collapse text-left text-sm sm:text-base">
-              <thead>
-                <tr className="border-b border-white/25">
-                  {programVs.head.map((h, i) => (
-                    <th
-                      key={h + i}
-                      className={`py-3 pr-4 text-xs font-semibold uppercase tracking-widest ${
-                        i === 2 ? "text-[var(--color-accent)]" : "text-[var(--color-muted-2)]"
-                      }`}
-                    >
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {programVs.rows.map((r) => (
-                  <tr key={r[0]} className="border-b border-white/12 align-top">
-                    <td className="py-4 pr-4 font-medium">{r[0]}</td>
-                    <td className="py-4 pr-4 text-[var(--color-muted)]">{r[1]}</td>
-                    <td className="py-4 pr-4">{r[2]}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </Container>
-      </Section>
-
-      {/* 7. ГАРАНТІЇ */}
-      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
-        <Container>
-          <H2>{programGuarantees.h2}</H2>
-          <div className="mt-8 grid gap-px border border-white/12 bg-white/12 md:grid-cols-3">
-            {programGuarantees.items.map((g) => (
-              <div key={g.title} className="flex flex-col gap-3 bg-[var(--color-surface)] p-6">
-                <h3 className="ff-display text-base font-bold leading-snug">{g.title}</h3>
-                <p className="text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">{g.text}</p>
-              </div>
-            ))}
-          </div>
-          <p className="mt-6 max-w-2xl text-sm leading-relaxed text-[var(--color-muted-2)]">{programGuarantees.note}</p>
+          <InstagramShowcase ctaHref={APPLY_PROGRAM_URL} ctaLabel={programHero.cta} />
         </Container>
       </Section>
 
@@ -310,6 +208,108 @@ export default function ProgramPage() {
           <div className="ff-cta-stack ff-cta-stack--center mt-8">
             <Cta>{programFinal.cta}</Cta>
           </div>
+        </Container>
+      </Section>
+
+      {/* 3. ІНШИЙ ПІДХІД */}
+      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
+        <Container>
+          <H2>{programShift.h2}</H2>
+          <Lead>{programShift.lead}</Lead>
+          <div className="grid gap-px border border-white/12 bg-white/12 md:grid-cols-3">
+            {programShift.steps.map((s) => (
+              <div key={s.n} className="flex flex-col gap-3 bg-[var(--color-surface)] p-6">
+                <span className="ff-display text-3xl font-extrabold text-[var(--color-accent)]">{s.n}</span>
+                <h3 className="ff-display text-lg font-bold">{s.title}</h3>
+                <p className="text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">{s.text}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-8 max-w-2xl text-base leading-relaxed text-[var(--color-muted)]">{programShift.note}</p>
+        </Container>
+      </Section>
+
+      {/* 5. ВИ БАЧИТЕ, ЩО ВІДБУВАЄТЬСЯ */}
+      <Section spacing="block" className="border-t border-white/10">
+        <Container>
+          <H2>{programVisibility.h2}</H2>
+          <Lead>{programVisibility.lead}</Lead>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="border border-white/15 p-6">
+              <h3 className="ff-display mb-4 text-lg font-bold">{programVisibility.weekly.title}</h3>
+              <ul className="mb-5 flex flex-col gap-2.5">
+                {programVisibility.weekly.items.map((it) => (
+                  <li key={it} className="flex gap-3 text-base">
+                    <span className="text-[var(--color-accent)]" aria-hidden>
+                      →
+                    </span>
+                    {it}
+                  </li>
+                ))}
+              </ul>
+              <p className="text-sm leading-relaxed text-[var(--color-muted)]">{programVisibility.weekly.note}</p>
+              <a
+                href={programVisibility.weekly.sampleHref}
+                className="mt-5 inline-block text-sm font-semibold text-[var(--color-accent)] underline-offset-4 hover:underline"
+              >
+                {programVisibility.weekly.sampleLabel}
+              </a>
+            </div>
+            <div className="border border-[var(--color-accent)]/50 p-6">
+              <h3 className="ff-display mb-4 text-lg font-bold">{programVisibility.demoDay.title}</h3>
+              <p className="text-base leading-relaxed text-[var(--color-muted)]">{programVisibility.demoDay.text}</p>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* 6. КУРС VS МЕНТОРСЬКА ПРОГРАМА */}
+      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
+        <Container>
+          <H2>{programVs.h2}</H2>
+          <div className="mt-8 overflow-x-auto">
+            <table className="w-full min-w-[560px] border-collapse text-left text-sm sm:text-base">
+              <thead>
+                <tr className="border-b border-white/25">
+                  {programVs.head.map((h, i) => (
+                    <th
+                      key={h + i}
+                      className={`py-3 pr-4 text-xs font-semibold uppercase tracking-widest ${
+                        i === 2 ? "text-[var(--color-accent)]" : "text-[var(--color-muted-2)]"
+                      }`}
+                    >
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {programVs.rows.map((r) => (
+                  <tr key={r[0]} className="border-b border-white/12 align-top">
+                    <td className="py-4 pr-4 font-medium">{r[0]}</td>
+                    <td className="py-4 pr-4 text-[var(--color-muted)]">{r[1]}</td>
+                    <td className="py-4 pr-4">{r[2]}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Container>
+      </Section>
+
+      {/* 7. ГАРАНТІЇ */}
+      <Section spacing="block" className="border-t border-white/10">
+        <Container>
+          <H2>{programGuarantees.h2}</H2>
+          <div className="mt-8 grid gap-px border border-white/12 bg-white/12 md:grid-cols-3">
+            {programGuarantees.items.map((g) => (
+              <div key={g.title} className="flex flex-col gap-3 bg-[var(--color-surface)] p-6">
+                <h3 className="ff-display text-base font-bold leading-snug">{g.title}</h3>
+                <p className="text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">{g.text}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-6 max-w-2xl text-sm leading-relaxed text-[var(--color-muted-2)]">{programGuarantees.note}</p>
         </Container>
       </Section>
 
@@ -372,16 +372,6 @@ export default function ProgramPage() {
         </Container>
       </Section>
 
-      <Section spacing="block" className="border-t border-white/10">
-        <Container>
-          <MiniCourseStrip
-            channel="siteprog2"
-            title="Якщо зараз це дорого або ви не впевнені: почніть з практикуму"
-            lead="Практикум за 399 грн: 5 днів по 15 хвилин, щоб зрозуміти свою дитину. Далі вирішите про програму. Повернення за 7 днів."
-          />
-        </Container>
-      </Section>
-
       {/* 11. FAQ */}
       <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
         <Container>
@@ -399,6 +389,16 @@ export default function ProgramPage() {
               </details>
             ))}
           </div>
+        </Container>
+      </Section>
+
+      <Section spacing="block" className="border-t border-white/10">
+        <Container>
+          <MiniCourseStrip
+            channel="siteprog2"
+            title="Якщо зараз це дорого або ви не впевнені: почніть з практикуму"
+            lead="Практикум за 399 грн: 5 днів по 15 хвилин, щоб зрозуміти свою дитину. Далі вирішите про програму. Повернення за 7 днів."
+          />
         </Container>
       </Section>
 
@@ -437,6 +437,7 @@ export default function ProgramPage() {
           </div>
         </Container>
       </Section>
+
     </div>
   );
 }
