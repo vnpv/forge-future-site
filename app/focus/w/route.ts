@@ -240,7 +240,6 @@ input[type=checkbox]{accent-color:var(--teal)}
 .progress-fill{background:linear-gradient(90deg,var(--lime-dim),var(--lime))!important}
 .save-status,.progress-label{color:var(--mid)!important}
 </style><script id="ff-theme-js">(function(){
-  if(document.getElementById('hypSel')) return;
   function grow(t){ t.style.height='auto'; t.style.height=(t.scrollHeight+2)+'px'; }
   function conv(i){
     if(i.__c||i.type!=='text') return;
@@ -250,7 +249,7 @@ input[type=checkbox]{accent-color:var(--teal)}
     t.addEventListener('keydown',function(e){ if(e.key==='Enter'&&!e.shiftKey) e.preventDefault(); });
     i.replaceWith(t); grow(t);
   }
-  function run(){ [].forEach.call(document.querySelectorAll('input[type=text]'),conv); [].forEach.call(document.querySelectorAll('textarea'),function(t){ if(t.__c&&t.offsetParent) grow(t); }); }
+  function run(){ if(document.getElementById('hypSel')) return; [].forEach.call(document.querySelectorAll('input[type=text]'),conv); [].forEach.call(document.querySelectorAll('textarea'),function(t){ if(t.__c&&t.offsetParent) grow(t); }); }
   document.addEventListener('input',function(e){ if(e.target.__c) grow(e.target); },true);
   document.addEventListener('click',function(){ setTimeout(run,60); },true);
   new MutationObserver(function(){ clearTimeout(window.__ffT); window.__ffT=setTimeout(run,30); }).observe(document.documentElement,{childList:true,subtree:true});
