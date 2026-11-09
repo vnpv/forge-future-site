@@ -1,53 +1,53 @@
 import Link from "next/link";
 import TelegramCta from "./TelegramCta";
-import { PROGRAM_START_DATE } from "@/lib/content";
 import { pageSeo } from "@/lib/page-seo";
 
-const facts = [
-  { k: "Група", v: "до 10 підлітків" },
-  { k: "Менторська програма", v: "2 місяці, 7 годин на тиждень" },
-  { k: "Старт", v: PROGRAM_START_DATE },
-  { k: "Веде", v: "Іван Первой особисто" },
+/** Екосистема Forge Future: усі входи в одному рядку. */
+const ecosystem = [
+  { label: "Практикум", href: "/minicourse" },
+  { label: "Інтенсив", href: "/junior" },
+  { label: "Менторська програма", href: "/program" },
+  { label: "Відкриті вечори", href: "/events" },
+  { label: "Спільнота", href: "/events" },
 ] as const;
 
 export default function HomeHero() {
-  const { h1, teaser, metaLine } = pageSeo.home;
+  const { h1, teaser } = pageSeo.home;
 
   return (
     <div className="relative">
       <div className="ff-hero relative max-w-3xl">
         <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)] sm:mb-5">
-          Forge Future · Менторська програма «Перша справа» 14-19 · Інтенсив 10-13
+          Forge Future · екосистема становлення підлітків
         </p>
 
-        <h1 className="ff-display ff-reveal mb-5 text-[clamp(1.9rem,5.4vw,3.4rem)] font-extrabold leading-[1.05] tracking-tight text-white sm:mb-6">
+        <h1 className="ff-display ff-reveal mb-5 text-[clamp(2.1rem,6vw,3.8rem)] font-extrabold leading-[1.05] tracking-tight text-white sm:mb-6">
           {h1}
         </h1>
 
-        <p className="mb-8 max-w-xl text-base leading-[1.65] text-[#d2cec4] sm:text-lg">{teaser}</p>
+        <p className="mb-6 max-w-xl text-base leading-[1.6] text-[#d2cec4] sm:text-lg">{teaser}</p>
 
-        <div className="ff-cta-stack mb-3">
+        <ul className="mb-8 flex max-w-2xl flex-wrap gap-2">
+          {ecosystem.map((e) => (
+            <li key={e.label}>
+              <Link
+                href={e.href}
+                className="inline-block rounded-full border border-white/[0.18] px-4 py-2 text-sm font-medium text-[#f1ede4] transition hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+              >
+                {e.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+
+        <div className="ff-cta-stack">
           <TelegramCta flow="program" location="hero">
             Записатися на розбір 20 хвилин
           </TelegramCta>
-          <Link href="/program" className="ff-cta-link">
-            Про менторську програму →
+          <Link href="/minicourse" className="ff-cta-link">
+            Почати з практикуму →
           </Link>
         </div>
-        <p className="mb-8 max-w-md text-sm text-[#8e8a80]">
-          Безкоштовна розмова: що видно у вашій дитині і що спробувати першим.
-        </p>
-
-        <dl className="grid max-w-xl grid-cols-2 gap-x-8 gap-y-5 border-t border-white/[0.12] pt-6 sm:grid-cols-4">
-          {facts.map((f) => (
-            <div key={f.k}>
-              <dt className="text-[11px] font-semibold uppercase tracking-widest text-[#8e8a80]">{f.k}</dt>
-              <dd className="mt-1 text-sm font-medium text-[#f1ede4]">{f.v}</dd>
-            </div>
-          ))}
-        </dl>
-
-        <p className="mt-8 max-w-xl text-sm leading-relaxed text-[#8e8a80]">{metaLine}</p>
       </div>
     </div>
   );
