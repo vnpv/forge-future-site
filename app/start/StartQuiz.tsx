@@ -71,7 +71,7 @@ function ProgramView({ onBack }: { onBack: () => void }) {
       <p className="mb-3 text-sm font-semibold text-[var(--color-accent)]">Менторська програма Forge Future</p>
       <h2 className="ff-display mb-2 text-[clamp(1.5rem,6vw,2.1rem)] font-extrabold leading-tight">Що це за програма</h2>
       <p className="mb-6 text-base leading-relaxed text-[var(--color-muted)]">
-        2 місяці (8 тижнів), група до 10 підлітків 14-19, старт 1 грудня. Підліток тренує 10 навичок на власній справі, веде Іван особисто.
+        2 місяці (8 тижнів), група до 10 підлітків 14-19, старт 1 грудня. Підліток запускає власний міні-бізнес і прокачує 10 дорослих навичок, веде Іван особисто.
       </p>
 
       <h3 className="mb-3 text-sm font-bold uppercase tracking-wide">8 тижнів: що робить підліток</h3>
