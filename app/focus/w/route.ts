@@ -224,7 +224,8 @@ main{background:var(--bg2)!important;border:1px solid var(--line)!important;bord
 .step-badge{background:var(--lime-soft)!important;color:var(--teal)!important}
 textarea,input[type=text],input[type=date],input[type=number],input[type=email],select{background:#fff!important;color:var(--ink)!important;border:1.5px solid var(--line)!important;border-radius:10px!important;font-size:15.5px!important;line-height:1.6}
 textarea:focus,input:focus,select:focus{border-color:var(--teal)!important;box-shadow:0 0 0 3px rgba(94,224,208,.45)!important;outline:none!important}
-table td textarea,table td input{width:100%!important;min-width:170px}
+table td textarea,table td input{width:100%!important;min-width:0}
+td:has(>textarea){min-width:240px}
 td textarea{resize:none;overflow:hidden;min-height:44px;field-sizing:content}
 th{background:var(--panel2)!important;color:var(--mid)!important}
 td,th{border-color:var(--line)!important}
