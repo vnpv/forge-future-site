@@ -94,12 +94,6 @@ export default function ProgramPage() {
         </Container>
       </Section>
 
-      <Section spacing="block" className="border-t border-white/10">
-        <Container>
-          <MiniCourseStrip channel="siteprog" />
-        </Container>
-      </Section>
-
       {/* 3. ІНШИЙ ПІДХІД */}
       <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
         <Container>
@@ -380,7 +374,11 @@ export default function ProgramPage() {
 
       <Section spacing="block" className="border-t border-white/10">
         <Container>
-          <MiniCourseStrip channel="siteprog2" title="Ще вагаєтесь? Спробуйте легший крок" />
+          <MiniCourseStrip
+            channel="siteprog2"
+            title="Якщо зараз це дорого або ви не впевнені: почніть з практикуму"
+            lead="Практикум за 399 грн: 5 днів по 15 хвилин, щоб зрозуміти свою дитину. Далі вирішите про програму. Повернення за 7 днів."
+          />
         </Container>
       </Section>
 
