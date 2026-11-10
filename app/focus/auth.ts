@@ -32,7 +32,7 @@ export function safeEqual(a: string, b: string) {
 const unquote = (x: string) => x.trim().replace(/^["']|["']$/g, "").trim();
 const rows = (raw: string) => unquote(raw).split(/[;\n]/).map((r) => unquote(r).split("|").map(unquote));
 
-function adminUsers() {
+export function adminUsers() {
   const own = process.env.FOCUS_USERS ?? "";
   if (own.trim()) return rows(own).filter(([e, p]) => e && p).map(([e, p]) => ({ email: e.toLowerCase(), pass: p }));
   return rows(process.env.MIDGARD_USERS ?? "")
