@@ -29,17 +29,17 @@ export default function JuniorPage() {
       <header className="hero">
         <HeroPhoto src="/images/ivan-junior-900.webp" desktopPos="object-[center_25%]" mobilePos="object-[85%_0%]" />
         <div className="wrap">
-          <p className="kicker">FORGE FUTURE · JUNIOR · 10–13 РОКІВ</p>
+          <p className="kicker">ШКОЛА ЖИТТЯ · ІНТЕНСИВ · 10–13 РОКІВ</p>
 
           <h1 className="hero-title">
-            <span className="reveal-line">Шість тижнів.</span>
+            <span className="reveal-line">Цікавість,</span>
             <span className="reveal-line">
-              Шість <em>нових</em> речей.
+              яка <em>збирає</em> дитину.
             </span>
           </h1>
 
           <p className="hero-sub">
-            Інтенсив: онлайн-програма для 10–13 років. Кожен тиждень — нова штука,
+            Інтенсив: 6 тижнів онлайн для 10–13 років. Кожен тиждень — нова штука,
             зроблена руками і штучним інтелектом. І показана людям.
           </p>
 

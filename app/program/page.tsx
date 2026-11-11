@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import Section from "../components/Section";
+import Eyebrow from "../components/Eyebrow";
 import HeroPhoto from "../components/HeroPhoto";
 import MiniCourseStrip from "../components/MiniCourseStrip";
 import Container from "../components/Container";
@@ -70,9 +71,7 @@ export default function ProgramPage() {
       <Section spacing="hero" className="relative isolate overflow-hidden">
         <HeroPhoto src="/images/ivan-program-b-900.webp" desktopPos="object-[center_10%]" />
         <Container className="relative">
-          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">
-            {programHero.eyebrow}
-          </p>
+          <Eyebrow product={programHero.eyebrow} />
           <h1 className="ff-display ff-reveal mb-6 max-w-3xl text-[clamp(2rem,6vw,3.6rem)] font-extrabold leading-[1.04] tracking-tight">
             {programHero.h1}
           </h1>

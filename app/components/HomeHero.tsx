@@ -1,5 +1,6 @@
 import Link from "next/link";
 import TelegramCta from "./TelegramCta";
+import Eyebrow from "./Eyebrow";
 import { pageSeo } from "@/lib/page-seo";
 
 /** Екосистема Forge Future: усі входи в одному рядку. */
@@ -17,9 +18,7 @@ export default function HomeHero() {
   return (
     <div className="relative">
       <div className="ff-hero relative max-w-3xl">
-        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)] sm:mb-5">
-          Forge Future · екосистема становлення підлітків
-        </p>
+        <Eyebrow />
 
         <h1 className="ff-display ff-reveal mb-5 text-[clamp(2.1rem,6vw,3.8rem)] font-extrabold leading-[1.05] tracking-tight text-white sm:mb-6">
           {h1}

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Section from "../components/Section";
+import Eyebrow from "../components/Eyebrow";
 import Container from "../components/Container";
 import Image from "next/image";
 import MiniCta from "./MiniCta";
@@ -131,9 +132,7 @@ export default function MinicoursePage() {
         <Container>
           <div className="grid items-center gap-10 md:grid-cols-[1.3fr_1fr]">
             <div>
-              <p className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">
-                Для батьків підлітків · 5 днів у Telegram
-              </p>
+              <Eyebrow product="Практикум для батьків · 5 днів у Telegram" />
               <h1 className="ff-display mb-5 text-[clamp(2rem,7vw,3.6rem)] font-extrabold leading-[1.04] tracking-tight">
                 {minicourseHero.h1}
               </h1>
