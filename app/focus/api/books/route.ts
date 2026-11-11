@@ -12,7 +12,7 @@ export async function GET(request: Request) {
   let students: Awaited<ReturnType<typeof loadStudents>> = [];
   try {
     all = await loadBooks();
-    if (me.role === "admin") students = await loadStudents();
+    if (me.role === "admin" && !me.partner) students = await loadStudents();
   } catch (e) {
     if (e instanceof StoreError) return Response.json({ error: "Сховище тимчасово недоступне. Дані не втрачено." }, { status: 503, headers: NOINDEX });
     throw e;

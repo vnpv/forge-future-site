@@ -1,4 +1,4 @@
-import { NOINDEX, currentUser, statePath } from "../../auth";
+import { NOINDEX, currentUser, stateOwner, statePath } from "../../auth";
 import { BOOK_ID, LEGACY_N } from "../../books";
 import { StoreError, ownCached, readText, storageReady, writeText } from "../../store";
 
@@ -38,13 +38,13 @@ export async function GET(request: Request) {
   const me = await currentUser(request);
   if (!me) return err("Потрібен вхід", 401);
   if (!BOOK_ID.test(b)) return err("Невідомий воркбук", 404);
-  if (as && me.role !== "admin") return err("Немає доступу", 403);
+  if (as && (me.role !== "admin" || me.partner)) return err("Немає доступу", 403);
   if (!storageReady()) return withRev({}, 0);
-  const target = as || me.email;
+  const target = as || stateOwner(me);
   try {
     let text = await readText(statePath(target, b, v), true);
     // Перенесення зі старої схеми (до акаунтів): стан власника лежав у focus/state/<n>.json
-    if (text === null && me.role === "admin" && !as && v === "main" && LEGACY_N[b]) text = await readText(`focus/state/${LEGACY_N[b]}.json`, true);
+    if (text === null && me.role === "admin" && !me.partner && !as && v === "main" && LEGACY_N[b]) text = await readText(`focus/state/${LEGACY_N[b]}.json`, true);
     const st = unpack(text);
     return withRev(st.data, st.rev);
   } catch (e) {
@@ -68,7 +68,7 @@ export async function PUT(request: Request) {
   const clean: Record<string, string> = {};
   for (const [k, val] of Object.entries(obj as Record<string, unknown>)) if (typeof val === "string" && k.length < 120) clean[k] = val;
   // Оптимістична версія: якщо стан змінили деінде (інша вкладка/пристрій), не перезаписуємо мовчки
-  const path = statePath(me.email, b, v);
+  const path = statePath(stateOwner(me), b, v);
   try {
     // власний недавній запис цього інстансу береться з пам'яті (без читання з Blob)
     const cached = ownCached(path);

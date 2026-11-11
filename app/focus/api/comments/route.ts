@@ -36,7 +36,7 @@ async function target(request: Request) {
   const me = await currentUser(request);
   if (!me) return { fail: err("Потрібен вхід", 401) };
   if (!BOOK_ID.test(b)) return { fail: err("Невідомий воркбук", 404) };
-  if (as && me.role !== "admin") return { fail: err("Немає доступу", 403) };
+  if (as && (me.role !== "admin" || me.partner)) return { fail: err("Немає доступу", 403) };
   return { me, b, as, url };
 }
 
@@ -56,7 +56,7 @@ export async function GET(request: Request) {
 async function adminTarget(request: Request) {
   const t = await target(request);
   if ("fail" in t) return t;
-  if (t.me.role !== "admin") return { fail: err("Немає доступу", 403) };
+  if (t.me.role !== "admin" || t.me.partner) return { fail: err("Немає доступу", 403) };
   if (!t.as) return { fail: err("Не вказано учня", 400) };
   if (!storageReady()) return { fail: err("Сховище не підключене", 503) };
   return t;

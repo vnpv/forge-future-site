@@ -20,7 +20,7 @@ export type Role = "admin" | "student";
 export type Track = "business" | "career";
 export const TRACKS: Track[] = ["business", "career"];
 export const normTrack = (t: unknown): Track => (t === "career" ? "career" : "business");
-export type Me = { email: string; role: Role; name: string; track: Track };
+export type Me = { email: string; role: Role; name: string; track: Track; partner?: boolean };
 
 export function safeEqual(a: string, b: string) {
   if (a.length !== b.length) return false;
@@ -41,7 +41,8 @@ export function adminUsers() {
 }
 
 /* ---------- учні в Blob ---------- */
-export type Student = { email: string; name: string; track?: Track; salt: string; hash: string; createdAt: string };
+/** partner — співробітник/методолог: ті самі воркбуки й відповіді власника (читає й редагує), але без робіт учнів і керування акаунтами. */
+export type Student = { email: string; name: string; track?: Track; partner?: boolean; salt: string; hash: string; createdAt: string };
 const USERS_PATH = "focus/users.json";
 
 export async function loadStudents(fresh = false): Promise<Student[]> {
@@ -54,20 +55,26 @@ export async function loadStudents(fresh = false): Promise<Student[]> {
 }
 export const saveStudents = (users: Student[]) => writeText(USERS_PATH, JSON.stringify({ users }), "application/json");
 const hashPass = (pass: string, salt: string) => scryptSync(pass, salt, 32).toString("hex");
-export function makeStudent(email: string, name: string, password: string, track: Track = "business"): Student {
+export function makeStudent(email: string, name: string, password: string, track: Track = "business", partner = false): Student {
   const salt = randomBytes(16).toString("hex");
-  return { email: email.toLowerCase(), name, track, salt, hash: hashPass(password, salt), createdAt: new Date().toISOString() };
+  return { email: email.toLowerCase(), name, track, ...(partner ? { partner: true } : {}), salt, hash: hashPass(password, salt), createdAt: new Date().toISOString() };
 }
 export function newPassword() {
   const abc = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   return Array.from(randomBytes(10), (b) => abc[b % abc.length]).join("");
 }
 
+const meOf = (s: Student): Me =>
+  s.partner ? { email: s.email, role: "admin", name: s.name, track: "business", partner: true } : { email: s.email, role: "student", name: s.name, track: normTrack(s.track) };
+
+/** Чий стан воркбуків читає/пише ця людина: партнер працює зі станом власника. */
+export const stateOwner = (me: Me) => (me.partner ? (adminUsers()[0]?.email ?? me.email) : me.email);
+
 export async function verifyLogin(email: string, password: string): Promise<Me | null> {
   const e = email.trim().toLowerCase();
   if (adminUsers().some((u) => safeEqual(u.email, e) && safeEqual(u.pass, password))) return { email: e, role: "admin", name: "Власник", track: "business" };
   const s = (await loadStudents(true).catch(() => [] as Student[])).find((u) => u.email === e);
-  if (s && timingSafeEqual(Buffer.from(hashPass(password, s.salt), "hex"), Buffer.from(s.hash, "hex"))) return { email: e, role: "student", name: s.name, track: normTrack(s.track) };
+  if (s && timingSafeEqual(Buffer.from(hashPass(password, s.salt), "hex"), Buffer.from(s.hash, "hex"))) return meOf(s);
   return null;
 }
 
@@ -96,7 +103,7 @@ export async function currentUser(request: Request): Promise<Me | null> {
   const email = decodeURIComponent(enc);
   if (adminUsers().some((u) => u.email === email)) return { email, role: "admin", name: "Власник", track: "business" };
   const s = (await loadStudents().catch(() => [] as Student[])).find((u) => u.email === email);
-  return s ? { email, role: "student", name: s.name, track: normTrack(s.track) } : null;
+  return s ? meOf(s) : null;
 }
 
 /** Ключ конвеєра CEO OS (той самий, що й для MIDGARD) — для завантаження файлів воркбуків скриптом. */

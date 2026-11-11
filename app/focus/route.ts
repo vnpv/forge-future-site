@@ -116,7 +116,7 @@ iframe{flex:1;width:100%;border:0;background:#fff}
   fetch('/focus/api/books',{credentials:'same-origin'}).then(function(r){return r.json()}).then(function(d){
     if(d.error && !d.me){ if(/недоступне/.test(d.error)){ var em=$('empty'); em.hidden=false; em.textContent=d.error; return; } location.reload(); return; }
     S.admin=d.me.role==='admin'; S.books=d.books.filter(function(b){ return S.admin || b.main || b.example; }); S.students=d.students||[]; $('who').textContent=d.me.name||d.me.email;
-    if(d.me.role==='admin'){ $('adm').hidden=false;
+    if(d.me.role==='admin'){ $('adm').hidden=!!d.me.partner;
       if(S.students.length){ $('stuBtn').hidden=false; var m=$('stuMenu');
         S.students.forEach(function(s){ var b=el('button',''); b.type='button'; b.appendChild(el('span','',s.name)); b.appendChild(el('small','',s.email+' · '+(s.track==='career'?'Старт карʼєри':'Власна справа'))); b.onclick=function(){ openAs(s); }; m.appendChild(b); }); } }
     var n={}; try{ n=JSON.parse(localStorage.getItem('focus_nav')||'{}'); }catch(e){}

@@ -58,6 +58,6 @@ load();
 
 export async function GET(request: Request) {
   const me = await currentUser(request);
-  if (!me || me.role !== "admin") return new Response(null, { status: 303, headers: { ...NOINDEX, Location: "/focus" } });
+  if (!me || me.role !== "admin" || me.partner) return new Response(null, { status: 303, headers: { ...NOINDEX, Location: "/focus" } });
   return new Response(PAGE, { headers: { ...NOINDEX, "Content-Type": "text/html; charset=utf-8" } });
 }
