@@ -264,7 +264,7 @@ export async function GET(request: Request) {
   const as = url.searchParams.get("as") ?? "";
   const me = await currentUser(request);
   if (!me) return new Response("Потрібен вхід", { status: 401, headers: NOINDEX });
-  if (as && (me.role !== "admin" || me.partner)) return new Response("Немає доступу", { status: 403, headers: NOINDEX });
+  if (as && me.role !== "admin") return new Response("Немає доступу", { status: 403, headers: NOINDEX });
   if (!BOOK_ID.test(b)) return new Response("Невідомий воркбук", { status: 404, headers: NOINDEX });
   if (!storageReady()) return new Response("Сховище не підключене", { status: 503, headers: NOINDEX });
   let book;
@@ -289,7 +289,7 @@ export async function GET(request: Request) {
   }
   if (!html) return new Response("Файл воркбука не знайдено у сховищі", { status: 404, headers: NOINDEX });
   const withComments = as ? me.role === "admin" : me.role === "student" && v === "main";
-  const shim = SHIM({ b, v, as, u: userKey(me.email) }) + (withComments ? COMMENTS({ b, as, admin: Boolean(as) }) : "");
+  const shim = SHIM({ b, v, as, u: userKey(me.email) }) + (withComments ? COMMENTS({ b, as, admin: Boolean(as) && !me.partner }) : "");
   const page = html.includes("<head>") ? html.replace("<head>", () => "<head>" + shim) : shim + html;
   const themed = me.role === "admin" && !as && page.includes("</head>") ? page.replace("</head>", () => THEME + "</head>") : page;
   return new Response(themed, { headers: { ...NOINDEX, "Content-Type": "text/html; charset=utf-8" } });

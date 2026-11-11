@@ -36,7 +36,7 @@ async function target(request: Request) {
   const me = await currentUser(request);
   if (!me) return { fail: err("Потрібен вхід", 401) };
   if (!BOOK_ID.test(b)) return { fail: err("Невідомий воркбук", 404) };
-  if (as && (me.role !== "admin" || me.partner)) return { fail: err("Немає доступу", 403) };
+  if (as && me.role !== "admin") return { fail: err("Немає доступу", 403) };
   return { me, b, as, url };
 }
 

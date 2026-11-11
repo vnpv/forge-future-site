@@ -41,7 +41,7 @@ export function adminUsers() {
 }
 
 /* ---------- учні в Blob ---------- */
-/** partner — співробітник/методолог: ті самі воркбуки й відповіді власника (читає й редагує), але без робіт учнів і керування акаунтами. */
+/** partner — співробітник/методолог: ті самі воркбуки й відповіді власника (читає й редагує), і бачить роботи учнів (лише читання), без коментарів до них і керування акаунтами. */
 export type Student = { email: string; name: string; track?: Track; partner?: boolean; salt: string; hash: string; createdAt: string };
 const USERS_PATH = "focus/users.json";
 

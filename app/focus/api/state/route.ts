@@ -38,7 +38,7 @@ export async function GET(request: Request) {
   const me = await currentUser(request);
   if (!me) return err("Потрібен вхід", 401);
   if (!BOOK_ID.test(b)) return err("Невідомий воркбук", 404);
-  if (as && (me.role !== "admin" || me.partner)) return err("Немає доступу", 403);
+  if (as && me.role !== "admin") return err("Немає доступу", 403);
   if (!storageReady()) return withRev({}, 0);
   const target = as || stateOwner(me);
   try {
