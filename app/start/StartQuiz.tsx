@@ -403,7 +403,7 @@ export default function StartQuiz() {
               батько двох синів, засновник Forge Future
             </p>
           </div>
-          <h1 className={`ff-display mb-3 text-[clamp(1.6rem,7vw,2.3rem)] font-extrabold leading-tight transition-opacity ${refReady ? "opacity-100" : "opacity-0"}`}>
+          <h1 className={`ff-display mb-3 text-[clamp(1.6rem,7vw,2.3rem)] font-extrabold leading-tight ${refReady ? "opacity-100" : "opacity-0"}`}>
             {bridgeTitle(ref)}
           </h1>
           <p className="mb-4 text-base leading-relaxed text-[var(--color-muted)]">
