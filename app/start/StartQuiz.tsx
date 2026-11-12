@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { botLink, cleanRef, fearLines, isJuniorAge, juniorFearLines, juniorProfiles, juniorQuestions, profiles, questions, SHARE_TEXT } from "@/lib/start-quiz";
+import { botLink, bridgeTitle, cleanRef, fearLines, isJuniorAge, juniorFearLines, juniorProfiles, juniorQuestions, profiles, questions, SHARE_TEXT } from "@/lib/start-quiz";
 import { miniAppUrl } from "@/lib/telegram";
 import Booking from "./Booking";
 import { programFor, programGuarantees, programVisibility, programWeeksV2 } from "@/lib/program-page";
@@ -198,6 +198,7 @@ export default function StartQuiz() {
   const [step, setStep] = useState(1); // 1..4 питання, 5 результат (вступного екрана немає: одразу перше питання)
   const [answers, setAnswers] = useState<number[]>([]);
   const [ref, setRef] = useState("");
+  const [refReady, setRefReady] = useState(false);
   const [copied, setCopied] = useState(false);
   const [tg, setTg] = useState<TgWebApp | null>(null);
   const [home, setHome] = useState("");
@@ -213,6 +214,7 @@ export default function StartQuiz() {
       else r = cleanRef(localStorage.getItem(REF_KEY));
     } catch {}
     setRef(r);
+    setRefReady(true);
   }, []);
 
   /** Telegram Mini App: SDK вантажиться окремо, чекаємо на нього до 3 с. Поза Telegram initData порожній. */
@@ -391,6 +393,30 @@ export default function StartQuiz() {
 
   return (
     <main className={`mx-auto w-full max-w-xl px-4 py-8 sm:py-12 ${showWebSticky ? "pb-28" : ""}`}>
+      {step === 1 && !tg && (
+        <header className="mb-8">
+          <div className="mb-4 flex items-center gap-3">
+            <Image src="/images/ivan-founder-800.webp" alt="Іван Первой" width={56} height={56} unoptimized priority className="h-14 w-14 rounded-full object-cover" />
+            <p className="text-sm leading-snug text-[var(--color-muted)]">
+              <b className="text-[var(--color-foreground)]">Іван Первой</b>
+              <br />
+              батько двох синів, засновник Forge Future
+            </p>
+          </div>
+          <h1 className={`ff-display mb-3 text-[clamp(1.6rem,7vw,2.3rem)] font-extrabold leading-tight transition-opacity ${refReady ? "opacity-100" : "opacity-0"}`}>
+            {bridgeTitle(ref)}
+          </h1>
+          <p className="mb-4 text-base leading-relaxed text-[var(--color-muted)]">
+            Дайте відповідь на {qs.length} короткі питання і одразу побачите, що найімовірніше відбувається з підлітком і що спробувати вже цього тижня. Далі, якщо захочете, безкоштовний розбір зі мною на 20 хвилин.
+          </p>
+          <ul className="flex flex-wrap gap-2 text-sm">
+            {["≈ 1 хвилина", "без реєстрації", "результат одразу"].map((t) => (
+              <li key={t} className="border border-white/15 px-3 py-1 text-[var(--color-muted)]">{t}</li>
+            ))}
+          </ul>
+        </header>
+      )}
+
       {step >= 1 && step <= qs.length && (
         <section>
           <p className="mb-3 text-sm text-[var(--color-muted-2)]">
@@ -402,12 +428,12 @@ export default function StartQuiz() {
           <h2 className="ff-display mb-5 text-[clamp(1.3rem,5.5vw,1.8rem)] font-extrabold leading-tight">
             {qs[step - 1].title}
           </h2>
-          <div className="flex flex-col gap-3">
+          <div className={qs[step - 1].id === "age" ? "grid grid-cols-3 gap-3" : "flex flex-col gap-3"}>
             {qs[step - 1].options.map((o, i) => (
               <button
                 key={o.label}
                 onClick={() => pick(i)}
-                className="border border-white/20 bg-[var(--color-surface)] px-4 py-4 text-left text-base transition-colors hover:border-[var(--color-accent)]"
+                className={`border border-white/20 bg-[var(--color-surface)] py-4 text-base transition-colors hover:border-[var(--color-accent)] ${qs[step - 1].id === "age" ? "px-2 text-center font-bold" : "px-4 text-left"}`}
               >
                 {o.label}
               </button>
