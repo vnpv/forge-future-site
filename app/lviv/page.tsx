@@ -223,6 +223,26 @@ export default function LvivPage() {
                 </div>
               </div>
             ))}
+            <a
+              href={lvivTeam.partner.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group flex items-center gap-5 bg-[var(--color-surface)] p-6 transition-colors hover:bg-[var(--color-surface-2)]"
+            >
+              <Image
+                src={lvivTeam.partner.logo}
+                alt={`Логотип ${lvivTeam.partner.name}`}
+                width={96}
+                height={96}
+                unoptimized
+                className="h-24 w-24 shrink-0 border border-white/12 object-cover"
+              />
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-[var(--color-accent)]">{lvivTeam.partner.label}</p>
+                <p className="ff-display mt-1 text-xl font-bold">{lvivTeam.partner.name} <span aria-hidden className="text-[var(--color-muted-2)] transition-colors group-hover:text-[var(--color-accent)]">↗</span></p>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--color-muted)]">{lvivTeam.partner.text}</p>
+              </div>
+            </a>
           </div>
         </Container>
       </Section>

@@ -124,7 +124,7 @@ export const lvivFaq = [
 ];
 
 export const lvivTeam = {
-  h2: "Команда і партнери",
+  h2: "Команда і партнер",
   people: [
     {
       name: "Сергій Тараненко",
@@ -132,14 +132,12 @@ export const lvivTeam = {
       text: "Відповідає за методологію й структуру програми. Працює дистанційно, програму хакатону й заняття веде Іван.",
       links: [{ label: "Instagram", href: "https://www.instagram.com/s.taranenko/" }],
     },
-    {
-      name: "Олег Попов",
-      role: "Партнер, школа Midgard",
-      text: "Освітній партнер Forge Future. Школа Midgard працює з нами над якістю занять і форматами для школярів.",
-      links: [
-        { label: "Instagram Олега", href: "https://www.instagram.com/oleg_popov_midgard/" },
-        { label: "Школа Midgard", href: "https://www.instagram.com/midgard.education/" },
-      ],
-    },
   ],
+  partner: {
+    label: "Освітній партнер",
+    name: "Midgard",
+    text: "Школа Midgard працює з Forge Future над якістю занять і форматами для школярів.",
+    logo: "/images/midgard-logo.jpg",
+    href: "https://www.instagram.com/midgard.education/",
+  },
 };
