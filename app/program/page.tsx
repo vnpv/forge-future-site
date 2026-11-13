@@ -33,30 +33,23 @@ import {
 } from "@/lib/program-page";
 import { programCourseSchema } from "@/lib/course-schema";
 import { pageSeo } from "@/lib/page-seo";
-import { pageAlternates } from "@/lib/seo";
+import { programMetadata } from "@/lib/program-meta";
 import { APPLY_PROGRAM_URL } from "@/lib/telegram";
 
-export const metadata: Metadata = {
-  title: pageSeo.program.title,
-  description: pageSeo.program.description,
-  alternates: pageAlternates("/program"),
-  // Без og:url: Telegram веде з картки превʼю на той лінк, яким поділились (разом із ?ref=...), а не на головну.
-  openGraph: {
-    type: "website",
-    locale: "uk_UA",
-    siteName: "Forge Future",
-    title: pageSeo.program.title,
-    description: pageSeo.program.description,
-    images: [
-      {
-        url: "/images/og-forge-future-1200x630.webp?v=2026-09-08",
-        width: 1200,
-        height: 630,
-        alt: "Forge Future, менторська програма для підлітків",
-      },
-    ],
-  },
-};
+/** З ?ref=<код> canonical і og:url ведуть на той самий лінк із кодом (картка превʼю в Telegram веде за canonical), сторінка не індексується. */
+export async function generateMetadata({ searchParams }: { searchParams?: Promise<{ ref?: string | string[] }> }): Promise<Metadata> {
+  const raw = (await searchParams)?.ref;
+  const ref = Array.isArray(raw) ? raw[0] : raw;
+  if (!ref || !/^[a-z0-9]{1,16}$/i.test(ref)) return programMetadata;
+  const url = `/program?ref=${ref.toLowerCase()}`;
+  return {
+    ...programMetadata,
+    alternates: { canonical: url },
+    robots: { index: false, follow: false },
+    openGraph: { ...(programMetadata.openGraph ?? {}), url } as Metadata["openGraph"],
+  };
+}
+
 
 /** Питання, на які вже відповідають блоки ціни, гарантій і кнопка запису. */
 const FAQ_DROP: readonly string[] = ["Яка різниця між пакетами?", "Ви гарантуєте гроші чи клієнтів?", "Як записатися?"];
