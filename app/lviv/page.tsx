@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import Section from "../components/Section";
 import Container from "../components/Container";
 import Eyebrow from "../components/Eyebrow";
 import HeroPhoto from "../components/HeroPhoto";
+import AuthorBlock from "../components/AuthorBlock";
 import {
   lviv,
-  lvivAuthor,
-  lvivFacts,
   lvivFaq,
   lvivForWhom,
   lvivHero,
@@ -16,9 +14,7 @@ import {
   lvivOutcome,
   lvivSafety,
   lvivSchedule,
-  lvivTeam,
 } from "@/lib/lviv";
-import { founder } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Хакатон «Перша справа за 2 дні» у Львові, 28–29 листопада",
@@ -38,19 +34,6 @@ function H2({ children }: { children: React.ReactNode }) {
 
 function Lead({ children }: { children: React.ReactNode }) {
   return <p className="mb-8 max-w-2xl text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">{children}</p>;
-}
-
-function ExtLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return (
-    <a
-      className="inline-flex items-center border border-white/20 px-3 py-1.5 text-xs font-semibold transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {children} <span className="ml-1.5" aria-hidden>↗</span>
-    </a>
-  );
 }
 
 function Cta({ children, ghost = false }: { children: React.ReactNode; ghost?: boolean }) {
@@ -166,86 +149,7 @@ export default function LvivPage() {
         </Container>
       </Section>
 
-      {/* 5. ХТО ПРОВОДИТЬ */}
-      <Section spacing="block" className="border-t border-white/10">
-        <Container>
-          <H2>{lvivAuthor.h2}</H2>
-          <div className="mt-8 grid gap-10 md:grid-cols-[280px_1fr] md:gap-12">
-            <div>
-              <Image
-                src={founder.photoUrl}
-                alt={founder.photoAlt}
-                width={560}
-                height={700}
-                unoptimized
-                className="aspect-[4/5] w-full max-w-[280px] border border-white/12 object-cover object-top"
-              />
-              <p className="ff-display mt-4 text-xl font-bold">{lvivAuthor.name}</p>
-              <p className="text-sm text-[var(--color-muted)]">{lvivAuthor.role}</p>
-            </div>
-            <div className="max-w-2xl">
-              <dl className="mb-6 grid grid-cols-3 gap-px border border-white/12 bg-white/12">
-                {lvivFacts.map((f) => (
-                  <div key={f.k} className="bg-[var(--color-background)] p-4">
-                    <dt className="ff-display text-xl font-extrabold text-[var(--color-accent)] sm:text-2xl">{f.k}</dt>
-                    <dd className="mt-1 text-xs leading-snug text-[var(--color-muted)] sm:text-sm">{f.v}</dd>
-                  </div>
-                ))}
-              </dl>
-              {[lvivAuthor.intro, lvivAuthor.career, lvivAuthor.ai, lvivAuthor.now].map((p) => (
-                <p key={p} className="mb-4 text-base leading-relaxed text-[var(--color-muted)]">{p}</p>
-              ))}
-              <p className="mb-3 mt-6 text-[11px] font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">Перевірити можна тут</p>
-              <div className="flex flex-wrap gap-2">
-                {lvivAuthor.links.map((l) => (
-                  <ExtLink key={l.href} href={l.href}>{l.label}</ExtLink>
-                ))}
-              </div>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      {/* 6. КОМАНДА */}
-      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
-        <Container>
-          <H2>{lvivTeam.h2}</H2>
-          <div className="mt-8 grid gap-px border border-white/12 bg-white/12 md:grid-cols-2">
-            {lvivTeam.people.map((p) => (
-              <div key={p.name} className="flex flex-col gap-3 bg-[var(--color-surface)] p-6">
-                <p className="ff-display text-xl font-bold">{p.name}</p>
-                <p className="text-xs font-semibold uppercase tracking-wide text-[var(--color-accent)]">{p.role}</p>
-                <p className="text-base leading-relaxed text-[var(--color-muted)]">{p.text}</p>
-                <div className="mt-1 flex flex-wrap gap-2">
-                  {p.links.map((l) => (
-                    <ExtLink key={l.href} href={l.href}>{l.label}</ExtLink>
-                  ))}
-                </div>
-              </div>
-            ))}
-            <a
-              href={lvivTeam.partner.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex items-center gap-5 bg-[var(--color-surface)] p-6 transition-colors hover:bg-[var(--color-surface-2)]"
-            >
-              <Image
-                src={lvivTeam.partner.logo}
-                alt={`Логотип ${lvivTeam.partner.name}`}
-                width={96}
-                height={96}
-                unoptimized
-                className="h-24 w-24 shrink-0 border border-white/12 object-cover"
-              />
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-[var(--color-accent)]">{lvivTeam.partner.label}</p>
-                <p className="ff-display mt-1 text-xl font-bold">{lvivTeam.partner.name} <span aria-hidden className="text-[var(--color-muted-2)] transition-colors group-hover:text-[var(--color-accent)]">↗</span></p>
-                <p className="mt-2 text-sm leading-relaxed text-[var(--color-muted)]">{lvivTeam.partner.text}</p>
-              </div>
-            </a>
-          </div>
-        </Container>
-      </Section>
+      <AuthorBlock className="border-t border-white/10" />
 
       {/* 7. БЕЗПЕКА */}
       <Section spacing="block" className="border-t border-white/10">

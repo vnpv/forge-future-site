@@ -1,17 +1,16 @@
 import TelegramCta from "../components/TelegramCta";
-import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import Section from "../components/Section";
 import Eyebrow from "../components/Eyebrow";
 import HeroPhoto from "../components/HeroPhoto";
 import MiniCourseStrip from "../components/MiniCourseStrip";
+import AuthorBlock from "../components/AuthorBlock";
 import Container from "../components/Container";
 import JsonLd from "@/components/JsonLd";
 import InstagramShowcase from "../components/InstagramShowcase";
 import { reelVideoSchema } from "@/lib/instagram";
 import {
-  founder,
   PROGRAM_START_DATE,
   programPackages,
 } from "@/lib/content";
@@ -19,7 +18,7 @@ import {
   programFaqsV2,
   programFinal,
   programFor,
-  programFounderLine,
+  programHackathons,
   programGuarantees,
   programHero,
   programPricing,
@@ -348,28 +347,34 @@ export default function ProgramPage() {
         </Container>
       </Section>
 
-      {/* 10. ХТО ВЕДЕ */}
+      {/* 10a. ХАКАТОНИ */}
       <Section spacing="block" className="border-t border-white/10">
         <Container>
-          <H2>Хто веде</H2>
-          <div className="mt-6 flex flex-col gap-6 sm:flex-row sm:items-start">
-            <div className="relative h-28 w-28 shrink-0 overflow-hidden border-2 border-white/30">
-              <Image
-                src={founder.photoUrl}
-                alt={founder.photoAlt}
-                fill
-                className="object-cover object-[center_15%] grayscale"
-                sizes="112px"
-              />
-            </div>
-            <div>
-              <p className="ff-display text-base font-bold">{founder.fullName}</p>
-              <p className="mt-0.5 text-sm text-[var(--color-muted-2)]">Засновник Forge Future</p>
-              <p className="mt-3 max-w-xl text-base leading-relaxed text-[var(--color-muted)]">{programFounderLine}</p>
-            </div>
+          <H2>{programHackathons.h2}</H2>
+          <Lead>{programHackathons.lead}</Lead>
+          <div className="border-t border-white/20">
+            {programHackathons.rows.map((r) => (
+              <div key={r.when} className="grid gap-2 border-b border-white/20 py-5 sm:grid-cols-[200px_1fr_auto] sm:items-center sm:gap-6">
+                <p className="ff-display text-lg font-extrabold text-[var(--color-accent)]">{r.when}</p>
+                <div>
+                  <p className="text-base font-bold">{r.where}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-[var(--color-muted)]">{r.text}</p>
+                </div>
+                {r.href ? (
+                  r.href.startsWith("/") ? (
+                    <Link className="ff-cta-secondary" href={r.href}>{r.cta}</Link>
+                  ) : (
+                    <a className="ff-cta-secondary" href={r.href} target="_blank" rel="noopener noreferrer">{r.cta}</a>
+                  )
+                ) : null}
+              </div>
+            ))}
           </div>
         </Container>
       </Section>
+
+      {/* 10. ХТО ВЕДЕ */}
+      <AuthorBlock className="border-t border-white/10 bg-[var(--color-surface)]" />
 
       {/* 11. FAQ */}
       <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
