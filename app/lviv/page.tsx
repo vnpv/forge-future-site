@@ -15,6 +15,7 @@ import {
   lvivOutcome,
   lvivSafety,
   lvivSchedule,
+  lvivTeam,
 } from "@/lib/lviv";
 import { founder } from "@/lib/content";
 
@@ -155,6 +156,28 @@ export default function LvivPage() {
                 ))}
               </ul>
             </div>
+          </div>
+        </Container>
+      </Section>
+
+      <Section spacing="block" className="border-t border-white/10">
+        <Container>
+          <H2>{lvivTeam.h2}</H2>
+          <div className="grid max-w-4xl gap-8 sm:grid-cols-2">
+            {lvivTeam.people.map((p) => (
+              <div key={p.name}>
+                <p className="ff-display text-lg font-bold">{p.name}</p>
+                <p className="mb-2 text-sm text-[var(--color-accent)]">{p.role}</p>
+                <p className="mb-3 text-base leading-relaxed text-[var(--color-muted)]">{p.text}</p>
+                <ul className="flex flex-wrap gap-x-5 gap-y-2 text-sm">
+                  {p.links.map((l) => (
+                    <li key={l.href}>
+                      <a className="underline decoration-white/30 underline-offset-4 hover:text-[var(--color-accent)]" href={l.href} target="_blank" rel="noopener noreferrer">{l.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </Container>
       </Section>

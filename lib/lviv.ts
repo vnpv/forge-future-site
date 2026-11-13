@@ -122,3 +122,24 @@ export const lvivFaq = [
   { q: "Якщо подія не відбудеться?", a: `Якщо до ${lviv.signupDeadline} не збереться достатньо учасників, повідомимо і повернемо оплату повністю або запропонуємо онлайн-формат.` },
   { q: "Хто відповідає за дітей?", a: "Організатор Іван Первой разом із помічниками. Контакт організатора ви отримаєте до події." },
 ];
+
+export const lvivTeam = {
+  h2: "Команда і партнери",
+  people: [
+    {
+      name: "Сергій Тараненко",
+      role: "Продуктовий партнер Forge Future",
+      text: "Відповідає за методологію й структуру програми. Працює дистанційно, програму хакатону й заняття веде Іван.",
+      links: [{ label: "Instagram", href: "https://www.instagram.com/s.taranenko/" }],
+    },
+    {
+      name: "Олег Попов",
+      role: "Партнер, школа Midgard",
+      text: "Освітній партнер Forge Future. Школа Midgard працює з нами над якістю занять і форматами для школярів.",
+      links: [
+        { label: "Instagram Олега", href: "https://www.instagram.com/oleg_popov_midgard/" },
+        { label: "Школа Midgard", href: "https://www.instagram.com/midgard.education/" },
+      ],
+    },
+  ],
+};
