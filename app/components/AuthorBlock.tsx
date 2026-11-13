@@ -25,32 +25,23 @@ const ICONS = {
   ),
 };
 
-const LINK_STYLE: Record<keyof typeof ICONS, { box: string; icon: string }> = {
-  linkedin: {
-    box: "border-[#0A66C2]/60 bg-[#0A66C2]/15 hover:border-[#4C9BE8] hover:bg-[#0A66C2]/30",
-    icon: "text-[#4C9BE8]",
-  },
-  instagram: {
-    box: "border-[#d62976]/50 bg-[linear-gradient(45deg,rgba(254,218,117,.16),rgba(214,41,118,.2),rgba(79,91,213,.22))] hover:border-[#fa7e1e] hover:bg-[linear-gradient(45deg,rgba(254,218,117,.28),rgba(214,41,118,.34),rgba(79,91,213,.36))]",
-    icon: "text-[#ff7aa8]",
-  },
-  web: {
-    box: "border-[var(--color-accent)]/45 bg-[var(--color-accent)]/10 hover:border-[var(--color-accent)] hover:bg-[var(--color-accent)]/20",
-    icon: "text-[var(--color-accent)]",
-  },
+const ICON_COLOR: Record<keyof typeof ICONS, string> = {
+  linkedin: "text-[#4C9BE8]",
+  instagram: "text-[#ff6f9c]",
+  web: "text-[var(--color-accent)]",
 };
 
+/** Іконка соцмережі + назва: весь рядок клікабельний, без рамок і плашок. */
 function ExtLink({ href, kind, children }: { href: string; kind: keyof typeof ICONS; children: React.ReactNode }) {
-  const st = LINK_STYLE[kind];
   return (
     <a
-      className={`inline-flex items-center gap-2 border px-3.5 py-2 text-sm font-semibold transition-colors ${st.box}`}
+      className="group inline-flex items-center gap-2.5 py-1 text-[15px] font-semibold text-[var(--color-foreground)] transition-colors hover:text-[var(--color-accent)]"
       href={href}
       target="_blank"
       rel="noopener noreferrer"
     >
-      <span className={st.icon}>{ICONS[kind]}</span>
-      {children}
+      <span className={`${ICON_COLOR[kind]} [&_svg]:h-5 [&_svg]:w-5`}>{ICONS[kind]}</span>
+      <span className="underline decoration-white/20 underline-offset-4 group-hover:decoration-[var(--color-accent)]">{children}</span>
     </a>
   );
 }
@@ -89,7 +80,7 @@ export default function AuthorBlock({ className = "border-t border-white/10" }: 
               <p key={p} className="mb-4 text-base leading-relaxed text-[var(--color-muted)]">{p}</p>
             ))}
             <p className="mb-3 mt-6 text-[11px] font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">Де мене знайти</p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-x-7 gap-y-2">
               {authorProfile.links.map((l) => (
                 <ExtLink key={l.href} href={l.href} kind={l.kind}>{l.label}</ExtLink>
               ))}
