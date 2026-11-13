@@ -7,6 +7,7 @@ import HeroPhoto from "../components/HeroPhoto";
 import MiniCourseStrip from "../components/MiniCourseStrip";
 import AuthorBlock from "../components/AuthorBlock";
 import Roadmap from "../components/Roadmap";
+import SkillIcon, { IconTile } from "../components/SkillIcon";
 import { hackathonStrip } from "@/lib/hackathons";
 import Container from "../components/Container";
 import JsonLd from "@/components/JsonLd";
@@ -146,13 +147,19 @@ export default function ProgramPage() {
           <Lead>{programSkills.lead}</Lead>
           <div className="grid gap-px border border-white/12 bg-white/12 md:grid-cols-3">
             {programSkills.groups.map((g) => (
-              <div key={g.title} className="flex flex-col gap-4 bg-[var(--color-surface)] p-6">
-                <h3 className="ff-display text-lg font-bold text-[var(--color-accent)]">{g.title}</h3>
-                <ul className="flex flex-col gap-3">
+              <div key={g.title} className="flex flex-col gap-5 bg-[var(--color-surface)] p-6">
+                <h3 className="ff-display flex items-center gap-3 text-lg font-bold text-[var(--color-accent)]">
+                  <SkillIcon name={g.title} className="h-6 w-6" />
+                  {g.title}
+                </h3>
+                <ul className="flex flex-col gap-5">
                   {g.skills.map((sk) => (
-                    <li key={sk.name}>
-                      <p className="text-base font-bold">{sk.name}</p>
-                      <p className="text-sm leading-relaxed text-[var(--color-muted)]">{sk.text}</p>
+                    <li key={sk.name} className="flex gap-4">
+                      <IconTile name={sk.name} />
+                      <div className="min-w-0">
+                        <p className="text-base font-bold leading-snug">{sk.name}</p>
+                        <p className="mt-1 text-sm leading-relaxed text-[var(--color-muted)]">{sk.text}</p>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -241,8 +248,8 @@ export default function ProgramPage() {
               <p className="ff-display text-lg font-bold">{programVisibility.weekly.title}</p>
               <ul className="mt-3 grid gap-2 sm:grid-cols-2">
                 {programVisibility.weekly.items.map((it) => (
-                  <li key={it} className="flex gap-2 text-sm leading-snug">
-                    <span className="text-[var(--color-accent)]" aria-hidden>→</span>
+                  <li key={it} className="flex items-start gap-2.5 text-sm leading-snug">
+                    <SkillIcon name="check" className="mt-0.5 h-4 w-4 shrink-0 text-[var(--color-accent)]" />
                     {it}
                   </li>
                 ))}
@@ -256,9 +263,9 @@ export default function ProgramPage() {
             <div>
               <p className="mb-4 text-[11px] font-semibold uppercase tracking-widest text-[var(--color-accent)]">Що гарантуємо</p>
               <ul className="divide-y divide-white/10 border-y border-white/10">
-                {programGuarantees.items.map((g) => (
-                  <li key={g.title} className="flex gap-3 py-3.5">
-                    <span className="mt-0.5 text-[var(--color-accent)]" aria-hidden>✓</span>
+                {programGuarantees.items.map((g, gi) => (
+                  <li key={g.title} className="flex gap-3.5 py-3.5">
+                    <IconTile name={["refund", "shield", "clock"][gi] ?? "shield"} size="sm" />
                     <span>
                       <span className="block text-sm font-bold leading-snug">{g.title}</span>
                       <span className="mt-1 block text-sm leading-snug text-[var(--color-muted)]">{g.text}</span>
@@ -283,7 +290,8 @@ export default function ProgramPage() {
               </p>
               <ul className="border-t border-white/15">
                 {programFor.forYou.map((t) => (
-                  <li key={t} className="border-b border-white/15 py-2.5 text-sm leading-snug sm:text-base">
+                  <li key={t} className="flex gap-3 border-b border-white/15 py-2.5 text-sm leading-snug sm:text-base">
+                    <SkillIcon name="check" className="mt-0.5 h-[18px] w-[18px] shrink-0 text-[var(--color-accent)]" />
                     {t}
                   </li>
                 ))}
@@ -297,8 +305,9 @@ export default function ProgramPage() {
                 {programFor.notForYou.map((t) => (
                   <li
                     key={t}
-                    className="border-b border-white/15 py-2.5 text-sm leading-snug text-[var(--color-muted)] sm:text-base"
+                    className="flex gap-3 border-b border-white/15 py-2.5 text-sm leading-snug text-[var(--color-muted)] sm:text-base"
                   >
+                    <SkillIcon name="cross" className="mt-0.5 h-[18px] w-[18px] shrink-0 text-[var(--color-muted-2)]" />
                     {t}
                   </li>
                 ))}

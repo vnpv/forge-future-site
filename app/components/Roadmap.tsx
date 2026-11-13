@@ -1,4 +1,5 @@
 import { programWeeksV2 } from "@/lib/program-page";
+import SkillIcon from "./SkillIcon";
 
 /** Дорожня карта: шлях від точки А до точки Б, а не таблиця. 8 тижнів, кожен із результатом. */
 const START = {
@@ -80,7 +81,8 @@ export default function Roadmap() {
               <p className="mt-3 text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">{w.outcome}</p>
               <div className="mt-4 flex flex-wrap gap-1.5">
                 {w.skills.split(" · ").map((s) => (
-                  <span key={s} className="border border-[var(--color-accent)]/40 px-2 py-1 text-[11px] font-semibold text-[var(--color-accent)]">
+                  <span key={s} className="inline-flex items-center gap-1.5 border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/[0.06] px-2 py-1 text-[11px] font-semibold text-[var(--color-accent)]">
+                    <SkillIcon name={s} className="h-3.5 w-3.5" />
                     {s}
                   </span>
                 ))}
