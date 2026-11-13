@@ -68,17 +68,35 @@ export default function AuthorBlock({ className = "border-t border-white/10" }: 
             <p className="text-sm text-[var(--color-muted)]">{authorProfile.role}</p>
           </div>
           <div className="max-w-2xl">
-            <dl className="mb-6 grid grid-cols-1 gap-px border border-white/12 bg-white/12 sm:grid-cols-3">
+            <p className="mb-4 text-[11px] font-semibold uppercase tracking-widest text-[var(--color-accent)]">{authorProfile.storyEyebrow}</p>
+            <div className="space-y-3 border-l-2 border-[var(--color-accent)] pl-5">
+              {authorProfile.story.map((p, i) => (
+                <p key={p} className={i === 0 ? "ff-display text-xl font-extrabold leading-snug sm:text-2xl" : "text-base leading-relaxed text-[var(--color-muted)] sm:text-lg"}>{p}</p>
+              ))}
+            </div>
+            <p className="ff-display mt-6 border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/[0.07] p-5 text-lg font-bold leading-snug sm:text-xl">
+              {authorProfile.mission}
+            </p>
+
+            <dl className="mb-8 mt-8 grid grid-cols-3 gap-px border border-white/12 bg-white/12">
               {authorFacts.map((f) => (
-                <div key={f.k} className="flex min-w-0 items-baseline gap-4 bg-[var(--color-background)] p-4 sm:block">
-                  <dt className="ff-display w-32 shrink-0 text-xl font-extrabold leading-tight text-[var(--color-accent)] sm:w-auto sm:text-2xl">{f.k}</dt>
-                  <dd className="min-w-0 text-sm leading-snug text-[var(--color-muted)] sm:mt-1">{f.v}</dd>
+                <div key={f.k} className="min-w-0 bg-[var(--color-background)] p-3 sm:p-4">
+                  <dt className="ff-display text-lg font-extrabold leading-tight text-[var(--color-accent)] sm:text-2xl">{f.k.split(" ")[0]}</dt>
+                  <dd className="mt-1 text-[11px] font-semibold uppercase tracking-wide text-[var(--color-muted)] sm:text-xs">{f.k.split(" ").slice(1).join(" ")}</dd>
                 </div>
               ))}
             </dl>
-            {[authorProfile.intro, authorProfile.career, authorProfile.ai, authorProfile.now].map((p) => (
-              <p key={p} className="mb-4 text-base leading-relaxed text-[var(--color-muted)]">{p}</p>
-            ))}
+
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">{authorProfile.experienceEyebrow}</p>
+            <ul className="divide-y divide-white/10 border-y border-white/10">
+              {authorProfile.experience.map((e) => (
+                <li key={e.k} className="grid gap-1 py-3 sm:grid-cols-[9.5rem_1fr] sm:gap-4">
+                  <span className="text-sm font-bold">{e.k}</span>
+                  <span className="text-sm leading-snug text-[var(--color-muted)]">{e.v}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 text-sm leading-relaxed text-[var(--color-muted)]">{authorProfile.now}</p>
             <p className="mb-3 mt-6 text-[11px] font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">Де мене знайти</p>
             <div className="flex flex-wrap gap-x-7 gap-y-2">
               {authorProfile.links.map((l) => (
