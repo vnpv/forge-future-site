@@ -24,10 +24,8 @@ import {
   programHero,
   programPricing,
   programRhythm,
-  programShift,
   programSkills,
   programVisibility,
-  programVs,
   programWeeksV2,
 } from "@/lib/program-page";
 import { programCourseSchema } from "@/lib/course-schema";
@@ -40,6 +38,9 @@ export const metadata: Metadata = {
   description: pageSeo.program.description,
   alternates: pageAlternates("/program"),
 };
+
+/** Питання, на які вже відповідають блоки ціни, гарантій і кнопка запису. */
+const FAQ_DROP: readonly string[] = ["Яка різниця між пакетами?", "Ви гарантуєте гроші чи клієнтів?", "Як записатися?"];
 
 function Cta({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
@@ -230,120 +231,59 @@ export default function ProgramPage() {
         </Container>
       </Section>
 
-      {/* 3. ІНШИЙ ПІДХІД */}
+      {/* ПІСЛЯ ЦІНИ: що я побачу і чим ризикую (один блок замість чотирьох) */}
       <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
         <Container>
-          <H2>{programShift.h2}</H2>
-          <Lead>{programShift.lead}</Lead>
-          <div className="grid gap-px border border-white/12 bg-white/12 md:grid-cols-3">
-            {programShift.steps.map((s) => (
-              <div key={s.n} className="flex flex-col gap-3 bg-[var(--color-surface)] p-6">
-                <span className="ff-display text-3xl font-extrabold text-[var(--color-accent)]">{s.n}</span>
-                <h3 className="ff-display text-lg font-bold">{s.title}</h3>
-                <p className="text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">{s.text}</p>
-              </div>
-            ))}
-          </div>
-          <p className="mt-8 max-w-2xl text-base leading-relaxed text-[var(--color-muted)]">{programShift.note}</p>
-        </Container>
-      </Section>
-
-      {/* 5. ВИ БАЧИТЕ, ЩО ВІДБУВАЄТЬСЯ */}
-      <Section spacing="block" className="border-t border-white/10">
-        <Container>
-          <H2>{programVisibility.h2}</H2>
-          <Lead>{programVisibility.lead}</Lead>
-          <div className="grid gap-4 md:grid-cols-2">
-            <div className="border border-white/15 p-6">
-              <h3 className="ff-display mb-4 text-lg font-bold">{programVisibility.weekly.title}</h3>
-              <ul className="mb-5 flex flex-col gap-2.5">
+          <H2>Ви бачите результат і нічим не ризикуєте</H2>
+          <div className="mt-8 grid gap-10 md:grid-cols-2 md:gap-12">
+            <div>
+              <p className="mb-4 text-[11px] font-semibold uppercase tracking-widest text-[var(--color-accent)]">Що бачите ви</p>
+              <p className="ff-display text-lg font-bold">{programVisibility.weekly.title}</p>
+              <ul className="mt-3 grid gap-2 sm:grid-cols-2">
                 {programVisibility.weekly.items.map((it) => (
-                  <li key={it} className="flex gap-3 text-base">
-                    <span className="text-[var(--color-accent)]" aria-hidden>
-                      →
-                    </span>
+                  <li key={it} className="flex gap-2 text-sm leading-snug">
+                    <span className="text-[var(--color-accent)]" aria-hidden>→</span>
                     {it}
                   </li>
                 ))}
               </ul>
-              <p className="text-sm leading-relaxed text-[var(--color-muted)]">{programVisibility.weekly.note}</p>
-              <a
-                href={programVisibility.weekly.sampleHref}
-                className="mt-5 inline-block text-sm font-semibold text-[var(--color-accent)] underline-offset-4 hover:underline"
-              >
+              <a href={programVisibility.weekly.sampleHref} className="mt-3 inline-block text-sm font-semibold text-[var(--color-accent)] underline-offset-4 hover:underline">
                 {programVisibility.weekly.sampleLabel}
               </a>
+              <p className="ff-display mt-6 text-lg font-bold">{programVisibility.demoDay.title}</p>
+              <p className="mt-2 text-sm leading-relaxed text-[var(--color-muted)]">{programVisibility.demoDay.text}</p>
             </div>
-            <div className="border border-[var(--color-accent)]/50 p-6">
-              <h3 className="ff-display mb-4 text-lg font-bold">{programVisibility.demoDay.title}</h3>
-              <p className="text-base leading-relaxed text-[var(--color-muted)]">{programVisibility.demoDay.text}</p>
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      {/* 6. КУРС VS МЕНТОРСЬКА ПРОГРАМА */}
-      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
-        <Container>
-          <H2>{programVs.h2}</H2>
-          <div className="mt-8 overflow-x-auto">
-            <table className="w-full min-w-[560px] border-collapse text-left text-sm sm:text-base">
-              <thead>
-                <tr className="border-b border-white/25">
-                  {programVs.head.map((h, i) => (
-                    <th
-                      key={h + i}
-                      className={`py-3 pr-4 text-xs font-semibold uppercase tracking-widest ${
-                        i === 2 ? "text-[var(--color-accent)]" : "text-[var(--color-muted-2)]"
-                      }`}
-                    >
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {programVs.rows.map((r) => (
-                  <tr key={r[0]} className="border-b border-white/12 align-top">
-                    <td className="py-4 pr-4 font-medium">{r[0]}</td>
-                    <td className="py-4 pr-4 text-[var(--color-muted)]">{r[1]}</td>
-                    <td className="py-4 pr-4">{r[2]}</td>
-                  </tr>
+            <div>
+              <p className="mb-4 text-[11px] font-semibold uppercase tracking-widest text-[var(--color-accent)]">Що гарантуємо</p>
+              <ul className="divide-y divide-white/10 border-y border-white/10">
+                {programGuarantees.items.map((g) => (
+                  <li key={g.title} className="flex gap-3 py-3.5">
+                    <span className="mt-0.5 text-[var(--color-accent)]" aria-hidden>✓</span>
+                    <span>
+                      <span className="block text-sm font-bold leading-snug">{g.title}</span>
+                      <span className="mt-1 block text-sm leading-snug text-[var(--color-muted)]">{g.text}</span>
+                    </span>
+                  </li>
                 ))}
-              </tbody>
-            </table>
+              </ul>
+              <p className="mt-3 text-xs leading-relaxed text-[var(--color-muted-2)]">{programGuarantees.note}</p>
+            </div>
           </div>
-        </Container>
-      </Section>
-
-      {/* 7. ГАРАНТІЇ */}
-      <Section spacing="block" className="border-t border-white/10">
-        <Container>
-          <H2>{programGuarantees.h2}</H2>
-          <div className="mt-8 grid gap-px border border-white/12 bg-white/12 md:grid-cols-3">
-            {programGuarantees.items.map((g) => (
-              <div key={g.title} className="flex flex-col gap-3 bg-[var(--color-surface)] p-6">
-                <h3 className="ff-display text-base font-bold leading-snug">{g.title}</h3>
-                <p className="text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">{g.text}</p>
-              </div>
-            ))}
-          </div>
-          <p className="mt-6 max-w-2xl text-sm leading-relaxed text-[var(--color-muted-2)]">{programGuarantees.note}</p>
         </Container>
       </Section>
 
       {/* 9. ДЛЯ КОГО */}
-      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
+      <Section spacing="block" className="border-t border-white/10">
         <Container>
           <H2>{programFor.h2}</H2>
-          <div className="mt-8 grid gap-6 md:grid-cols-2">
+          <div className="mt-6 grid gap-6 md:grid-cols-2">
             <div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-[var(--color-accent)]">
                 Підійде, якщо
               </p>
               <ul className="border-t border-white/15">
                 {programFor.forYou.map((t) => (
-                  <li key={t} className="border-b border-white/15 py-3.5 text-base leading-relaxed">
+                  <li key={t} className="border-b border-white/15 py-2.5 text-sm leading-snug sm:text-base">
                     {t}
                   </li>
                 ))}
@@ -357,7 +297,7 @@ export default function ProgramPage() {
                 {programFor.notForYou.map((t) => (
                   <li
                     key={t}
-                    className="border-b border-white/15 py-3.5 text-base leading-relaxed text-[var(--color-muted)]"
+                    className="border-b border-white/15 py-2.5 text-sm leading-snug text-[var(--color-muted)] sm:text-base"
                   >
                     {t}
                   </li>
@@ -373,7 +313,7 @@ export default function ProgramPage() {
         <Container>
           <H2>Питання та відповіді</H2>
           <div className="mt-6 max-w-2xl">
-            {programFaqsV2.map((f) => (
+            {programFaqsV2.filter((f) => !FAQ_DROP.includes(f.q)).map((f) => (
               <details key={f.q} className="group border-b border-white/20 py-4">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-base font-medium">
                   {f.q}
@@ -385,16 +325,6 @@ export default function ProgramPage() {
               </details>
             ))}
           </div>
-        </Container>
-      </Section>
-
-      <Section spacing="block" className="border-t border-white/10">
-        <Container>
-          <MiniCourseStrip
-            channel="siteprog2"
-            title="Якщо зараз це дорого або ви не впевнені: почніть з практикуму"
-            lead="Практикум за 399 грн: 5 днів по 15 хвилин, щоб зрозуміти свою дитину. Далі вирішите про програму. Повернення за 7 днів."
-          />
         </Container>
       </Section>
 
@@ -418,11 +348,18 @@ export default function ProgramPage() {
             </ul>
             <div className="ff-cta-stack ff-cta-stack--center">
               <Cta>{programFinal.cta}</Cta>
-              <Link href="/events" className="ff-cta-link">
-                Або прийти на відкритий вечір →
+              <Link href="/lviv" className="ff-cta-link">
+                Або спершу протестувати формат: хакатон у Львові 28–29.11 →
               </Link>
             </div>
             <p className="mt-5 text-sm text-[var(--color-muted-2)]">{programFinal.note}</p>
+            <div className="mt-10 text-left">
+              <MiniCourseStrip
+                channel="siteprog2"
+                title="Ще не впевнені? Почніть з практикуму"
+                lead="5 днів по 15 хвилин, щоб зрозуміти свою дитину. Далі вирішите про програму. Повернення за 7 днів."
+              />
+            </div>
             <p className="mt-8 text-sm text-[var(--color-muted-2)]">
               Дитині 10-13? Для цього віку окремий продукт,{" "}
               <Link href="/junior" className="font-medium text-[var(--color-foreground)] underline-offset-2 hover:underline">
