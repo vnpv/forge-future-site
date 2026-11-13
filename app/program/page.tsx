@@ -92,6 +92,9 @@ export default function ProgramPage() {
         </Container>
       </Section>
 
+      {/* 2. ХТО ПРОВОДИТЬ (одразу після hero) */}
+      <AuthorBlock className="border-t border-white/10" />
+
       {/* 3b. 10 НАВИЧОК */}
       <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]" id="skills">
         <Container>
@@ -372,9 +375,6 @@ export default function ProgramPage() {
           </div>
         </Container>
       </Section>
-
-      {/* 10. ХТО ВЕДЕ */}
-      <AuthorBlock className="border-t border-white/10 bg-[var(--color-surface)]" />
 
       {/* 11. FAQ */}
       <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
