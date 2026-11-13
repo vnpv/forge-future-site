@@ -94,22 +94,7 @@ export default function ProgramPage() {
               </div>
             ))}
           </dl>
-          <div className="mt-3 max-w-3xl border border-white/12 bg-[var(--color-background)] px-4 py-4">
-            <p className="text-[11px] font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">Менторство</p>
-            <p className="mt-2 text-sm leading-relaxed">
-              Основний ментор{" "}
-              <a href="#author" className="font-semibold text-[var(--color-accent)] underline decoration-[var(--color-accent)]/40 underline-offset-4 hover:decoration-[var(--color-accent)]">
-                Іван Первой&nbsp;↓
-              </a>
-              , а до занять залучаємо запрошених експертів:
-            </p>
-            <ul className="mt-3 flex flex-wrap gap-2">
-              {["Бізнес і гроші", "Штучний інтелект", "Маркетинг і продажі", "Шкільні предмети"].map((e) => (
-                <li key={e} className="border border-white/15 px-3 py-1.5 text-xs font-medium text-[var(--color-muted)]">{e}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="mt-8 max-w-3xl">
+          <div className="mt-6 max-w-3xl">
             <p className="mb-3 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest text-[var(--color-accent)]">
               <span className="h-px w-6 bg-[var(--color-accent)]" aria-hidden />
               Хакатони перед стартом: приходьте протестувати формат
