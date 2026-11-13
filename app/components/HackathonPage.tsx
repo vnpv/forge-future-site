@@ -115,7 +115,7 @@ export default function HackathonPage({ h }: { h: Hackathon }) {
       </Section>
 
       {/* 2. ХТО ПРОВОДИТЬ */}
-      <AuthorBlock className="border-t border-white/10" />
+      {h.pilot ? null : <AuthorBlock className="border-t border-white/10" />}
 
       {e.text ? (
         <Section spacing="tight" className="border-t border-white/10 bg-[var(--color-surface)]">
@@ -146,8 +146,12 @@ export default function HackathonPage({ h }: { h: Hackathon }) {
       {/* 4. ПРОГРАМА ДВОХ ДНІВ */}
       <Section spacing="block" className="border-t border-white/10">
         <Container>
-          <H2>Програма двох днів</H2>
-          <Lead>Один формат на два дні: від «що мене бісить» до реального першого кроку і фіналу перед вами.</Lead>
+          <H2>{h.schedule.length > 1 ? "Програма двох днів" : "Програма дня"}</H2>
+          <Lead>
+            {h.schedule.length > 1
+              ? "Один формат на два дні: від «що мене бісить» до реального першого кроку і фіналу перед вами."
+              : "Один день: від пошуку проблеми до власного проєкту і фіналу перед вами."}
+          </Lead>
           <div className={`grid gap-10 md:gap-12 ${h.schedule.length > 1 ? "md:grid-cols-2" : "max-w-2xl"}`}>
             {h.schedule.map((d) => (
               <div key={d.day}>
@@ -235,12 +239,16 @@ export default function HackathonPage({ h }: { h: Hackathon }) {
         </Container>
       </Section>
 
+      {h.pilot ? null : (
+        <>
       {/* 6. INSTAGRAM: так я працюю */}
       <Section spacing="block" className="border-t border-white/10" id="instagram">
         <Container>
           <InstagramShowcase ctaLabel="Записати дитину" />
         </Container>
       </Section>
+        </>
+      )}
 
       {/* 7. БЕЗПЕКА */}
       <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
