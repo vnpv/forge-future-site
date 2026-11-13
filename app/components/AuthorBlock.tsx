@@ -25,15 +25,31 @@ const ICONS = {
   ),
 };
 
+const LINK_STYLE: Record<keyof typeof ICONS, { box: string; icon: string }> = {
+  linkedin: {
+    box: "border-[#0A66C2]/60 bg-[#0A66C2]/15 hover:border-[#4C9BE8] hover:bg-[#0A66C2]/30",
+    icon: "text-[#4C9BE8]",
+  },
+  instagram: {
+    box: "border-[#d62976]/50 bg-[linear-gradient(45deg,rgba(254,218,117,.16),rgba(214,41,118,.2),rgba(79,91,213,.22))] hover:border-[#fa7e1e] hover:bg-[linear-gradient(45deg,rgba(254,218,117,.28),rgba(214,41,118,.34),rgba(79,91,213,.36))]",
+    icon: "text-[#ff7aa8]",
+  },
+  web: {
+    box: "border-[var(--color-accent)]/45 bg-[var(--color-accent)]/10 hover:border-[var(--color-accent)] hover:bg-[var(--color-accent)]/20",
+    icon: "text-[var(--color-accent)]",
+  },
+};
+
 function ExtLink({ href, kind, children }: { href: string; kind: keyof typeof ICONS; children: React.ReactNode }) {
+  const st = LINK_STYLE[kind];
   return (
     <a
-      className="inline-flex items-center gap-2 border border-white/20 px-3.5 py-2 text-sm font-semibold transition-colors hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+      className={`inline-flex items-center gap-2 border px-3.5 py-2 text-sm font-semibold transition-colors ${st.box}`}
       href={href}
       target="_blank"
       rel="noopener noreferrer"
     >
-      {ICONS[kind]}
+      <span className={st.icon}>{ICONS[kind]}</span>
       {children}
     </a>
   );

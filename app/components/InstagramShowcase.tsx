@@ -326,10 +326,10 @@ function ReelsStage() {
         <p className="text-xs uppercase tracking-widest text-[var(--color-muted-2)]">Рілс · {r.date}</p>
         <h3 className="ff-display mt-2 text-xl font-bold leading-snug sm:text-2xl">{r.title}</h3>
         <p className="mt-3 text-base leading-relaxed text-[var(--color-muted)]">{r.excerpt}</p>
-        {r.id === instagramReel.id ? (
+        {r.transcript ? (
           <details className="mt-3 text-sm text-[var(--color-muted)]">
             <summary className="cursor-pointer text-[var(--color-accent)]">Прочитати текст рілса</summary>
-            <p className="mt-3 leading-relaxed">{instagramReel.transcript}</p>
+            <p className="mt-3 leading-relaxed">{r.transcript}</p>
           </details>
         ) : null}
         <a

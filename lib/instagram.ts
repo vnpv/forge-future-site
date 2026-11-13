@@ -165,7 +165,13 @@ export const instagramInterviews: InstagramInterview[] = [
 ];
 
 /** Рілси на сторінці. Найновіші першими. `video` = власне відео на сайті (плеєр як у Instagram), порожнє = офіційне вбудування Instagram. */
-export const instagramReels = [
+export type ReelItem = {
+  id: string; url: string; date: string; tab: string; title: string; excerpt: string;
+  /** Власне відео на сайті; порожнє = офіційне вбудування Instagram. */
+  video: string; poster: string; transcript?: string;
+};
+
+export const instagramReels: readonly ReelItem[] = [
   {
     id: instagramReel.id,
     url: instagramReel.url,
@@ -175,6 +181,7 @@ export const instagramReels = [
     excerpt: instagramReel.excerpt,
     video: instagramReel.video,
     poster: instagramReel.poster,
+    transcript: instagramReel.transcript,
   },
   {
     id: "DfSfUf3xSRi",
@@ -183,17 +190,21 @@ export const instagramReels = [
     tab: "Нічого не хоче",
     title: "Підліток нічого не хоче",
     excerpt: "На будь-яке питання відповідає «нормально». Покажу, на що дивитись першим і що спробувати цього тижня.",
-    video: "",
-    poster: "",
+    video: "/instagram/reel-nichogo.mp4",
+    poster: "/instagram/reel-nichogo-poster.jpg",
+    transcript:
+      "Йому 16, він нічого не хоче, і всі кажуть: це вік. Телефон, ігри, ввечері «нормально», нічого нового не пробує. А якщо не вік? Тоді в 25 він так само нічого не хоче, і вже ніхто не скаже, що це вік. Поки хтось поруч закриває його проблеми, хотіти нічого не треба. Хотіння з'являється там, де є ціна і де є мотивація. Я працюю з такими підлітками без лекцій: він сам обирає проєкт і за шість тижнів доводить його до результату. Напишіть «розбір» у Direct: це 20 хвилин про вашу дитину, де я побачу, що їй дійсно цікаво і що варто спробувати першим.",
   },
   {
     id: "DfCBe5Is4cB",
     url: "https://www.instagram.com/reel/DfCBe5Is4cB/",
     date: "28.10.2026",
-    tab: "Що зробила за тиждень",
-    title: "Питання, яке показує більше за оцінки",
-    excerpt: "Що ваша дитина зробила за тиждень? Не що вивчила, а що зробила сама.",
-    video: "",
-    poster: "",
+    tab: "Платите за навчання",
+    title: "Ви платите за навчання, де дитина нічого не вчить",
+    excerpt: "Тривога, укриття, дистанційка: урок іде, а дитина в телефоні. Як вимагати навчання, коли над головою сирена? Я роблю по-іншому: онлайн-формат і тільки практика.",
+    video: "/instagram/reel-platyte.mp4",
+    poster: "/instagram/reel-platyte-poster.jpg",
+    transcript:
+      "Ви платите за навчання, де дитина нічого не вчить. Тривога, укриття, дистанційка: урок іде, а вона просто сидить в телефоні. А ви не знаєте, як вимагати навчатися, коли над головою сирена. Ви вже звикли: чомусь навчатися це коли є умови і бажання. Я роблю по-іншому: онлайн-формат, тільки практика, один проєкт і реальний результат щотижня. Напишіть «розбір» у Direct: це 20 хвилин про вашу дитину, що я в ній бачу і що спробувати першим.",
   },
-] as const;
+];
