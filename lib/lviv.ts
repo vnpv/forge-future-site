@@ -82,13 +82,15 @@ export const lvivAuthor = {
   intro:
     "Спершу підприємець. Заснував і продав мережу барбершопів у Білій Церкві (2 точки), співзасновник ігрового стартапу Dreamtify (два проєкти до софт-лонча, закрили через війну і відсутність product-market fit), продав свою частку в мережі клінік Tendo. Ангел-інвестор у 5 стартапів. Батько двох синів.",
   career:
-    "З 2011 року в IT і продукті: Playtika, Provectus, ZibraAI, Stepico, GG.BET (Chief Product Officer, 24 прямих підлеглих), потім CEO англомовного digital-медіа бренду (2024–2026), де виріс трафік із 7 до 3 000 кліків на день за 15 місяців і зібрав команду 10+ осіб.",
+    "З 2011 року в IT і продукті: Playtika, Provectus, ZibraAI, Stepico, GG.BET (Chief Product Officer, 24 прямих підлеглих), потім CEO компанії з affiliate marketing моделлю (2024–2026): трафік виріс із 7 до 3 000 кліків на день за 15 місяців, команда 10+ осіб.",
   ai: "Штучний інтелект використовує щодня: контент-пайплайни, AI-агенти для аналітики, AI-аналіз якості занять у Forge Future. Саме цьому вчить підлітків: брати ШІ в помічники, а не підміняти ним думання.",
   now: "З 2026 року веде Forge Future: менторська програма «Перша справа» для підлітків 14–19. Перша група стартувала 6 жовтня, друга стартує 1 грудня.",
   links: [
     { label: "LinkedIn", href: "https://www.linkedin.com/in/ivan-pervoy/" },
     { label: "pervoy.com", href: "https://pervoy.com" },
     { label: "Instagram @ivanpervoy", href: "https://www.instagram.com/ivanpervoy/" },
+    { label: "SHOP Barbershop (Instagram)", href: "https://www.instagram.com/shop_barbershop_bc/" },
+    { label: "Tendo (Instagram)", href: "https://www.instagram.com/tendomed/" },
     { label: "Forge Future", href: "https://forge-future.com" },
   ],
 };
