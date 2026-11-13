@@ -80,38 +80,67 @@ export default function ProgramPage() {
             <Cta>{programHero.cta}</Cta>
             <p className="max-w-md text-sm text-[var(--color-muted-2)]">{programHero.ctaNote}</p>
           </div>
-          <dl className="mt-10 grid max-w-3xl grid-cols-2 gap-x-8 gap-y-5 border-t border-white/12 pt-6 sm:grid-cols-[1fr_1.8fr_1fr_1fr_1fr]">
-            {programHero.facts.map((f) => (
-              <div key={f.k}>
-                <dt className="text-[11px] font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">
-                  {f.k}
-                </dt>
-                <dd className="mt-1 text-sm font-medium">{f.k === "Старт" ? PROGRAM_START_DATE : f.v}</dd>
+          <dl className="mt-10 grid max-w-3xl grid-cols-2 gap-px border border-white/12 bg-white/12 sm:grid-cols-4">
+            {[
+              { k: "Група", v: "до 10", s: "підлітків" },
+              { k: "Тривалість", v: "8 тижнів", s: "2 місяці" },
+              { k: "На тиждень", v: "від 7 год", s: "занять і практики" },
+              { k: "Старт", v: PROGRAM_START_DATE.replace(" 2026", ""), s: "2026 рік" },
+            ].map((f) => (
+              <div key={f.k} className="bg-[var(--color-background)] px-4 py-4">
+                <dt className="text-[11px] font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">{f.k}</dt>
+                <dd className="ff-display mt-1.5 text-xl font-extrabold leading-tight">{f.v}</dd>
+                <dd className="mt-0.5 text-xs text-[var(--color-muted)]">{f.s}</dd>
               </div>
             ))}
           </dl>
-          <div className="mt-6 max-w-3xl">
-            <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">Хакатони перед стартом</p>
-            <ul className="flex flex-wrap gap-2">
+          <div className="mt-3 max-w-3xl border border-white/12 bg-[var(--color-background)] px-4 py-4">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">Менторство</p>
+            <p className="mt-2 text-sm leading-relaxed">
+              Основний ментор{" "}
+              <a href="#author" className="font-semibold text-[var(--color-accent)] underline decoration-[var(--color-accent)]/40 underline-offset-4 hover:decoration-[var(--color-accent)]">
+                Іван Первой&nbsp;↓
+              </a>
+              , а до занять залучаємо запрошених експертів:
+            </p>
+            <ul className="mt-3 flex flex-wrap gap-2">
+              {["Бізнес і гроші", "Штучний інтелект", "Маркетинг і продажі", "Шкільні предмети"].map((e) => (
+                <li key={e} className="border border-white/15 px-3 py-1.5 text-xs font-medium text-[var(--color-muted)]">{e}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="mt-8 max-w-3xl">
+            <p className="mb-3 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest text-[var(--color-accent)]">
+              <span className="h-px w-6 bg-[var(--color-accent)]" aria-hidden />
+              Хакатони перед стартом: приходьте протестувати формат
+            </p>
+            <ul className="grid gap-3 sm:grid-cols-3">
               {hackathonStrip.map((h) => {
                 const inner = (
                   <>
-                    <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-[var(--color-accent)]" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
-                      <rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" />
-                    </svg>
-                    <span className="font-semibold">{h.when}</span>
-                    <span className="text-[var(--color-muted)]">{h.city}</span>
-                    <span className="text-[11px] uppercase tracking-wide text-[var(--color-muted-2)]">{h.tag}</span>
-                    {h.href ? <span className="text-[var(--color-accent)]" aria-hidden>→</span> : null}
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center border border-[var(--color-accent)]/40 text-[var(--color-accent)] sm:mb-4">
+                      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+                        <rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" />
+                      </svg>
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="ff-display block text-xl font-extrabold leading-none sm:text-2xl">{h.when}</span>
+                      <span className="mt-1.5 block text-sm text-[var(--color-muted)]">
+                        {h.city} <span className="text-[11px] uppercase tracking-wide text-[var(--color-muted-2)]">· {h.tag}</span>
+                      </span>
+                    </span>
+                    <span className={`text-sm font-semibold sm:mt-4 sm:block ${h.href ? "text-[var(--color-accent)]" : "text-[var(--color-muted-2)]"}`}>
+                      {h.href ? (<><span className="hidden sm:inline">Деталі й запис </span>→</>) : (<span className="hidden sm:inline">Пілотний формат</span>)}
+                    </span>
                   </>
                 );
-                const cls = "inline-flex items-center gap-2 border px-3.5 py-2 text-sm transition-colors";
+                const cls = "flex h-full items-center gap-4 border p-4 transition-colors sm:flex-col sm:items-stretch sm:gap-0";
                 return (
                   <li key={h.when}>
                     {h.href ? (
-                      <Link href={h.href} className={`${cls} border-white/20 hover:border-[var(--color-accent)]`}>{inner}</Link>
+                      <Link href={h.href} className={`${cls} border-white/20 bg-white/[0.03] hover:border-[var(--color-accent)] hover:bg-white/[0.06]`}>{inner}</Link>
                     ) : (
-                      <span className={`${cls} border-white/10 text-[var(--color-muted)]`}>{inner}</span>
+                      <div className={`${cls} border-white/10`}>{inner}</div>
                     )}
                   </li>
                 );

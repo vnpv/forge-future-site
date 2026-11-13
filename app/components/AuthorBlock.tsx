@@ -42,7 +42,7 @@ function ExtLink({ href, kind, children }: { href: string; kind: keyof typeof IC
 /** Блок «Хто проводить» для сторінок програми й хакатону. */
 export default function AuthorBlock({ className = "border-t border-white/10" }: { className?: string }) {
   return (
-    <Section spacing="block" className={className}>
+    <Section spacing="block" id="author" className={`scroll-mt-20 ${className ?? ""}`}>
       <Container>
         <h2 className="ff-display mb-3 max-w-3xl text-[clamp(1.6rem,4.6vw,2.6rem)] font-extrabold leading-[1.08] tracking-tight">
           {authorProfile.h2}
