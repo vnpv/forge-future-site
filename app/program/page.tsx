@@ -24,6 +24,7 @@ import {
   programFor,
   programGuarantees,
   programHero,
+  programPain,
   programPricing,
   programRhythm,
   programSkills,
@@ -149,6 +150,17 @@ export default function ProgramPage() {
         <Container>
           <H2>{programSkills.h2}</H2>
           <Lead>{programSkills.lead}</Lead>
+          <div className="mb-8 -mt-2">
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">Що змінюється у підлітка</p>
+            <ul className="flex flex-wrap gap-2">
+              {programPain.bridge.chips.map((c) => (
+                <li key={c} className="inline-flex items-center gap-2 border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/[0.07] px-3 py-1.5 text-sm font-semibold text-[var(--color-accent)]">
+                  <span aria-hidden>→</span>
+                  {c}
+                </li>
+              ))}
+            </ul>
+          </div>
           <div className="grid gap-px border border-white/12 bg-white/12 md:grid-cols-3">
             {programSkills.groups.map((g) => (
               <div key={g.title} className="flex flex-col gap-5 bg-[var(--color-surface)] p-6">

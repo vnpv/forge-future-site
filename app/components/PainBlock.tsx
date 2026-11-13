@@ -77,20 +77,6 @@ export default function PainBlock({ className = "" }: { className?: string }) {
           </ul>
           <p className="ff-display border-l-2 border-[var(--color-accent)] pl-4 text-base font-bold leading-snug sm:text-lg">{P.verdict}</p>
         </div>
-
-        {/* перехід до власної справи: одна смуга */}
-        <div className="mt-8 border border-white/12 bg-white/[0.03] p-5 sm:p-6">
-          <p className="ff-display text-lg font-extrabold leading-snug sm:text-xl">{P.bridge.h3}</p>
-          <p className="mt-1.5 max-w-3xl text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">{P.bridge.lead}</p>
-          <ul className="mt-4 flex flex-wrap gap-2">
-            {P.bridge.chips.map((c) => (
-              <li key={c} className="inline-flex items-center gap-2 border border-[var(--color-accent)]/40 bg-[var(--color-accent)]/[0.07] px-3 py-1.5 text-sm font-semibold text-[var(--color-accent)]">
-                <span aria-hidden>→</span>
-                {c}
-              </li>
-            ))}
-          </ul>
-        </div>
       </Container>
     </Section>
   );
