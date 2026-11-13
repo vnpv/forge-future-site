@@ -70,8 +70,11 @@ export default function ProgramPage() {
       <JsonLd data={programCourseSchema} />
       <JsonLd data={reelVideoSchema} />
 
-      {/* 1. HERO */}
-      <Section spacing="hero" className="relative isolate overflow-hidden">
+      {/* 0. БІЛЬ відкриває сторінку */}
+      <PainBlock className="bg-[var(--color-surface)]" />
+
+      {/* 1. HERO: підліток, який бере життя у свої руки, запис, група, хакатони */}
+      <Section spacing="hero" className="relative isolate overflow-hidden border-t border-white/10">
         <HeroPhoto src="/images/ivan-program-b-900.webp" desktopPos="object-[center_10%]" />
         <Container className="relative">
           <Eyebrow product={programHero.eyebrow} />
@@ -137,9 +140,6 @@ export default function ProgramPage() {
           </div>
         </Container>
       </Section>
-
-      {/* 2. БІЛЬ: переписка, чек за 13 років, власна справа */}
-      <PainBlock className="border-t border-white/10 bg-[var(--color-surface)]" />
 
       {/* 3. ХТО ПРОВОДИТЬ */}
       <AuthorBlock className="border-t border-white/10" />
