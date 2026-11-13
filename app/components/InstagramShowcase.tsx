@@ -6,6 +6,7 @@ import {
   INSTAGRAM_PROFILE_URL,
   instagramPosts,
   instagramReel,
+  instagramReels,
 } from "@/lib/instagram";
 
 function IgIcon({ className = "" }: { className?: string }) {
@@ -279,8 +280,78 @@ function PostCarousel() {
   );
 }
 
+function ReelEmbed({ id, title }: { id: string; title: string }) {
+  return (
+    <div className="mx-auto w-[min(92vw,360px)] overflow-hidden border border-white/15 bg-black">
+      <iframe
+        key={id}
+        src={`https://www.instagram.com/reel/${id}/embed/`}
+        title={`Рілс: ${title}`}
+        loading="lazy"
+        allowFullScreen
+        scrolling="no"
+        className="block h-[640px] w-full border-0"
+      />
+    </div>
+  );
+}
+
+function ReelsStage() {
+  const [active, setActive] = useState(0);
+  const r = instagramReels[active];
+  return (
+    <div className="grid items-start gap-10 lg:grid-cols-[1fr_1fr] lg:gap-12">
+      <div className="flex flex-col items-center gap-6">
+        <div role="tablist" aria-label="Рілси" className="flex max-w-full flex-wrap justify-center gap-2">
+          {instagramReels.map((x, i) => (
+            <button
+              key={x.id}
+              role="tab"
+              aria-selected={i === active}
+              type="button"
+              onClick={() => setActive(i)}
+              className={`rounded-full border px-4 py-2 text-xs font-semibold transition-colors sm:text-sm ${
+                i === active
+                  ? "border-[var(--color-accent)] bg-[var(--color-accent)] text-[#06201c]"
+                  : "border-white/20 text-[var(--color-muted)] hover:border-white/50 hover:text-[var(--color-foreground)]"
+              }`}
+            >
+              {x.tab}
+            </button>
+          ))}
+        </div>
+        {r.local ? <Reel /> : <ReelEmbed id={r.id} title={r.title} />}
+      </div>
+      <div className="max-w-md lg:pt-16">
+        <p className="text-xs uppercase tracking-widest text-[var(--color-muted-2)]">Рілс · {r.date}</p>
+        <h3 className="ff-display mt-2 text-xl font-bold leading-snug sm:text-2xl">{r.title}</h3>
+        <p className="mt-3 text-base leading-relaxed text-[var(--color-muted)]">{r.excerpt}</p>
+        {r.local ? (
+          <details className="mt-3 text-sm text-[var(--color-muted)]">
+            <summary className="cursor-pointer text-[var(--color-accent)]">Прочитати текст рілса</summary>
+            <p className="mt-3 leading-relaxed">{instagramReel.transcript}</p>
+          </details>
+        ) : null}
+        <a
+          href={r.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-4 inline-block text-sm font-semibold text-[var(--color-accent)] underline-offset-4 hover:underline"
+        >
+          Дивитись у Instagram →
+        </a>
+      </div>
+    </div>
+  );
+}
+
 export default function InstagramShowcase({ ctaLabel }: { ctaHref?: string; ctaLabel: string }) {
+  const [mode, setMode] = useState<"reels" | "posts">("reels");
   const post = instagramPosts;
+  const modes = [
+    { id: "reels" as const, label: "Рілси", count: instagramReels.length },
+    { id: "posts" as const, label: "Пости", count: post.length },
+  ];
   return (
     <div>
       <p className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">
@@ -289,36 +360,36 @@ export default function InstagramShowcase({ ctaLabel }: { ctaHref?: string; ctaL
       <h2 className="ff-display mb-3 max-w-3xl text-[clamp(1.6rem,4.6vw,2.6rem)] font-extrabold leading-[1.08] tracking-tight">
         Так ми розмовляємо з батьками й підлітками
       </h2>
-      <p className="mb-10 max-w-2xl text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">
-        Коротке відео й пости, які можна гортати прямо тут. Без гучних обіцянок: просто те, що я кажу батькам про
+      <p className="mb-8 max-w-2xl text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">
+        Відео й пости, які можна дивитись і гортати прямо тут. Без гучних обіцянок: просто те, що я кажу батькам про
         підлітків, інтерес і дисципліну.
       </p>
 
-      <div className="grid items-start gap-14 lg:grid-cols-2 lg:gap-8">
-        <div className="flex flex-col items-center gap-6">
-          <span className="rounded-full border border-white/20 px-4 py-2 text-xs font-semibold text-[var(--color-muted)] sm:text-sm">
-            Рілс · {instagramReel.date}
-          </span>
-          <Reel />
-          <div className="max-w-sm text-center">
-            <h3 className="ff-display text-lg font-bold leading-snug">{instagramReel.title}</h3>
-            <p className="mt-2 text-sm leading-relaxed text-[var(--color-muted)]">{instagramReel.excerpt}</p>
-            <details className="mt-3 text-left text-sm text-[var(--color-muted)]">
-              <summary className="cursor-pointer text-center text-[var(--color-accent)]">Прочитати текст рілса</summary>
-              <p className="mt-3 leading-relaxed">{instagramReel.transcript}</p>
-            </details>
-            <a
-              href={instagramReel.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-3 inline-block text-sm font-semibold text-[var(--color-accent)] underline-offset-4 hover:underline"
-            >
-              Дивитись у Instagram →
-            </a>
-          </div>
-        </div>
-        <PostCarousel />
+      <div role="tablist" aria-label="Тип публікацій" className="mb-10 inline-flex border border-white/20 p-1">
+        {modes.map((m) => (
+          <button
+            key={m.id}
+            role="tab"
+            aria-selected={mode === m.id}
+            type="button"
+            onClick={() => setMode(m.id)}
+            className={`flex items-center gap-2 px-6 py-3 text-sm font-bold transition-colors sm:px-8 ${
+              mode === m.id ? "bg-[var(--color-accent)] text-[#06201c]" : "text-[var(--color-muted)] hover:text-[var(--color-foreground)]"
+            }`}
+          >
+            {m.label}
+            <span className={`text-xs ${mode === m.id ? "text-[#06201c]/70" : "text-[var(--color-muted-2)]"}`}>{m.count}</span>
+          </button>
+        ))}
       </div>
+
+      {mode === "reels" ? (
+        <ReelsStage />
+      ) : (
+        <div className="mx-auto max-w-md">
+          <PostCarousel />
+        </div>
+      )}
 
       <div className="mt-14 flex flex-col items-center gap-3 text-center">
         <p className="max-w-xl text-base text-[var(--color-muted)]">

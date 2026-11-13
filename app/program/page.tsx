@@ -6,6 +6,8 @@ import Eyebrow from "../components/Eyebrow";
 import HeroPhoto from "../components/HeroPhoto";
 import MiniCourseStrip from "../components/MiniCourseStrip";
 import AuthorBlock from "../components/AuthorBlock";
+import Roadmap from "../components/Roadmap";
+import { hackathonStrip } from "@/lib/hackathons";
 import Container from "../components/Container";
 import JsonLd from "@/components/JsonLd";
 import InstagramShowcase from "../components/InstagramShowcase";
@@ -18,7 +20,6 @@ import {
   programFaqsV2,
   programFinal,
   programFor,
-  programHackathons,
   programGuarantees,
   programHero,
   programPricing,
@@ -89,6 +90,34 @@ export default function ProgramPage() {
               </div>
             ))}
           </dl>
+          <div className="mt-6 max-w-3xl">
+            <p className="mb-3 text-[11px] font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">Хакатони перед стартом</p>
+            <ul className="flex flex-wrap gap-2">
+              {hackathonStrip.map((h) => {
+                const inner = (
+                  <>
+                    <svg viewBox="0 0 24 24" className="h-4 w-4 shrink-0 text-[var(--color-accent)]" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+                      <rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" />
+                    </svg>
+                    <span className="font-semibold">{h.when}</span>
+                    <span className="text-[var(--color-muted)]">{h.city}</span>
+                    <span className="text-[11px] uppercase tracking-wide text-[var(--color-muted-2)]">{h.tag}</span>
+                    {h.href ? <span className="text-[var(--color-accent)]" aria-hidden>→</span> : null}
+                  </>
+                );
+                const cls = "inline-flex items-center gap-2 border px-3.5 py-2 text-sm transition-colors";
+                return (
+                  <li key={h.when}>
+                    {h.href ? (
+                      <Link href={h.href} className={`${cls} border-white/20 hover:border-[var(--color-accent)]`}>{inner}</Link>
+                    ) : (
+                      <span className={`${cls} border-white/10 text-[var(--color-muted)]`}>{inner}</span>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </Container>
       </Section>
 
@@ -118,49 +147,17 @@ export default function ProgramPage() {
         </Container>
       </Section>
 
-      {/* 4. ВІСІМ ТИЖНІВ */}
+      {/* 4. ДОРОЖНЯ КАРТА: від точки А до точки Б */}
       <Section spacing="block" className="border-t border-white/10">
         <Container>
           <H2>{programRhythm.h2}</H2>
           <Lead>{programRhythm.lead}</Lead>
-          <div className="border-t border-white/20">
-            {programWeeksV2.map((w, i) => (
-              <div
-                key={w.title}
-                className="grid grid-cols-[52px_1fr] gap-4 border-b border-white/20 py-6 sm:grid-cols-[96px_1fr] sm:gap-6"
-              >
-                <span className="ff-display text-3xl font-extrabold leading-none text-[var(--color-accent)] sm:text-4xl">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div>
-                  <h3 className="ff-display text-lg font-bold sm:text-xl">{w.title}</h3>
-                  <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-[var(--color-accent)] sm:text-sm">
-                    Навички: {w.skills}
-                  </p>
-                  <ul className="mt-3 flex flex-col gap-1.5 text-sm leading-relaxed text-[var(--color-muted)] sm:text-base">
-                    {w.items.map((it) => (
-                      <li key={it} className="flex gap-2">
-                        <span className="text-[var(--color-accent)]" aria-hidden>→</span>
-                        <span>{it}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      {/* Instagram: рілс і пости прямо на сторінці */}
-      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]" id="instagram">
-        <Container>
-          <InstagramShowcase ctaHref={APPLY_PROGRAM_URL} ctaLabel={programHero.cta} />
+          <Roadmap />
         </Container>
       </Section>
 
       {/* 8. ПАКЕТИ */}
-      <Section spacing="block" className="border-t border-white/10">
+      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
         <Container>
           <H2>{programPricing.h2}</H2>
           <Lead>{programPricing.lead}</Lead>
@@ -209,6 +206,13 @@ export default function ProgramPage() {
           <div className="ff-cta-stack ff-cta-stack--center mt-8">
             <Cta>{programFinal.cta}</Cta>
           </div>
+        </Container>
+      </Section>
+
+      {/* Instagram: рілс і пости прямо на сторінці */}
+      <Section spacing="block" className="border-t border-white/10" id="instagram">
+        <Container>
+          <InstagramShowcase ctaHref={APPLY_PROGRAM_URL} ctaLabel={programHero.cta} />
         </Container>
       </Section>
 
@@ -346,32 +350,6 @@ export default function ProgramPage() {
                 ))}
               </ul>
             </div>
-          </div>
-        </Container>
-      </Section>
-
-      {/* 10a. ХАКАТОНИ */}
-      <Section spacing="block" className="border-t border-white/10">
-        <Container>
-          <H2>{programHackathons.h2}</H2>
-          <Lead>{programHackathons.lead}</Lead>
-          <div className="border-t border-white/20">
-            {programHackathons.rows.map((r) => (
-              <div key={r.when} className="grid gap-2 border-b border-white/20 py-5 sm:grid-cols-[200px_1fr_auto] sm:items-center sm:gap-6">
-                <p className="ff-display text-lg font-extrabold text-[var(--color-accent)]">{r.when}</p>
-                <div>
-                  <p className="text-base font-bold">{r.where}</p>
-                  <p className="mt-1 text-sm leading-relaxed text-[var(--color-muted)]">{r.text}</p>
-                </div>
-                {r.href ? (
-                  r.href.startsWith("/") ? (
-                    <Link className="ff-cta-secondary" href={r.href}>{r.cta}</Link>
-                  ) : (
-                    <a className="ff-cta-secondary" href={r.href} target="_blank" rel="noopener noreferrer">{r.cta}</a>
-                  )
-                ) : null}
-              </div>
-            ))}
           </div>
         </Container>
       </Section>

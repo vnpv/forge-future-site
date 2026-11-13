@@ -163,3 +163,34 @@ export const instagramInterviews: InstagramInterview[] = [
     cover: "/instagram/iv-6.webp",
   },
 ];
+
+/** Рілси на сторінці. Найновіші першими. `local` = власне відео на сайті, інакше офіційне вбудування Instagram. */
+export const instagramReels = [
+  {
+    id: "DfSfUf3xSRi",
+    url: "https://www.instagram.com/reel/DfSfUf3xSRi/",
+    date: "03.11.2026",
+    tab: "Нічого не хоче",
+    title: "Підліток нічого не хоче",
+    excerpt: "На будь-яке питання відповідає «нормально». Покажу, на що дивитись першим і що спробувати цього тижня.",
+    local: false,
+  },
+  {
+    id: "DfCBe5Is4cB",
+    url: "https://www.instagram.com/reel/DfCBe5Is4cB/",
+    date: "28.10.2026",
+    tab: "Що зробила за тиждень",
+    title: "Питання, яке показує більше за оцінки",
+    excerpt: "Що ваша дитина зробила за тиждень? Не що вивчила, а що зробила сама.",
+    local: false,
+  },
+  {
+    id: instagramReel.id,
+    url: instagramReel.url,
+    date: instagramReel.date,
+    tab: "Гра не марнування",
+    title: instagramReel.title,
+    excerpt: instagramReel.excerpt,
+    local: true,
+  },
+] as const;
