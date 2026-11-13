@@ -47,13 +47,16 @@ async function api(path: string, init?: RequestInit) {
 
 let calCache: { ids: string[]; at: number } | null = null;
 
+/** Календарі, які НЕ закривають слоти розбору (рішення Івана 13.11.2026: InvestHub — клубні події, не його зустрічі). */
+const SKIP_CALENDARS = /InvestHub/i;
+
 /** Календарі, які Іван показує у себе (selected). Кеш 10 хв. */
 async function calendarIds(): Promise<string[]> {
   if (calCache && Date.now() - calCache.at < 600_000) return calCache.ids;
   let ids = ["primary"];
   try {
-    const j = (await api("/users/me/calendarList?minAccessRole=reader")) as { items?: { id: string; selected?: boolean }[] };
-    const sel = (j.items ?? []).filter((c) => c.selected).map((c) => c.id);
+    const j = (await api("/users/me/calendarList?minAccessRole=reader")) as { items?: { id: string; selected?: boolean; summary?: string }[] };
+    const sel = (j.items ?? []).filter((c) => c.selected && !SKIP_CALENDARS.test(c.summary ?? "")).map((c) => c.id);
     if (sel.length) ids = sel;
   } catch {}
   calCache = { ids, at: Date.now() };
