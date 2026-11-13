@@ -79,7 +79,7 @@ export default function ProgramPage() {
             <Cta>{programHero.cta}</Cta>
             <p className="max-w-md text-sm text-[var(--color-muted-2)]">{programHero.ctaNote}</p>
           </div>
-          <dl className="mt-10 grid max-w-xl grid-cols-2 gap-x-8 gap-y-5 border-t border-white/12 pt-6 sm:grid-cols-4">
+          <dl className="mt-10 grid max-w-3xl grid-cols-2 gap-x-8 gap-y-5 border-t border-white/12 pt-6 sm:grid-cols-[1fr_1.8fr_1fr_1fr_1fr]">
             {programHero.facts.map((f) => (
               <div key={f.k}>
                 <dt className="text-[11px] font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">

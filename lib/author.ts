@@ -14,13 +14,13 @@ export const authorProfile = {
   career:
     "З 2011 року в IT і продукті: Playtika, Provectus, ZibraAI, Stepico, GG.BET (Chief Product Officer, 24 прямих підлеглих), потім CEO компанії з affiliate marketing моделлю (2024–2026): трафік виріс із 7 до 3 000 кліків на день за 15 місяців, команда 10+ осіб.",
   ai: "Штучний інтелект використовує щодня: контент-пайплайни, AI-агенти для аналітики, AI-аналіз якості занять у Forge Future. Саме цьому вчить підлітків: брати ШІ в помічники, а не підміняти ним думання.",
-  now: "З 2026 року веде Forge Future: менторська програма «Перша справа» для підлітків 14–19. Перша група стартувала 6 жовтня, друга стартує 1 грудня.",
+  now: "З 2026 року веде Forge Future: менторська програма «Перша справа» для підлітків 14–19. Іван основний ментор програми, а до занять залучає експертів з усіх напрямків: від бізнесу до шкільних предметів. Перша група стартувала 6 жовтня, друга стартує 1 грудня.",
   links: [
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/ivan-pervoy/" },
-    { label: "pervoy.com", href: "https://pervoy.com" },
-    { label: "Instagram @ivanpervoy", href: "https://www.instagram.com/ivanpervoy/" },
-    { label: "SHOP Barbershop (Instagram)", href: "https://www.instagram.com/shop_barbershop_bc/" },
-    { label: "Tendo (Instagram)", href: "https://www.instagram.com/tendomed/" },
-    { label: "Forge Future", href: "https://forge-future.com" },
-  ],
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/ivan-pervoy/", kind: "linkedin" },
+    { label: "pervoy.com", href: "https://pervoy.com", kind: "web" },
+    { label: "@ivanpervoy", href: "https://www.instagram.com/ivanpervoy/", kind: "instagram" },
+    { label: "SHOP Barbershop", href: "https://www.instagram.com/shop_barbershop_bc/", kind: "instagram" },
+    { label: "Tendo", href: "https://www.instagram.com/tendomed/", kind: "instagram" },
+    { label: "Forge Future", href: "https://forge-future.com", kind: "web" },
+  ] as { label: string; href: string; kind: "linkedin" | "instagram" | "web" }[],
 };
