@@ -64,19 +64,6 @@ export default function PainBlock({ className = "" }: { className?: string }) {
             <p className="mt-2.5 text-xs leading-relaxed text-[var(--color-muted-2)]">{P.receipt.note}</p>
           </div>
         </div>
-
-        {/* тези і висновок */}
-        <div className="mt-8 grid gap-6 lg:grid-cols-[1.1fr_1fr] lg:gap-10">
-          <ul className="grid gap-x-8 gap-y-3 sm:grid-cols-2">
-            {P.points.map((t) => (
-              <li key={t} className="flex gap-3 text-sm leading-snug sm:text-[15px]">
-                <span className="mt-[7px] h-1.5 w-1.5 shrink-0 bg-[var(--color-accent)]" aria-hidden />
-                {t}
-              </li>
-            ))}
-          </ul>
-          <p className="ff-display border-l-2 border-[var(--color-accent)] pl-4 text-base font-bold leading-snug sm:text-lg">{P.verdict}</p>
-        </div>
       </Container>
     </Section>
   );
