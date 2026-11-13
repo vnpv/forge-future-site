@@ -37,7 +37,7 @@ export default function Booking({ days, ageLabel, ref_, code, initData, onBooked
     else if (time && !(days[date] ?? []).includes(time)) setTime("");
   }, [days]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const valid = date && time && name.trim().length >= 2 && (inTg || contact.trim().length >= 5) && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
+  const valid = date && time && name.trim().length >= 2 && (inTg || contact.replace(/\D/g, "").length >= 9) && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
 
   async function submit() {
     if (!valid || busy) return;
@@ -115,8 +115,17 @@ export default function Booking({ days, ageLabel, ref_, code, initData, onBooked
       />
       {!inTg && (
         <>
-          <label className="mb-1 block text-sm text-[var(--color-muted)]">Telegram (@нік) або телефон: щоб написати, якщо щось зміниться</label>
-          <input className={`${field} mb-4`} value={contact} onChange={(e) => setContact(e.target.value)} maxLength={60} autoComplete="tel" />
+          <label className="mb-1 block text-sm text-[var(--color-muted)]">Ваш телефон: щоб зв'язатися, якщо щось зміниться</label>
+          <input
+            className={`${field} mb-4`}
+            type="tel"
+            inputMode="tel"
+            placeholder="+380 __ ___ __ __"
+            value={contact}
+            onChange={(e) => setContact(e.target.value)}
+            maxLength={20}
+            autoComplete="tel"
+          />
         </>
       )}
       {err && <p className="mb-3 text-sm text-red-400">{err}</p>}
