@@ -77,11 +77,11 @@ export default function AuthorBlock({ className = "border-t border-white/10" }: 
             <p className="text-sm text-[var(--color-muted)]">{authorProfile.role}</p>
           </div>
           <div className="max-w-2xl">
-            <dl className="mb-6 grid grid-cols-3 gap-px border border-white/12 bg-white/12">
+            <dl className="mb-6 grid grid-cols-1 gap-px border border-white/12 bg-white/12 sm:grid-cols-3">
               {authorFacts.map((f) => (
-                <div key={f.k} className="bg-[var(--color-background)] p-4">
-                  <dt className="ff-display text-xl font-extrabold text-[var(--color-accent)] sm:text-2xl">{f.k}</dt>
-                  <dd className="mt-1 text-xs leading-snug text-[var(--color-muted)] sm:text-sm">{f.v}</dd>
+                <div key={f.k} className="flex min-w-0 items-baseline gap-4 bg-[var(--color-background)] p-4 sm:block">
+                  <dt className="ff-display w-32 shrink-0 text-xl font-extrabold leading-tight text-[var(--color-accent)] sm:w-auto sm:text-2xl">{f.k}</dt>
+                  <dd className="min-w-0 text-sm leading-snug text-[var(--color-muted)] sm:mt-1">{f.v}</dd>
                 </div>
               ))}
             </dl>
