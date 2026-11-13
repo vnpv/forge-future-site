@@ -30,7 +30,7 @@ function Phone({ children, className = "" }: { children: React.ReactNode; classN
   );
 }
 
-function Reel() {
+function Reel({ video, poster, title }: { video: string; poster: string; title: string }) {
   const ref = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
   const [playing, setPlaying] = useState(false);
@@ -82,13 +82,13 @@ function Reel() {
       <video
         ref={ref}
         className="absolute inset-0 h-full w-full object-cover"
-        src={instagramReel.video}
-        poster={instagramReel.poster}
+        src={video}
+        poster={poster}
         muted
         loop
         playsInline
         preload="none"
-        aria-label={`Рілс: ${instagramReel.title}`}
+        aria-label={`Рілс: ${title}`}
         onTimeUpdate={(e) => {
           const v = e.currentTarget;
           if (v.duration) setProgress(v.currentTime / v.duration);
@@ -140,7 +140,7 @@ function Reel() {
           </span>
           ivanpervoy
         </div>
-        <p className="text-[12px] leading-snug text-white/90">{instagramReel.title}</p>
+        <p className="text-[12px] leading-snug text-white/90">{title}</p>
         <div className="mt-3 h-[3px] w-full overflow-hidden rounded-full bg-white/25">
           <div className="h-full bg-white transition-[width] duration-200" style={{ width: `${progress * 100}%` }} />
         </div>
@@ -320,13 +320,13 @@ function ReelsStage() {
             </button>
           ))}
         </div>
-        {r.local ? <Reel /> : <ReelEmbed id={r.id} title={r.title} />}
+        {r.video ? <Reel key={r.id} video={r.video} poster={r.poster} title={r.title} /> : <ReelEmbed id={r.id} title={r.title} />}
       </div>
       <div className="max-w-md lg:pt-16">
         <p className="text-xs uppercase tracking-widest text-[var(--color-muted-2)]">Рілс · {r.date}</p>
         <h3 className="ff-display mt-2 text-xl font-bold leading-snug sm:text-2xl">{r.title}</h3>
         <p className="mt-3 text-base leading-relaxed text-[var(--color-muted)]">{r.excerpt}</p>
-        {r.local ? (
+        {r.id === instagramReel.id ? (
           <details className="mt-3 text-sm text-[var(--color-muted)]">
             <summary className="cursor-pointer text-[var(--color-accent)]">Прочитати текст рілса</summary>
             <p className="mt-3 leading-relaxed">{instagramReel.transcript}</p>

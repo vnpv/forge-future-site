@@ -164,8 +164,18 @@ export const instagramInterviews: InstagramInterview[] = [
   },
 ];
 
-/** Рілси на сторінці. Найновіші першими. `local` = власне відео на сайті, інакше офіційне вбудування Instagram. */
+/** Рілси на сторінці. Найновіші першими. `video` = власне відео на сайті (плеєр як у Instagram), порожнє = офіційне вбудування Instagram. */
 export const instagramReels = [
+  {
+    id: instagramReel.id,
+    url: instagramReel.url,
+    date: instagramReel.date,
+    tab: "Гра не марнування",
+    title: instagramReel.title,
+    excerpt: instagramReel.excerpt,
+    video: instagramReel.video,
+    poster: instagramReel.poster,
+  },
   {
     id: "DfSfUf3xSRi",
     url: "https://www.instagram.com/reel/DfSfUf3xSRi/",
@@ -173,7 +183,8 @@ export const instagramReels = [
     tab: "Нічого не хоче",
     title: "Підліток нічого не хоче",
     excerpt: "На будь-яке питання відповідає «нормально». Покажу, на що дивитись першим і що спробувати цього тижня.",
-    local: false,
+    video: "",
+    poster: "",
   },
   {
     id: "DfCBe5Is4cB",
@@ -182,15 +193,7 @@ export const instagramReels = [
     tab: "Що зробила за тиждень",
     title: "Питання, яке показує більше за оцінки",
     excerpt: "Що ваша дитина зробила за тиждень? Не що вивчила, а що зробила сама.",
-    local: false,
-  },
-  {
-    id: instagramReel.id,
-    url: instagramReel.url,
-    date: instagramReel.date,
-    tab: "Гра не марнування",
-    title: instagramReel.title,
-    excerpt: instagramReel.excerpt,
-    local: true,
+    video: "",
+    poster: "",
   },
 ] as const;
