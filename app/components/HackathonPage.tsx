@@ -57,7 +57,7 @@ const SKILLS_PRACTICED = ["Підприємництво", "Комунікаці�
 
 export default function HackathonPage({ h }: { h: Hackathon }) {
   const e = h.endorsement;
-  const others = hackathonStrip.filter((x) => x.href && x.href !== `/${h.slug}`);
+  const others = hackathonStrip.filter((x) => x.href && x.href !== `/${h.slug}` && (h.pilot || x.href !== "/bc"));
   return (
     <div data-theme="practicum" className="bg-[var(--color-background)] text-[var(--color-foreground)]">
       {/* 1. HERO */}
@@ -70,15 +70,21 @@ export default function HackathonPage({ h }: { h: Hackathon }) {
           </h1>
           <p className="mb-8 max-w-xl text-lg leading-relaxed text-[var(--color-muted)]">{h.hero.sub}</p>
           <div className="ff-cta-stack gap-3">
-            <Cta h={h}>Записати дитину</Cta>
-            <Cta h={h} ghost>Є питання? Напишіть організатору</Cta>
+            {h.pilot ? (
+              <a className="ff-cta" href={h.questionUrl} target="_blank" rel="noopener noreferrer">Написати організатору</a>
+            ) : (
+              <>
+                <Cta h={h}>Записати дитину</Cta>
+                <Cta h={h} ghost>Є питання? Напишіть організатору</Cta>
+              </>
+            )}
           </div>
           <dl className="mt-10 grid max-w-3xl grid-cols-2 gap-px border border-white/12 bg-white/12 sm:grid-cols-4">
             {[
-              { icon: "calendar", k: "Коли", v: h.short.replace("–", "–"), s: "листопада, субота й неділя" },
-              { icon: "pin", k: "Де", v: h.city, s: "адресу надішлемо за тиждень" },
-              { icon: "group", k: "Група", v: `до ${h.seats}`, s: "підлітків 14–19" },
-              { icon: "tag", k: "Вартість", v: h.price, s: "зараховується в програму" },
+              { icon: "calendar", k: "Коли", v: h.short, s: h.pilot ? "листопада, субота" : "листопада, субота й неділя" },
+              { icon: "pin", k: "Де", v: h.city, s: h.pilot ? "БЦ Partner" : "адресу надішлемо за тиждень" },
+              { icon: "group", k: "Група", v: `до ${h.seats}`, s: h.pilot ? "дітей 10–16" : "підлітків 14–19" },
+              { icon: "tag", k: "Вартість", v: h.price, s: h.pilot ? "безкоштовно для запрошених" : "зараховується в програму" },
             ].map((f) => (
               <div key={f.k} className="bg-[var(--color-background)] px-4 py-4">
                 <dt className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">
@@ -91,7 +97,9 @@ export default function HackathonPage({ h }: { h: Hackathon }) {
             ))}
           </dl>
           <p className="mt-4 max-w-3xl text-sm text-[var(--color-muted-2)]">
-            Запис до {h.signupDeadline}. Сума повністю зараховується в оплату програми, якщо ви вирішите продовжити.
+            {h.pilot
+              ? "Пілот для запрошених родин: участь безкоштовна, місця вже розподілені. Є питання про суботу: напишіть організатору."
+              : `Запис до ${h.signupDeadline}. Сума повністю зараховується в оплату програми, якщо ви вирішите продовжити.`}
           </p>
         </Container>
       </Section>
@@ -130,7 +138,7 @@ export default function HackathonPage({ h }: { h: Hackathon }) {
         <Container>
           <H2>Програма двох днів</H2>
           <Lead>Один формат на два дні: від «що мене бісить» до реального першого кроку і фіналу перед вами.</Lead>
-          <div className="grid gap-10 md:grid-cols-2 md:gap-12">
+          <div className={`grid gap-10 md:gap-12 ${h.schedule.length > 1 ? "md:grid-cols-2" : "max-w-2xl"}`}>
             {h.schedule.map((d) => (
               <div key={d.day}>
                 <p className="ff-display mb-5 flex items-center gap-3 text-xl font-extrabold text-[var(--color-accent)]">
@@ -262,19 +270,27 @@ export default function HackathonPage({ h }: { h: Hackathon }) {
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="ff-display mb-3 text-[clamp(1.8rem,5vw,2.8rem)] font-extrabold leading-tight">
-              Місць до {h.seats}. Запис до {h.signupDeadline}.
+              {h.pilot ? "Є питання щодо суботи?" : `Місць до ${h.seats}. Запис до ${h.signupDeadline}.`}
             </h2>
             <p className="mb-8 text-lg leading-relaxed text-[var(--color-muted)]">
-              Напишіть мені в Telegram: вік дитини, і я підтверджу місце та надішлю деталі.
+              {h.pilot
+                ? "Напишіть мені в Telegram, відповім."
+                : "Напишіть мені в Telegram: вік дитини, і я підтверджу місце та надішлю деталі."}
             </p>
             <div className="ff-cta-stack ff-cta-stack--center gap-3">
-              <Cta h={h}>Записати дитину</Cta>
-              <Cta h={h} ghost>Є питання? Напишіть організатору</Cta>
+              {h.pilot ? (
+                <a className="ff-cta" href={h.questionUrl} target="_blank" rel="noopener noreferrer">Написати організатору</a>
+              ) : (
+                <>
+                  <Cta h={h}>Записати дитину</Cta>
+                  <Cta h={h} ghost>Є питання? Напишіть організатору</Cta>
+                </>
+              )}
             </div>
           </div>
           {others.length ? (
             <div className="mx-auto mt-12 max-w-2xl border-t border-white/10 pt-8">
-              <p className="mb-3 text-center text-[11px] font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">Не підходить дата? Є інша</p>
+              <p className="mb-3 text-center text-[11px] font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">{h.pilot ? "Наступні хакатони: запис відкритий" : "Не підходить дата? Є інша"}</p>
               <ul className="grid gap-3 sm:grid-cols-2">
                 {others.map((o) => (
                   <li key={o.href}>
