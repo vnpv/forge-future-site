@@ -41,6 +41,16 @@ const SLOT_ICON: Record<string, string> = {
   "Підготовка до фіналу": "Лідерство",
   "Фінал": "Публічні виступи",
   "Чай і розмова з батьками про наступні кроки": "coffee",
+  "Формування команд": "Командна робота",
+  "Пояснення завдання": "report",
+  "Генерація ідей": "Креативне мислення",
+  "Дослідження проблеми": "search",
+  "Формулювання концепції": "Підприємництво",
+  "Повернення до роботи": "clock",
+  "Розробка MVP": "Digital-інструменти",
+  "Аналоги та бізнес-модель": "Фінансова грамотність",
+  "Підготовка презентації": "report",
+  "Фінальна підготовка": "Лідерство",
 };
 
 function splitSlot(text: string): [string, string] {
@@ -174,6 +184,29 @@ export default function HackathonPage({ h }: { h: Hackathon }) {
           </p>
         </Container>
       </Section>
+
+      {/* 4б. ЗАВДАННЯ ДЛЯ ДІТЕЙ (пілот): простий план у 5 кроків */}
+      {h.stages.length ? (
+        <Section spacing="block" className="border-t border-white/10">
+          <Container>
+            <H2>План дітей: 5 кроків</H2>
+            <Lead>Простий аркуш, який кожна команда отримає надрукованим: від пошуку проблеми до презентації.</Lead>
+            <ol className="grid gap-px border border-white/12 bg-white/12 md:grid-cols-5">
+              {h.stages.map((st, i) => (
+                <li key={st.title} className="flex flex-col gap-3 bg-[var(--color-background)] p-5">
+                  <span className="ff-display text-3xl font-extrabold leading-none text-[var(--color-accent)]">{i + 1}</span>
+                  <p className="text-base font-bold leading-snug">{st.title}</p>
+                  <p className="text-sm leading-relaxed text-[var(--color-muted)]">{st.ask}</p>
+                  <p className="mt-auto border-t border-white/10 pt-3 text-sm font-semibold leading-snug">
+                    <span className="text-[var(--color-accent)]">Результат: </span>
+                    {st.result}
+                  </p>
+                </li>
+              ))}
+            </ol>
+          </Container>
+        </Section>
+      ) : null}
 
       {/* 5. РЕЗУЛЬТАТ */}
       <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
