@@ -6,6 +6,7 @@ import Eyebrow from "../components/Eyebrow";
 import HeroPhoto from "../components/HeroPhoto";
 import MiniCourseStrip from "../components/MiniCourseStrip";
 import AuthorBlock from "../components/AuthorBlock";
+import PainBlock from "../components/PainBlock";
 import Roadmap from "../components/Roadmap";
 import SkillIcon, { IconTile } from "../components/SkillIcon";
 import { hackathonStrip } from "@/lib/hackathons";
@@ -137,7 +138,10 @@ export default function ProgramPage() {
         </Container>
       </Section>
 
-      {/* 2. ХТО ПРОВОДИТЬ (одразу після hero) */}
+      {/* 2. БІЛЬ: переписка, чек за 13 років, власна справа */}
+      <PainBlock className="border-t border-white/10 bg-[var(--color-surface)]" />
+
+      {/* 3. ХТО ПРОВОДИТЬ */}
       <AuthorBlock className="border-t border-white/10" />
 
       {/* 3b. 10 НАВИЧОК */}

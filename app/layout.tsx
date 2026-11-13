@@ -7,6 +7,7 @@ import MobileTabs from "./components/MobileTabs";
 import JsonLd from "@/components/JsonLd";
 import GoogleAnalytics from "./components/GoogleAnalytics";
 import VercelAnalytics from "./components/VercelAnalytics";
+import RefCapture from "./components/RefCapture";
 import { organizationSchema, websiteSchema } from "@/lib/organization-schema";
 import { pageAlternates } from "@/lib/seo";
 import { OG_IMAGE_VERSION, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
@@ -71,6 +72,7 @@ export default function RootLayout({
       <body className="relative min-h-full flex flex-col">
         <GoogleAnalytics />
         <VercelAnalytics />
+        <RefCapture />
         <JsonLd data={[organizationSchema, websiteSchema]} />
         <Nav />
         <main className="relative z-[1] flex-1">{children}</main>
