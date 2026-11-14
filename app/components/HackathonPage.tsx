@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import Section from "./Section";
 import Container from "./Container";
 import Eyebrow from "./Eyebrow";
@@ -238,6 +239,54 @@ export default function HackathonPage({ h }: { h: Hackathon }) {
           <p className="mt-6 max-w-2xl text-xs leading-relaxed text-[var(--color-muted-2)]">{h.outcome.note}</p>
         </Container>
       </Section>
+
+      {/* 5б. КЕЙС З ПІЛОТУ (Біла Церква, 14.11): тільки на платних хакатонах */}
+      {h.pilot ? null : (
+        <Section spacing="block" className="border-t border-white/10" id="case">
+          <Container>
+            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">Кейс з першого хакатону · Біла Церква, 14.11</p>
+            <H2>«Кути — це нудно». Тому діти зробили відеоурок</H2>
+            <Lead>
+              Команда «Щаслива», діти 10–15 років, сама обрала проблему зі своєї школи: «тема кутів подається у вигляді цифр і слів, вона є нецікавою».
+            </Lead>
+            <div className="grid items-start gap-8 md:grid-cols-2 md:gap-12">
+              <Link href="/kuty" className="group block border border-white/15 transition-colors hover:border-[var(--color-accent)]">
+                <Image
+                  src="/kuty-media/poster.jpg"
+                  alt="Кадр з відеоуроку «Кутова місія», який зробили діти: роборука показує кут"
+                  width={1280}
+                  height={720}
+                  className="block h-auto w-full"
+                />
+                <span className="flex items-center justify-between gap-3 px-4 py-3 text-sm font-semibold">
+                  Відеоурок і тест «Кутова місія»
+                  <span className="text-[var(--color-accent)] transition-transform group-hover:translate-x-1" aria-hidden>→</span>
+                </span>
+              </Link>
+              <div>
+                <ul className="grid gap-px border border-white/12 bg-white/12">
+                  {[
+                    ["За ~30 хвилин", "з ШІ-помічником зробили відеоурок з «роборукою» і тест на 8 питань."],
+                    ["Тричі переробили", "«довше й зрозуміліше», «веселіше, щоб дітям було цікаво»."],
+                    ["Самі перевірили", "знайшли помилку в тесті й попросили виправити."],
+                    ["Подумали про доступ", "попросили QR-код, щоб учні відкривали тест з телефона."],
+                  ].map(([k, v]) => (
+                    <li key={k} className="bg-[var(--color-background)] px-5 py-4 text-sm leading-relaxed sm:text-base">
+                      <span className="font-bold text-[var(--color-accent)]">{k}:</span> {v}
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-6">
+                  <Link className="ff-cta-secondary" href="/kuty">Подивитись відеоурок і пройти тест</Link>
+                </div>
+                <p className="mt-4 text-xs leading-relaxed text-[var(--color-muted-2)]">
+                  Перша версія продукту за один день, не бізнес і не продажі. Саме так діти працюють на хакатоні: помітити проблему, зробити рішення, покращити його для живих людей.
+                </p>
+              </div>
+            </div>
+          </Container>
+        </Section>
+      )}
 
       {h.pilot ? null : (
         <>
