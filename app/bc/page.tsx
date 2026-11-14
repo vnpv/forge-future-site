@@ -1,31 +1,25 @@
 import type { Metadata } from "next";
-import HackathonPage from "../components/HackathonPage";
-import { hackathons } from "@/lib/hackathons";
+import PilotReport from "../components/PilotReport";
 
-const h = hackathons.bc;
+const title = "Звіт: хакатон-пілот у Білій Церкві, 14.11.2026";
+const description =
+  "Як 6 дітей 10–15 років за один день зробили 2 робочі продукти: відеоурок і тест про кути та опитування для учнів. Шлях кожної команди крок за кроком і демо, яке можна пройти самому.";
 
 export const metadata: Metadata = {
-  title: h.metaTitle,
-  description: h.metaDescription,
+  title,
+  description,
   alternates: { canonical: "/bc" },
-  robots: { index: false, follow: false },
+  robots: { index: false, follow: true },
   openGraph: {
-    type: "website",
+    type: "article",
     locale: "uk_UA",
     siteName: "Forge Future",
-    title: h.metaTitle,
-    description: h.metaDescription,
-    images: [
-      {
-        url: "/images/og-forge-future-1200x630.webp?v=2026-09-08",
-        width: 1200,
-        height: 630,
-        alt: "Forge Future, менторська програма для підлітків",
-      },
-    ],
+    title,
+    description,
+    images: [{ url: "/kuty-media/poster.jpg", width: 1280, height: 720, alt: "Кадр з відеоуроку, який зробили діти на хакатоні" }],
   },
 };
 
 export default function Page() {
-  return <HackathonPage h={h} />;
+  return <PilotReport />;
 }

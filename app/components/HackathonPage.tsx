@@ -276,8 +276,9 @@ export default function HackathonPage({ h }: { h: Hackathon }) {
                     </li>
                   ))}
                 </ul>
-                <div className="mt-6">
+                <div className="ff-cta-stack mt-6 gap-3">
                   <Link className="ff-cta-secondary" href="/kuty">Подивитись відеоурок і пройти тест</Link>
+                  <Link className="ff-cta-link" href="/bc">Звіт про весь хакатон: обидві команди →</Link>
                 </div>
                 <p className="mt-4 text-xs leading-relaxed text-[var(--color-muted-2)]">
                   Перша версія продукту за один день, не бізнес і не продажі. Саме так діти працюють на хакатоні: помітити проблему, зробити рішення, покращити його для живих людей.
