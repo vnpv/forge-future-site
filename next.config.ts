@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
       { source: "/studio", destination: "/junior", permanent: true },
     ];
   },
+  async rewrites() {
+    // Тест «Кутова місія» команди «Щаслива» (хакатон БЦ 14.11) — коротке посилання для QR
+    return [{ source: "/kuty", destination: "/kutova-misiya.html" }];
+  },
   async headers() {
     // Дашборд MIDGARD (app/midgard/route.ts) — не індексувати
     return [

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fbf5e9">
+  <title>Кутова місія: тест про кути</title>
+  <meta name="description" content="8 запитань про гострі, прямі й тупі кути. Тест зробила команда дітей «Щаслива» на хакатоні Forge Future.">
+  <style>
+    :root{color-scheme:light;--paper:#fbf5e9;--ink:#18324b;--teal:#167c80;--orange:#f18b47;--muted:#567080;--line:#d9e0db;--good:#246c46;--bad:#9b432b}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:18px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    main{max-width:760px;margin:0 auto;padding:32px 18px 48px}header{text-align:center;margin:8px auto 26px}h1{font-size:clamp(30px,7vw,46px);line-height:1.08;margin:0 0 10px}header p{color:var(--muted);margin:0}
+    .progress{height:8px;background:#e7e3d9;border-radius:8px;overflow:hidden;margin:20px 0 26px}.progress span{display:block;height:100%;width:0;background:var(--teal);transition:width .25s ease}
+    .card{background:#fffdf8;border:1px solid var(--line);border-radius:22px;padding:clamp(20px,5vw,34px);box-shadow:0 10px 28px #18324b0d}.number{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);font-weight:750}.question{font-size:clamp(23px,5vw,30px);font-weight:750;line-height:1.22;margin:7px 0 20px}
+    .angle{width:100%;max-width:300px;height:145px;display:block;margin:0 auto 18px}.choices{display:grid;gap:10px}.choice{width:100%;text-align:left;padding:14px 16px;border:2px solid var(--line);border-radius:14px;background:white;color:var(--ink);font:inherit;font-weight:650;cursor:pointer;transition:border-color .15s,background .15s}.choice:hover,.choice:focus-visible{border-color:var(--teal);outline:none}.choice[aria-pressed="true"]{border-color:var(--teal);background:#eaf5f2}.choice.correct{border-color:var(--good);background:#eaf5ee}.choice.incorrect{border-color:var(--bad);background:#fff0e9}
+    .feedback{min-height:56px;margin:16px 0 8px;font-weight:650}.feedback.good{color:var(--good)}.feedback.try{color:var(--bad)}.next{display:block;margin:10px 0 0 auto;border:0;border-radius:14px;background:var(--ink);color:white;font:inherit;font-weight:750;padding:13px 20px;cursor:pointer}.next:disabled{opacity:.45;cursor:not-allowed}.result{text-align:center}.score{font-size:56px;font-weight:850;color:var(--teal);margin:8px}.again{margin:20px auto 0}.sr{position:absolute;left:-9999px}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+<main>
+  <header><h1>Кутова місія</h1><p>8 веселих запитань — перевір, чи став ти майстром кутів!</p></header>
+  <div class="progress" aria-label="Прогрес тесту"><span id="bar"></span></div>
+  <section class="card" id="quiz" aria-live="polite"></section>
+  <footer style="text-align:center;color:var(--muted);font-size:14px;margin-top:28px">Тест зробила команда «Щаслива» на хакатоні <a href="https://forge-future.com/bc" style="color:var(--teal)">Forge Future</a>, Біла Церква, 14.11.2026</footer>
+</main>
+<script>
+const questions=[
+  {text:"Кут 35° — який він?",angle:35,answers:["Гострий","Прямий","Тупий"],correct:0,why:"35° менше за 90°, тому кут гострий — його розкриття маленьке."},
+  {text:"Скільки градусів має прямий кут?",angle:90,answers:["45°","90°","180°"],correct:1,why:"Прямий кут дорівнює рівно 90° — як кутик у зошиті."},
+  {text:"Кут 135° — який він?",angle:135,answers:["Гострий","Прямий","Тупий"],correct:2,why:"135° більше за 90°, але менше за 180° — це тупий кут."},
+  {text:"Який кут більший: 70° чи 110°?",angle:110,answers:["70°","110°","Однакові"],correct:1,why:"110° більше за 70°. Чим ширше розходяться промені, тим більший кут."},
+  {text:"Де вершина кута?",angle:60,answers:["У місці, де зустрічаються промені","На кінчику одного променя","Посередині дуги"],correct:0,why:"Вершина — спільна точка, з якої виходять обидва промені."},
+  {text:"Кут 180° схожий на…",angle:180,answers:["Кутик зошита","Пряму лінію","Гострий носик"],correct:1,why:"Розгорнутий кут 180° утворює пряму лінію."},
+  {text:"Кут 90° — це кут…",angle:90,answers:["Гострий","Прямий","Тупий"],correct:1,why:"Рівно 90° — це прямий кут. Запам’ятай кутик зошита!"},
+  {text:"Кут 150° — гострий, прямий чи тупий?",angle:150,answers:["Гострий","Прямий","Тупий"],correct:2,why:"150° більше за 90° і менше за 180°, отже він тупий."}
+];
+let index=0,score=0,locked=false;
+const box=document.querySelector('#quiz'),bar=document.querySelector('#bar');
+function diagram(deg){const cx=150,cy=125,r=76,rad=-deg*Math.PI/180,x=cx+r*Math.cos(rad),y=cy+r*Math.sin(rad);return `<svg class="angle" viewBox="0 0 300 150" role="img" aria-label="Схема кута ${deg} градусів"><path d="M40 125H260" stroke="#dfe5dd" stroke-width="2" stroke-dasharray="6 7"/><path d="M${cx} ${cy}H${cx+r}" stroke="#167c80" stroke-width="12" stroke-linecap="round"/><path d="M${cx} ${cy}L${x.toFixed(1)} ${y.toFixed(1)}" stroke="#f18b47" stroke-width="12" stroke-linecap="round"/><path d="M${cx+33} ${cy} A33 33 0 0 0 ${cx+33*Math.cos(rad)} ${cy+33*Math.sin(rad)}" fill="none" stroke="#18324b" stroke-width="3"/><circle cx="${cx}" cy="${cy}" r="8" fill="#18324b"/><text x="150" y="20" text-anchor="middle" fill="#567080" font-size="16" font-weight="700">${deg}°</text></svg>`}
+function render(){locked=false;bar.style.width=`${index/questions.length*100}%`;const q=questions[index];box.innerHTML=`<div class="number">Запитання ${index+1} з ${questions.length}</div><div class="question">${q.text}</div>${diagram(q.angle)}<div class="choices">${q.answers.map((a,i)=>`<button class="choice" data-i="${i}" aria-pressed="false">${a}</button>`).join('')}</div><div class="feedback" id="feedback" role="status"></div><button class="next" id="next" disabled>${index===questions.length-1?'Побачити результат':'Далі'}</button>`;box.querySelectorAll('.choice').forEach(b=>b.addEventListener('click',answer));box.querySelector('#next').addEventListener('click',advance)}
+function answer(e){if(locked)return;locked=true;const q=questions[index],picked=Number(e.currentTarget.dataset.i),ok=picked===q.correct;if(ok)score++;box.querySelectorAll('.choice').forEach((b,i)=>{b.disabled=true;b.setAttribute('aria-pressed',String(i===picked));if(i===q.correct)b.classList.add('correct');else if(i===picked)b.classList.add('incorrect')});const f=box.querySelector('#feedback');f.textContent=(ok?'Так! ':'Спробуй запам’ятати: ')+q.why;f.className='feedback '+(ok?'good':'try');box.querySelector('#next').disabled=false}
+function advance(){index++;if(index<questions.length){render();return}bar.style.width='100%';const praise=score>=7?'Супер! Ти справжній майстер кутів!':score>=5?'Класно! Ще трохи практики — і ти майстер!':'Гарна спроба! Переглянь урок і спробуй ще раз.';box.innerHTML=`<div class="result"><div class="number">Місію завершено</div><h2>${praise}</h2><div class="score">${score} / ${questions.length}</div><p>Гострий — менше за 90°. Прямий — рівно 90°. Тупий — більше за 90°, але менше за 180°. Розгорнутий — рівно 180°.</p><button class="next again" id="again">Пройти ще раз</button></div>`;box.querySelector('#again').addEventListener('click',()=>{index=0;score=0;render()})}
+render();
+</script>
+</body>
+</html>
