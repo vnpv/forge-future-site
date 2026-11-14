@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#fbf5e9">
   <title>Кутова місія: тест про кути</title>
-  <meta name="description" content="8 запитань про гострі, прямі й тупі кути. Тест зробила команда дітей «Щаслива» на хакатоні Forge Future.">
+  <meta name="description" content="Відеоурок і тест на 8 запитань про гострі, прямі й тупі кути. Зробила команда дітей «Щаслива» на хакатоні Forge Future.">
   <style>
     :root{color-scheme:light;--paper:#fbf5e9;--ink:#18324b;--teal:#167c80;--orange:#f18b47;--muted:#567080;--line:#d9e0db;--good:#246c46;--bad:#9b432b}
     *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:18px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
@@ -14,15 +14,21 @@
     .card{background:#fffdf8;border:1px solid var(--line);border-radius:22px;padding:clamp(20px,5vw,34px);box-shadow:0 10px 28px #18324b0d}.number{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);font-weight:750}.question{font-size:clamp(23px,5vw,30px);font-weight:750;line-height:1.22;margin:7px 0 20px}
     .angle{width:100%;max-width:300px;height:145px;display:block;margin:0 auto 18px}.choices{display:grid;gap:10px}.choice{width:100%;text-align:left;padding:14px 16px;border:2px solid var(--line);border-radius:14px;background:white;color:var(--ink);font:inherit;font-weight:650;cursor:pointer;transition:border-color .15s,background .15s}.choice:hover,.choice:focus-visible{border-color:var(--teal);outline:none}.choice[aria-pressed="true"]{border-color:var(--teal);background:#eaf5f2}.choice.correct{border-color:var(--good);background:#eaf5ee}.choice.incorrect{border-color:var(--bad);background:#fff0e9}
     .feedback{min-height:56px;margin:16px 0 8px;font-weight:650}.feedback.good{color:var(--good)}.feedback.try{color:var(--bad)}.next{display:block;margin:10px 0 0 auto;border:0;border-radius:14px;background:var(--ink);color:white;font:inherit;font-weight:750;padding:13px 20px;cursor:pointer}.next:disabled{opacity:.45;cursor:not-allowed}.result{text-align:center}.score{font-size:56px;font-weight:850;color:var(--teal);margin:8px}.again{margin:20px auto 0}.sr{position:absolute;left:-9999px}
+    .lesson{margin:0 0 6px}.lesson video{display:block;width:100%;aspect-ratio:16/9;border-radius:18px;background:#18324b;margin-top:8px;box-shadow:0 10px 28px #18324b14}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
   </style>
 </head>
 <body>
 <main>
-  <header><h1>Кутова місія</h1><p>8 веселих запитань — перевір, чи став ти майстром кутів!</p></header>
+  <header><h1>Кутова місія</h1><p>Спершу подивись відеоурок про кути, а потім пройди 8 веселих запитань і перевір, чи став ти майстром кутів!</p></header>
+  <section class="lesson" aria-label="Відеоурок">
+    <div class="number">Крок 1 · відеоурок</div>
+    <video controls playsinline preload="metadata" poster="/kuty-media/poster.jpg" src="/kuty-media/kutova-misiya.mp4"></video>
+  </section>
+  <div class="number" style="margin:26px 0 0">Крок 2 · тест</div>
   <div class="progress" aria-label="Прогрес тесту"><span id="bar"></span></div>
   <section class="card" id="quiz" aria-live="polite"></section>
-  <footer style="text-align:center;color:var(--muted);font-size:14px;margin-top:28px">Тест зробила команда «Щаслива» на хакатоні <a href="https://forge-future.com/bc" style="color:var(--teal)">Forge Future</a>, Біла Церква, 14.11.2026</footer>
+  <footer style="text-align:center;color:var(--muted);font-size:14px;margin-top:28px">Відеоурок і тест зробила команда «Щаслива» на хакатоні <a href="https://forge-future.com/bc" style="color:var(--teal)">Forge Future</a>, Біла Церква, 14.11.2026</footer>
 </main>
 <script>
 const questions=[
