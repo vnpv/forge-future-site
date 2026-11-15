@@ -317,3 +317,8 @@ body.tg-app .ff-tabs-ui { display: none; }
     linear-gradient(to right, rgba(0, 0, 0, 0.35) 0%, #000 60%);
   mask-composite: intersect;
 }
+
+/* /bc: поява кроку в інтерактивному шляху команди */
+@keyframes ff-journey-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.ff-journey-in { animation: ff-journey-in .35s ease both; }
+@media (prefers-reduced-motion: reduce) { .ff-journey-in { animation: none; } }

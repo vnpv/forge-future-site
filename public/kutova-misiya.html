@@ -16,9 +16,11 @@
     .feedback{min-height:56px;margin:16px 0 8px;font-weight:650}.feedback.good{color:var(--good)}.feedback.try{color:var(--bad)}.next{display:block;margin:10px 0 0 auto;border:0;border-radius:14px;background:var(--ink);color:white;font:inherit;font-weight:750;padding:13px 20px;cursor:pointer}.next:disabled{opacity:.45;cursor:not-allowed}.result{text-align:center}.score{font-size:56px;font-weight:850;color:var(--teal);margin:8px}.again{margin:20px auto 0}.sr{position:absolute;left:-9999px}
     .lesson{margin:0 0 6px}.lesson video{display:block;width:100%;aspect-ratio:16/9;border-radius:18px;background:#18324b;margin-top:8px;box-shadow:0 10px 28px #18324b14}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+    html.embed header,html.embed .lesson,html.embed .lesson+.number,html.embed footer{display:none}html.embed main{padding:14px 12px 20px}html.embed .progress{margin-top:4px}
   </style>
 </head>
 <body>
+<script>if(/[?&]embed=1/.test(location.search))document.documentElement.classList.add('embed')</script>
 <main>
   <header><h1>Кутова місія</h1><p>Спершу подивись відеоурок про кути, а потім пройди 8 веселих запитань і перевір, чи став ти майстром кутів!</p></header>
   <section class="lesson" aria-label="Відеоурок">
