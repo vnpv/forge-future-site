@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     ev = await createEvent({
       start,
       end,
-      summary: `Розбір з Іваном (Forge Future): ${name}`,
+      summary: `Розмова з батьками (Forge Future): ${name}`,
       description,
       email,
       privateProps: { child: `${name}, ${age}`, quiz: code || "-", source: ref || "-", telegram: tg ? String(tg.id) : "-", contact: contact || "-" },
@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
   const npAge = await notePlanAgeHours();
   const stale = npAge === null || npAge > 3 ? `⚠️ Дані NotePlan на сайті ${npAge === null ? "відсутні" : `не оновлювались ${Math.round(npAge)} год`} (Mac спить?). Перевір, чи немає накладки.` : "";
   await notifyIvan(
-    [`📅 <b>Розбір заброньовано</b>: ${label} (Київ)`, stale, `Дитина: ${name}, ${age}`, `Email: ${email}`, tg ? "" : `Контакт: ${contact}`, who, `Квіз: ${code || "-"}`, channel, ev.meet ? `Meet: ${ev.meet}` : ""]
+    [`📅 <b>Розбір заброньовано</b>: ${label} (Київ)`, stale, `Батьки: ${name}, ${age}`, `Email: ${email}`, tg ? "" : `Контакт: ${contact}`, who, `Квіз: ${code || "-"}`, channel, ev.meet ? `Meet: ${ev.meet}` : ""]
       .filter(Boolean)
       .join("\n"),
   );

@@ -19,7 +19,7 @@ type Props = {
   onBooked: (label: string, meet: string, bid: string) => void;
 };
 
-/** Вибір дня й часу, ім'я дитини, email. Запис створює подію в Google Calendar Івана з запрошенням на email. */
+/** Вибір дня й часу, ваше ім'я, email. Запис створює подію в Google Calendar Івана з запрошенням на email. */
 export default function Booking({ days, ageLabel, ref_, code, initData, onBooked }: Props) {
   const dates = Object.keys(days);
   const [date, setDate] = useState(dates[0] ?? "");
@@ -101,7 +101,7 @@ export default function Booking({ days, ageLabel, ref_, code, initData, onBooked
         ))}
       </div>
 
-      <label className="mb-1 block text-sm text-[var(--color-muted)]">Ім'я дитини</label>
+      <label className="mb-1 block text-sm text-[var(--color-muted)]">Ваше ім'я</label>
       <input className={`${field} mb-3`} value={name} onChange={(e) => setName(e.target.value)} maxLength={40} autoComplete="off" />
       <label className="mb-1 block text-sm text-[var(--color-muted)]">Ваш email (надішлю запрошення в календар)</label>
       <input
