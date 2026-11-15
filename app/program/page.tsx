@@ -6,7 +6,6 @@ import Eyebrow from "../components/Eyebrow";
 import HeroPhoto from "../components/HeroPhoto";
 import MiniCourseStrip from "../components/MiniCourseStrip";
 import AuthorBlock from "../components/AuthorBlock";
-import PainBlock from "../components/PainBlock";
 import Roadmap from "../components/Roadmap";
 import SkillIcon, { IconTile } from "../components/SkillIcon";
 import { hackathonStrip } from "@/lib/hackathons";
@@ -88,17 +87,12 @@ export default function ProgramPage() {
           <h1 className="ff-display ff-reveal mb-6 max-w-3xl text-[clamp(2rem,6vw,3.6rem)] font-extrabold leading-[1.04] tracking-tight">
             {programHero.h1}
           </h1>
-          <p className="max-w-xl text-lg leading-relaxed text-[var(--color-muted)]">{programHero.sub}</p>
-        </Container>
-      </Section>
-
-      {/* 1b. БІЛЬ одразу після кнопки розбору */}
-      <PainBlock className="bg-[var(--color-surface)]" />
-
-      {/* 1c. Група, тривалість, хакатони */}
-      <Section spacing="block" className="border-t border-white/10">
-        <Container>
-          <dl className="grid max-w-3xl grid-cols-2 gap-px border border-white/12 bg-white/12 sm:grid-cols-4">
+          <p className="mb-8 max-w-xl text-lg leading-relaxed text-[var(--color-muted)]">{programHero.sub}</p>
+          <div className="ff-cta-stack gap-3">
+            <Cta>{programHero.cta}</Cta>
+            <p className="max-w-md text-sm text-[var(--color-muted-2)]">{programHero.ctaNote}</p>
+          </div>
+          <dl className="mt-10 grid max-w-3xl grid-cols-2 gap-px border border-white/12 bg-white/12 sm:grid-cols-4">
             {[
               { k: "Група", v: "до 10", s: "підлітків" },
               { k: "Тривалість", v: "8 тижнів", s: "2 місяці" },
@@ -112,11 +106,7 @@ export default function ProgramPage() {
               </div>
             ))}
           </dl>
-          <div className="ff-cta-stack mt-8 gap-3">
-            <Cta>{programHero.cta}</Cta>
-            <p className="max-w-md text-sm text-[var(--color-muted-2)]">{programHero.ctaNote}</p>
-          </div>
-          <div className="mt-10 max-w-3xl">
+          <div className="mt-6 max-w-3xl">
             <p className="mb-3 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest text-[var(--color-accent)]">
               <span className="h-px w-6 bg-[var(--color-accent)]" aria-hidden />
               Хакатони перед стартом: приходьте протестувати формат
