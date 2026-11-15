@@ -33,13 +33,13 @@ export default function Journey({ id, steps, team }: { id: string; steps: Journe
               aria-selected={on}
               aria-controls={`${id}-panel`}
               onClick={() => go(k)}
-              className={`group text-left ${k === 6 ? "col-span-4 sm:col-span-1" : ""}`}
+              className="group text-left"
             >
-              <span className={`relative block overflow-hidden border-2 transition-colors ${on ? "border-[var(--color-accent)]" : "border-transparent"} ${k === 6 ? "aspect-[4/1] sm:aspect-[4/3]" : "aspect-[4/3]"}`}>
+              <span className={`relative block overflow-hidden border-2 transition-colors ${on ? "border-[var(--color-accent)]" : "border-transparent"} aspect-[4/3]`}>
                 <Image src={st.thumb} alt="" fill sizes="(min-width: 640px) 14vw, 25vw" className={`object-cover transition duration-300 ${on ? "" : "opacity-45 grayscale group-hover:opacity-80 group-hover:grayscale-0"}`} />
                 <span className={`ff-display absolute left-0 top-0 px-1.5 py-0.5 text-xs font-extrabold ${on ? "bg-[var(--color-accent)] text-black" : "bg-black/70 text-white"}`}>{k + 1}</span>
               </span>
-              <span className={`mt-1.5 block truncate text-[11px] font-semibold leading-tight sm:text-xs ${on ? "text-[var(--color-foreground)]" : "text-[var(--color-muted-2)]"}`}>{st.label}</span>
+              <span className={`mt-1.5 block truncate text-xs font-semibold leading-tight ${on ? "text-[var(--color-foreground)]" : "text-[var(--color-muted-2)]"}`}>{st.label}</span>
             </button>
           );
         })}

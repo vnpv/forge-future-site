@@ -7,7 +7,7 @@ import { LoopVideo, ReelCard } from "./bc/media";
 import Journey, { type JourneyStep } from "./bc/Journey";
 import SurveyDemo from "./bc/SurveyDemo";
 import Zoom from "./bc/Zoom";
-import { hackathons, hackathonStrip } from "@/lib/hackathons";
+import { hackathonStrip } from "@/lib/hackathons";
 
 /**
  * /bc — «Хроніка дня»: документальний звіт про хакатон-пілот у Білій Церкві 14.11.2026.
@@ -133,6 +133,36 @@ function Chat({ lines }: { lines: string[] }) {
   );
 }
 
+/** Перші 6 відповідей опитування «Balenciaga» (форма команди, 14.11). */
+function Results() {
+  const qs: [string, [string, number][]][] = [
+    ["Чи кричав учитель на вас під час уроку?", [["Так", 5], ["Ні", 1]]],
+    ["Чи було тобі цікаво на уроці?", [["Так, дуже!", 3], ["Було нормально", 2], ["Ні, було нудно", 1]]],
+    ["Чи все було тобі зрозуміло на уроці?", [["Так, усе зрозуміло", 3], ["Дещо було незрозуміло", 3], ["Ні, багато чого не зрозумів", 0]]],
+  ];
+  return (
+    <div className="space-y-5 border border-white/12 p-5">
+      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-muted-2)]">Перші 6 відповідей у формі команди</p>
+      {qs.map(([q, opts]) => (
+        <div key={q}>
+          <p className="mb-2 text-sm font-bold">{q}</p>
+          <ul className="space-y-1.5">
+            {opts.map(([o, n]) => (
+              <li key={o} className="grid grid-cols-[1fr_auto] items-center gap-3 text-sm">
+                <div className="relative h-7 overflow-hidden bg-white/[0.06]">
+                  <div className="absolute inset-y-0 left-0 bg-[var(--color-accent)]/35" style={{ width: `${(n / 6) * 100}%` }} />
+                  <span className="relative px-2.5 leading-7">{o}</span>
+                </div>
+                <span className="ff-display w-10 text-right text-[var(--color-accent)]">{n} з 6</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function Canvas({ rows }: { rows: [string, string][] }) {
   return (
     <dl className="grid gap-px border border-white/12 bg-white/12 sm:grid-cols-2">
@@ -154,34 +184,29 @@ const chronicle: { chapter: string; moments: Moment[] }[] = [
   {
     chapter: "Ранок",
     moments: [
-      { t: "10:00", title: "Телефони — в коробку", text: "Збираємося, знайомимось. Телефони здаємо до кінця дня: номер організатора в батьків є.", media: <Frame src={img("t1000-arrive")} alt="Учасник з батьком на вході перед стартом" time="10:00" /> },
+      { t: "10:00", title: "Телефони — в коробку", text: "Збираємося, знайомимось. Телефони здаємо до кінця дня.", media: <Frame src={img("t1000-arrive")} alt="Учасник з батьком на вході перед стартом" time="10:00" /> },
       { t: "10:05", title: "Вступ: навіщо вчитися думати від проблеми", text: "Майже дві години: знайомство, розмова про ШІ і про те, чим творець відрізняється від виконавця.", media: <Frame src={img("t1015-intro")} alt="Діти на диванах слухають вступ" time="10:05" /> },
     ],
   },
   {
     chapter: "Проблема",
     moments: [
-      { t: "12:01", title: "Штурм: «що вас бісить у школі?»", text: "Кожен пише свої пункти, потім голосуємо. Дві великі теми: як подають предмети і як з учнями говорять.", media: <LoopVideo src={`${M}/l-shtorm.mp4`} poster={img("l-shtorm")} label="Штурм за круглим столом" className="aspect-[4/5] w-full" /> },
-      { t: "12:14", title: "Одна історія замість «нецікаво»", text: "«На уроці була тема „Кути“, і нам її не пояснили». З цієї історії виріс кейс «Щасливої».", media: <Frame src={img("t1214-story")} alt="Ментор слухає історію учасниці" time="12:14" /> },
-      { t: "12:18", title: "Друга команда обирає свою тему", text: "«Balenciaga» береться за те, про що рідко говорять уголос: як вчителі поводяться з учнями.", media: <Frame src={img("t1218-sofa")} alt="Команда «Balenciaga» з ментором на дивані" time="12:18" /> },
+      { t: "12:01", title: "Штурм: «що вас бісить у школі?»", text: "Кожен пише свої пункти, потім голосуємо. Вийшло дві великі теми: як подають предмети і як з учнями говорять.", media: <Frame src={img("t1201-shtorm")} alt="Діти за круглим столом пишуть проблеми" time="12:01" /> },
       { t: "12:35", title: "Проблему — на фліпчарт", text: "Формулюємо одним реченням, розбираємо причини, шукаємо головну.", media: <Frame src={img("t1235-flipchart")} alt="Ментор записує проблему команди на фліпчарт" time="12:35" /> },
     ],
   },
   {
     chapter: "Рішення",
     moments: [
-      { t: "14:10", title: "Перевірка і рішення, спершу без ШІ", text: "Чи це справді проблема, по чотири варіанти рішення на команду, вибір. 40 хвилин роботи за 12 секунд.", media: <LoopVideo src={`${M}/l-timelapse.mp4`} poster={img("l-timelapse")} label="Таймлапс 14:14–14:54" className="aspect-[4/5] w-full" /> },
-      { t: "16:36", title: "Перша версія з ШІ-помічником", text: "Відеоурок і тест у «Щасливої», опитування і презентація у «Balenciaga».", media: <Frame src={img("t1636-laptops")} alt="Учасниці працюють за ноутбуком і планшетом" time="16:36" /> },
-      { t: "16:37", title: "«Готово!»", text: "Селфі з командами за пів години до фіналу.", media: <Frame src={img("t1637-selfie")} alt="Селфі ментора з командами, діти махають у камеру" time="16:37" /> },
+      { t: "14:14", title: "Перевірка і рішення, спершу без ШІ", text: "Чи це справді проблема, по чотири варіанти рішення на команду, вибір. 40 хвилин роботи за 12 секунд.", media: <LoopVideo src={`${M}/l-timelapse.mp4`} poster={img("l-timelapse")} label="Таймлапс 14:14–14:54" className="aspect-[4/5] w-full" /> },
+      { t: "16:36", title: "Перша версія з ШІ-помічником", text: "«Щаслива» зробила відеоурок і тест з 15:40 до 16:12. На фото «Balenciaga» доробляє опитування.", media: <Frame src={img("t1636-laptops")} alt="Учасниці «Balenciaga» працюють за ноутбуком і планшетом" time="16:36" /> },
     ],
   },
   {
     chapter: "Фінал",
     moments: [
-      { t: "17:08", title: "Фінал при батьках", text: "Батьки в залі. Коротко: навіщо був цей день і як ми працювали.", media: <Frame src={img("t1708-final")} alt="Іван Первой відкриває фінал біля фліпчарта" time="17:08" /> },
-      { t: "17:17", title: "«Щаслива»: виступ і демо", text: "Відеоурок на великому екрані, тест проходять просто в залі.", media: <Frame src={img("t1717-shchaslyva")} alt="Команда «Щаслива» виступає на фіналі" time="17:17" /> },
-      { t: "17:25", title: "«Balenciaga»: «Дитина має голос»", text: "Опитування після уроку, яке йде директору. QR на екрані.", media: <Frame src={img("t1725-balenciaga")} alt="Команда «Balenciaga» виступає на фіналі" time="17:25" /> },
-      { t: "17:36", title: "Спільне фото", text: "Учасники, батьки, ментори.", media: <Frame src={img("t1736-group")} alt="Спільне фото учасників, батьків і менторів" time="17:36" ratio="aspect-[4/3]" /> },
+      { t: "17:19", title: "«Щаслива»: відеоурок на великому екрані", text: "Після виступу команда запускає свій урок, а потім тест для всіх у залі.", media: <Frame src={img("t1719-lesson")} alt="Відеоурок про кути на великому екрані під час фіналу" time="17:19" /> },
+      { t: "17:29", title: "«Balenciaga»: «Дитина має голос»", text: "Опитування після уроку, яке йде директору. Батьки і діти слухають у залі.", media: <Frame src={img("t1729-director")} alt="Команда «Balenciaga» виступає, у залі глядачі" time="17:29" /> },
     ],
   },
 ];
@@ -192,7 +217,7 @@ const shchaslyva: JourneyStep[] = [
   {
     label: "Штурм",
     time: "12:01 · крок 1",
-    thumb: img("l-shtorm"),
+    thumb: img("t1214-story"),
     title: "Що бісить у школі? Пишемо і голосуємо",
     body: (
       <>
@@ -200,16 +225,16 @@ const shchaslyva: JourneyStep[] = [
         <Votes max={3} items={[["Навантаження", 3], ["Нецікаво", 2], ["Незрозуміло", 2], ["Тиск", 1]]} />
       </>
     ),
-    media: <Loop name="l-shtorm" label="Штурм за круглим столом, 12:01" />,
+    media: <figure><Frame src={img("t1214-story")} alt="Команда «Щаслива» за столом з ментором" /><figcaption className="mt-2 text-xs text-[var(--color-muted-2)]">Команда «Щаслива» за своїм столом</figcaption></figure>,
   },
   {
     label: "Історія",
     time: "12:14 · крок 2",
-    thumb: img("t1214-story"),
+    thumb: img("reel-K"),
     title: "Одна історія замість загального «нецікаво»",
     body: (
       <>
-        <p>Ментор попросив не загальні слова, а одну ситуацію, яку пам&apos;ятаєш. Так з&apos;явився кейс команди: <b>урок про кути</b>.</p>
+        <p>Ментор попросив не загальні слова, а одну ситуацію, яку пам’ятаєш. Так з’явився кейс команди: <b>урок про кути</b>.</p>
         <Quote who="Учасниця «Щасливої»">На уроці була тема «Кути», і нам її не пояснили</Quote>
         <p className="text-sm">Відео: як ментор пояснює, що таке кейс, і відповідь команди.</p>
       </>
@@ -246,22 +271,25 @@ const shchaslyva: JourneyStep[] = [
   },
   {
     label: "Перша версія",
-    time: "15:05 · крок 5",
+    time: "15:40 · крок 5",
     thumb: "/kuty-media/poster.jpg",
     title: "Перша версія з ШІ і три доробки",
     body: (
       <>
-        <p>Команда сама ставила завдання ШІ-помічнику і не прийняла перший результат. Їхні запити:</p>
+        <p>З 15:40 до 16:12 команда сама ставила завдання ШІ-помічнику: <b>8 запитів</b>, і перший результат не прийняли.</p>
         <Chat
           lines={[
             "Тема кутів подається у вигляді цифр і слів, вона є нецікавою… хочемо коротке відео, а після нього опитування",
-            "Зроби його довшим та зрозумілішим",
-            "Зроби веселіше, щоб дітям було цікаво",
-            "Тест на 7–10 запитань і QR-код, щоб відкривати з телефона",
-            "Ти зробив той самий тест на 3 запитання",
+            "Уточнили формат: відеоурок, а не мультик",
+            "Погодили сценарій",
+            "«Зроби його довшим та зрозумілішим»",
+            "«Зроби веселіше, щоб дітям було цікаво»",
+            "«QR-код, щоб зайти на тест»",
+            "«Тест на 7–10 питань»",
+            "«Ти зробив той самий тест на 3 запитання»",
           ]}
         />
-        <p>Останній запит: команда сама знайшла помилку. Вийшли відеоурок «Місія Кутобота» і тест на 8 питань.</p>
+        <p>В останньому запиті команда сама знайшла помилку. Вийшли відеоурок «Місія Кутобота» і тест на 8 питань.</p>
       </>
     ),
     media: (
@@ -274,12 +302,11 @@ const shchaslyva: JourneyStep[] = [
   {
     label: "Фінал",
     time: "17:17 · крок 6",
-    thumb: img("t1717-shchaslyva"),
+    thumb: img("reel-H"),
     title: "Виступ при батьках і демо на великому екрані",
     body: (
       <>
-        <Quote who="«Щаслива» на фіналі">Ми — команда «Щаслива», хочемо презентувати ідею, як покращити школу. Наша проблема — математика</Quote>
-        <p>Команда показала відеоурок і запросила батьків пройти тест просто в залі.</p>
+        <p>Команда розповіла, як хоче покращити школу і чому почала з математики, показала відеоурок і запросила всіх у залі пройти тест.</p>
         <Quote who="Іван Первой, ментор">Вони і розробники цього рішення, і його користувачі. Тому можуть постійно його покращувати: бачать, що зрозуміло, а що ні</Quote>
       </>
     ),
@@ -298,13 +325,13 @@ const shchaslyva: JourneyStep[] = [
             ["Для кого", "Учні, яким тема кутів нецікава й незрозуміла"],
             ["Проблема", "Математику подають тільки словами й цифрами"],
             ["Рішення", "Відеоурок з роборукою + тест з поясненнями"],
-            ["Як відкрити", "З телефона за QR-кодом"],
+            ["Як пройти", "З телефона або комп’ютера, 3 хвилини"],
           ]}
         />
-        <Link className="ff-cta-link !text-[var(--color-accent)]" href="/kuty">Відкрити урок і тест окремою сторінкою →</Link>
+        <a className="ff-cta-link !text-[var(--color-accent)]" href="/kuty">Відкрити урок і тест окремою сторінкою →</a>
       </>
     ),
-    media: <iframe src="/kutova-misiya.html?embed=1" title="Тест «Кутова місія»" loading="lazy" className="block h-[600px] w-full bg-[#fbf5e9]" />,
+    media: <iframe src="/kutova-misiya.html?embed=1" title="Тест «Кутова місія»" loading="lazy" className="block h-[740px] w-full bg-[#fbf5e9]" />,
   },
 ];
 
@@ -332,16 +359,16 @@ const balenciaga: JourneyStep[] = [
     title: "Обрали тему і перевірили її на людях",
     body: (
       <>
-        <p>Команда взялась за те, про що рідко говорять уголос. Щоб не гадати, провела <b>4 інтерв&apos;ю</b> і позначила результат кожного:</p>
+        <p>Команда взялась за те, про що рідко говорять уголос. Щоб не гадати, провела <b>4 інтерв’ю</b> і позначила результат кожного:</p>
         <ul className="grid grid-cols-4 gap-2 text-center">
           {["✗", "±", "на 30%", "✗"].map((r, k) => (
             <li key={k} className="border border-white/12 px-1 py-3">
-              <span className="block text-[10px] uppercase tracking-widest text-[var(--color-muted-2)]">інтерв&apos;ю {k + 1}</span>
+              <span className="block text-[10px] uppercase tracking-widest text-[var(--color-muted-2)]">інтерв’ю {k + 1}</span>
               <span className="ff-display mt-1 block text-lg font-extrabold text-[var(--color-foreground)]">{r}</span>
             </li>
           ))}
         </ul>
-        <p>Перше формулювання: «вчитель занижує оцінки, бо учень подивився в телефон». Інтерв&apos;ю показали, що справа ширша.</p>
+        <p>Перше формулювання на фліпчарті: «вчитель занижує оцінки, бо учень подивився в телефон під час уроку».</p>
       </>
     ),
     media: <Loop name="l-sofa" label="Команда з ментором обирає тему, 12:18" />,
@@ -355,10 +382,10 @@ const balenciaga: JourneyStep[] = [
       <>
         <p>Фактори, які команда назвала сама:</p>
         <Chips main="вчитель кричить — впевненість падає" items={["в 5 класі −1 бал", "всі забрали телефони", "не сподобався вчителю", "щось не те зробив", "контрольна — результати занижені", "вчитель кричить — впевненість падає"]} />
-        <p>Обрали той, що б&apos;є по дитині найсильніше: <b>впевненість</b>.</p>
+        <p>Обрали той, що б’є по дитині найсильніше: <b>впевненість</b>.</p>
       </>
     ),
-    media: <Doc src={img("flip-balenciaga")} w={1350} h={1800} alt="Фліпчарт «Balenciaga»: проблема, позначки інтерв'ю, фактори" caption="Фліпчарт команди: проблема, позначки інтерв'ю, головний фактор обведено" />,
+    media: <Doc src={img("flip-balenciaga")} w={1350} h={1800} alt="Фліпчарт «Balenciaga»: проблема, позначки інтерв’ю, фактори" caption="Фліпчарт команди: проблема, позначки інтерв’ю, головний фактор обведено" />,
   },
   {
     label: "4 рішення",
@@ -395,14 +422,14 @@ const balenciaga: JourneyStep[] = [
     media: (
       <div className="grid gap-3">
         <Frame src={img("t1636-laptops")} alt="Учасниці «Balenciaga» роблять опитування за ноутбуком" time="16:36" ratio="aspect-[4/3]" />
-        <Doc src="/bc-report/team2-results-q1-q2.png" w={742} h={720} alt="Діаграми перших відповідей опитування" caption="Перші відповіді у формі команди" />
+        <Results />
       </div>
     ),
   },
   {
     label: "Фінал",
     time: "17:25 · крок 6",
-    thumb: img("t1725-balenciaga"),
+    thumb: img("reel-I"),
     title: "«Дитина має голос»: виступ і питання від «директора»",
     body: (
       <>
@@ -429,7 +456,7 @@ const balenciaga: JourneyStep[] = [
           rows={[
             ["Для кого", "Учні — щоб їх почули; директор — щоб знати, як ідуть уроки"],
             ["Проблема", "Вчитель кричить — у дитини падає впевненість"],
-            ["Рішення", "Опитування після уроку за QR-кодом"],
+            ["Рішення", "Опитування з 3 питань після уроку"],
             ["Перевірка", "Перші 6 відповідей у день хакатону"],
           ]}
         />
@@ -443,23 +470,22 @@ const balenciaga: JourneyStep[] = [
 
 function CaseCover({ n, name, src, alt, problem, product, facts }: { n: string; name: string; src: string; alt: string; problem: string; product: string; facts: [string, string][] }) {
   return (
-    <div className="relative mb-10 overflow-hidden bg-black">
-      <div className="relative aspect-[4/5] sm:aspect-[16/9]">
-        <Image src={src} alt={alt} fill sizes="100vw" className="object-cover object-[50%_35%] opacity-70" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+    <div className="mb-12 grid items-center gap-6 md:grid-cols-[0.8fr_1.2fr] md:gap-12">
+      <div className="relative mx-auto aspect-[3/4] w-full max-w-[420px] overflow-hidden bg-black">
+        <Image src={src} alt={alt} fill sizes="(min-width: 768px) 35vw, 100vw" className="object-cover" />
       </div>
-      <div className="absolute inset-x-0 bottom-0 p-5 sm:p-10">
+      <div>
         <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-accent)]">Кейс {n} · команда 10–15 років</p>
-        <h2 className="ff-display mb-4 text-[clamp(2.2rem,7vw,4.6rem)] font-extrabold leading-[0.95] tracking-tight text-white">{name}</h2>
-        <div className="mb-5 grid max-w-3xl gap-2 text-sm sm:grid-cols-2 sm:text-base">
-          <p className="text-white/80"><span className="text-white/50">Проблема:</span> {problem}</p>
-          <p className="font-semibold text-white"><span className="font-normal text-white/50">Продукт:</span> {product}</p>
-        </div>
-        <ul className="flex flex-wrap gap-x-6 gap-y-2">
+        <h2 className="ff-display mb-6 text-[clamp(2.4rem,7vw,4.4rem)] font-extrabold leading-[0.95] tracking-tight">{name}</h2>
+        <dl className="mb-6 space-y-3 text-base">
+          <div><dt className="text-xs uppercase tracking-widest text-[var(--color-muted-2)]">Проблема</dt><dd className="mt-1 text-[var(--color-foreground)]">{problem}</dd></div>
+          <div><dt className="text-xs uppercase tracking-widest text-[var(--color-muted-2)]">Продукт за день</dt><dd className="mt-1 font-bold text-[var(--color-foreground)]">{product}</dd></div>
+        </dl>
+        <ul className="flex flex-wrap gap-x-8 gap-y-3 border-t border-white/12 pt-5">
           {facts.map(([a, b]) => (
-            <li key={b} className="flex items-baseline gap-2">
-              <span className="ff-display text-2xl font-extrabold text-[var(--color-accent)]">{a}</span>
-              <span className="text-xs text-white/70">{b}</span>
+            <li key={b}>
+              <span className="ff-display block text-3xl font-extrabold leading-none text-[var(--color-accent)]">{a}</span>
+              <span className="mt-1 block text-xs text-[var(--color-muted)]">{b}</span>
             </li>
           ))}
         </ul>
@@ -471,14 +497,13 @@ function CaseCover({ n, name, src, alt, problem, product, facts }: { n: string; 
 /* ---------- сторінка ---------- */
 
 export default function PilotReport() {
-  const h = hackathons.bc;
   const next = hackathonStrip.filter((x) => x.href !== "/bc");
   return (
     <div data-theme="practicum" className="bg-[var(--color-background)] text-[var(--color-foreground)]">
       {/* HERO: повноекранний кадр */}
       <section className="relative isolate overflow-hidden">
         <div className="absolute inset-0 -z-10">
-          <Image src={img("t1736-group")} alt="" fill priority sizes="100vw" className="object-cover object-[50%_60%] opacity-60" />
+          <Image src={img("t1637-selfie")} alt="" fill priority sizes="100vw" className="object-cover object-[50%_35%] opacity-50" />
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-background)] via-[var(--color-background)]/70 to-[var(--color-background)]/20" />
         </div>
         <Container>
@@ -488,10 +513,10 @@ export default function PilotReport() {
               Хроніка дня · Біла Церква · 14.11.2026
             </p>
             <h1 className="ff-display mb-6 max-w-4xl text-[clamp(2.2rem,5.6vw,4rem)] font-extrabold leading-[0.98] tracking-tight">
-              Шість підлітків. Один день. <span className="text-[var(--color-accent)]">Два продукти</span>, які можна спробувати
+              Шість дітей. Один день. <span className="text-[var(--color-accent)]">Два продукти</span>, які можна спробувати
             </h1>
             <p className="mb-8 max-w-xl text-lg leading-relaxed text-[var(--color-foreground)]/85">
-              Без телефонів, з 10:00 до фіналу при батьках о 17:08. Від «що мене бісить у школі» до відеоуроку з тестом і опитування для директора. Нижче — як це було, хвилина за хвилиною.
+              Діти 10–15 років, без телефонів, з 10:00 до фіналу при батьках. Від «що мене бісить у школі» до відеоуроку з тестом і опитування для директора. Нижче — як це було, хвилина за хвилиною.
             </p>
             <div className="flex flex-wrap gap-3">
               <a className="ff-cta" href="#shchaslyva">Кейс «Щасливої»</a>
@@ -527,10 +552,10 @@ export default function PilotReport() {
             <div>
               <Kicker>Хроніка</Kicker>
               <H2>Як пройшов день: від 10:00 до спільного фото</H2>
-              <p className="max-w-2xl text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">Реальні кадри дня, без постановки. Час — з камер.</p>
+              <p className="max-w-2xl text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">Реальні кадри дня, час — з камер. Програму дня розробив продуктовий партнер Forge Future Сергій Тараненко, вели Іван Первой і Роман Троценко.</p>
             </div>
             <div className="mx-auto w-full max-w-[220px] md:ml-auto md:mr-0">
-              <Reel k="C" title="Година хакатону за 40 секунд" />
+              <Reel k="C" title="Робота команд, таймлапс з етапами" />
             </div>
           </div>
           <div className="space-y-16">
@@ -541,13 +566,13 @@ export default function PilotReport() {
                   <span className="ff-display text-2xl font-extrabold">{ch.chapter}</span>
                   <span className="h-px flex-1 bg-white/12" />
                 </div>
-                <ol className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+                <ol className="grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-6 lg:grid-cols-4">
                   {ch.moments.map((m) => (
                     <li key={m.t + m.title}>
                       {m.media}
                       <p className="ff-display mt-4 text-sm font-bold text-[var(--color-accent)]">{m.t}</p>
-                      <p className="mt-1 text-base font-bold leading-snug">{m.title}</p>
-                      <p className="mt-1.5 text-sm leading-relaxed text-[var(--color-muted)]">{m.text}</p>
+                      <p className="mt-1 text-sm font-bold leading-snug sm:text-base">{m.title}</p>
+                      <p className="mt-1.5 hidden text-sm leading-relaxed text-[var(--color-muted)] sm:block">{m.text}</p>
                     </li>
                   ))}
                 </ol>
@@ -557,37 +582,17 @@ export default function PilotReport() {
         </Container>
       </Section>
 
-      {/* МЕТОД */}
-      <Section spacing="block" className="border-t border-white/10 bg-[var(--color-surface)]">
-        <Container>
-          <Kicker>Метод</Kicker>
-          <H2>П&apos;ять кроків від проблеми до продукту</H2>
-          <p className="mb-10 max-w-2xl text-base leading-relaxed text-[var(--color-muted)]">
-            Програму дня розробив продуктовий партнер Forge Future Сергій Тараненко, вели Іван Первой і Роман Троценко. Правила: телефони в коробці, ШІ — тільки коли рішення вже придумали самі.
-          </p>
-          <ol className="grid gap-px bg-white/12 sm:grid-cols-5">
-            {h.stages.map((st, i) => (
-              <li key={st.title} className="flex flex-col gap-3 bg-[var(--color-surface)] p-5">
-                <span className="ff-display text-4xl font-extrabold leading-none text-[var(--color-accent)]">{i + 1}</span>
-                <p className="text-base font-bold leading-snug">{st.title}</p>
-                <p className="text-sm leading-relaxed text-[var(--color-muted)]">{st.result}</p>
-              </li>
-            ))}
-          </ol>
-        </Container>
-      </Section>
-
       {/* КЕЙС 1 */}
       <Section spacing="block" className="scroll-mt-16 border-t border-white/10" id="shchaslyva">
         <Container>
           <CaseCover
             n="1"
             name="«Щаслива»"
-            src={img("t1717-shchaslyva")}
+            src={img("cover-sh")}
             alt="Команда «Щаслива» виступає на фіналі"
             problem="«Кути — це нудно»: математику подають тільки словами й цифрами"
             product="відеоурок з роборукою і тест на 8 питань"
-            facts={[["4", "ідеї рішення"], ["5", "запитів до ШІ"], ["8", "питань у тесті"]]}
+            facts={[["4", "ідеї рішення"], ["8", "запитів до ШІ"], ["8", "питань у тесті"]]}
           />
           <Journey id="sh" team="«Щасливої»" steps={shchaslyva} />
         </Container>
@@ -599,11 +604,11 @@ export default function PilotReport() {
           <CaseCover
             n="2"
             name="«Balenciaga»"
-            src={img("t1725-balenciaga")}
+            src={img("cover-b")}
             alt="Команда «Balenciaga» виступає на фіналі"
             problem="вчитель кричить на учнів — впевненість падає"
             product="опитування після уроку, яке йде директору"
-            facts={[["4", "інтерв'ю"], ["4", "ідеї рішення"], ["6", "перших відповідей"]]}
+            facts={[["4", "інтерв’ю"], ["4", "ідеї рішення"], ["6", "перших відповідей"]]}
           />
           <Journey id="b" team="«Balenciaga»" steps={balenciaga} />
         </Container>
@@ -634,16 +639,16 @@ export default function PilotReport() {
         <div className="relative aspect-[4/3] max-h-[80vh] w-full sm:aspect-[16/9]">
           <Image src={img("t1736-group")} alt="Спільне фото учасників, батьків і менторів після фіналу" fill sizes="100vw" className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-background)] via-transparent to-transparent" />
-          <p className="ff-display absolute left-4 top-4 bg-black/70 px-2.5 py-1 text-sm font-bold text-white sm:left-8 sm:top-8">17:36</p>
+          <p className="ff-display absolute left-4 top-4 bg-black/70 px-2.5 py-1 text-sm font-bold text-white sm:left-8 sm:top-8">17:36 · спільне фото</p>
         </div>
         <Container>
           <div className="relative -mt-16 pb-12 sm:-mt-24">
-            <H2>Діти показали результат батькам. Батьки побачили, що діти вміють</H2>
+            <H2>Діти показали результат батькам</H2>
             <ul className="mt-8 grid gap-3 md:grid-cols-2">
               {[
-                ["Командна робота", "Обидві команди самі обрали проблему зі своєї школи, а не з підказки дорослих."],
-                ["Креативне мислення", "Кожна команда придумала 4 варіанти рішення і обрала, а не взяла перший."],
-                ["Комунікація", "«Balenciaga» перевірила проблему 4 інтерв'ю, «Щаслива» тричі доробляла продукт «щоб дітям було цікаво»."],
+                ["Командна робота", "Обидві команди взяли проблему зі свого шкільного досвіду і розділили ролі на виступі."],
+                ["Креативне мислення", "Кожна команда придумала 4 варіанти рішення і обрала з них."],
+                ["Комунікація", "«Balenciaga» перевірила проблему 4 інтерв’ю, «Щаслива» тричі доробляла продукт «щоб дітям було цікаво»."],
                 ["Digital-інструменти", "За один день — дві перші версії продуктів, які працюють і відкриваються з телефона."],
               ].map(([k, t]) => (
                 <li key={k} className="flex gap-4 border border-white/12 bg-[var(--color-background)] p-5">
@@ -655,7 +660,7 @@ export default function PilotReport() {
                 </li>
               ))}
             </ul>
-            <p className="mt-6 max-w-2xl text-xs leading-relaxed text-[var(--color-muted-2)]">Це перші версії продуктів за один день, а не бізнеси і не продажі. Фото й відео — за згодою батьків учасників.</p>
+            <p className="mt-6 max-w-2xl text-xs leading-relaxed text-[var(--color-muted-2)]">Це перші версії продуктів за один день, а не бізнеси і не продажі. Фото й відео публікуємо за згодою батьків учасників.</p>
           </div>
         </Container>
       </section>

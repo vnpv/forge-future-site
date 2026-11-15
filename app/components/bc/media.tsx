@@ -61,15 +61,18 @@ export function ReelCard({ src, poster, title, caption, className = "" }: { src:
           className="absolute inset-0 h-full w-full object-cover"
         />
         {!on ? (
-          <button type="button" onClick={start} aria-label={`Дивитись: ${title}`} className="absolute inset-0 flex items-end justify-start bg-gradient-to-t from-black/70 via-transparent to-transparent p-4 text-left">
-            <span className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-[var(--color-accent)] text-black shadow-lg transition-transform group-hover:scale-110">
-              <svg viewBox="0 0 24 24" className="ml-1 h-7 w-7" fill="currentColor" aria-hidden><path d="M8 5v14l11-7z" /></svg>
+          <button type="button" onClick={start} aria-label={`Дивитись зі звуком: ${title}`} className="absolute inset-0 flex items-end justify-start p-3">
+            <span className="flex items-center gap-2 bg-[var(--color-accent)] py-2 pl-2.5 pr-3.5 text-sm font-bold text-black shadow-lg transition-transform group-hover:scale-105">
+              <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden><path d="M8 5v14l11-7z" /></svg>
+              Дивитись
             </span>
-            <span className="text-sm font-bold leading-snug text-white">{title}</span>
           </button>
         ) : null}
       </div>
-      {caption ? <figcaption className="mt-2 text-xs leading-snug text-[var(--color-muted-2)]">{caption}</figcaption> : null}
+      <figcaption className="mt-2.5">
+        <span className="block text-sm font-semibold leading-snug">{title}</span>
+        {caption ? <span className="mt-1 block text-xs leading-snug text-[var(--color-muted-2)]">{caption}</span> : null}
+      </figcaption>
     </figure>
   );
 }

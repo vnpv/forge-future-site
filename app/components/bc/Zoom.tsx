@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 /** Картинка з кнопкою «збільшити»: відкриває повний кадр на весь екран (фліпчарти, скріни). */
 export default function Zoom({ src, w, h, alt, label = "Відкрити повністю", children }: { src: string; w: number; h: number; alt: string; label?: string; children: React.ReactNode }) {
@@ -25,13 +26,14 @@ export default function Zoom({ src, w, h, alt, label = "Відкрити пов�
           {label}
         </span>
       </button>
-      {open ? (
-        <div role="dialog" aria-modal="true" aria-label={alt} className="fixed inset-0 z-[100] flex items-center justify-center bg-black/92 p-3 sm:p-8" onClick={() => setOpen(false)}>
+      {open && typeof document !== "undefined" ? createPortal(
+        <div role="dialog" aria-modal="true" aria-label={alt} className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/92 p-3 sm:p-8" onClick={() => setOpen(false)}>
           <Image src={src} alt={alt} width={w} height={h} sizes="100vw" className="max-h-full w-auto max-w-full object-contain" />
-          <button type="button" onClick={() => setOpen(false)} className="absolute right-3 top-3 bg-white/10 px-3 py-2 text-sm font-semibold text-white hover:bg-white/20" aria-label="Закрити">
+          <button type="button" onClick={() => setOpen(false)} className="absolute right-3 top-3 bg-white/15 px-3 py-2 text-sm font-semibold text-white hover:bg-white/20" aria-label="Закрити">
             Закрити ✕
           </button>
-        </div>
+        </div>,
+        document.body,
       ) : null}
     </>
   );

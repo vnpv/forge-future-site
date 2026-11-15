@@ -9,7 +9,7 @@ const teams = [
   {
     href: "/bc#shchaslyva",
     name: "«Щаслива»",
-    img: `${M}/t1717-shchaslyva.jpg`,
+    img: `${M}/cover-sh.jpg`,
     alt: "Команда «Щаслива» на фіналі хакатону",
     problem: "«Кути — це нудно»: математику подають тільки словами",
     product: "Відеоурок з роборукою і тест на 8 питань",
@@ -18,11 +18,11 @@ const teams = [
   {
     href: "/bc#balenciaga",
     name: "«Balenciaga»",
-    img: `${M}/t1725-balenciaga.jpg`,
+    img: `${M}/cover-b.jpg`,
     alt: "Команда «Balenciaga» на фіналі хакатону",
     problem: "Вчитель кричить на учнів — впевненість падає",
     product: "Опитування після уроку, яке йде директору",
-    path: ["штурм", "4 інтерв'ю", "4 рішення", "форма", "перші 6 відповідей"],
+    path: ["штурм", "4 інтерв’ю", "4 рішення", "форма", "перші 6 відповідей"],
   },
 ];
 
@@ -30,7 +30,7 @@ const strip = [
   ["t1201-shtorm", "12:01 штурм"],
   ["t1235-flipchart", "12:35 фліпчарт"],
   ["t1636-laptops", "16:36 перша версія"],
-  ["t1719-demo", "17:19 демо"],
+  ["t1719-lesson", "17:19 демо"],
 ];
 
 export default function PilotTeaser() {
@@ -84,7 +84,7 @@ export default function PilotTeaser() {
           </ul>
           <div className="ff-cta-stack gap-3">
             <Link className="ff-cta" href="/bc">Дивитись звіт: фото, відео, продукти</Link>
-            <Link className="ff-cta-link" href="/kuty">Пройти тест, який зробили діти →</Link>
+            <a className="ff-cta-link" href="/kuty">Пройти тест, який зробили діти →</a>
           </div>
         </div>
       </div>

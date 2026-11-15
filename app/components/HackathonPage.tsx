@@ -242,7 +242,7 @@ export default function HackathonPage({ h }: { h: Hackathon }) {
 
       {/* 5б. КЕЙС З ПІЛОТУ (Біла Церква, 14.11): тільки на платних хакатонах */}
       {h.pilot ? null : (
-        <Section spacing="block" className="border-t border-white/10" id="case">
+        <Section spacing="block" className="scroll-mt-20 border-t border-white/10" id="case">
           <Container>
             <PilotTeaser />
           </Container>
