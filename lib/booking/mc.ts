@@ -38,13 +38,39 @@ export function pickThree(days: Record<string, string[]>): { date: string; time:
   return out.slice(0, 3).sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
 }
 
+/**
+ * Тіло запиту з ManyChat. Підтримуємо і пласкі поля ({"sid":..,"email":..}), і «Add Full Contact Data»
+ * (усі дані контакту: id, name, first_name, ig_username, email, last_input_text, custom_fields{...}),
+ * у т. ч. загорнуті в будь-який ключ ({"contact": {...}}). На виході — плаский словник рядків.
+ */
 export async function readBody(req: Request): Promise<Record<string, string>> {
+  let j: Record<string, unknown> = {};
   try {
-    const j = (await req.json()) as Record<string, unknown>;
-    return Object.fromEntries(Object.entries(j ?? {}).map(([k, v]) => [k, v == null ? "" : String(v)]));
+    j = ((await req.json()) as Record<string, unknown>) ?? {};
   } catch {
     return {};
   }
+  const out: Record<string, string> = {};
+  const put = (k: string, v: unknown) => {
+    if (v == null || typeof v === "object") return;
+    if (out[k] === undefined || out[k] === "") out[k] = String(v);
+  };
+  const walk = (o: Record<string, unknown>, depth: number) => {
+    for (const [k, v] of Object.entries(o)) {
+      if (v && typeof v === "object" && !Array.isArray(v) && depth < 3) walk(v as Record<string, unknown>, depth + 1);
+      else put(k, v);
+    }
+  };
+  walk(j, 0);
+  // синоніми з повних даних контакту ManyChat
+  put("sid", out.id ?? out.subscriber_id ?? out.contact_id);
+  put("name", out.name ?? out.first_name);
+  put("ig", out.ig_username ?? out.instagram_username ?? out.username);
+  put("text", out.last_input_text ?? out.last_text_input);
+  put("slot", out.chosen_slot);
+  put("email", out.lead_email);
+  put("age", out.child_age);
+  return out;
 }
 
 export const clean = (s: string, n: number) => s.replace(/[<>&]/g, "").trim().slice(0, n);
