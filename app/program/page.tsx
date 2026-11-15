@@ -80,9 +80,6 @@ export default function ProgramPage() {
       <JsonLd data={programCourseSchema} />
       <JsonLd data={reelVideoSchema} />
 
-      {/* 0. БІЛЬ відкриває сторінку */}
-      <PainBlock className="bg-[var(--color-surface)]" />
-
       {/* 1. HERO: підліток, який бере життя у свої руки, запис, група, хакатони */}
       <Section spacing="hero" className="relative isolate overflow-hidden border-t border-white/10">
         <HeroPhoto src="/images/ivan-program-b-900.webp" desktopPos="object-[center_10%]" />
@@ -96,7 +93,16 @@ export default function ProgramPage() {
             <Cta>{programHero.cta}</Cta>
             <p className="max-w-md text-sm text-[var(--color-muted-2)]">{programHero.ctaNote}</p>
           </div>
-          <dl className="mt-10 grid max-w-3xl grid-cols-2 gap-px border border-white/12 bg-white/12 sm:grid-cols-4">
+        </Container>
+      </Section>
+
+      {/* 1b. БІЛЬ одразу після кнопки розбору */}
+      <PainBlock className="bg-[var(--color-surface)]" />
+
+      {/* 1c. Група, тривалість, хакатони */}
+      <Section spacing="block" className="border-t border-white/10">
+        <Container>
+          <dl className="grid max-w-3xl grid-cols-2 gap-px border border-white/12 bg-white/12 sm:grid-cols-4">
             {[
               { k: "Група", v: "до 10", s: "підлітків" },
               { k: "Тривалість", v: "8 тижнів", s: "2 місяці" },
