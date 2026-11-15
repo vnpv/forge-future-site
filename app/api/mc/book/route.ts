@@ -73,5 +73,7 @@ export async function POST(req: NextRequest) {
       .filter(Boolean)
       .join("\n"),
   );
-  return NextResponse.json({ ok: "yes", label, meet: ev.meet ?? "" });
+  // confirm: готовий текст для чату (ManyChat мапить його в bk_label; окремого поля під Meet немає)
+  const confirm = `${label} (за Києвом).${ev.meet ? `\nПосилання на Google Meet: ${ev.meet}` : ""}`;
+  return NextResponse.json({ ok: "yes", label, meet: ev.meet ?? "", confirm });
 }
