@@ -88,11 +88,7 @@ export default function ProgramPage() {
           <h1 className="ff-display ff-reveal mb-6 max-w-3xl text-[clamp(2rem,6vw,3.6rem)] font-extrabold leading-[1.04] tracking-tight">
             {programHero.h1}
           </h1>
-          <p className="mb-8 max-w-xl text-lg leading-relaxed text-[var(--color-muted)]">{programHero.sub}</p>
-          <div className="ff-cta-stack gap-3">
-            <Cta>{programHero.cta}</Cta>
-            <p className="max-w-md text-sm text-[var(--color-muted-2)]">{programHero.ctaNote}</p>
-          </div>
+          <p className="max-w-xl text-lg leading-relaxed text-[var(--color-muted)]">{programHero.sub}</p>
         </Container>
       </Section>
 
@@ -116,7 +112,11 @@ export default function ProgramPage() {
               </div>
             ))}
           </dl>
-          <div className="mt-6 max-w-3xl">
+          <div className="ff-cta-stack mt-8 gap-3">
+            <Cta>{programHero.cta}</Cta>
+            <p className="max-w-md text-sm text-[var(--color-muted-2)]">{programHero.ctaNote}</p>
+          </div>
+          <div className="mt-10 max-w-3xl">
             <p className="mb-3 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-widest text-[var(--color-accent)]">
               <span className="h-px w-6 bg-[var(--color-accent)]" aria-hidden />
               Хакатони перед стартом: приходьте протестувати формат
