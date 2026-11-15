@@ -18,7 +18,7 @@ export default function Journey({ id, steps, team }: { id: string; steps: Journe
     <div ref={top} className="scroll-mt-24">
       <div className="mb-3 flex items-baseline justify-between gap-4">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-muted-2)]">Пройдіть шлях команди {team}</p>
-        <p className="ff-display text-sm text-[var(--color-accent)]">крок {i + 1} з {steps.length}</p>
+        <p className="ff-display shrink-0 whitespace-nowrap text-sm text-[var(--color-accent)]">крок {i + 1} з {steps.length}</p>
       </div>
       {/* Розкадровка */}
       <div role="tablist" aria-label={`Кроки команди ${team}`} className="mb-8 grid grid-cols-4 gap-1.5 sm:grid-cols-7 sm:gap-2">

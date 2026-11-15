@@ -153,7 +153,7 @@ function Results() {
                   <div className="absolute inset-y-0 left-0 bg-[var(--color-accent)]/35" style={{ width: `${(n / 6) * 100}%` }} />
                   <span className="relative px-2.5 leading-7">{o}</span>
                 </div>
-                <span className="ff-display w-10 text-right text-[var(--color-accent)]">{n} з 6</span>
+                <span className="ff-display w-14 whitespace-nowrap text-right text-[var(--color-accent)]">{n} з 6</span>
               </li>
             ))}
           </ul>
@@ -184,7 +184,7 @@ const chronicle: { chapter: string; moments: Moment[] }[] = [
   {
     chapter: "Ранок",
     moments: [
-      { t: "10:00", title: "Телефони — в коробку", text: "Збираємося, знайомимось. Телефони здаємо до кінця дня.", media: <Frame src={img("t1000-arrive")} alt="Учасник з батьком на вході перед стартом" time="10:00" /> },
+      { t: "10:00", title: "Телефони — в коробку", text: "Збираємося, знайомимось. Телефони здаємо в коробку.", media: <Frame src={img("t1000-arrive")} alt="Учасник з батьком на вході перед стартом" time="10:00" /> },
       { t: "10:05", title: "Вступ: навіщо вчитися думати від проблеми", text: "Майже дві години: знайомство, розмова про ШІ і про те, чим творець відрізняється від виконавця.", media: <Frame src={img("t1015-intro")} alt="Діти на диванах слухають вступ" time="10:05" /> },
     ],
   },
@@ -205,8 +205,8 @@ const chronicle: { chapter: string; moments: Moment[] }[] = [
   {
     chapter: "Фінал",
     moments: [
-      { t: "17:19", title: "«Щаслива»: відеоурок на великому екрані", text: "Після виступу команда запускає свій урок, а потім тест для всіх у залі.", media: <Frame src={img("t1719-lesson")} alt="Відеоурок про кути на великому екрані під час фіналу" time="17:19" /> },
-      { t: "17:29", title: "«Balenciaga»: «Дитина має голос»", text: "Опитування після уроку, яке йде директору. Батьки і діти слухають у залі.", media: <Frame src={img("t1729-director")} alt="Команда «Balenciaga» виступає, у залі глядачі" time="17:29" /> },
+      { t: "17:19", title: "«Щаслива»: відеоурок на великому екрані", text: "Після виступу команда запускає свій відеоурок на великому екрані.", media: <Frame src={img("t1719-lesson")} alt="Відеоурок про кути на великому екрані під час фіналу" time="17:19" /> },
+      { t: "17:29", title: "«Balenciaga»: «Дитина має голос»", text: "Опитування після уроку, яке йде директору.", media: <Frame src={img("t1729-director")} alt="Команда «Balenciaga» виступає, у залі глядачі" time="17:29" /> },
     ],
   },
 ];
@@ -267,7 +267,7 @@ const shchaslyva: JourneyStep[] = [
         <p>Два обрані варіанти склались в один продукт: <b>коротке відео, а після нього тест</b>.</p>
       </>
     ),
-    media: <Doc src={img("flip-solutions-sh")} w={1242} h={756} alt="Фліпчарт «Щасливої»: чотири варіанти рішення" caption="Варіанти рішення «Щасливої», обрані обведено" />,
+    media: <Doc src={img("flip-solutions-sh")} w={1242} h={756} alt="Фліпчарт «Щасливої»: чотири варіанти рішення" caption="Варіанти рішення «Щасливої», як на аркуші: в і г стали продуктом" />,
   },
   {
     label: "Перша версія",
@@ -280,7 +280,7 @@ const shchaslyva: JourneyStep[] = [
         <Chat
           lines={[
             "Тема кутів подається у вигляді цифр і слів, вона є нецікавою… хочемо коротке відео, а після нього опитування",
-            "Уточнили формат: відеоурок, а не мультик",
+            "Уточнили формат: відеоурок замість мультика",
             "Погодили сценарій",
             "«Зроби його довшим та зрозумілішим»",
             "«Зроби веселіше, щоб дітям було цікаво»",
@@ -315,7 +315,7 @@ const shchaslyva: JourneyStep[] = [
   {
     label: "Спробуйте самі",
     time: "крок 7 · демо",
-    thumb: img("t1719-demo"),
+    thumb: "/bc-report/team1-quiz.png",
     title: "Пройдіть тест, який зробили діти",
     body: (
       <>
@@ -331,7 +331,7 @@ const shchaslyva: JourneyStep[] = [
         <a className="ff-cta-link !text-[var(--color-accent)]" href="/kuty">Відкрити урок і тест окремою сторінкою →</a>
       </>
     ),
-    media: <iframe src="/kutova-misiya.html?embed=1" title="Тест «Кутова місія»" loading="lazy" className="block h-[740px] w-full bg-[#fbf5e9]" />,
+    media: <iframe src="/kutova-misiya.html?embed=1" title="Тест «Кутова місія»" loading="lazy" className="block h-[800px] w-full bg-[#fbf5e9]" />,
   },
 ];
 
@@ -382,7 +382,7 @@ const balenciaga: JourneyStep[] = [
       <>
         <p>Фактори, які команда назвала сама:</p>
         <Chips main="вчитель кричить — впевненість падає" items={["в 5 класі −1 бал", "всі забрали телефони", "не сподобався вчителю", "щось не те зробив", "контрольна — результати занижені", "вчитель кричить — впевненість падає"]} />
-        <p>Обрали той, що б’є по дитині найсильніше: <b>впевненість</b>.</p>
+        <p>Головним команда обвела: <b>«вчитель кричить на учнів — впевненість падає»</b>.</p>
       </>
     ),
     media: <Doc src={img("flip-balenciaga")} w={1350} h={1800} alt="Фліпчарт «Balenciaga»: проблема, позначки інтерв’ю, фактори" caption="Фліпчарт команди: проблема, позначки інтерв’ю, головний фактор обведено" />,
@@ -395,7 +395,8 @@ const balenciaga: JourneyStep[] = [
     body: (
       <>
         <Options items={["психолог, який незалежний", "батьки говорять з директором", "опитування, яке йде на директора", "мікрофони в класах"]} chosen={[2]} />
-        <p>Незалежний психолог у кожній школі — це довго. Опитування можна запустити одразу, і <b>голос дитини доходить до того, хто може щось змінити</b>.</p>
+        <p>Обрали <b>опитування, яке йде на директора</b>: його можна зробити за один день.</p>
+        <Quote who="Іван Первой на фіналі">Психолога інтегрувати в кожну школу — це буде не швидко</Quote>
       </>
     ),
     media: <Doc src={img("flip-solutions-b")} w={1242} h={720} alt="Фліпчарт «Balenciaga»: чотири варіанти рішення" caption="Варіанти рішення «Balenciaga», обране обведено" />,
@@ -408,15 +409,7 @@ const balenciaga: JourneyStep[] = [
     body: (
       <>
         <p>Google-форма «Як пройшов урок»: <b>чи кричав учитель, чи було цікаво, чи все було зрозуміло</b>. Презентацію, за словами команди, зробили з ChatGPT «хвилин за 10».</p>
-        <ul className="grid grid-cols-3 gap-2 text-center">
-          {[["5 з 6", "«вчитель кричав»"], ["3 з 6", "«дуже цікаво»"], ["3 з 6", "«дещо незрозуміло»"]].map(([n, t]) => (
-            <li key={t} className="border border-white/12 px-2 py-3">
-              <span className="ff-display block text-2xl font-extrabold text-[var(--color-accent)]">{n}</span>
-              <span className="mt-1 block text-xs leading-snug">{t}</span>
-            </li>
-          ))}
-        </ul>
-        <p className="text-xs text-[var(--color-muted-2)]">6 відповідей — перевірка, що інструмент працює, а не статистика по школах.</p>
+        <p className="text-xs text-[var(--color-muted-2)]">6 відповідей — це перевірка інструмента. Статистикою по школах їх не вважаємо.</p>
       </>
     ),
     media: (
@@ -548,17 +541,14 @@ export default function PilotReport() {
       {/* ХРОНІКА */}
       <Section spacing="block">
         <Container>
-          <div className="mb-12 grid items-end gap-8 md:grid-cols-[1.3fr_0.7fr]">
+          <div className="mb-12">
             <div>
               <Kicker>Хроніка</Kicker>
               <H2>Як пройшов день: від 10:00 до спільного фото</H2>
               <p className="max-w-2xl text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">Реальні кадри дня, час — з камер. Програму дня розробив продуктовий партнер Forge Future Сергій Тараненко, вели Іван Первой і Роман Троценко.</p>
             </div>
-            <div className="mx-auto w-full max-w-[220px] md:ml-auto md:mr-0">
-              <Reel k="C" title="Робота команд, таймлапс з етапами" />
-            </div>
           </div>
-          <div className="space-y-16">
+          <div className="grid gap-x-10 gap-y-16 lg:grid-cols-2">
             {chronicle.map((ch, ci) => (
               <div key={ch.chapter}>
                 <div className="mb-8 flex items-center gap-4">
@@ -566,12 +556,12 @@ export default function PilotReport() {
                   <span className="ff-display text-2xl font-extrabold">{ch.chapter}</span>
                   <span className="h-px flex-1 bg-white/12" />
                 </div>
-                <ol className="grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-6 lg:grid-cols-4">
+                <ol className="grid grid-cols-2 gap-x-3 gap-y-8 sm:gap-x-6">
                   {ch.moments.map((m) => (
                     <li key={m.t + m.title}>
                       {m.media}
-                      <p className="ff-display mt-4 text-sm font-bold text-[var(--color-accent)]">{m.t}</p>
-                      <p className="mt-1 text-sm font-bold leading-snug sm:text-base">{m.title}</p>
+                      <p className="ff-display mt-4 hidden text-sm font-bold text-[var(--color-accent)] sm:block">{m.t}</p>
+                      <p className="mt-2 text-sm font-bold leading-snug sm:mt-1 sm:text-base">{m.title}</p>
                       <p className="mt-1.5 hidden text-sm leading-relaxed text-[var(--color-muted)] sm:block">{m.text}</p>
                     </li>
                   ))}
@@ -619,8 +609,8 @@ export default function PilotReport() {
         <Container>
           <Kicker>Зі вступу</Kicker>
           <H2>Що ми говорили дітям</H2>
-          <p className="mb-10 max-w-2xl text-base leading-relaxed text-[var(--color-muted)]">Фрагменти зі вступу о 10:05. Натисніть, щоб увімкнути зі звуком.</p>
-          <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6">
+          <p className="mb-10 max-w-2xl text-base leading-relaxed text-[var(--color-muted)]">Фрагменти зі вступу. Натисніть, щоб увімкнути зі звуком.</p>
+          <ul className="grid grid-cols-3 gap-2 sm:gap-6">
             {[
               ["M", "ШІ бере базові задачі. Що лишається людині?"],
               ["Q", "Чому ваш ChatGPT спочатку «дурненький»?"],
@@ -660,7 +650,7 @@ export default function PilotReport() {
                 </li>
               ))}
             </ul>
-            <p className="mt-6 max-w-2xl text-xs leading-relaxed text-[var(--color-muted-2)]">Це перші версії продуктів за один день, а не бізнеси і не продажі. Фото й відео публікуємо за згодою батьків учасників.</p>
+            <p className="mt-6 max-w-2xl text-xs leading-relaxed text-[var(--color-muted-2)]">Це перші версії продуктів за один день. Бізнесом і продажами їх не називаємо. Фото й відео публікуємо за згодою батьків учасників.</p>
           </div>
         </Container>
       </section>

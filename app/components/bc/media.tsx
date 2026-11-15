@@ -58,10 +58,11 @@ export function ReelCard({ src, poster, title, caption, className = "" }: { src:
           controls={on}
           preload="none"
           onPlay={() => window.dispatchEvent(new CustomEvent("ff-reel-play", { detail: src }))}
+          onEnded={() => setOn(false)}
           className="absolute inset-0 h-full w-full object-cover"
         />
         {!on ? (
-          <button type="button" onClick={start} aria-label={`Дивитись зі звуком: ${title}`} className="absolute inset-0 flex items-end justify-start p-3">
+          <button type="button" onClick={start} aria-label={`Дивитись зі звуком: ${title}`} className="absolute inset-0 flex items-start justify-end p-3">
             <span className="flex items-center gap-2 bg-[var(--color-accent)] py-2 pl-2.5 pr-3.5 text-sm font-bold text-black shadow-lg transition-transform group-hover:scale-105">
               <svg viewBox="0 0 24 24" className="h-4 w-4" fill="currentColor" aria-hidden><path d="M8 5v14l11-7z" /></svg>
               Дивитись

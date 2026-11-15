@@ -27,8 +27,8 @@ export default function Zoom({ src, w, h, alt, label = "Відкрити пов�
         </span>
       </button>
       {open && typeof document !== "undefined" ? createPortal(
-        <div role="dialog" aria-modal="true" aria-label={alt} className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/92 p-3 sm:p-8" onClick={() => setOpen(false)}>
-          <Image src={src} alt={alt} width={w} height={h} sizes="100vw" className="max-h-full w-auto max-w-full object-contain" />
+        <div role="dialog" aria-modal="true" aria-label={alt} className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/92 p-2" onClick={() => setOpen(false)}>
+          <Image src={src} alt={alt} width={w} height={h} sizes="(min-width: 768px) 70vw, 100vw" quality={90} className="h-auto max-h-[calc(100vh-1rem)] w-auto max-w-full object-contain" style={{ height: "calc(100vh - 1rem)" }} />
           <button type="button" onClick={() => setOpen(false)} className="absolute right-3 top-3 bg-white/15 px-3 py-2 text-sm font-semibold text-white hover:bg-white/20" aria-label="Закрити">
             Закрити ✕
           </button>

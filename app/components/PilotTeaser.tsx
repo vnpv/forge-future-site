@@ -38,7 +38,7 @@ export default function PilotTeaser() {
     <div>
       <p className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">Як це було на першому хакатоні · Біла Церква, 14.11</p>
       <h2 className="ff-display mb-3 max-w-3xl text-[clamp(1.8rem,5vw,3rem)] font-extrabold leading-[1.04] tracking-tight">
-        1 день, 6 підлітків, <span className="text-[var(--color-accent)]">2 робочі продукти</span>
+        1 день, 6 дітей 10–15 років, <span className="text-[var(--color-accent)]">2 робочі продукти</span>
       </h2>
       <p className="mb-10 max-w-2xl text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">
         Без телефонів, від «що мене бісить у школі» до продукту, який можна спробувати. Так само працюватимуть команди на цьому хакатоні, тільки два дні.
