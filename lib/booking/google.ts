@@ -97,7 +97,7 @@ export async function createEvent(p: {
       description: p.description,
       start: { dateTime: p.start.toISOString(), timeZone: TZ },
       end: { dateTime: p.end.toISOString(), timeZone: TZ },
-      attendees: [{ email: p.email }],
+      attendees: p.email ? [{ email: p.email }] : undefined,
       conferenceData: { createRequest: { requestId: crypto.randomUUID(), conferenceSolutionKey: { type: "hangoutsMeet" } } },
       reminders: { useDefault: true },
       extendedProperties: p.privateProps ? { private: p.privateProps } : undefined,
