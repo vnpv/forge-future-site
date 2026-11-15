@@ -9,7 +9,7 @@ const teams = [
   {
     href: "/bc#shchaslyva",
     name: "«Щаслива»",
-    img: `${M}/sh-pitch-2.jpg`,
+    img: `${M}/t1717-shchaslyva.jpg`,
     alt: "Команда «Щаслива» на фіналі хакатону",
     problem: "«Кути — це нудно»: математику подають тільки словами",
     product: "Відеоурок з роборукою і тест на 8 питань",
@@ -18,7 +18,7 @@ const teams = [
   {
     href: "/bc#balenciaga",
     name: "«Balenciaga»",
-    img: `${M}/b-pitch-2.jpg`,
+    img: `${M}/t1725-balenciaga.jpg`,
     alt: "Команда «Balenciaga» на фіналі хакатону",
     problem: "Вчитель кричить на учнів — впевненість падає",
     product: "Опитування після уроку, яке йде директору",
@@ -27,10 +27,10 @@ const teams = [
 ];
 
 const strip = [
-  ["shtorm-table", "10:10 штурм"],
-  ["sh-flipchart", "10:43 фліпчарт"],
-  ["table-laptops", "14:10 перша версія"],
-  ["sh-demo-screen", "15:27 демо"],
+  ["t1201-shtorm", "12:01 штурм"],
+  ["t1235-flipchart", "12:35 фліпчарт"],
+  ["t1636-laptops", "16:36 перша версія"],
+  ["t1719-demo", "17:19 демо"],
 ];
 
 export default function PilotTeaser() {
@@ -45,8 +45,8 @@ export default function PilotTeaser() {
       </p>
       <div className="grid items-start gap-6 md:grid-cols-[0.7fr_1.3fr] md:gap-10">
         <figure className="mx-auto w-full max-w-[220px] md:max-w-[300px]">
-          <LoopVideo src={`${M}/hero-timelapse.mp4`} poster={`${M}/hero-timelapse.jpg`} label="Година роботи команд за 12 секунд" className="aspect-[9/16] w-full border border-white/15" />
-          <figcaption className="mt-2 text-center text-xs text-[var(--color-muted-2)]">Година роботи команд за 12 секунд</figcaption>
+          <LoopVideo src={`${M}/l-timelapse.mp4`} poster={`${M}/l-timelapse.jpg`} label="40 хвилин роботи команд за 12 секунд" className="aspect-[9/16] w-full border border-white/15" />
+          <figcaption className="mt-2 text-center text-xs text-[var(--color-muted-2)]">40 хвилин роботи команд за 12 секунд</figcaption>
         </figure>
         <div className="grid gap-4">
           {teams.map((t) => (

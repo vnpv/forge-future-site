@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     siteName: "Forge Future",
     title,
     description,
-    images: [{ url: "/kuty-media/poster.jpg", width: 1280, height: 720, alt: "Кадр з відеоуроку, який зробили діти на хакатоні" }],
+    images: [{ url: "/bc-media/t1736-group.jpg", width: 1800, height: 1350, alt: "Учасники, батьки і ментори після фіналу хакатону" }],
   },
 };
 
