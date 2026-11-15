@@ -26,7 +26,6 @@ export default function Booking({ days, ageLabel, ref_, code, initData, onBooked
   const [time, setTime] = useState("");
   const [email, setEmail] = useState("");
   const [contact, setContact] = useState("");
-  const inTg = Boolean(initData);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
 
@@ -36,7 +35,7 @@ export default function Booking({ days, ageLabel, ref_, code, initData, onBooked
     else if (time && !(days[date] ?? []).includes(time)) setTime("");
   }, [days]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const valid = date && time && (inTg || contact.replace(/\D/g, "").length >= 9) && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
+  const valid = date && time && contact.replace(/\D/g, "").length >= 9 && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
 
   async function submit() {
     if (!valid || busy) return;
@@ -110,7 +109,7 @@ export default function Booking({ days, ageLabel, ref_, code, initData, onBooked
         onChange={(e) => setEmail(e.target.value)}
         maxLength={120}
       />
-      {!inTg && (
+      {(
         <>
           <label className="mb-1 block text-sm text-[var(--color-muted)]">Ваш телефон: щоб зв'язатися, якщо щось зміниться</label>
           <input
