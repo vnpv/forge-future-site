@@ -35,7 +35,7 @@ export function pickThree(days: Record<string, string[]>): { date: string; time:
   }
   // добити будь-якими, якщо днів мало
   for (const d of dates) for (const t of days[d]) if (out.length < 3) add(d, t);
-  return out.slice(0, 3);
+  return out.slice(0, 3).sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
 }
 
 export async function readBody(req: Request): Promise<Record<string, string>> {
