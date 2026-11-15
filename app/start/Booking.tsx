@@ -24,7 +24,6 @@ export default function Booking({ days, ageLabel, ref_, code, initData, onBooked
   const dates = Object.keys(days);
   const [date, setDate] = useState(dates[0] ?? "");
   const [time, setTime] = useState("");
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [contact, setContact] = useState("");
   const inTg = Boolean(initData);
@@ -37,7 +36,7 @@ export default function Booking({ days, ageLabel, ref_, code, initData, onBooked
     else if (time && !(days[date] ?? []).includes(time)) setTime("");
   }, [days]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const valid = date && time && name.trim().length >= 2 && (inTg || contact.replace(/\D/g, "").length >= 9) && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
+  const valid = date && time && (inTg || contact.replace(/\D/g, "").length >= 9) && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
 
   async function submit() {
     if (!valid || busy) return;
@@ -47,7 +46,7 @@ export default function Booking({ days, ageLabel, ref_, code, initData, onBooked
       const res = await fetch("/api/book", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ date, time, name, email, contact, age: ageLabel, ref: ref_, code, initData }),
+        body: JSON.stringify({ date, time, name: email.trim().split("@")[0] || "батьки", email, contact, age: ageLabel, ref: ref_, code, initData }),
       });
       const j = await res.json().catch(() => ({}));
       if (res.ok && j.ok) return onBooked(j.label, j.meet ?? "", j.bid ?? "");
@@ -101,8 +100,6 @@ export default function Booking({ days, ageLabel, ref_, code, initData, onBooked
         ))}
       </div>
 
-      <label className="mb-1 block text-sm text-[var(--color-muted)]">Ваше ім'я</label>
-      <input className={`${field} mb-3`} value={name} onChange={(e) => setName(e.target.value)} maxLength={40} autoComplete="off" />
       <label className="mb-1 block text-sm text-[var(--color-muted)]">Ваш email (надішлю запрошення в календар)</label>
       <input
         className={`${field} mb-4`}
