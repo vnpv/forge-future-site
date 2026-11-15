@@ -57,7 +57,15 @@ export async function readBody(req: Request): Promise<Record<string, string>> {
   };
   const walk = (o: Record<string, unknown>, depth: number) => {
     for (const [k, v] of Object.entries(o)) {
-      if (v && typeof v === "object" && !Array.isArray(v) && depth < 3) walk(v as Record<string, unknown>, depth + 1);
+      if (Array.isArray(v) && depth < 3) {
+        // custom_fields може прийти масивом {name, value}
+        for (const it of v) {
+          if (it && typeof it === "object") {
+            const r = it as Record<string, unknown>;
+            if (typeof r.name === "string" && "value" in r) put(r.name, r.value);
+          }
+        }
+      } else if (v && typeof v === "object" && depth < 3) walk(v as Record<string, unknown>, depth + 1);
       else put(k, v);
     }
   };
@@ -69,6 +77,7 @@ export async function readBody(req: Request): Promise<Record<string, string>> {
   put("text", out.last_input_text ?? out.last_text_input);
   put("slot", out.chosen_slot);
   put("email", out.lead_email);
+  if (!out.email && /@/.test(out.text ?? "")) put("email", (out.text ?? "").trim());
   put("age", out.child_age);
   return out;
 }
