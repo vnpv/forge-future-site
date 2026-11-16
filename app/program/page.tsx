@@ -84,7 +84,7 @@ export default function ProgramPage() {
         <HeroPhoto src="/images/ivan-program-b-900.webp" desktopPos="object-[center_10%]" />
         <Container className="relative">
           <Eyebrow product={programHero.eyebrow} />
-          <h1 className="ff-display ff-reveal mb-6 max-w-3xl text-[clamp(2rem,6vw,3.6rem)] font-extrabold leading-[1.04] tracking-tight">
+          <h1 className="ff-display ff-reveal mb-6 max-w-3xl text-[clamp(1.7rem,5vw,2.8rem)] font-extrabold leading-[1.04] tracking-tight">
             {programHero.h1}
           </h1>
           <p className="mb-8 max-w-xl text-lg leading-relaxed text-[var(--color-muted)]">{programHero.sub}</p>
