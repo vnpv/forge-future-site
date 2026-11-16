@@ -130,9 +130,9 @@ export default function Rozbir({ defaultRef = "igdm" }: { defaultRef?: string })
           <div className="text-[var(--color-muted)]">батько двох синів, засновник Forge Future</div>
         </div>
       </div>
-      <h1 className="ff-display mb-3 text-[clamp(1.6rem,6.5vw,2.3rem)] font-extrabold leading-tight">Розмова з батьками про вашу дитину: 20 хвилин зі мною</h1>
+      <h1 className="ff-display mb-3 text-[clamp(1.6rem,6.5vw,2.3rem)] font-extrabold leading-tight">Розмова з батьками: 20 хвилин зі мною</h1>
       <p className="mb-6 text-base leading-relaxed text-[var(--color-muted)]">
-        Сидить у телефоні й не знає, ким стати? Розмова тільки з вами, батьками. Дитині на ній бути не треба. Я питаю про вашу ситуацію, ви розповідаєте. Наприкінці кажу, що бачу, і пропоную наступний крок. Безкоштовно, онлайн, у Google Meet.
+        Без дитини. Я питаю про вашу ситуацію і кажу, що бачу. Безкоштовно, у Google Meet.
       </p>
       {days === null || !ready ? (
         <p className="text-sm text-[var(--color-muted)]">Завантажую вільний час…</p>
