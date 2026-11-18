@@ -86,7 +86,7 @@ export default function HackathonPage({ h }: { h: Hackathon }) {
             ) : (
               <>
                 <Cta h={h}>Записати дитину</Cta>
-                <Cta h={h} ghost>Є питання? Напишіть організатору</Cta>
+                <Link className="ff-cta-link" href="/rozbir">Безкоштовний розбір 20 хвилин</Link>
               </>
             )}
           </div>
@@ -334,7 +334,7 @@ export default function HackathonPage({ h }: { h: Hackathon }) {
               ) : (
                 <>
                   <Cta h={h}>Записати дитину</Cta>
-                  <Cta h={h} ghost>Є питання? Напишіть організатору</Cta>
+                  <Link className="ff-cta-link" href="/rozbir">Безкоштовний розбір 20 хвилин</Link>
                 </>
               )}
             </div>
