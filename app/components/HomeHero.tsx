@@ -18,7 +18,7 @@ export default function HomeHero() {
   return (
     <div className="relative">
       <div className="ff-hero relative max-w-3xl">
-        <Eyebrow />
+        <Eyebrow product="Розвиток особистості підлітка" />
 
         <h1 className="ff-display ff-reveal mb-5 text-[clamp(2.1rem,6vw,3.8rem)] font-extrabold leading-[1.05] tracking-tight text-white sm:mb-6">
           {h1}
