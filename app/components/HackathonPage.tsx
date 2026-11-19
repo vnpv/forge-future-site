@@ -5,7 +5,6 @@ import Container from "./Container";
 import Eyebrow from "./Eyebrow";
 import HeroPhoto from "./HeroPhoto";
 import AuthorBlock from "./AuthorBlock";
-import InstagramShowcase from "./InstagramShowcase";
 import SkillIcon, { IconTile } from "./SkillIcon";
 import { hackathonStrip, type Hackathon } from "@/lib/hackathons";
 import { PROGRAM_START_DATE } from "@/lib/content";
@@ -115,15 +114,6 @@ export default function HackathonPage({ h }: { h: Hackathon }) {
           </p>
         </Container>
       </Section>
-
-      {/* 2. ЯК МИ РОЗМОВЛЯЄМО З БАТЬКАМИ Й ПІДЛІТКАМИ (Instagram) */}
-      {h.pilot ? null : (
-        <Section spacing="block" className="border-t border-white/10" id="instagram">
-          <Container>
-            <InstagramShowcase ctaLabel="Записати дитину" />
-          </Container>
-        </Section>
-      )}
 
       {e.text ? (
         <Section spacing="tight" className="border-t border-white/10 bg-[var(--color-surface)]">
