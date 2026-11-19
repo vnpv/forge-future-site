@@ -116,8 +116,14 @@ export default function HackathonPage({ h }: { h: Hackathon }) {
         </Container>
       </Section>
 
-      {/* 2. ХТО ПРОВОДИТЬ */}
-      {h.pilot ? null : <AuthorBlock className="border-t border-white/10" />}
+      {/* 2. ЯК МИ РОЗМОВЛЯЄМО З БАТЬКАМИ Й ПІДЛІТКАМИ (Instagram) */}
+      {h.pilot ? null : (
+        <Section spacing="block" className="border-t border-white/10" id="instagram">
+          <Container>
+            <InstagramShowcase ctaLabel="Записати дитину" />
+          </Container>
+        </Section>
+      )}
 
       {e.text ? (
         <Section spacing="tight" className="border-t border-white/10 bg-[var(--color-surface)]">
@@ -252,12 +258,8 @@ export default function HackathonPage({ h }: { h: Hackathon }) {
 
       {h.pilot ? null : (
         <>
-      {/* 6. INSTAGRAM: так я працюю */}
-      <Section spacing="block" className="border-t border-white/10" id="instagram">
-        <Container>
-          <InstagramShowcase ctaLabel="Записати дитину" />
-        </Container>
-      </Section>
+      {/* 6. ХТО ПРОВОДИТЬ */}
+      <AuthorBlock className="border-t border-white/10" />
         </>
       )}
 
