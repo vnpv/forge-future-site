@@ -30,6 +30,23 @@ export async function GET(request: Request) {
   return json({ reviews });
 }
 
+/** Відновлення перевірки конвеєром (відкат повторної оцінки): тіло — {lessonId, review}. Лише ключ конвеєра. */
+export async function PUT(request: Request) {
+  if (!ingestAuthorized(request)) return json({ error: "Потрібен ключ" }, 401);
+  if (!storageReady()) return json({ error: "Сховище не підключене" }, 503);
+  let b: { lessonId?: string; review?: Supervision };
+  try {
+    b = await request.json();
+  } catch {
+    return json({ error: "Невірні дані" }, 400);
+  }
+  const id = String(b.lessonId ?? "");
+  const r = b.review;
+  if (!LESSON_ID.test(id) || !r || !["in_review", "reviewed"].includes(String(r.status)) || typeof r.items !== "object") return json({ error: "Невірна перевірка" }, 400);
+  await saveReview(id, r);
+  return json({ ok: true });
+}
+
 export async function POST(request: Request) {
   const me = await currentUser(request);
   if (!me) return json({ error: "Потрібен вхід" }, 401);
