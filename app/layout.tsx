@@ -28,7 +28,7 @@ const unbounded = Unbounded({
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} | Менторська програма «Перша справа» для підлітків 14-19`,
+    default: `${SITE_NAME} | Менторська програма «Перші гроші» для підлітків 14-19`,
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     locale: "uk_UA",
     url: SITE_URL,
     siteName: SITE_NAME,
-    title: `${SITE_NAME} | Менторська програма «Перша справа» для підлітків 14-19`,
+    title: `${SITE_NAME} | Менторська програма «Перші гроші» для підлітків 14-19`,
     description: SITE_DESCRIPTION,
     images: [
       {

@@ -678,7 +678,7 @@ export default function PilotReport() {
           </ul>
           <div className="mx-auto mt-10 flex max-w-2xl flex-col items-center gap-3 text-center text-sm text-[var(--color-muted-2)]">
             <p>
-              Менторська програма «Перша справа» на 8 тижнів:{" "}
+              Менторська програма «Перші гроші» на 8 тижнів:{" "}
               <Link href="/program" className="font-medium text-[var(--color-foreground)] underline-offset-2 hover:underline">сторінка програми</Link>
             </p>
             <p className="flex items-center gap-2">

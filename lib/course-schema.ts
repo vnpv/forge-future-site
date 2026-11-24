@@ -4,7 +4,7 @@ import { SITE_NAME, SITE_URL } from "./site";
 export const programCourseSchema = {
   "@context": "https://schema.org",
   "@type": "Course",
-  name: "Менторська програма «Перша справа»: 10 навичок за 2 місяці",
+  name: "Менторська програма «Перші гроші»: 10 навичок за 2 місяці",
   description:
     "Альтернатива школі: інтенсив від ідеї до демо-дня для амбітної молоді. Мала група, власний проєкт.",
   url: `${SITE_URL}/program`,
