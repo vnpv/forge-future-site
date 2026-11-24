@@ -12,7 +12,7 @@ const FINISH = {
 };
 
 const PHOTOS: Record<number, { src: string; pos: string; alt: string }> = {
-  0: { src: "/program-media/IMG_6102-step1-find-problem.jpg", pos: "50% 60%", alt: "Команди шукають проблему" },
+  0: { src: "/program-media/IMG_6118-mentor-with-teams.jpg", pos: "50% 45%", alt: "Наставник з командами" },
   2: { src: "/program-media/IMG_6115-two-girls-laptops.jpg", pos: "50% 55%", alt: "Збирають продукт з ШІ" },
   4: { src: "/program-media/IMG_6124-pitch-crop.jpg", pos: "50% 50%", alt: "Показують робочу версію групі" },
   7: { src: "/bc-media/t1736-group.jpg", pos: "50% 45%", alt: "Demo Day з батьками" },
@@ -33,11 +33,8 @@ export default function RoadmapWeeks() {
         return (
           <article key={w.title} className={`border-t border-white/10 py-10 ${ph ? "md:grid md:grid-cols-2 md:items-center md:gap-14" : ""}`}>
             <div className={ph && flip ? "md:order-2" : ""}>
-              <div className="flex items-baseline gap-4">
-                <span className="ff-display text-5xl font-extrabold leading-none text-[var(--color-accent)] sm:text-6xl">{String(i + 1).padStart(2, "0")}</span>
-                <span className="text-[11px] font-semibold uppercase tracking-widest text-[var(--color-muted-2)]">Тиждень {i + 1}</span>
-              </div>
-              <h3 className="ff-display mt-4 text-2xl font-bold leading-tight sm:text-3xl">{w.title}</h3>
+              <p className="text-xs font-semibold uppercase tracking-widest text-[var(--color-accent)]">Тиждень {i + 1}</p>
+              <h3 className="ff-display mt-2 text-3xl font-extrabold leading-[1.08] sm:text-4xl">{w.title}</h3>
               <p className="mt-3 max-w-xl text-base leading-relaxed text-[var(--color-muted)] sm:text-lg">{w.outcome}</p>
               <p className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-sm font-semibold text-[var(--color-accent)]">
                 {w.skills.split(" · ").map((sk) => (

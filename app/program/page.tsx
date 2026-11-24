@@ -112,8 +112,8 @@ export default function ProgramPage() {
       {/* 1. HERO: відео на тлі, текст угорі */}
       <Section spacing="none" className="relative isolate overflow-hidden">
         <video
-          src="/bc-media/l-timelapse.mp4"
-          poster="/bc-media/l-timelapse.jpg"
+          src="/program-media/hero-timelapse.mp4"
+          poster="/program-media/hero-poster.jpg"
           autoPlay
           muted
           loop
@@ -127,7 +127,7 @@ export default function ProgramPage() {
         />
         <Container className="relative flex min-h-[88svh] flex-col justify-between gap-10 py-10 sm:py-14">
           <div>
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">Менторська програма «Перша справа» · 16–18</p>
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-accent)]">Менторська програма «Перші гроші» · 16–18</p>
             <h1 className="ff-display mb-4 max-w-3xl text-[clamp(2.4rem,8vw,4.6rem)] font-extrabold leading-[1.02] tracking-tight">
               {HERO.h1}
             </h1>
