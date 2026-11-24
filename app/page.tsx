@@ -3,6 +3,7 @@ import MiniCourseStrip from "./components/MiniCourseStrip";
 import Link from "next/link";
 import type { Metadata } from "next";
 import Section from "./components/Section";
+import HackathonStrip from "./components/HackathonStrip";
 import Container from "./components/Container";
 import HomeHero from "./components/HomeHero";
 import HomeSpotlight from "./components/HomeSpotlight";
@@ -58,6 +59,12 @@ export default function Home() {
         <HeroPhoto />
         <Container className="relative">
           <HomeHero />
+        </Container>
+      </Section>
+
+      <Section spacing="block" className="pt-0">
+        <Container>
+          <HackathonStrip />
         </Container>
       </Section>
 
